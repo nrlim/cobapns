@@ -1,0 +1,83 @@
+import { prisma } from "@/lib/prisma"
+import { cookies } from "next/headers"
+import { verifySession } from "@/lib/session"
+import { redirect, notFound } from "next/navigation"
+import { CATSessionClient } from "@/components/exam/cat-session-client"
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const exam = await prisma.exam.findUnique({ where: { id }, select: { title: true } })
+  return {
+    title: `Ujian: ${exam?.title ?? "CAT"} – COBA PNS`,
+    robots: "noindex", // hide exam from search engines
+  }
+}
+
+export default async function ExamSessionPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const cookieStore = await cookies()
+  const token = cookieStore.get("sipns-session")?.value
+  const session = token ? await verifySession(token) : null
+  if (!session) redirect("/login")
+
+  // Check if already submitted
+  const existingResult = await prisma.examResult.findFirst({
+    where: { userId: session.userId, examId: id },
+    select: { id: true },
+  })
+  if (existingResult) {
+    redirect(`/dashboard/exams/${id}/result/${existingResult.id}`)
+  }
+
+  const exam = await prisma.exam.findUnique({
+    where: { id, status: "PUBLISHED" },
+    include: {
+      questions: {
+        orderBy: { order: "asc" },
+        include: {
+          question: {
+            include: { options: { orderBy: { id: "asc" } } },
+          },
+        },
+      },
+    },
+  })
+  if (!exam || exam.questions.length === 0) notFound()
+
+  // Fetch existing saved answers for resume
+  const savedAnswers = await prisma.userAnswer.findMany({
+    where: { userId: session.userId, examId: id },
+    select: { questionId: true, optionId: true, isRagu: true },
+  })
+
+  const savedAnswerMap: Record<string, { optionId: string | null; isRagu: boolean }> = {}
+  for (const sa of savedAnswers) {
+    savedAnswerMap[sa.questionId] = { optionId: sa.optionId, isRagu: sa.isRagu }
+  }
+
+  const questions = exam.questions.map((eq) => ({
+    id: eq.question.id,
+    category: eq.question.category as "TWK" | "TIU" | "TKP",
+    subCategory: eq.question.subCategory,
+    content: eq.question.content,
+    options: eq.question.options.map((o) => ({
+      id: o.id,
+      text: o.text,
+      score: o.score,
+    })),
+  }))
+
+  return (
+    <CATSessionClient
+      examId={exam.id}
+      examTitle={exam.title}
+      durationMinutes={exam.durationMinutes}
+      questions={questions}
+      savedAnswerMap={savedAnswerMap}
+    />
+  )
+}
