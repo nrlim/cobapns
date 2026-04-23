@@ -1,0 +1,46 @@
+{
+  "name": "COBA PNS - Latihan Hari Ini, Lolos Besok",
+  "short_name": "COBA PNS",
+  "description": "Platform persiapan CPNS terpintar di Indonesia. Latihan Try Out berbasis AI, ranking nasional, dan analitik mendalam.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1E73BE",
+  "background_color": "#FFFFFF",
+  "lang": "id",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/icon-cpns.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-cpns.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mulai Try Out",
+      "short_name": "Try Out",
+      "description": "Kerjakan soal Try Out CPNS",
+      "url": "/dashboard/exams",
+      "icons": [{ "src": "/icon-cpns.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Baca Materi",
+      "short_name": "Materi",
+      "description": "Baca materi SKD",
+      "url": "/dashboard/learning",
+      "icons": [{ "src": "/icon-cpns.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

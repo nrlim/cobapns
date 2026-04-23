@@ -13,21 +13,21 @@ export default async function HomePage() {
   return (
     <main className="pt-16">
       {/* 1. Hero Section */}
-      <section className="relative px-6 pt-10 pb-20 md:pt-16 md:pb-32 overflow-hidden bg-surface">
+      <section className="relative px-4 sm:px-6 pt-8 pb-16 md:pt-16 md:pb-32 overflow-hidden bg-surface">
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,#1E73BE,#2DBE60)]" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold tracking-widest uppercase mb-6">Persiapan CPNS 2024</span>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[0.9] mb-8">
-              <span className="text-brand-blue">Sistem Persiapan CPNS</span> <br className="hidden md:block" />
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-[0.95] mb-6 md:mb-8">
+              <span className="text-brand-blue">Sistem Persiapan CPNS</span>{" "}<br className="hidden md:block" />
               <span className="text-brand-green italic">Paling Mutakhir.</span>
             </h1>
-            <p className="text-lg md:text-xl text-on-secondary-container leading-relaxed max-w-xl mb-10">
+            <p className="text-base md:text-xl text-on-secondary-container leading-relaxed max-w-xl mb-8 md:mb-10">
               Tingkatkan peluang kelulusan Anda dengan teknologi <span className="font-bold text-on-surface underline decoration-primary/30">Smart Shuffle Engine</span> &amp; <span className="font-bold text-on-surface underline decoration-primary/30">Diagnostic Roadmap</span> berstandar nasional. Antarmuka profesional, tanpa distraksi, dan teruji akurat.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/register" className="primary-gradient text-on-primary px-8 py-4 rounded-xl font-bold text-lg shadow-2xl shadow-primary/30 transition-transform active:scale-95 inline-block text-center">Coba Try Out Gratis</Link>
-              <Link href="#harga" className="bg-surface-container-high text-primary px-8 py-4 rounded-xl font-bold text-lg transition-all hover:bg-surface-container-highest inline-block text-center">Lihat Paket ELITE</Link>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/register" className="primary-gradient text-on-primary px-6 py-3.5 rounded-xl font-bold text-base md:text-lg shadow-2xl shadow-primary/30 transition-transform active:scale-95 text-center">Coba Try Out Gratis</Link>
+              <Link href="#harga" className="bg-surface-container-high text-primary px-6 py-3.5 rounded-xl font-bold text-base md:text-lg transition-all hover:bg-surface-container-highest text-center">Lihat Paket ELITE</Link>
             </div>
           </div>
           <div className="md:col-span-5 relative mt-12 md:mt-0">
@@ -51,11 +51,11 @@ export default async function HomePage() {
       </section>
 
       {/* 2. About Us Section (Build Trust early) */}
-      <section className="py-24 bg-surface-container-low" id="tentang">
+      <section className="py-14 md:py-24 bg-surface-container-low" id="tentang">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-5xl font-black text-on-surface tracking-tighter mb-6">Tentang Kami</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4 md:mb-6">Tentang Kami</h2>
               <p className="text-lg text-on-secondary-container leading-relaxed mb-6">
                 COBA PNS didirikan dengan sebuah visi besar: Menjadikan persiapan CPNS lebih dari sekadar rutinitas menghafal. Kami percaya setiap calon abdi negara berhak mendapatkan akses ke teknologi pembelajaran yang cerdas, efisien, dan personal.
               </p>
@@ -79,10 +79,10 @@ export default async function HomePage() {
       </section>
 
       {/* 3. Features Section */}
-      <section className="py-24 bg-surface" id="program">
+      <section className="py-14 md:py-24 bg-surface" id="program">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4">Inovasi Teknologi Pembelajaran</h2>
+            <h2 className="text-2xl md:text-5xl font-black text-on-surface tracking-tight mb-4">Inovasi Teknologi Pembelajaran</h2>
             <p className="text-on-secondary-container text-lg max-w-2xl mx-auto">Dikembangkan bersama ahli psikometri dan akademisi untuk memaksimalkan rasio pemahaman materi serta efisiensi waktu belajar Anda.</p>
           </div>
           
@@ -166,10 +166,10 @@ export default async function HomePage() {
       </section>
 
       {/* 4. Pricing Section */}
-      <section className="py-24 px-6 bg-surface-container-low" id="harga">
+      <section className="py-14 md:py-24 px-4 sm:px-6 bg-surface-container-low" id="harga">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-on-surface tracking-tighter mb-4">Pilih Jalur Suksesmu</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4">Pilih Jalur Suksesmu</h2>
             <p className="text-on-secondary-container text-lg">Investasi terbaik untuk masa depan karier abdi negara Anda.</p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -287,10 +287,10 @@ export default async function HomePage() {
       </section>
 
       {/* 5. Contact Us Section */}
-      <section className="py-24 bg-surface" id="kontak">
+      <section className="py-14 md:py-24 bg-surface" id="kontak">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-on-surface tracking-tighter mb-4">Layanan Bantuan</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4">Layanan Bantuan</h2>
             <p className="text-on-secondary-container text-lg">Membutuhkan informasi lebih lanjut atau dukungan teknis? Tim kami yang berdedikasi senantiasa siap mendampingi persiapan Anda setiap saat.</p>
           </div>
           
@@ -323,11 +323,11 @@ export default async function HomePage() {
       {/* 6. Final CTA */}
       <section className="py-20 bg-primary-container text-on-primary-container relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Siap Mengabdi untuk Negeri?</h2>
-          <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto">Ambil langkah pasti menuju karier masa depan Anda. Persiapkan diri secara komprehensif mulai hari ini dan bergabunglah bersama puluhan ribu abdi negara terbaik lulusan COBA PNS.</p>
-          <div className="flex flex-col md:flex-row justify-center gap-4">
-            <Link href="/register" className="bg-white text-primary px-10 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 transition-transform block">Daftar Sekarang</Link>
-            <Link href="#kontak" className="bg-primary-fixed-dim text-on-primary-fixed px-10 py-5 rounded-2xl font-black text-xl hover:bg-primary-fixed transition-colors block">Konsultasi Gratis</Link>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-4 md:mb-6 tracking-tight">Siap Mengabdi untuk Negeri?</h2>
+          <p className="text-base md:text-xl opacity-90 mb-8 md:mb-10 max-w-2xl mx-auto">Ambil langkah pasti menuju karier masa depan Anda. Persiapkan diri secara komprehensif mulai hari ini dan bergabunglah bersama puluhan ribu abdi negara terbaik lulusan COBA PNS.</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+            <Link href="/register" className="bg-white text-primary px-8 py-4 rounded-2xl font-black text-lg shadow-2xl hover:scale-105 transition-transform">Daftar Sekarang</Link>
+            <Link href="#kontak" className="bg-primary-fixed-dim text-on-primary-fixed px-8 py-4 rounded-2xl font-black text-lg hover:bg-primary-fixed transition-colors">Konsultasi Gratis</Link>
           </div>
         </div>
         {/* Background Decoration */}
