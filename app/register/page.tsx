@@ -40,7 +40,7 @@ export default function RegisterPage() {
   };
   const strengthScore = Object.values(strength).filter(Boolean).length;
   const strengthLabel = strengthScore === 0 ? "" : strengthScore === 1 ? "Lemah" : strengthScore === 2 ? "Sedang" : "Kuat";
-  const strengthColor = strengthScore === 1 ? "bg-red-400" : strengthScore === 2 ? "bg-yellow-400" : "bg-teal-500";
+  const strengthColor = strengthScore === 1 ? "bg-red-400" : strengthScore === 2 ? "bg-yellow-400" : "bg-blue-500";
 
   return (
     <main className="min-h-screen w-full flex overflow-hidden bg-white relative">
@@ -55,13 +55,13 @@ export default function RegisterPage() {
 
       <div className="w-full flex flex-col lg:flex-row min-h-screen">
         {/* Left: Branding */}
-        <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden bg-gradient-to-br from-teal-700 to-teal-900">
+        <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden bg-gradient-to-br from-brand-blue-deep to-blue-900">
           {/* Logo — click to go to homepage */}
           <Link href="/" className="group flex items-center gap-3 z-10 relative">
             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-colors">
               <span className="font-black text-lg text-white font-serif">S</span>
             </div>
-            <span className="font-black text-xl text-white tracking-tight group-hover:text-teal-200 transition-colors">COBA PNS</span>
+            <span className="font-black text-xl text-white tracking-tight group-hover:text-blue-200 transition-colors">COBA PNS</span>
           </Link>
           <div className="absolute inset-0 opacity-10">
             <Image
@@ -73,14 +73,14 @@ export default function RegisterPage() {
             />
           </div>
           <div className="relative z-10">
-            <div className="text-teal-200 text-xs font-bold tracking-widest uppercase mb-4">
+            <div className="text-blue-200 text-xs font-bold tracking-widest uppercase mb-4">
               Mulai Perjalananmu
             </div>
             <h1 className="text-5xl font-black text-white leading-tight mb-6 tracking-tight">
               Daftar & Raih <br />
-              <span className="text-teal-300">ASN Impianmu.</span>
+              <span className="text-blue-300">ASN Impianmu.</span>
             </h1>
-            <p className="text-teal-100 text-lg max-w-md leading-relaxed mb-12 opacity-90">
+            <p className="text-blue-100 text-lg max-w-md leading-relaxed mb-12 opacity-90">
               Bergabung dengan ribuan calon ASN yang telah menggunakan COBA PNS untuk mempersiapkan diri menghadapi seleksi CPNS.
             </p>
 
@@ -94,7 +94,7 @@ export default function RegisterPage() {
               ].map((stat) => (
                 <div key={stat.label} className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
                   <div className="text-2xl font-black text-white">{stat.value}</div>
-                  <div className="text-xs text-teal-200 opacity-80">{stat.label}</div>
+                  <div className="text-xs text-blue-200 opacity-80">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -105,7 +105,9 @@ export default function RegisterPage() {
         <div className="w-full lg:w-7/12 flex flex-col justify-center items-center px-6 md:px-12 lg:px-24 py-16 bg-white">
           <div className="w-full max-w-md">
             <div className="mb-10 text-center lg:text-left">
-              <div className="text-2xl font-black text-teal-700 tracking-tighter mb-2 lg:hidden">COBA PNS</div>
+              <div className="flex justify-center lg:justify-start lg:hidden mb-6">
+                <img src="/logo.png" alt="COBA PNS Logo" className="h-8 w-auto" />
+              </div>
               <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2">
                 Buat Akun Baru
               </h2>
@@ -118,13 +120,13 @@ export default function RegisterPage() {
 
               {/* Plan intent banner */}
               {selectedPlan && (
-                <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 rounded-xl px-4 py-3">
-                  <div className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-4 h-4 text-teal-700" />
+                <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-4 h-4 text-brand-blue-deep" />
                   </div>
                   <div>
-                    <p className="text-xs font-black text-teal-800">Paket terpilih: {selectedPlan.name}</p>
-                    <p className="text-xs text-teal-600 font-medium">{selectedPlan.price} · Daftar dulu, bayar setelah masuk</p>
+                    <p className="text-xs font-black text-brand-blue-deep">Paket terpilih: {selectedPlan.name}</p>
+                    <p className="text-xs text-brand-blue font-medium">{selectedPlan.price} · Daftar dulu, bayar setelah masuk</p>
                   </div>
                 </div>
               )}
@@ -141,7 +143,7 @@ export default function RegisterPage() {
                     name="name"
                     type="text"
                     required
-                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="Masukkan nama lengkapmu"
                   />
                 </div>
@@ -162,7 +164,7 @@ export default function RegisterPage() {
                     name="email"
                     type="email"
                     required
-                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="nama@example.com"
                   />
                 </div>
@@ -183,7 +185,7 @@ export default function RegisterPage() {
                     name="phoneNumber"
                     type="tel"
                     required
-                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="08123456789"
                   />
                 </div>
@@ -206,13 +208,13 @@ export default function RegisterPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="Min. 8 karakter"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-blue transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -239,7 +241,7 @@ export default function RegisterPage() {
                         { key: "number", label: "Angka" },
                       ].map(({ key, label }) => (
                         <div key={key} className="flex items-center gap-1">
-                          <CheckCircle2 className={`w-3 h-3 ${strength[key as keyof typeof strength] ? "text-teal-500" : "text-gray-300"}`} />
+                          <CheckCircle2 className={`w-3 h-3 ${strength[key as keyof typeof strength] ? "text-blue-500" : "text-gray-300"}`} />
                           <span className="text-xs text-gray-400">{label}</span>
                         </div>
                       ))}
@@ -264,7 +266,7 @@ export default function RegisterPage() {
                     name="confirmPassword"
                     type={showPassword ? "text" : "password"}
                     required
-                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="Ulangi password"
                   />
                 </div>
@@ -275,9 +277,9 @@ export default function RegisterPage() {
 
               <p className="text-xs text-gray-400 leading-relaxed">
                 Dengan mendaftar, kamu menyetujui{" "}
-                <Link href="/syarat-dan-ketentuan" className="text-teal-600 underline">Syarat & Ketentuan</Link>{" "}
+                <Link href="/syarat-dan-ketentuan" className="text-brand-blue underline">Syarat & Ketentuan</Link>{" "}
                 dan{" "}
-                <Link href="/kebijakan-privasi" className="text-teal-600 underline">Kebijakan Privasi</Link> kami.
+                <Link href="/kebijakan-privasi" className="text-brand-blue underline">Kebijakan Privasi</Link> kami.
               </p>
 
               {/* Submit */}
@@ -285,7 +287,7 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-teal-600/20 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-deep disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-brand-blue/20 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
                 >
                   {isPending ? (
                     <>
@@ -303,7 +305,7 @@ export default function RegisterPage() {
               Sudah punya akun?{" "}
               <Link
                 href={planParam ? `/login?plan=${planParam.toLowerCase()}` : "/login"}
-                className="text-teal-600 font-bold hover:underline"
+                className="text-brand-blue font-bold hover:underline"
               >
                 Masuk di sini
               </Link>

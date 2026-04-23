@@ -114,7 +114,7 @@ export function QuestionEditor({ initialData, isOpen, onClose }: QuestionEditorP
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-black tracking-tight text-slate-900 flex items-center gap-2">
-              <Library className="w-5 h-5 text-teal-600" />
+              <Library className="w-5 h-5 text-brand-blue" />
               {isEditing ? "Edit Soal" : "Tambah Soal Baru"}
             </h2>
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">COBA PNS Editor Console</p>
@@ -133,7 +133,7 @@ export function QuestionEditor({ initialData, isOpen, onClose }: QuestionEditorP
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Kategori Kategori</label>
               <select
                 {...register("category")}
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               >
                 <option value="TWK">Tes Wawasan Kebangsaan (TWK)</option>
                 <option value="TIU">Tes Intelegensia Umum (TIU)</option>
@@ -145,7 +145,7 @@ export function QuestionEditor({ initialData, isOpen, onClose }: QuestionEditorP
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Tingkat Kesulitan</label>
               <select
                 {...register("difficulty")}
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               >
                 <option value="MUDAH">Mudah</option>
                 <option value="SEDANG">Sedang</option>
@@ -166,12 +166,12 @@ export function QuestionEditor({ initialData, isOpen, onClose }: QuestionEditorP
 
           {/* Question Content */}
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-900 border-l-4 border-teal-600 pl-2">Isi Pertanyaan</label>
+            <label className="text-sm font-bold text-slate-900 border-l-4 border-brand-blue pl-2">Isi Pertanyaan</label>
             <textarea
               {...register("content")}
               rows={5}
               placeholder="Ketik teks pertanyaan di sini..."
-              className="w-full p-4 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all text-sm resize-y"
+              className="w-full p-4 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm resize-y"
             />
             {errors.content && <p className="text-red-500 text-xs mt-1">{errors.content.message}</p>}
           </div>
@@ -212,7 +212,7 @@ export function QuestionEditor({ initialData, isOpen, onClose }: QuestionEditorP
                           {...register(`options.${index}.score` as const, { valueAsNumber: true })}
                           placeholder="Nilai"
                           className={`font-mono text-center font-bold ${
-                            category === "TKP" ? "border-indigo-200 focus:border-indigo-500 bg-indigo-50" : "border-teal-200 focus:border-teal-500 bg-teal-50"
+                            category === "TKP" ? "border-indigo-200 focus:border-indigo-500 bg-indigo-50" : "border-blue-200 focus:border-blue-500 bg-blue-50"
                           }`}
                         />
                       </div>
@@ -266,7 +266,7 @@ export function QuestionEditor({ initialData, isOpen, onClose }: QuestionEditorP
           <Button variant="outline" type="button" onClick={onClose} disabled={isSubmitting} className="font-semibold px-6">
             Batal
           </Button>
-          <Button onClick={handleSubmit(onSubmit)} disabled={isSubmitting} className="bg-teal-700 hover:bg-teal-800 text-white font-bold px-8 flex items-center gap-2">
+          <Button onClick={handleSubmit(onSubmit)} disabled={isSubmitting} className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold px-8 flex items-center gap-2">
             <Save className="w-4 h-4" />
             {isSubmitting ? "Menyimpan..." : "Simpan Soal"}
           </Button>

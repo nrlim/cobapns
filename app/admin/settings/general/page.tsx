@@ -14,7 +14,7 @@ export default async function GeneralSettingsPage() {
       {/* ── Page Hero ── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1 lg:mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1 lg:mb-2">
             Admin Settings
           </p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">

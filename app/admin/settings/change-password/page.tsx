@@ -14,7 +14,7 @@ export default function ChangePasswordPage() {
       {/* ── Page Hero ── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1 lg:mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1 lg:mb-2">
             Settings › General
           </p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -29,7 +29,7 @@ export default function ChangePasswordPage() {
       {/* ── Bento Stats ── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { icon: KeyRound,    label: "Enkripsi",    value: "bcrypt · 12 rounds",  color: "bg-teal-50 border-teal-100 text-teal-700" },
+          { icon: KeyRound,    label: "Enkripsi",    value: "bcrypt · 12 rounds",  color: "bg-blue-50 border-blue-100 text-brand-blue-deep" },
           { icon: ShieldCheck, label: "Keamanan",    value: "Token JWT · Sesi Aktif", color: "bg-emerald-50 border-emerald-100 text-emerald-700" },
           { icon: Clock,       label: "Berlaku",     value: "Segera Setelah Simpan", color: "bg-slate-50 border-slate-200 text-slate-600" },
         ].map(({ icon: Icon, label, value, color }) => (

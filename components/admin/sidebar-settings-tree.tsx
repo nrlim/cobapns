@@ -21,7 +21,7 @@ export function SidebarSettingsTree() {
     <div className="flex flex-col">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between px-4 py-3 rounded-lg font-medium transition-all ${isSettingsActive ? 'text-teal-700 bg-teal-50 shadow-inner' : 'text-slate-600 hover:bg-slate-200/50 hover:text-teal-600'}`}
+        className={`flex items-center justify-between px-4 py-3 rounded-lg font-medium transition-all ${isSettingsActive ? 'text-brand-blue-deep bg-blue-50 shadow-inner' : 'text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue'}`}
       >
         <div className="flex items-center gap-3">
           <Settings className="w-5 h-5" />
@@ -34,28 +34,28 @@ export function SidebarSettingsTree() {
         <div className="flex flex-col mt-1 ml-6 pl-3 border-l-2 border-slate-100 space-y-1 animate-in slide-in-from-top-1 fade-in duration-200">
           <Link 
             href="/admin/settings/general" 
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/general' ? 'text-teal-700 bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/general' ? 'text-brand-blue-deep bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
           >
             <Settings className="w-3.5 h-3.5" />
             General
           </Link>
           <Link 
             href="/admin/settings/change-password" 
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/change-password' ? 'text-teal-700 bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/change-password' ? 'text-brand-blue-deep bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
           >
             <KeyRound className="w-3.5 h-3.5" />
             Change Password
           </Link>
           <Link 
             href="/admin/settings/email" 
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/email' ? 'text-teal-700 bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/email' ? 'text-brand-blue-deep bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
           >
             <Mail className="w-3.5 h-3.5" />
             Email Templates
           </Link>
           <Link 
             href="/admin/settings/lookups" 
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/lookups' ? 'text-teal-700 bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/lookups' ? 'text-brand-blue-deep bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
           >
             <Database className="w-3.5 h-3.5" />
             Lookup Data

@@ -32,7 +32,7 @@ export default async function UsersManagementPage() {
       {/* Page Hero / Introduction */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1 lg:mb-2 text-opacity-80">Institutional Base</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1 lg:mb-2 text-opacity-80">Institutional Base</p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Manajemen Pengguna</h2>
           <p className="text-slate-500 font-medium mt-1 text-sm">Kelola akses, langganan, dan status akun peserta COBA PNS.</p>
         </div>
@@ -59,20 +59,20 @@ export default async function UsersManagementPage() {
 
         <Card className="rounded-xl border-slate-200 shadow-sm  relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-            <Crown className="w-24 h-24 text-teal-600" />
+            <Crown className="w-24 h-24 text-brand-blue" />
           </div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-600 ">
               Active Subscribers
             </CardTitle>
-            <div className="p-2 bg-teal-50  rounded-full">
-              <Crown className="h-4 w-4 text-teal-600 " />
+            <div className="p-2 bg-blue-50  rounded-full">
+              <Crown className="h-4 w-4 text-brand-blue " />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-slate-900 ">{activeSubscribers}</div>
             <p className="text-xs text-slate-500 mt-1">
-              Pengguna <span className="font-medium text-teal-600 ">Elite</span> & <span className="font-medium text-indigo-600 ">Master</span>
+              Pengguna <span className="font-medium text-brand-blue ">Elite</span> & <span className="font-medium text-indigo-600 ">Master</span>
             </p>
           </CardContent>
         </Card>

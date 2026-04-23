@@ -68,7 +68,7 @@ function Avatar({ initials, rank }: { initials: string; rank?: number }) {
     "2": "bg-gradient-to-br from-slate-400 to-slate-300 text-white",
     "3": "bg-gradient-to-br from-orange-500 to-amber-400 text-white",
   }
-  const fallback = "bg-teal-100 text-teal-800"
+  const fallback = "bg-blue-100 text-brand-blue-deep"
   return (
     <div
       className={`rounded-full flex items-center justify-center font-black text-xs select-none ${
@@ -133,13 +133,13 @@ function PodiumCard({
 
       {/* Score */}
       <div className="text-center">
-        <p className="text-2xl font-black text-teal-700">{entry.totalScore}</p>
+        <p className="text-2xl font-black text-brand-blue-deep">{entry.totalScore}</p>
         <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Total Skor</p>
       </div>
 
       {/* Accuracy */}
       <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500">
-        <Star className="w-3 h-3 text-teal-400" />
+        <Star className="w-3 h-3 text-brand-blue-light" />
         Akurasi {entry.accuracy}%
       </div>
     </div>
@@ -174,7 +174,7 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
             onClick={() => onChange({ period: p.value })}
             className={`px-3 py-1.5 text-xs font-bold transition-all flex items-center gap-1 ${
               period === p.value
-                ? "bg-teal-600 text-white"
+                ? "bg-brand-blue text-white"
                 : "text-slate-500 hover:bg-slate-50"
             }`}
           >
@@ -189,7 +189,7 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
         <select
           value={examFilter}
           onChange={(e) => onChange({ examFilter: e.target.value as ExamFilter })}
-          className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-teal-500/20 cursor-pointer"
+          className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
         >
           <option value="global">Semua Try Out (Global)</option>
           {exams.map((e) => (
@@ -204,7 +204,7 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
         <select
           value={instansiFilter ?? ""}
           onChange={(e) => onChange({ instansiFilter: e.target.value || null })}
-          className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-teal-500/20 cursor-pointer max-w-[180px]"
+          className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer max-w-[180px]"
         >
           <option value="">Semua Instansi</option>
           {instansiList.map((inst) => (
@@ -213,7 +213,7 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
         </select>
       </div>
 
-      {loading && <Loader2 className="w-4 h-4 text-teal-500 animate-spin ml-auto" />}
+      {loading && <Loader2 className="w-4 h-4 text-blue-500 animate-spin ml-auto" />}
     </div>
   )
 }
@@ -248,7 +248,7 @@ function RankingTable({
               key={entry.userId}
               className={`grid grid-cols-[44px_1fr_auto_auto_auto_auto] gap-2 px-5 py-3.5 items-center transition-colors ${
                 isSelf
-                  ? "bg-teal-50/50 border-l-2 border-teal-500"
+                  ? "bg-blue-50/50 border-l-2 border-blue-500"
                   : "hover:bg-slate-50/70"
               }`}
             >
@@ -264,15 +264,15 @@ function RankingTable({
                   className={`w-9 h-9 flex-shrink-0 rounded-full ring-2 flex items-center justify-center font-black text-xs ${
                     entry.rank <= 3
                       ? `ring-${["amber", "slate", "orange"][entry.rank - 1]}-400 bg-gradient-to-br ${RANK_COLORS[entry.rank as 1|2|3].bg} text-white`
-                      : "ring-slate-100 bg-teal-100 text-teal-800"
+                      : "ring-slate-100 bg-blue-100 text-brand-blue-deep"
                   }`}
                 >
                   {entry.initials}
                 </div>
                 <div className="min-w-0">
-                  <p className={`text-sm font-bold truncate ${isSelf ? "text-teal-700" : "text-slate-800"}`}>
+                  <p className={`text-sm font-bold truncate ${isSelf ? "text-brand-blue-deep" : "text-slate-800"}`}>
                     {entry.maskedName}
-                    {isSelf && <span className="ml-2 text-[10px] font-black text-teal-500 uppercase tracking-widest">Anda</span>}
+                    {isSelf && <span className="ml-2 text-[10px] font-black text-blue-500 uppercase tracking-widest">Anda</span>}
                   </p>
                 </div>
               </div>
@@ -343,20 +343,20 @@ function PersonalRankBar({
   if (rank <= 10) return null // Only show if not already visible at top
   return (
     <div className="fixed bottom-20 md:bottom-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-full max-w-2xl px-4">
-      <div className="bg-teal-900/95 backdrop-blur-md text-white rounded-2xl px-5 py-3 flex items-center gap-4 shadow-2xl border border-teal-700/50 pointer-events-auto">
-        <div className="w-9 h-9 rounded-full bg-teal-700 flex items-center justify-center text-sm font-black flex-shrink-0">
+      <div className="bg-blue-900/95 backdrop-blur-md text-white rounded-2xl px-5 py-3 flex items-center gap-4 shadow-2xl border border-brand-blue-deep/50 pointer-events-auto">
+        <div className="w-9 h-9 rounded-full bg-brand-blue-deep flex items-center justify-center text-sm font-black flex-shrink-0">
           {name.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-black text-teal-300 uppercase tracking-widest">Posisi Anda Saat Ini</p>
+          <p className="text-xs font-black text-blue-300 uppercase tracking-widest">Posisi Anda Saat Ini</p>
           <p className="text-sm font-bold text-white">
             Peringkat <span className="text-amber-400">#{rank}</span> dari{" "}
-            <span className="text-teal-200">{total.toLocaleString("id-ID")}</span> peserta
+            <span className="text-blue-200">{total.toLocaleString("id-ID")}</span> peserta
           </p>
         </div>
         <div className="text-right flex-shrink-0">
-          <p className="text-lg font-black text-teal-300">{score}</p>
-          <p className="text-[10px] font-bold text-teal-500 uppercase tracking-widest">poin</p>
+          <p className="text-lg font-black text-blue-300">{score}</p>
+          <p className="text-[10px] font-bold text-blue-500 uppercase tracking-widest">poin</p>
         </div>
       </div>
     </div>
@@ -446,8 +446,8 @@ export function LeaderboardClient({
           { icon: Calendar, label: "Periode",          value: PERIOD_LABELS.find((p) => p.value === period)!.label },
         ].map(({ icon: Icon, label, value }) => (
           <div key={label} className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center flex-shrink-0">
-              <Icon className="w-4 h-4 text-teal-600" />
+            <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0">
+              <Icon className="w-4 h-4 text-brand-blue" />
             </div>
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
@@ -479,10 +479,10 @@ export function LeaderboardClient({
       {/* ── Table ── */}
       <div>
         <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-          <LayoutList className="w-3.5 h-3.5 text-teal-400" />
+          <LayoutList className="w-3.5 h-3.5 text-brand-blue-light" />
           Peringkat Lengkap
           {instansiFilter && (
-            <span className="ml-1 text-[10px] font-bold text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100">
+            <span className="ml-1 text-[10px] font-bold text-brand-blue bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
               {instansiFilter}
             </span>
           )}

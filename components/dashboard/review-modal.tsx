@@ -115,10 +115,10 @@ export function ReviewExamModal({ examId, title }: ReviewExamModalProps) {
             }`}
           >
             {/* Header */}
-            <div className="bg-gradient-to-br from-teal-800 via-teal-700 to-teal-600 px-4 sm:px-6 py-4 text-white flex-shrink-0 sm:rounded-t-3xl border-b border-teal-600/40">
+            <div className="bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-brand-blue px-4 sm:px-6 py-4 text-white flex-shrink-0 sm:rounded-t-3xl border-b border-brand-blue/40">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
-                  <p className="text-teal-200 text-[10px] font-bold uppercase tracking-widest mb-1">
+                  <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-1">
                     Pembahasan Ujian
                   </p>
                   <h2 className="text-lg font-black tracking-tight leading-snug truncate">
@@ -154,7 +154,7 @@ export function ReviewExamModal({ examId, title }: ReviewExamModalProps) {
                       const isUnanswered = !q.selectedOptionId
                       
                       let btnCls = "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                      if (isActive) btnCls = "bg-teal-50 border-teal-500 text-teal-800 ring-2 ring-teal-500/20"
+                      if (isActive) btnCls = "bg-blue-50 border-blue-500 text-brand-blue-deep ring-2 ring-blue-500/20"
                       else if (isUnanswered) btnCls = "bg-slate-100 border-dashed border-slate-300 text-slate-400"
                       else if (isCorrect) btnCls = "bg-green-50 border-green-200 text-green-700"
                       else btnCls = "bg-red-50 border-red-200 text-red-700"
@@ -184,7 +184,7 @@ export function ReviewExamModal({ examId, title }: ReviewExamModalProps) {
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 border border-slate-200 rounded-lg text-xs font-black text-slate-600">
                         <FileText className="w-3.5 h-3.5" /> Soal {currentIndex + 1}
                       </span>
-                      <span className="text-[10px] uppercase font-black tracking-widest text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md border border-teal-100">
+                      <span className="text-[10px] uppercase font-black tracking-widest text-brand-blue bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">
                         {currentQ.category}
                       </span>
                     </div>
@@ -208,22 +208,22 @@ export function ReviewExamModal({ examId, title }: ReviewExamModalProps) {
 
                         if (isTKP) {
                           if (isSelected) {
-                            optCls = "border-teal-400 bg-teal-50 ring-1 ring-teal-400"
-                            textCls = "text-teal-900 font-bold"
+                            optCls = "border-brand-blue-light bg-blue-50 ring-1 ring-brand-blue-light"
+                            textCls = "text-blue-900 font-bold"
                           }
                         } else {
                           if (isSelected && isMaxScore) {
-                            optCls = "border-green-400 bg-green-50 ring-1 ring-green-400"
-                            textCls = "text-green-900 font-bold"
-                            icon = <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+                            optCls = "border-brand-green bg-brand-green-light/10 ring-1 ring-brand-green"
+                            textCls = "text-brand-green-deep font-bold"
+                            icon = <CheckCircle2 className="w-5 h-5 text-brand-green flex-shrink-0" />
                           } else if (isSelected && !isMaxScore) {
                             optCls = "border-red-400 bg-red-50 ring-1 ring-red-400"
                             textCls = "text-red-900 font-bold"
                             icon = <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
                           } else if (!isSelected && isMaxScore) {
-                            optCls = "border-green-400 bg-green-50 ring-1 ring-green-400 border-dashed"
-                            textCls = "text-green-900 font-bold"
-                            icon = <CheckCircle2 className="w-5 h-5 text-green-600/60 flex-shrink-0" />
+                            optCls = "border-brand-green bg-brand-green-light/10 ring-1 ring-brand-green border-dashed"
+                            textCls = "text-brand-green-deep font-bold"
+                            icon = <CheckCircle2 className="w-5 h-5 text-brand-green/60 flex-shrink-0" />
                           }
                         }
 

@@ -95,7 +95,7 @@ export function UsersTable({ data }: UsersTableProps) {
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10 border border-slate-100 ">
               <AvatarImage src={user.avatarUrl || ""} alt={user.name} />
-              <AvatarFallback className="bg-teal-50 text-teal-700  ">
+              <AvatarFallback className="bg-blue-50 text-brand-blue-deep  ">
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -151,7 +151,7 @@ export function UsersTable({ data }: UsersTableProps) {
 
         if (tier === "ELITE") {
           return (
-            <Badge className="bg-teal-600 hover:bg-teal-700">
+            <Badge className="bg-brand-blue hover:bg-brand-blue-deep">
               Elite
             </Badge>
           );

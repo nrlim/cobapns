@@ -14,7 +14,7 @@ export default function SettingsGeneralPage() {
       {/* ── Page Hero ── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1 lg:mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1 lg:mb-2">
             Admin Settings
           </p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -31,7 +31,7 @@ export default function SettingsGeneralPage() {
         {[
           { icon: Settings2,  label: "Platform",       value: "COBA PNS v1.0",   color: "bg-slate-50 border-slate-200 text-slate-600" },
           { icon: ShieldCheck, label: "Keamanan Akun", value: "Aktif",           color: "bg-emerald-50 border-emerald-100 text-emerald-600" },
-          { icon: KeyRound,   label: "Password",       value: "Terenkripsi",     color: "bg-teal-50 border-teal-100 text-teal-600"    },
+          { icon: KeyRound,   label: "Password",       value: "Terenkripsi",     color: "bg-blue-50 border-blue-100 text-brand-blue"    },
         ].map(({ icon: Icon, label, value, color }) => (
           <div key={label} className={`rounded-2xl border p-5 flex items-center gap-4 ${color}`}>
             <div className="w-10 h-10 rounded-xl bg-white/80 flex items-center justify-center shadow-sm shrink-0">

@@ -50,9 +50,9 @@ export function ReportButton({
   const sizeClass    = size === "sm" ? "text-xs px-3 py-2 gap-1.5" : "text-sm px-4 py-2.5 gap-2"
   const iconSize     = size === "sm" ? "w-3.5 h-3.5" : "w-4 h-4"
   const variantClass =
-    variant === "primary" ? "bg-teal-700 hover:bg-teal-800 text-white shadow-sm shadow-teal-900/10"
-    : variant === "outline" ? "border border-teal-600 text-teal-700 hover:bg-teal-50"
-    : "text-teal-700 hover:bg-teal-50"
+    variant === "primary" ? "bg-brand-blue-deep hover:bg-brand-blue-deep text-white shadow-sm shadow-blue-900/10"
+    : variant === "outline" ? "border border-brand-blue text-brand-blue-deep hover:bg-blue-50"
+    : "text-brand-blue-deep hover:bg-blue-50"
 
   return (
     <>
@@ -199,11 +199,11 @@ function ReportModal({
               <div className="relative">
                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
                   style={{ background: "rgba(20,184,166,0.12)", border: "1px solid rgba(20,184,166,0.2)" }}>
-                  <FileText className="w-7 h-7 text-teal-400" />
+                  <FileText className="w-7 h-7 text-brand-blue-light" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center"
                   style={{ background: "#0f172a" }}>
-                  <Loader2 className="w-4 h-4 text-teal-400 animate-spin" />
+                  <Loader2 className="w-4 h-4 text-brand-blue-light animate-spin" />
                 </div>
               </div>
               <div className="text-center">
@@ -244,7 +244,7 @@ function ReportModal({
             style={{ borderTop: "1px solid rgba(255,255,255,0.07)", background: "#0d1525" }}
           >
             <div className="flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-teal-500" />
+              <Sparkles className="w-3 h-3 text-blue-500" />
               <span className="text-[11px] text-slate-500 font-medium">
                 Laporan resmi COBA PNS · Rahasia
               </span>

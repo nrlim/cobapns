@@ -45,13 +45,13 @@ export default function LoginPage() {
 
       <div className="w-full flex flex-col lg:flex-row h-full">
         {/* Left Side: Branding Panel */}
-        <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden h-full bg-gradient-to-br from-teal-700 to-teal-900">
+        <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden h-full bg-gradient-to-br from-brand-blue-deep to-blue-900">
           {/* Logo — click to go to homepage */}
           <Link href="/" className="group flex items-center gap-3 z-10">
             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-colors">
               <span className="font-black text-lg text-white font-serif">S</span>
             </div>
-            <span className="font-black text-xl text-white tracking-tight group-hover:text-teal-200 transition-colors">COBA PNS</span>
+            <span className="font-black text-xl text-white tracking-tight group-hover:text-blue-200 transition-colors">COBA PNS</span>
           </Link>
           <div className="absolute inset-0 opacity-10">
             <Image
@@ -63,36 +63,36 @@ export default function LoginPage() {
             />
           </div>
           <div className="relative z-10">
-            <div className="text-teal-200 text-xs font-bold tracking-widest uppercase mb-4">
+            <div className="text-blue-200 text-xs font-bold tracking-widest uppercase mb-4">
               Masa Depan Abdi Negara
             </div>
             <h1 className="text-5xl font-black text-white leading-tight mb-6 tracking-tight">
               Kembali ke <br />
-              <span className="text-teal-300">Jalur Suksesmu.</span>
+              <span className="text-blue-300">Jalur Suksesmu.</span>
             </h1>
-            <p className="text-teal-100 text-lg max-w-md leading-relaxed mb-12 opacity-90">
+            <p className="text-blue-100 text-lg max-w-md leading-relaxed mb-12 opacity-90">
               Lanjutkan langkahmu hari ini. Setiap soal yang kamu kerjakan membawamu satu langkah
               lebih dekat menjadi ASN impian.
             </p>
             <div className="space-y-4">
               <div className="flex items-start gap-4 p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                <div className="w-10 h-10 rounded-lg bg-teal-400/20 flex items-center justify-center text-teal-300 flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-brand-blue-light/20 flex items-center justify-center text-blue-300 flex-shrink-0">
                   <BookOpen className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-bold text-white">Akses Ribuan Soal</h3>
-                  <p className="text-sm text-teal-200 opacity-80">
+                  <p className="text-sm text-blue-200 opacity-80">
                     Bank soal terlengkap sesuai standar kelulusan terbaru.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-4 p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                <div className="w-10 h-10 rounded-lg bg-teal-400/20 flex items-center justify-center text-teal-300 flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-brand-blue-light/20 flex items-center justify-center text-blue-300 flex-shrink-0">
                   <LineChart className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-bold text-white">Analisis Real-time</h3>
-                  <p className="text-sm text-teal-200 opacity-80">
+                  <p className="text-sm text-blue-200 opacity-80">
                     Pantau perkembangan skor dan kesiapan ujianmu seketika.
                   </p>
                 </div>
@@ -105,8 +105,8 @@ export default function LoginPage() {
         <div className="w-full lg:w-7/12 flex flex-col justify-center items-center px-6 md:px-12 lg:px-24 h-full overflow-y-auto bg-white">
           <div className="w-full max-w-md my-auto py-12">
             <div className="mb-10 text-center lg:text-left">
-              <div className="text-2xl font-black text-teal-700 tracking-tighter mb-2 lg:hidden">
-                COBA PNS
+              <div className="flex justify-center lg:justify-start lg:hidden mb-6">
+                <img src="/logo.png" alt="COBA PNS Logo" className="h-8 w-auto" />
               </div>
               <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2">
                 Masuk ke Dashboard Belajar
@@ -120,13 +120,13 @@ export default function LoginPage() {
 
               {/* Plan intent banner */}
               {selectedPlan && (
-                <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 rounded-xl px-4 py-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-4 h-4 text-teal-700" />
+                <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-4 h-4 text-brand-blue-deep" />
                   </div>
                   <div>
-                    <p className="text-xs font-black text-teal-800">Paket terpilih: {selectedPlan.name}</p>
-                    <p className="text-xs text-teal-600 font-medium">{selectedPlan.price} · Login untuk lanjutkan pembayaran</p>
+                    <p className="text-xs font-black text-brand-blue-deep">Paket terpilih: {selectedPlan.name}</p>
+                    <p className="text-xs text-brand-blue font-medium">{selectedPlan.price} · Login untuk lanjutkan pembayaran</p>
                   </div>
                 </div>
               )}
@@ -143,7 +143,7 @@ export default function LoginPage() {
                     name="email"
                     type="email"
                     required
-                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="nama@example.com"
                   />
                 </div>
@@ -158,7 +158,7 @@ export default function LoginPage() {
                   <label htmlFor="password" className="text-xs font-bold text-gray-500 uppercase tracking-wider">
                     Password
                   </label>
-                  <Link href="/forgot-password" className="text-xs font-semibold text-teal-600 hover:underline">
+                  <Link href="/forgot-password" className="text-xs font-semibold text-brand-blue hover:underline">
                     Lupa Password?
                   </Link>
                 </div>
@@ -169,13 +169,13 @@ export default function LoginPage() {
                     name="password"
                     type={showPassword ? "text" : "password"}
                     required
-                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-blue transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -190,7 +190,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-teal-600/20 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-deep disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-brand-blue/20 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
                 >
                   {isPending ? (
                     <>
@@ -209,7 +209,7 @@ export default function LoginPage() {
                 Belum punya akun?{" "}
                 <Link
                   href={planParam ? `/register?plan=${planParam.toLowerCase()}` : "/register"}
-                  className="text-teal-600 font-bold hover:underline"
+                  className="text-brand-blue font-bold hover:underline"
                 >
                   Daftar Gratis
                 </Link>

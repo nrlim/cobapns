@@ -66,7 +66,7 @@ function fmtDate(iso: string) {
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG = {
-  SUCCESS:  { label: "Sukses",     icon: CheckCircle2, cls: "bg-teal-50 text-teal-700 border-teal-200" },
+  SUCCESS:  { label: "Sukses",     icon: CheckCircle2, cls: "bg-blue-50 text-brand-blue-deep border-blue-200" },
   PENDING:  { label: "Pending",    icon: Clock,        cls: "bg-amber-50 text-amber-700 border-amber-200" },
   FAILED:   { label: "Gagal",      icon: XCircle,      cls: "bg-red-50 text-red-700 border-red-200" },
   EXPIRED:  { label: "Kedaluarsa", icon: AlertCircle,  cls: "bg-slate-50 text-slate-500 border-slate-200" },
@@ -83,7 +83,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 const PLAN_LABEL: Record<string, string> = { ELITE: "Elite Prep", MASTER: "Master Strategy", FREE: "Free" }
-const PLAN_COLOR: Record<string, string> = { ELITE: "bg-teal-500", MASTER: "bg-violet-500", FREE: "bg-slate-300" }
+const PLAN_COLOR: Record<string, string> = { ELITE: "bg-blue-500", MASTER: "bg-violet-500", FREE: "bg-slate-300" }
 
 // ─── Revenue Line Chart (SVG) ─────────────────────────────────────────────────
 
@@ -125,8 +125,8 @@ function RevenueChart({ data }: { data: ChartDay[] }) {
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ minWidth: 320 }}>
         <defs>
           <linearGradient id="rev-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#0d9488" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#0d9488" stopOpacity="0" />
+            <stop offset="0%" stopColor="#1E73BE" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#1E73BE" stopOpacity="0" />
           </linearGradient>
         </defs>
 
@@ -146,13 +146,13 @@ function RevenueChart({ data }: { data: ChartDay[] }) {
         <path d={area} fill="url(#rev-grad)" />
 
         {/* Line */}
-        <polyline points={polyline} fill="none" stroke="#0d9488" strokeWidth="2"
+        <polyline points={polyline} fill="none" stroke="#1E73BE" strokeWidth="2"
           strokeLinejoin="round" strokeLinecap="round" />
 
         {/* Data points */}
         {data.map((d, i) => (
           <circle key={i} cx={x(i)} cy={y(d.revenue)} r="3"
-            fill="white" stroke="#0d9488" strokeWidth="2" />
+            fill="white" stroke="#1E73BE" strokeWidth="2" />
         ))}
 
         {/* X-axis labels */}
@@ -182,7 +182,7 @@ function PlanDonut({ breakdown, total }: { breakdown: PlanBreakdown[]; total: nu
 
   let offset = 0
   const planColors: Record<string, string> = {
-    ELITE: "#0d9488", MASTER: "#8b5cf6", FREE: "#94a3b8"
+    ELITE: "#1E73BE", MASTER: "#8b5cf6", FREE: "#94a3b8"
   }
 
   const segments = breakdown.map(p => {
@@ -298,7 +298,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
   }, [transactions, search, statusFilter, planFilter, sortField, sortDir])
 
   const SortIcon = ({ field }: { field: SortField }) => (
-    <ArrowUpDown className={`w-3 h-3 ml-1 inline ${sortField === field ? "text-teal-600" : "text-slate-400"}`} />
+    <ArrowUpDown className={`w-3 h-3 ml-1 inline ${sortField === field ? "text-brand-blue" : "text-slate-400"}`} />
   )
 
   return (
@@ -307,7 +307,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
       {/* ── Header ─────────────────────────────────────────────── */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <p className="text-xs font-black uppercase tracking-widest text-teal-700 mb-1">Revenue & Analytics</p>
+          <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1">Revenue & Analytics</p>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">Transaksi</h1>
           <p className="text-sm font-medium text-slate-500 mt-1">Seluruh data pembayaran dan pendapatan platform.</p>
         </div>
@@ -366,7 +366,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
               <div className="flex items-center gap-2">
                 <p className="text-xs font-medium text-slate-500">{card.sub}</p>
                 {card.trend !== null && (
-                  <span className={`inline-flex items-center gap-0.5 text-[11px] font-black ${card.trend >= 0 ? "text-teal-600" : "text-red-500"}`}>
+                  <span className={`inline-flex items-center gap-0.5 text-[11px] font-black ${card.trend >= 0 ? "text-brand-blue" : "text-red-500"}`}>
                     {card.trend >= 0
                       ? <TrendingUp className="w-3 h-3" />
                       : <TrendingDown className="w-3 h-3" />}
@@ -390,7 +390,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
               <p className="text-xs font-medium text-slate-500 mt-0.5">30 hari terakhir</p>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-1 bg-teal-500 rounded-full" />
+              <div className="w-3 h-1 bg-blue-500 rounded-full" />
               <span className="text-xs font-bold text-slate-500">Revenue</span>
             </div>
           </div>
@@ -433,7 +433,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Cari nama, email, order ID..."
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400"
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-brand-blue-light"
             />
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -442,7 +442,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
               <select
                 value={statusFilter}
                 onChange={e => setStatusFilter(e.target.value)}
-                className="appearance-none pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                className="appearance-none pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               >
                 <option value="ALL">Semua Status</option>
                 <option value="SUCCESS">Sukses</option>
@@ -457,7 +457,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
               <select
                 value={planFilter}
                 onChange={e => setPlanFilter(e.target.value)}
-                className="appearance-none pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                className="appearance-none pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               >
                 <option value="ALL">Semua Paket</option>
                 <option value="ELITE">Elite</option>
@@ -511,7 +511,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
                   </td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-black text-white ${
-                      tx.planType === "ELITE" ? "bg-teal-500" : tx.planType === "MASTER" ? "bg-violet-500" : "bg-slate-400"
+                      tx.planType === "ELITE" ? "bg-blue-500" : tx.planType === "MASTER" ? "bg-violet-500" : "bg-slate-400"
                     }`}>
                       {tx.planType}
                     </span>
@@ -519,7 +519,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
                   <td className="px-4 py-3 font-black text-slate-900 whitespace-nowrap">
                     {fmtIDRFull(tx.amount)}
                     {tx.discountAmount > 0 && (
-                      <span className="block text-[11px] font-bold text-teal-600">-{fmtIDR(tx.discountAmount)}</span>
+                      <span className="block text-[11px] font-bold text-brand-blue">-{fmtIDR(tx.discountAmount)}</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
@@ -528,12 +528,12 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
                   <td className="px-4 py-3 text-xs font-medium text-slate-700 whitespace-nowrap">
                     {fmtDate(tx.createdAt)}
                     {tx.paidAt && (
-                      <span className="block text-[11px] text-teal-600 font-bold">Bayar: {fmtDate(tx.paidAt)}</span>
+                      <span className="block text-[11px] text-brand-blue font-bold">Bayar: {fmtDate(tx.paidAt)}</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
                     {tx.promoCode
-                      ? <span className="font-mono text-[11px] font-bold text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded">{tx.promoCode}</span>
+                      ? <span className="font-mono text-[11px] font-bold text-brand-blue-deep bg-blue-50 px-1.5 py-0.5 rounded">{tx.promoCode}</span>
                       : <span className="text-slate-300">—</span>
                     }
                   </td>
@@ -550,7 +550,7 @@ export function TransactionsDashboard({ kpis, planBreakdown, transactions, chart
           </p>
           <div className="flex items-center gap-2">
             <p className="text-xs font-bold text-slate-700">
-              Total sukses: <span className="text-teal-700">{fmtIDRFull(
+              Total sukses: <span className="text-brand-blue-deep">{fmtIDRFull(
                 filtered.filter(t => t.status === "SUCCESS").reduce((s, t) => s + t.amount, 0)
               )}</span>
             </p>

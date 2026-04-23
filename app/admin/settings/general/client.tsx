@@ -40,7 +40,7 @@ export function GeneralSettingsClient({ initialData }: GeneralSettingsClientProp
   };
 
   const inputBase = "w-full pl-12 pr-4 py-3.5 border rounded-xl focus:ring-4 outline-none transition-all text-slate-900 placeholder:text-slate-400 bg-slate-50 focus:bg-white";
-  const inputNormal = `${inputBase} border-slate-200 focus:border-teal-500 focus:ring-teal-500/10`;
+  const inputNormal = `${inputBase} border-slate-200 focus:border-blue-500 focus:ring-blue-500/10`;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-full">
@@ -56,8 +56,8 @@ export function GeneralSettingsClient({ initialData }: GeneralSettingsClientProp
       {/* ── Contact Information Card ── */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
         <div className="px-6 md:px-8 py-5 border-b border-slate-100 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center border border-teal-100">
-            <Contact className="w-4 h-4 text-teal-600" />
+          <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+            <Contact className="w-4 h-4 text-brand-blue" />
           </div>
           <div>
             <h3 className="font-bold text-slate-800 text-base">Contact Information</h3>
@@ -114,8 +114,8 @@ export function GeneralSettingsClient({ initialData }: GeneralSettingsClientProp
       {/* ── Social Media Card ── */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
         <div className="px-6 md:px-8 py-5 border-b border-slate-100 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center border border-teal-100">
-            <Share2 className="w-4 h-4 text-teal-600" />
+          <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+            <Share2 className="w-4 h-4 text-brand-blue" />
           </div>
           <div>
             <h3 className="font-bold text-slate-800 text-base">Social Media Links</h3>
@@ -169,7 +169,7 @@ export function GeneralSettingsClient({ initialData }: GeneralSettingsClientProp
         <button
           type="submit"
           disabled={isSaving}
-          className="flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-teal-600/15 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
+          className="flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-deep disabled:opacity-60 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-brand-blue/15 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
         >
           {isSaving ? (
             <><Loader2 className="w-4 h-4 animate-spin" /> Memperbarui...</>

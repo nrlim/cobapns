@@ -53,8 +53,8 @@ const PassDot = (props: any) => {
   return (
     <circle
       cx={cx} cy={cy} r={4.5}
-      stroke={payload.overallPass ? "#0D9488" : "#ef4444"}
-      fill={payload.overallPass ? "#ccfbf1" : "#fee2e2"}
+      stroke={payload.overallPass ? "#1E73BE" : "#ef4444"}
+      fill={payload.overallPass ? "#2A8BD6" : "#fee2e2"}
       strokeWidth={2}
     />
   )
@@ -93,7 +93,7 @@ export function ScoreProgressChart({ trend }: ScoreProgressProps) {
         />
         <ReferenceLine
           y={PASSING_TOTAL}
-          stroke="#0D9488"
+          stroke="#1E73BE"
           strokeDasharray="5 4"
           strokeWidth={1.5}
           label={{
@@ -101,7 +101,7 @@ export function ScoreProgressChart({ trend }: ScoreProgressProps) {
             position: "insideTopRight",
             fontSize: 10,
             fontWeight: 700,
-            fill: "#0D9488",
+            fill: "#1E73BE",
           }}
         />
         <Tooltip content={<CustomTooltip />} />
@@ -136,7 +136,7 @@ export function ScoreProgressChart({ trend }: ScoreProgressProps) {
           type="monotone"
           dataKey="totalScore"
           name="Total"
-          stroke="#0D9488"
+          stroke="#1E73BE"
           strokeWidth={2.5}
           dot={<PassDot />}
           activeDot={{ r: 7 }}
@@ -153,8 +153,8 @@ export function ChartLegend() {
     { label: "TWK", color: "#f59e0b" },
     { label: "TIU", color: "#3b82f6" },
     { label: "TKP", color: "#a855f7" },
-    { label: "Total", color: "#0D9488" },
-    { label: "Ambang Batas", color: "#0D9488", dashed: true },
+    { label: "Total", color: "#1E73BE" },
+    { label: "Ambang Batas", color: "#1E73BE", dashed: true },
   ]
   return (
     <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3">
@@ -225,7 +225,7 @@ export function TimeAnalysisChart({ trend }: TimeBarProps) {
         />
         <Bar dataKey="minutes" radius={[6, 6, 0, 0]}>
           {data.map((entry, i) => (
-            <Cell key={i} fill={entry.pass ? "#0D9488" : "#94a3b8"} />
+            <Cell key={i} fill={entry.pass ? "#1E73BE" : "#94a3b8"} />
           ))}
         </Bar>
       </BarChart>

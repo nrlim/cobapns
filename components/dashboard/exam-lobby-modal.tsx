@@ -105,11 +105,11 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
           }`}
         >
           {/* ── Header ─────────────────────────────────────── */}
-          <div className="bg-gradient-to-br from-teal-800 via-teal-700 to-teal-600 px-6 pt-6 pb-5 text-white">
+          <div className="bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-brand-blue px-6 pt-6 pb-5 text-white">
             {/* Top row */}
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex-1 min-w-0">
-                <p className="text-teal-200 text-[10px] font-bold uppercase tracking-widest mb-1">
+                <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-1">
                   Simulasi CAT CPNS
                 </p>
                 <h2 className="text-lg sm:text-xl font-black tracking-tight leading-snug">
@@ -117,8 +117,8 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
                 </h2>
                 {exam.hasPreviousResult && (
                   <div className="flex items-center gap-1.5 mt-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-teal-300" />
-                    <span className="text-teal-200 text-xs font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-300" />
+                    <span className="text-blue-200 text-xs font-bold">
                       Skor sebelumnya: {exam.previousScore} — Kamu pernah mengerjakan
                     </span>
                   </div>
@@ -140,16 +140,16 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
                 { icon: Users,    label: "Peserta",   value: `${exam.resultCount} orang` },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="bg-white/10 border border-white/20 rounded-xl px-3 py-2.5 text-center">
-                  <Icon className="w-3.5 h-3.5 text-teal-200 mx-auto mb-1" />
+                  <Icon className="w-3.5 h-3.5 text-blue-200 mx-auto mb-1" />
                   <div className="text-xs font-black text-white">{value}</div>
-                  <div className="text-[10px] text-teal-200 font-medium">{label}</div>
+                  <div className="text-[10px] text-blue-200 font-medium">{label}</div>
                 </div>
               ))}
             </div>
 
             {/* Passing grades */}
-            <div className="flex items-center gap-2 flex-wrap mt-3 pt-3 border-t border-teal-600/40">
-              <span className="text-[10px] text-teal-200 font-bold uppercase tracking-widest">Passing:</span>
+            <div className="flex items-center gap-2 flex-wrap mt-3 pt-3 border-t border-brand-blue/40">
+              <span className="text-[10px] text-blue-200 font-bold uppercase tracking-widest">Passing:</span>
               {[
                 { label: "TWK", val: exam.passingGradeTWK, cls: "bg-red-400/20 border-red-300/30 text-red-200" },
                 { label: "TIU", val: exam.passingGradeTIU, cls: "bg-blue-400/20 border-blue-300/30 text-blue-200" },
@@ -170,8 +170,8 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
               {/* Rules */}
               <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-6 h-6 bg-teal-50 border border-teal-100 rounded-lg flex items-center justify-center">
-                    <BookOpen className="w-3.5 h-3.5 text-teal-600" />
+                  <div className="w-6 h-6 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-center">
+                    <BookOpen className="w-3.5 h-3.5 text-brand-blue" />
                   </div>
                   <span className="text-[11px] font-black text-slate-700 uppercase tracking-widest">Tata Tertib</span>
                 </div>
@@ -183,7 +183,7 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
                     "Halaman tertutup? Lanjutkan dengan link ini.",
                   ].map((r, i) => (
                     <li key={i} className="flex items-start gap-2 text-[11px] text-slate-600 font-medium">
-                      <CheckCircle2 className="w-3 h-3 text-teal-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3 h-3 text-blue-500 flex-shrink-0 mt-0.5" />
                       {r}
                     </li>
                   ))}
@@ -248,7 +248,7 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
             <button
               onClick={handleStart}
               disabled={isLoading}
-              className="flex-[2] py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors flex items-center justify-center gap-2 shadow-md shadow-teal-700/20 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="flex-[2] py-3 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors flex items-center justify-center gap-2 shadow-md shadow-brand-blue-deep/20 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <><Loader2 className="w-4 h-4 animate-spin" /> Memproses...</>

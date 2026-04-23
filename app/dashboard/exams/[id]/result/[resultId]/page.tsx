@@ -116,7 +116,7 @@ export default async function ExamResultPage({
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-2">
           <div>
-            <p className="text-xs font-black uppercase tracking-widest text-teal-700 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1">
               Hasil Try Out
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -134,7 +134,7 @@ export default async function ExamResultPage({
             <div
               className={`relative overflow-hidden rounded-3xl p-8 sm:p-10 text-white shadow-sm border ${
                 result.overallPass
-                  ? "bg-gradient-to-br from-teal-700 via-teal-600 to-teal-500 border-teal-800"
+                  ? "bg-gradient-to-br from-brand-blue-deep via-brand-blue to-blue-500 border-brand-blue-deep"
                   : "bg-gradient-to-br from-slate-800 via-slate-700 to-slate-600 border-slate-900"
               }`}
             >
@@ -144,7 +144,7 @@ export default async function ExamResultPage({
 
               <div className="relative z-10 flex flex-col sm:flex-row items-center gap-8 sm:gap-12">
                 <div className="flex-1 text-center sm:text-left">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5 shadow-inner ${result.overallPass ? "bg-teal-800/50" : "bg-slate-900/50"}`}>
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5 shadow-inner ${result.overallPass ? "bg-brand-blue-deep/50" : "bg-slate-900/50"}`}>
                     {result.overallPass ? (
                       <Trophy className="w-8 h-8 text-amber-300" />
                     ) : (
@@ -154,7 +154,7 @@ export default async function ExamResultPage({
                   <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2">
                     {result.overallPass ? "Selamat, Kamu Lulus!" : "Belum Lulus"}
                   </h1>
-                  <p className={`text-sm font-medium ${result.overallPass ? "text-teal-100" : "text-slate-300"}`}>
+                  <p className={`text-sm font-medium ${result.overallPass ? "text-blue-100" : "text-slate-300"}`}>
                     {result.overallPass 
                       ? "Skor kamu memenuhi semua ambang batas nilai SKD CPNS. Pertahankan preatasimu!" 
                       : "Skor kamu belum memenuhi standar ambang batas. Pelajari materi yang lemah dan coba lagi."}
@@ -190,7 +190,7 @@ export default async function ExamResultPage({
                         </div>
                         <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
                           pass
-                            ? "bg-teal-50 text-teal-700 border-teal-200"
+                            ? "bg-blue-50 text-brand-blue-deep border-blue-200"
                             : "bg-red-50 text-red-600 border-red-200"
                         }`}>
                           {pass ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
@@ -210,7 +210,7 @@ export default async function ExamResultPage({
                         </div>
                         <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden relative">
                           <div 
-                            className={`h-full rounded-full transition-all duration-1000 ${pass ? "bg-teal-500" : "bg-red-500"}`}
+                            className={`h-full rounded-full transition-all duration-1000 ${pass ? "bg-blue-500" : "bg-red-500"}`}
                             style={{ width: `${Math.min(pct, 100)}%` }}
                           />
                           {/* Passing mark indicator */}
@@ -257,10 +257,10 @@ export default async function ExamResultPage({
                 
                 <Link
                   href={`/dashboard/exams/${result.examId}/lobby`}
-                  className="w-full flex items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 hover:text-teal-700 text-slate-600 font-bold text-sm transition-all group"
+                  className="w-full flex items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50 hover:text-brand-blue-deep text-slate-600 font-bold text-sm transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center transition-colors">
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
                       <RotateCcw className="w-4 h-4" />
                     </div>
                     Ulangi Ujian

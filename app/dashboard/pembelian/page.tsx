@@ -77,7 +77,7 @@ export default async function BillingPage({
 
         {/* ── Page Header ──────────────────────────────────────── */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-xs font-black uppercase tracking-widest text-teal-700 mb-3">Paket & Pembayaran</p>
+          <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-3">Paket & Pembayaran</p>
           <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-slate-900 mb-3">
             Investasi Terbaik untuk Lulus CPNS
           </h2>

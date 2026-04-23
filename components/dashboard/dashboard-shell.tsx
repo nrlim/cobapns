@@ -6,7 +6,6 @@ import {
   PieChart,
   ShoppingCart,
   Bell,
-  Search,
   BarChart3,
   GraduationCap,
   Trophy,
@@ -16,22 +15,22 @@ import Link from "next/link"
 import { ProfileDropdown } from "@/components/profile-dropdown"
 
 const NAV_ITEMS = [
-  { icon: LayoutDashboard, label: "Home", href: "/dashboard" },
-  { icon: ClipboardList, label: "Try Out", href: "/dashboard/exams" },
-  { icon: GraduationCap, label: "Learning Hub", href: "/dashboard/learning" },
-  { icon: Brain, label: "Psikotes & IQ", href: "/dashboard/psychology" },
-  { icon: BarChart3, label: "Performa", href: "/dashboard/performance" },
-  { icon: PieChart, label: "Statistik", href: "/dashboard/statistik" },
-  { icon: Trophy, label: "Leaderboard", href: "/dashboard/leaderboard" },
-  { icon: ShoppingCart, label: "Pembelian", href: "/dashboard/pembelian" },
+  { icon: LayoutDashboard, label: "Home",         href: "/dashboard" },
+  { icon: ClipboardList,   label: "Try Out",       href: "/dashboard/exams" },
+  { icon: GraduationCap,   label: "Learning Hub",  href: "/dashboard/learning" },
+  { icon: Brain,           label: "Psikotes & IQ", href: "/dashboard/psychology" },
+  { icon: BarChart3,       label: "Performa",      href: "/dashboard/performance" },
+  { icon: PieChart,        label: "Statistik",     href: "/dashboard/statistik" },
+  { icon: Trophy,          label: "Leaderboard",   href: "/dashboard/leaderboard" },
+  { icon: ShoppingCart,    label: "Pembelian",     href: "/dashboard/pembelian" },
 ]
 
 const MOBILE_NAV = [
-  { icon: LayoutDashboard, label: "Home", href: "/dashboard" },
-  { icon: ClipboardList, label: "Try Out", href: "/dashboard/exams" },
-  { icon: GraduationCap, label: "Belajar", href: "/dashboard/learning" },
-  { icon: Brain, label: "Psikotes", href: "/dashboard/psychology" },
-  { icon: Trophy, label: "Peringkat", href: "/dashboard/leaderboard" },
+  { icon: LayoutDashboard, label: "Home",     href: "/dashboard" },
+  { icon: ClipboardList,   label: "Try Out",  href: "/dashboard/exams" },
+  { icon: GraduationCap,   label: "Belajar",  href: "/dashboard/learning" },
+  { icon: Brain,           label: "Psikotes", href: "/dashboard/psychology" },
+  { icon: Trophy,          label: "Peringkat",href: "/dashboard/leaderboard" },
 ]
 
 interface DashboardShellProps {
@@ -45,16 +44,13 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
     <div className="flex min-h-screen bg-[#f8f9fa] font-sans text-slate-900">
 
       {/* ── Sidebar ───────────────────────────────────────────── */}
-      <aside className="hidden md:flex flex-col h-screen sticky left-0 top-0 w-64 border-r border-slate-200 bg-slate-50 p-4 space-y-2 z-20">
+      <aside className="hidden md:flex flex-col h-screen sticky left-0 top-0 w-64 border-r border-slate-200 bg-white p-4 space-y-2 z-20">
         {/* Logo */}
         <div className="px-2 py-4 mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-800 flex items-center justify-center text-white shadow-inner">
-              <span className="font-extrabold text-xl font-serif">S</span>
-            </div>
+            <img src="/logo.png" alt="COBA PNS Logo" className="h-10 w-auto" />
             <div>
-              <h2 className="text-base font-black text-teal-800 leading-none tracking-tight">COBA PNS</h2>
-              <p className="text-[10px] font-medium text-slate-500 mt-1 uppercase tracking-widest">Student Portal</p>
+              <p className="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">Student Portal</p>
             </div>
           </div>
         </div>
@@ -67,19 +63,19 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all text-sm ${active
-                  ? "bg-teal-50 text-teal-700 shadow-sm font-semibold border border-teal-100"
-                  : "text-slate-600 hover:bg-slate-200/50 hover:text-teal-600"
-                  }`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all text-sm ${
+                  active
+                    ? "text-white font-semibold shadow-sm"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                }`}
+                style={active ? { background: "linear-gradient(135deg, #1E73BE, #2DBE60)" } : {}}
               >
-                <Icon className={`w-5 h-5 ${active ? "text-teal-600" : ""}`} />
+                <Icon className={`w-5 h-5 ${active ? "text-white" : ""}`} />
                 <span>{label}</span>
               </Link>
             )
           })}
         </nav>
-
-
       </aside>
 
       {/* ── Main ─────────────────────────────────────────────── */}
@@ -116,8 +112,10 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
             <Link
               key={href}
               href={href}
-              className={`flex flex-col items-center gap-1 p-2 transition-colors ${active ? "text-teal-700" : "text-slate-400 hover:text-slate-600"
-                }`}
+              className={`flex flex-col items-center gap-1 p-2 transition-colors ${
+                active ? "" : "text-slate-400 hover:text-slate-600"
+              }`}
+              style={active ? { color: "#1E73BE" } : {}}
             >
               <Icon className="w-5 h-5" />
               <span className="text-[10px] font-bold tracking-tight">{label}</span>

@@ -74,12 +74,12 @@ const FAQS = [
 ]
 
 const COLOR_MAP: Record<string, string> = {
-  teal:   "bg-teal-50 text-teal-700 border-teal-100",
+  teal:   "bg-blue-50 text-brand-blue-deep border-blue-100",
   violet: "bg-violet-50 text-violet-700 border-violet-100",
   amber:  "bg-amber-50 text-amber-700 border-amber-100",
 }
 const ICON_BG_MAP: Record<string, string> = {
-  teal:   "bg-teal-50 text-teal-600",
+  teal:   "bg-blue-50 text-brand-blue",
   violet: "bg-violet-50 text-violet-600",
   amber:  "bg-amber-50 text-amber-600",
 }
@@ -89,16 +89,16 @@ const ICON_BG_MAP: Record<string, string> = {
 function FaqItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
   return (
     <div className={`bg-white border rounded-xl overflow-hidden transition-all duration-200
-      ${isOpen ? "border-teal-200 shadow-sm shadow-teal-50" : "border-slate-200"}`}>
+      ${isOpen ? "border-blue-200 shadow-sm shadow-blue-50" : "border-slate-200"}`}>
       <button
         onClick={onToggle}
         className="w-full flex items-start justify-between gap-4 p-4 sm:p-5 text-left hover:bg-slate-50/50 transition-colors group"
       >
-        <span className={`text-sm font-bold transition-colors ${isOpen ? "text-teal-700" : "text-slate-800 group-hover:text-slate-900"}`}>
+        <span className={`text-sm font-bold transition-colors ${isOpen ? "text-brand-blue-deep" : "text-slate-800 group-hover:text-slate-900"}`}>
           {q}
         </span>
         <ChevronDown className={`w-4 h-4 flex-shrink-0 mt-0.5 transition-all duration-300
-          ${isOpen ? "rotate-180 text-teal-600" : "text-slate-400 group-hover:text-slate-600"}`}
+          ${isOpen ? "rotate-180 text-brand-blue" : "text-slate-400 group-hover:text-slate-600"}`}
         />
       </button>
       {isOpen && (
@@ -136,9 +136,9 @@ export function HelpCenterClient() {
       <div className="space-y-8">
 
         {/* ── Hero ──────────────────────────────────────────────── */}
-        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 rounded-3xl p-8 sm:p-12 overflow-hidden text-center shadow-lg">
+        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 rounded-3xl p-8 sm:p-12 overflow-hidden text-center shadow-lg">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-20 -right-20 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl" />
+            <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
             <div className="absolute -bottom-12 -left-12 w-52 h-52 bg-violet-500/10 rounded-full blur-3xl" />
           </div>
 
@@ -147,7 +147,7 @@ export function HelpCenterClient() {
               <HelpCircle className="w-7 h-7 text-white" />
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-widest text-teal-300 mb-3">Pusat Bantuan</p>
+              <p className="text-xs font-black uppercase tracking-widest text-blue-300 mb-3">Pusat Bantuan</p>
               <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
                 Apa yang bisa kami bantu?
               </h1>
@@ -158,13 +158,13 @@ export function HelpCenterClient() {
 
             {/* Search bar */}
             <div className="relative max-w-lg mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-teal-300 pointer-events-none" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300 pointer-events-none" />
               <input
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Cari topik... (contoh: lupa password, bayar gagal)"
-                className="w-full pl-12 pr-10 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-400/50 focus:bg-white/15 transition-all font-medium text-sm"
+                className="w-full pl-12 pr-10 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue-light/50 focus:bg-white/15 transition-all font-medium text-sm"
               />
               {query && (
                 <button
@@ -286,7 +286,7 @@ export function HelpCenterClient() {
             {/* Quick tips */}
             <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-3">
               <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-teal-600" /> Tips Sebelum Menghubungi
+                <AlertCircle className="w-4 h-4 text-brand-blue" /> Tips Sebelum Menghubungi
               </h4>
               {[
                 "Sertakan email terdaftar kamu",
@@ -294,7 +294,7 @@ export function HelpCenterClient() {
                 "Sebutkan langkah yang sudah dicoba",
               ].map((tip, i) => (
                 <div key={i} className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-teal-50 text-teal-700 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5 border border-teal-100">
+                  <span className="w-5 h-5 rounded-full bg-blue-50 text-brand-blue-deep text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5 border border-blue-100">
                     {i + 1}
                   </span>
                   <p className="text-xs font-medium text-slate-600 leading-relaxed">{tip}</p>

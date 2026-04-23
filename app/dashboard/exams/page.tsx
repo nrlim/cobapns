@@ -67,7 +67,7 @@ export default async function StudentExamsPage() {
         {/* ── Page Header ────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Simulasi CAT CPNS</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Simulasi CAT CPNS</p>
             <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Daftar Try Out</h1>
             <p className="text-slate-500 font-medium text-sm mt-1">
               Pilih ujian dan kerjakan simulasi CAT secara real-time.
@@ -77,7 +77,7 @@ export default async function StudentExamsPage() {
           {/* Summary pills */}
           <div className="flex items-center gap-4 flex-shrink-0 bg-white border border-slate-100 rounded-2xl px-5 py-3 shadow-sm">
             <div className="text-center">
-              <div className="text-xl font-black text-teal-700">{done}</div>
+              <div className="text-xl font-black text-brand-blue-deep">{done}</div>
               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Dikerjakan</div>
             </div>
             <div className="h-8 w-px bg-slate-200" />

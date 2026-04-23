@@ -43,7 +43,7 @@ export function ConfirmationModal({
           
           <div className={cn(
             "w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-inner",
-            isDanger ? "bg-rose-100 text-rose-600" : isSuccess ? "bg-teal-100 text-teal-600" : "bg-amber-100 text-amber-600"
+            isDanger ? "bg-rose-100 text-rose-600" : isSuccess ? "bg-blue-100 text-brand-blue" : "bg-amber-100 text-amber-600"
           )}>
             {isSuccess ? <CheckCircle2 className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
           </div>
@@ -65,7 +65,7 @@ export function ConfirmationModal({
               className={cn(
                 "flex-1 py-3 px-4 text-white rounded-xl font-bold text-sm shadow-md active:scale-95 transition-all text-center",
                 isDanger ? "bg-gradient-to-tr from-rose-600 to-rose-500 hover:shadow-rose-500/25" 
-                : isSuccess ? "bg-gradient-to-tr from-teal-600 to-teal-500 hover:shadow-teal-500/25" 
+                : isSuccess ? "bg-gradient-to-tr from-brand-blue to-blue-500 hover:shadow-blue-500/25" 
                 : "bg-gradient-to-tr from-amber-500 to-amber-400 hover:shadow-amber-500/25"
               )}
             >

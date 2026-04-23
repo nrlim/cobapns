@@ -16,10 +16,10 @@ function StrengthBar({ password }: { password: string }) {
     { label: "", color: "" },
     { label: "Lemah", color: "bg-red-400" },
     { label: "Cukup", color: "bg-amber-400" },
-    { label: "Kuat", color: "bg-teal-400" },
+    { label: "Kuat", color: "bg-brand-blue-light" },
     { label: "Sangat Kuat", color: "bg-emerald-500" },
   ]
-  const textColor = ["", "text-red-500", "text-amber-500", "text-teal-600", "text-emerald-600"]
+  const textColor = ["", "text-red-500", "text-amber-500", "text-brand-blue", "text-emerald-600"]
 
   if (!password) return null
   return (
@@ -56,7 +56,7 @@ export function ChangePasswordForm() {
   }, [state])
 
   const inputBase = "w-full pl-12 pr-12 py-3.5 border rounded-xl focus:ring-4 outline-none transition-all text-slate-900 placeholder:text-slate-400 bg-slate-50 focus:bg-white"
-  const inputNormal = `${inputBase} border-slate-200 focus:border-teal-500 focus:ring-teal-500/10`
+  const inputNormal = `${inputBase} border-slate-200 focus:border-blue-500 focus:ring-blue-500/10`
   const inputError = (field: string) =>
     state?.errors?.[field]
       ? `${inputBase} border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-500/10`
@@ -66,8 +66,8 @@ export function ChangePasswordForm() {
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
       {/* Card Header */}
       <div className="px-6 md:px-8 py-5 border-b border-slate-100 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center border border-teal-100">
-          <Lock className="w-4 h-4 text-teal-600" />
+        <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+          <Lock className="w-4 h-4 text-brand-blue" />
         </div>
         <div>
           <h3 className="font-bold text-slate-800 text-base">Ubah Password</h3>
@@ -115,7 +115,7 @@ export function ChangePasswordForm() {
                 placeholder="Masukkan password saat ini"
                 className={inputError("currentPassword")}
               />
-              <button type="button" onClick={() => toggleShow("current")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-teal-600 transition-colors">
+              <button type="button" onClick={() => toggleShow("current")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-blue transition-colors">
                 {show.current ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
@@ -150,7 +150,7 @@ export function ChangePasswordForm() {
                 onChange={e => setNewPassword(e.target.value)}
                 className={inputError("newPassword")}
               />
-              <button type="button" onClick={() => toggleShow("new")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-teal-600 transition-colors">
+              <button type="button" onClick={() => toggleShow("new")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-blue transition-colors">
                 {show.new ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
@@ -177,7 +177,7 @@ export function ChangePasswordForm() {
                 placeholder="Ulangi password baru"
                 className={inputError("confirmPassword")}
               />
-              <button type="button" onClick={() => toggleShow("confirm")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-teal-600 transition-colors">
+              <button type="button" onClick={() => toggleShow("confirm")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-blue transition-colors">
                 {show.confirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
@@ -189,13 +189,13 @@ export function ChangePasswordForm() {
           </div>
 
           {/* Tips */}
-          <div className="bg-gradient-to-br from-teal-50 to-slate-50 border border-teal-100 rounded-xl p-4 flex gap-3">
-            <Sparkles className="w-4 h-4 text-teal-500 shrink-0 mt-0.5" />
-            <div className="text-xs text-teal-700 space-y-0.5">
+          <div className="bg-gradient-to-br from-blue-50 to-slate-50 border border-blue-100 rounded-xl p-4 flex gap-3">
+            <Sparkles className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+            <div className="text-xs text-brand-blue-deep space-y-0.5">
               <p className="font-bold mb-1">Tips keamanan:</p>
-              <p className="text-teal-600">• Minimal 8 karakter, kombinasi huruf besar &amp; kecil</p>
-              <p className="text-teal-600">• Tambahkan angka dan simbol (@, #, !)</p>
-              <p className="text-teal-600">• Jangan gunakan password yang sama di platform lain</p>
+              <p className="text-brand-blue">• Minimal 8 karakter, kombinasi huruf besar &amp; kecil</p>
+              <p className="text-brand-blue">• Tambahkan angka dan simbol (@, #, !)</p>
+              <p className="text-brand-blue">• Jangan gunakan password yang sama di platform lain</p>
             </div>
           </div>
 
@@ -204,7 +204,7 @@ export function ChangePasswordForm() {
             <button
               type="submit"
               disabled={isPending}
-              className="flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-teal-600/15 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-deep disabled:opacity-60 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-brand-blue/15 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
             >
               {isPending ? (
                 <><Loader2 className="w-4 h-4 animate-spin" /> Memperbarui...</>

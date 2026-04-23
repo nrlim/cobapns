@@ -135,25 +135,25 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
         {/* Sidebar Header */}
         <div className="p-4 border-b border-slate-100">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-teal-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-brand-blue-deep flex items-center justify-center">
               <span className="font-extrabold text-white text-sm font-serif">S</span>
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-teal-700">COBA PNS</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-blue-deep">COBA PNS</p>
               <h2 className="font-black text-slate-900 text-sm truncate">Tes IQ Multi-Dimensi</h2>
             </div>
           </div>
 
           <div className="flex items-center gap-2 mb-3">
             <span className="text-xs font-bold text-slate-600">Sub-Tes Selesai:</span>
-            <span className="text-xs font-black text-teal-700">{subTestIndex}/{SUB_TESTS.length}</span>
+            <span className="text-xs font-black text-brand-blue-deep">{subTestIndex}/{SUB_TESTS.length}</span>
           </div>
 
           <div className="grid grid-cols-2 gap-1.5 text-[10px] font-bold">
             {[
               { color: "bg-slate-300", label: "Belum dijawab" },
-              { color: "bg-teal-500",  label: "Sudah dijawab" },
-              { color: "bg-teal-700",  label: "Soal aktif" },
+              { color: "bg-blue-500",  label: "Sudah dijawab" },
+              { color: "bg-brand-blue-deep",  label: "Soal aktif" },
             ].map(({ color, label }) => (
               <div key={label} className="flex items-center gap-1.5">
                 <div className={`w-3 h-3 rounded ${color} flex-shrink-0`} />
@@ -166,7 +166,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
         {/* Navigator Nav */}
         <div className="flex-1 overflow-y-auto p-3 space-y-4">
           
-          <div className="text-[10px] font-black px-2 py-0.5 rounded-full border mb-2 w-fit bg-teal-50 text-teal-700 border-teal-200">
+          <div className="text-[10px] font-black px-2 py-0.5 rounded-full border mb-2 w-fit bg-blue-50 text-brand-blue-deep border-blue-200">
             {SUB_LABELS[currentSub]} — {totalQ} soal
           </div>
           
@@ -179,8 +179,8 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
                   key={sq.id}
                   onClick={() => setQuestionIndex(i)}
                   className={`w-8 h-8 rounded-lg text-[11px] font-black transition-all ${
-                    isActive    ? "bg-teal-700 text-white ring-2 ring-teal-400 ring-offset-1 scale-110" :
-                    isAnswered  ? "bg-teal-500 text-white" :
+                    isActive    ? "bg-brand-blue-deep text-white ring-2 ring-brand-blue-light ring-offset-1 scale-110" :
+                    isAnswered  ? "bg-blue-500 text-white" :
                                   "bg-slate-200 text-slate-500 hover:bg-slate-300"
                   }`}
                 >
@@ -200,14 +200,14 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
           {subTestIndex < SUB_TESTS.length - 1 ? (
              <button
                 onClick={() => { recordTiming(); setPhase("between") }}
-                className="w-full py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-sm font-black transition-colors shadow-sm"
+                className="w-full py-2.5 bg-brand-blue-deep hover:bg-brand-blue-deep text-white rounded-xl text-sm font-black transition-colors shadow-sm"
              >
                 Selesai Sub-Tes
              </button>
           ) : (
              <button
                 onClick={() => { recordTiming(); setPhase("done") }}
-                className="w-full py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-sm font-black transition-colors shadow-sm"
+                className="w-full py-2.5 bg-brand-blue-deep hover:bg-brand-blue-deep text-white rounded-xl text-sm font-black transition-colors shadow-sm"
              >
                 Selesai Ujian IQ
              </button>
@@ -269,16 +269,16 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
                     onClick={() => handleAnswer(opt.key)}
                     className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all duration-150 group ${
                       isSelected
-                        ? "border-teal-500 bg-teal-50 shadow-sm shadow-teal-100"
+                        ? "border-blue-500 bg-blue-50 shadow-sm shadow-blue-100"
                         : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
                     }`}
                   >
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black text-sm transition-all ${
-                      isSelected ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
+                      isSelected ? "bg-brand-blue text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
                     }`}>
                       {opt.key}
                     </div>
-                    <span className={`text-sm font-medium flex-1 pt-0.5 ${isSelected ? "text-teal-900 font-semibold" : "text-slate-700"}`}>
+                    <span className={`text-sm font-medium flex-1 pt-0.5 ${isSelected ? "text-blue-900 font-semibold" : "text-slate-700"}`}>
                       {opt.label}
                     </span>
                   </button>
@@ -303,7 +303,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
           {questionIndex < totalQ - 1 ? (
             <button
               onClick={() => setQuestionIndex(q => q + 1)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm"
             >
               Berikutnya
               <ChevronRight className="w-4 h-4" />
@@ -311,7 +311,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
           ) : subTestIndex < SUB_TESTS.length - 1 ? (
             <button
               onClick={() => { recordTiming(); setPhase("between") }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm"
             >
               Selesai Sub-Tes
               <ChevronRight className="w-4 h-4" />
@@ -319,7 +319,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
           ) : (
             <button
               onClick={() => { recordTiming(); setPhase("done") }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm"
             >
               Selesai
               <Send className="w-4 h-4" />
@@ -336,10 +336,10 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
           <div className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="max-w-md w-full animate-in fade-in zoom-in-95 duration-200">
               <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl overflow-hidden">
-                <div className="h-1.5 bg-teal-500 w-full" />
+                <div className="h-1.5 bg-blue-500 w-full" />
                 <div className="p-8 text-center">
-                  <div className="w-16 h-16 bg-teal-50 border border-teal-100 rounded-3xl flex items-center justify-center mx-auto mb-5">
-                    <CheckCircle2 className="w-8 h-8 text-teal-600" />
+                  <div className="w-16 h-16 bg-blue-50 border border-blue-100 rounded-3xl flex items-center justify-center mx-auto mb-5">
+                    <CheckCircle2 className="w-8 h-8 text-brand-blue" />
                   </div>
                   <h2 className="text-xl font-black text-slate-900 mb-1">Sub-Tes {SUB_LABELS[currentSub]} Selesai</h2>
                   <p className="text-slate-500 text-sm font-medium mb-6">
@@ -357,7 +357,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
                   <button
                     id="btn-continue-subtest"
                     onClick={() => { setSubTestIndex(i => i + 1); setQuestionIndex(0); setPhase("active") }}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-teal-700 text-white rounded-2xl font-black text-sm hover:bg-teal-800 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-brand-blue-deep text-white rounded-2xl font-black text-sm hover:bg-brand-blue-deep transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                   >
                     Lanjut ke {SUB_LABELS[nextSub]} <ChevronRight className="w-5 h-5" />
                   </button>
@@ -376,11 +376,11 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
           <div className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="max-w-lg w-full animate-in fade-in zoom-in-95 duration-200">
               <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl overflow-hidden">
-                <div className="h-1.5 bg-teal-500 w-full" />
+                <div className="h-1.5 bg-blue-500 w-full" />
                 <div className="p-8">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 bg-teal-50 border border-teal-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Zap className="w-7 h-7 text-teal-600" />
+                    <div className="w-14 h-14 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-7 h-7 text-brand-blue" />
                     </div>
                     <div>
                       <h2 className="text-xl font-black text-slate-900">Ujian IQ Selesai</h2>
@@ -389,7 +389,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
                   </div>
 
                   <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center mb-6">
-                    <span className="text-3xl font-black text-teal-700 leading-none">{allAnswered}</span>
+                    <span className="text-3xl font-black text-brand-blue-deep leading-none">{allAnswered}</span>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Terjawab dari {allTotal}</span>
                   </div>
 
@@ -410,7 +410,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
                     id="btn-submit-iq"
                     disabled={submitting}
                     onClick={handleFinalSubmit}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-teal-700 text-white rounded-2xl font-black text-sm hover:bg-teal-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-brand-blue-deep text-white rounded-2xl font-black text-sm hover:bg-brand-blue-deep disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                   >
                     {submitting ? (
                       <><span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" /> Mengkalkulasi...</>

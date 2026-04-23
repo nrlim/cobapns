@@ -94,7 +94,7 @@ function PodiumCard({
   return (
     <div
       className={`relative flex flex-col items-center gap-2 p-4 rounded-2xl border ${cfg.bg} ${size === "large" ? "pb-6 pt-5" : "pb-4"
-        } ${entry.isCurrentUser ? "ring-2 ring-teal-500 ring-offset-2" : ""}`}
+        } ${entry.isCurrentUser ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}
     >
       {/* Rank badge */}
       <div className={`absolute -top-3 flex items-center justify-center w-7 h-7 rounded-full ${cfg.badge} text-white text-[10px] font-black shadow-md`}>
@@ -102,7 +102,7 @@ function PodiumCard({
       </div>
 
       {/* Avatar */}
-      <div className={`${avatarSize} rounded-full bg-gradient-to-br from-teal-400 to-teal-700 flex items-center justify-center text-white font-black shadow-md`}>
+      <div className={`${avatarSize} rounded-full bg-gradient-to-br from-brand-blue-light to-brand-blue-deep flex items-center justify-center text-white font-black shadow-md`}>
         {initials}
       </div>
 
@@ -115,13 +115,13 @@ function PodiumCard({
         <p className="text-[10px] text-slate-400 font-medium mt-0.5">{entry.institution}</p>
       </div>
 
-      <div className={`font-black text-teal-700 ${size === "large" ? "text-xl" : "text-lg"}`}>
+      <div className={`font-black text-brand-blue-deep ${size === "large" ? "text-xl" : "text-lg"}`}>
         {entry.highestScore}
       </div>
       <p className="text-[10px] text-slate-400 font-medium">{entry.totalExams} Try Out</p>
 
       {entry.isCurrentUser && (
-        <span className="text-[9px] font-black uppercase tracking-widest text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full">
+        <span className="text-[9px] font-black uppercase tracking-widest text-brand-blue-deep bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">
           Kamu
         </span>
       )}
@@ -158,7 +158,7 @@ export default async function StatistikPage() {
         {/* ── Page Header ──────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-widest text-teal-700 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1">
               Statistik &amp; Peringkat
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -169,13 +169,13 @@ export default async function StatistikPage() {
             </p>
           </div>
           {userRank && (
-            <div className="flex items-center gap-2 bg-teal-50 border border-teal-200 rounded-2xl px-4 py-3 flex-shrink-0">
-              <Trophy className="w-4 h-4 text-teal-600" />
+            <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-2xl px-4 py-3 flex-shrink-0">
+              <Trophy className="w-4 h-4 text-brand-blue" />
               <div>
-                <p className="text-[10px] font-black text-teal-500 uppercase tracking-widest">Peringkatmu</p>
-                <p className="text-lg font-black text-teal-800 leading-none">
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Peringkatmu</p>
+                <p className="text-lg font-black text-brand-blue-deep leading-none">
                   #{userRank.rank}
-                  <span className="text-xs font-medium text-teal-500 ml-1">dari {userRank.total}</span>
+                  <span className="text-xs font-medium text-blue-500 ml-1">dari {userRank.total}</span>
                 </p>
               </div>
             </div>
@@ -191,7 +191,7 @@ export default async function StatistikPage() {
               label="Total Ujian"
               value={metrics.totalExams}
               sub="Try Out diselesaikan"
-              accent="bg-teal-50 border border-teal-100 text-teal-600"
+              accent="bg-blue-50 border border-blue-100 text-brand-blue"
             />
             <BentoMetric
               icon={CheckCircle2}
@@ -237,7 +237,7 @@ export default async function StatistikPage() {
           {/* Line Chart – Score Progress */}
           <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
             <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="w-4 h-4 text-teal-600" />
+              <TrendingUp className="w-4 h-4 text-brand-blue" />
               <h3 className="font-black text-slate-900 text-sm">Progress Skor</h3>
             </div>
             <p className="text-[11px] text-slate-400 font-medium mb-4">
@@ -259,7 +259,7 @@ export default async function StatistikPage() {
             <TimeAnalysisChart trend={trend} />
             <div className="flex items-center gap-4 mt-3">
               <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-sm bg-teal-600 flex-shrink-0" />
+                <span className="w-3 h-3 rounded-sm bg-brand-blue flex-shrink-0" />
                 <span className="text-[10px] font-bold text-slate-500">Lulus</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -283,7 +283,7 @@ export default async function StatistikPage() {
             </div>
             <Link
               href="/dashboard/exams"
-              className="text-[10px] font-black uppercase tracking-widest text-teal-700 hover:underline flex items-center gap-1"
+              className="text-[10px] font-black uppercase tracking-widest text-brand-blue-deep hover:underline flex items-center gap-1"
             >
               Ujian Baru <ChevronRight className="w-3 h-3" />
             </Link>
@@ -295,7 +295,7 @@ export default async function StatistikPage() {
               <p className="text-sm font-medium text-slate-400">Belum ada riwayat ujian.</p>
               <Link
                 href="/dashboard/exams"
-                className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-teal-600 hover:underline"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-brand-blue hover:underline"
               >
                 Mulai Try Out pertamamu →
               </Link>
@@ -338,7 +338,7 @@ export default async function StatistikPage() {
                       <td className="px-4 py-4 text-center">
                         <span
                           className={`inline-flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-full border ${row.overallPass
-                              ? "bg-teal-50 text-teal-700 border-teal-200"
+                              ? "bg-blue-50 text-brand-blue-deep border-blue-200"
                               : "bg-red-50 text-red-600 border-red-200"
                             }`}
                         >
@@ -352,7 +352,7 @@ export default async function StatistikPage() {
                       <td className="px-6 py-4">
                         <Link
                           href={`/dashboard/exams/${row.examId}/result/${row.id}`}
-                          className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-teal-600 transition-colors group-hover:text-teal-600 whitespace-nowrap"
+                          className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-brand-blue transition-colors group-hover:text-brand-blue whitespace-nowrap"
                         >
                           Review <ChevronRight className="w-3 h-3" />
                         </Link>

@@ -18,7 +18,7 @@ export default async function EmailTemplatesPage() {
       {/* Page Hero / Introduction */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1 lg:mb-2 text-opacity-80">Settings Base</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1 lg:mb-2 text-opacity-80">Settings Base</p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Email Templates</h2>
           <p className="text-slate-500 font-medium mt-1 text-sm">Konfigurasi dinamis template HTML untuk notifikasi email ke pengguna.</p>
         </div>
@@ -42,13 +42,13 @@ export default async function EmailTemplatesPage() {
         <Card className="rounded-xl border-slate-200 shadow-sm relative overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-600">Integrasi Provider</CardTitle>
-            <div className="p-2 bg-teal-50 rounded-full">
-              <Zap className="h-4 w-4 text-teal-600" />
+            <div className="p-2 bg-blue-50 rounded-full">
+              <Zap className="h-4 w-4 text-brand-blue" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-bold text-slate-900">Resend API</div>
-            <p className="text-xs text-teal-600 font-medium mt-1">Provider aktif terhubung</p>
+            <p className="text-xs text-brand-blue font-medium mt-1">Provider aktif terhubung</p>
           </CardContent>
         </Card>
 

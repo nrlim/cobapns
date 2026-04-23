@@ -39,7 +39,7 @@ interface ExamFormClientProps {
 
 // ── Design tokens ──────────────────────────────────────────────────────────
 const inputBase =
-  "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-400 transition-all placeholder:text-slate-400 shadow-sm"
+  "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-brand-blue-light transition-all placeholder:text-slate-400 shadow-sm"
 
 const labelBase = "block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2"
 
@@ -76,9 +76,9 @@ const STATUS_OPTIONS: {
     label: "Published",
     desc: "Aktif dan dapat diakses siswa",
     icon: <CheckCircle2 className="w-4 h-4" />,
-    ring: "ring-teal-500",
-    bg: "bg-teal-50",
-    text: "text-teal-700",
+    ring: "ring-blue-500",
+    bg: "bg-blue-50",
+    text: "text-brand-blue-deep",
   },
 ]
 
@@ -223,8 +223,8 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
           {/* Section 1: Basic Info ──────────────────────────── */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/60 flex items-center gap-3">
-              <div className="w-7 h-7 rounded-lg bg-teal-100 flex items-center justify-center">
-                <BookOpen className="w-3.5 h-3.5 text-teal-700" />
+              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+                <BookOpen className="w-3.5 h-3.5 text-brand-blue-deep" />
               </div>
               <div>
                 <h3 className="text-sm font-black text-slate-900">Informasi Dasar</h3>
@@ -275,8 +275,8 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
                       onClick={() => update("durationMinutes", m)}
                       className={`text-[11px] px-2.5 py-1 rounded-lg font-bold border transition-colors ${
                         form.durationMinutes === m
-                          ? "bg-teal-600 text-white border-teal-600"
-                          : "bg-slate-50 text-slate-500 border-slate-200 hover:border-teal-400 hover:text-teal-600"
+                          ? "bg-brand-blue text-white border-brand-blue"
+                          : "bg-slate-50 text-slate-500 border-slate-200 hover:border-brand-blue-light hover:text-brand-blue"
                       }`}
                     >
                       {m} mnt
@@ -352,7 +352,7 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-black text-slate-900">{totalPassing}</span>
                   <span className="text-xs text-slate-400 font-bold">/ {totalMax}</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-brand-blue-deep border border-blue-200">
                     {Math.round((totalPassing / totalMax) * 100)}%
                   </span>
                 </div>
@@ -462,7 +462,7 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
             </div>
           )}
           {success && (
-            <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 text-teal-700 rounded-2xl px-5 py-4">
+            <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 text-brand-blue-deep rounded-2xl px-5 py-4">
               <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
               <span className="text-sm font-bold">Tersimpan! Mengarahkan kembali...</span>
             </div>
@@ -480,7 +480,7 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
             <button
               type="submit"
               disabled={isPending || success}
-              className="flex items-center gap-2 px-8 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 active:scale-95 text-white text-sm font-black shadow-md shadow-teal-700/20 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-8 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep active:scale-95 text-white text-sm font-black shadow-md shadow-brand-blue-deep/20 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isPending ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -508,12 +508,12 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
             <div className="p-5 space-y-4">
 
               {/* Exam Title Preview */}
-              <div className="bg-gradient-to-br from-teal-800 to-teal-600 rounded-xl p-4 text-white">
-                <div className="text-[9px] font-bold uppercase tracking-widest text-teal-200 mb-1">Simulasi CAT</div>
+              <div className="bg-gradient-to-br from-brand-blue-deep to-brand-blue rounded-xl p-4 text-white">
+                <div className="text-[9px] font-bold uppercase tracking-widest text-blue-200 mb-1">Simulasi CAT</div>
                 <div className="text-sm font-black leading-snug line-clamp-2">
                   {form.title || "Nama ujian akan tampil di sini..."}
                 </div>
-                <div className="flex items-center gap-3 mt-3 text-teal-200 text-[10px] font-bold">
+                <div className="flex items-center gap-3 mt-3 text-blue-200 text-[10px] font-bold">
                   <span className="flex items-center gap-1">
                     <Timer className="w-3 h-3" />
                     {form.durationMinutes} mnt

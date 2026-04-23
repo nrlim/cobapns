@@ -42,8 +42,8 @@ export function CompletionButton({ materialId, initialCompleted }: Props) {
       disabled={isPending}
       className={`group relative overflow-hidden flex items-center justify-center gap-2.5 px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl font-black text-[13px] sm:text-sm tracking-wide transition-all duration-300 ease-out transform active:scale-95 shadow-md ${
         completed
-          ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/40 border-0"
-          : "bg-white border-2 border-slate-200 text-slate-600 hover:border-teal-500 hover:text-teal-700 hover:bg-teal-50 shadow-slate-200/50 hover:shadow-teal-500/20"
+          ? "bg-gradient-to-r from-blue-500 to-emerald-500 text-white shadow-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/40 border-0"
+          : "bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-500 hover:text-brand-blue-deep hover:bg-blue-50 shadow-slate-200/50 hover:shadow-blue-500/20"
       } disabled:opacity-75 disabled:cursor-not-allowed`}
     >
       {/* Background shine effect for pending state */}
@@ -64,7 +64,7 @@ export function CompletionButton({ materialId, initialCompleted }: Props) {
           <Sparkles className="w-3 h-3 absolute top-2 right-4 text-emerald-100 animate-pulse" />
         </>
       ) : (
-        <Circle className="w-5 h-5 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:scale-110 group-hover:text-teal-500 relative z-10" />
+        <Circle className="w-5 h-5 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-500 relative z-10" />
       )}
       
       <span className="relative z-10">{completed ? "Materi Selesai!" : "Tandai Selesai"}</span>

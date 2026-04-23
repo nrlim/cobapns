@@ -89,10 +89,10 @@ export function PDFDownloadButton({
     : "text-sm px-4 py-2.5 gap-2"
 
   const variantClass = variant === "primary"
-    ? "bg-teal-700 hover:bg-teal-800 text-white shadow-sm shadow-teal-900/10"
+    ? "bg-brand-blue-deep hover:bg-brand-blue-deep text-white shadow-sm shadow-blue-900/10"
     : variant === "outline"
-    ? "border border-teal-600 text-teal-700 hover:bg-teal-50"
-    : "text-teal-700 hover:bg-teal-50"
+    ? "border border-brand-blue text-brand-blue-deep hover:bg-blue-50"
+    : "text-brand-blue-deep hover:bg-blue-50"
 
   return (
     <div className="flex flex-col items-start gap-1.5">

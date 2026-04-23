@@ -48,7 +48,7 @@ export function QuestionFilters() {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
         <Input 
           placeholder="Cari konten soal..." 
-          className="pl-9 w-[200px] md:w-[280px] bg-slate-50/50 border-transparent focus:bg-white focus:border-teal-500/20 rounded-xl transition-all" 
+          className="pl-9 w-[200px] md:w-[280px] bg-slate-50/50 border-transparent focus:bg-white focus:border-blue-500/20 rounded-xl transition-all" 
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
@@ -74,7 +74,7 @@ export function QuestionFilters() {
         ))}
       </div>
       
-      <Button variant="outline" size="icon" className="border-slate-100 text-slate-500 hover:text-teal-600 hover:bg-teal-50/50 rounded-xl ml-2">
+      <Button variant="outline" size="icon" className="border-slate-100 text-slate-500 hover:text-brand-blue hover:bg-blue-50/50 rounded-xl ml-2">
         <Filter className="w-4 h-4" />
       </Button>
     </div>

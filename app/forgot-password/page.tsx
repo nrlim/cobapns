@@ -17,29 +17,29 @@ export default function ForgotPasswordPage() {
     <main className="h-screen w-full flex overflow-hidden bg-white">
 
       {/* ── Left Branding Panel (Desktop) ──────────────────── */}
-      <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden h-full bg-gradient-to-br from-teal-700 via-teal-800 to-teal-950">
+      <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden h-full bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-teal-950">
         {/* Decorative rings */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full border border-teal-500/20" />
-        <div className="absolute -top-12 -left-12 w-64 h-64 rounded-full border border-teal-500/10" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-teal-600/20 blur-2xl" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full border border-blue-500/20" />
+        <div className="absolute -top-12 -left-12 w-64 h-64 rounded-full border border-blue-500/10" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-brand-blue/20 blur-2xl" />
 
         {/* Logo — click to go back to login */}
         <Link href="/login" className="relative z-10 flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
             <span className="text-white font-black text-lg font-serif">S</span>
           </div>
-          <span className="text-white font-black text-xl tracking-tight group-hover:text-teal-200 transition-colors">COBA PNS</span>
+          <span className="text-white font-black text-xl tracking-tight group-hover:text-blue-200 transition-colors">COBA PNS</span>
         </Link>
 
         {/* Center content */}
         <div className="relative z-10 space-y-8">
           <div>
-            <p className="text-teal-300 text-xs font-bold tracking-widest uppercase mb-4">Keamanan Akun</p>
+            <p className="text-blue-300 text-xs font-bold tracking-widest uppercase mb-4">Keamanan Akun</p>
             <h1 className="text-4xl font-black text-white leading-tight tracking-tight">
               Jangan Khawatir,<br />
-              <span className="text-teal-300">Kami Bantu Kamu.</span>
+              <span className="text-blue-300">Kami Bantu Kamu.</span>
             </h1>
-            <p className="text-teal-100/80 text-base mt-4 leading-relaxed">
+            <p className="text-blue-100/80 text-base mt-4 leading-relaxed">
               Reset password hanya butuh beberapa menit. Link aman kami akan dikirim langsung ke inbox kamu.
             </p>
           </div>
@@ -51,12 +51,12 @@ export default function ForgotPasswordPage() {
               { icon: Inbox,   title: "Cek Spam Juga",        desc: "Kadang email masuk ke folder Promosi atau Spam" },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-teal-400/20 flex items-center justify-center text-teal-300 shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-brand-blue-light/20 flex items-center justify-center text-blue-300 shrink-0">
                   <Icon className="w-4 h-4" />
                 </div>
                 <div>
                   <h3 className="font-bold text-white text-sm">{title}</h3>
-                  <p className="text-teal-200/70 text-xs mt-0.5 leading-relaxed">{desc}</p>
+                  <p className="text-blue-200/70 text-xs mt-0.5 leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
 
         {/* Bottom */}
         <div className="relative z-10">
-          <p className="text-teal-400/60 text-xs">© 2024 COBA PNS. Hak cipta dilindungi.</p>
+          <p className="text-brand-blue-light/60 text-xs">© 2024 COBA PNS. Hak cipta dilindungi.</p>
         </div>
       </div>
 
@@ -76,12 +76,13 @@ export default function ForgotPasswordPage() {
         <div className="w-full max-w-md my-auto py-12">
           {!isSuccess ? (
             <>
-              {/* COBA PNS label mobile only */}
-              <div className="text-2xl font-black text-teal-700 tracking-tighter mb-2 lg:hidden text-center">COBA PNS</div>
+              <div className="flex justify-center lg:justify-start lg:hidden mb-6">
+                <img src="/logo.png" alt="COBA PNS Logo" className="h-8 w-auto" />
+              </div>
 
               {/* Icon + heading */}
               <div className="flex flex-col items-center lg:items-start mb-8">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-5 shadow-xl shadow-teal-600/25">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-brand-blue-deep flex items-center justify-center mb-5 shadow-xl shadow-brand-blue/25">
                   <KeyRound className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2 text-center lg:text-left">
@@ -125,7 +126,7 @@ export default function ForgotPasswordPage() {
                       className={`w-full pl-12 pr-4 py-3.5 border rounded-xl focus:ring-4 outline-none transition-all text-gray-900 placeholder:text-gray-400 ${
                         state?.errors?.email
                           ? 'border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-500/10'
-                          : 'bg-gray-50 border-gray-200 focus:border-teal-500 focus:ring-teal-500/10 focus:bg-white'
+                          : 'bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500/10 focus:bg-white'
                       }`}
                     />
                   </div>
@@ -134,7 +135,7 @@ export default function ForgotPasswordPage() {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-teal-600/20 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-deep disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-brand-blue/20 hover:shadow-xl hover:-translate-y-0.5 disabled:translate-y-0 transition-all active:scale-[0.98]"
                 >
                   {isPending ? (
                     <><Loader2 className="w-5 h-5 animate-spin" /> Mengirim Link...</>
@@ -146,7 +147,7 @@ export default function ForgotPasswordPage() {
 
               <p className="text-center text-sm text-gray-500 mt-8">
                 Sudah ingat password?{" "}
-                <Link href="/login" className="text-teal-600 font-bold hover:underline">
+                <Link href="/login" className="text-brand-blue font-bold hover:underline">
                   Masuk sekarang
                 </Link>
               </p>
@@ -173,7 +174,7 @@ export default function ForgotPasswordPage() {
               {/* Mock email notification card */}
               <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-5 border border-slate-200 text-left mb-8 shadow-sm">
                 <div className="flex items-center gap-3 mb-3 pb-3 border-b border-slate-200">
-                  <div className="w-9 h-9 rounded-xl bg-teal-600 flex items-center justify-center text-white text-sm font-black shadow">S</div>
+                  <div className="w-9 h-9 rounded-xl bg-brand-blue flex items-center justify-center text-white text-sm font-black shadow">S</div>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-bold text-slate-700 leading-none">COBA PNS Admin</p>
                     <p className="text-[10px] text-slate-400 mt-0.5">noreply@cobapns.com</p>
@@ -188,14 +189,14 @@ export default function ForgotPasswordPage() {
 
               <Link
                 href="/login"
-                className="w-full flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-teal-600/20 hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                className="w-full flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-deep text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-brand-blue/20 hover:shadow-xl hover:-translate-y-0.5 transition-all"
               >
                 Kembali ke Halaman Login
               </Link>
 
               <p className="text-xs text-slate-400 mt-6">
                 Butuh bantuan?{" "}
-                <span className="text-teal-600 font-semibold hover:underline cursor-pointer">Hubungi Support</span>
+                <span className="text-brand-blue font-semibold hover:underline cursor-pointer">Hubungi Support</span>
               </p>
             </div>
           )}

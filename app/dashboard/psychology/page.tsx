@@ -110,7 +110,7 @@ export default async function PsychologyPage() {
         {/* ── Page Header ─────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">
               Asesmen Psikologi
             </p>
             <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -124,7 +124,7 @@ export default async function PsychologyPage() {
           {/* Progress summary pill */}
           <div className="flex items-center gap-4 flex-shrink-0 bg-white border border-slate-100 rounded-2xl px-5 py-3 shadow-sm">
             <div className="text-center">
-              <div className="text-xl font-black text-teal-700">{[hasPsych, hasIQ].filter(Boolean).length}</div>
+              <div className="text-xl font-black text-brand-blue-deep">{[hasPsych, hasIQ].filter(Boolean).length}</div>
               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selesai</div>
             </div>
             <div className="h-8 w-px bg-slate-200" />
@@ -141,13 +141,13 @@ export default async function PsychologyPage() {
           {/* Psychometric Test */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
             {/* Status stripe */}
-            <div className={`h-1 ${hasPsych ? "bg-teal-500" : "bg-slate-200"}`} />
+            <div className={`h-1 ${hasPsych ? "bg-blue-500" : "bg-slate-200"}`} />
             <div className="p-6 flex flex-col flex-1">
               {/* Header */}
               <div className="flex items-start justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-teal-50 border border-teal-100 rounded-xl flex items-center justify-center">
-                    <Brain className="w-5 h-5 text-teal-600" />
+                  <div className="w-10 h-10 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center">
+                    <Brain className="w-5 h-5 text-brand-blue" />
                   </div>
                   <div>
                     <h2 className="font-black text-slate-900 text-base">Psikotes Kepribadian</h2>
@@ -155,7 +155,7 @@ export default async function PsychologyPage() {
                   </div>
                 </div>
                 {hasPsych ? (
-                  <span className="flex items-center gap-1 bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-black px-2.5 py-1 rounded-full">
+                  <span className="flex items-center gap-1 bg-blue-50 text-brand-blue-deep border border-blue-200 text-[10px] font-black px-2.5 py-1 rounded-full">
                     <CheckCircle2 className="w-3 h-3" /> Selesai
                   </span>
                 ) : (
@@ -187,7 +187,7 @@ export default async function PsychologyPage() {
               <div className="mt-auto pt-2">
                 <Link
                   href="/dashboard/psychology/test"
-                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-teal-700 text-white hover:bg-teal-800 shadow-sm"
+                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-brand-blue-deep text-white hover:bg-brand-blue-deep shadow-sm"
                 >
                   {hasPsych ? "Ulangi Psikotes" : "Mulai Psikotes"}
                   <ArrowRight className="w-4 h-4" />
@@ -198,12 +198,12 @@ export default async function PsychologyPage() {
 
           {/* IQ Test */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
-            <div className={`h-1 ${hasIQ ? "bg-teal-500" : "bg-slate-200"}`} />
+            <div className={`h-1 ${hasIQ ? "bg-blue-500" : "bg-slate-200"}`} />
             <div className="p-6 flex flex-col flex-1">
               <div className="flex items-start justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-teal-50 border border-teal-100 rounded-xl flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-teal-600" />
+                  <div className="w-10 h-10 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-brand-blue" />
                   </div>
                   <div>
                     <h2 className="font-black text-slate-900 text-base">Tes IQ Multi-Dimensi</h2>
@@ -211,7 +211,7 @@ export default async function PsychologyPage() {
                   </div>
                 </div>
                 {hasIQ ? (
-                  <span className="flex items-center gap-1 bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-black px-2.5 py-1 rounded-full">
+                  <span className="flex items-center gap-1 bg-blue-50 text-brand-blue-deep border border-blue-200 text-[10px] font-black px-2.5 py-1 rounded-full">
                     <CheckCircle2 className="w-3 h-3" /> Selesai
                   </span>
                 ) : (
@@ -256,7 +256,7 @@ export default async function PsychologyPage() {
               <div className="mt-auto pt-2">
                 <Link
                   href="/dashboard/iq-test"
-                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-teal-700 text-white hover:bg-teal-800 shadow-sm"
+                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-brand-blue-deep text-white hover:bg-brand-blue-deep shadow-sm"
                 >
                   {hasIQ ? "Ulangi Tes IQ" : "Mulai Tes IQ"}
                   <ArrowRight className="w-4 h-4" />
@@ -268,28 +268,28 @@ export default async function PsychologyPage() {
 
         {/* ── See Results CTA (only when at least one done) ── */}
         {(hasPsych || hasIQ) && (
-          <div className="relative bg-gradient-to-br from-teal-800 via-teal-700 to-teal-600 rounded-2xl p-6 text-white shadow-sm overflow-hidden">
+          <div className="relative bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-brand-blue rounded-2xl p-6 text-white shadow-sm overflow-hidden">
             <div className="relative z-10">
-              <p className="text-teal-200 text-[10px] font-bold tracking-widest uppercase mb-1">
+              <p className="text-blue-200 text-[10px] font-bold tracking-widest uppercase mb-1">
                 {bothDone ? "Analisis Lengkap Siap" : "Hasil Parsial Tersedia"}
               </p>
               <h3 className="text-xl font-black mb-1 tracking-tight">
                 {bothDone ? "Lihat Profil & Rekomendasi Jabatan" : "Lihat Hasil yang Sudah Selesai"}
               </h3>
-              <p className="text-teal-100 text-sm font-medium mb-5 max-w-md">
+              <p className="text-blue-100 text-sm font-medium mb-5 max-w-md">
                 {bothDone
                   ? "Radar kepribadian · Skor IQ · Rekomendasi jabatan berdasarkan profilmu."
                   : "Lengkapi kedua tes untuk mendapatkan rekomendasi jabatan yang lebih akurat."}
               </p>
               <Link
                 href="/dashboard/psychology/result"
-                className="inline-flex items-center gap-2 bg-white text-teal-800 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-teal-50 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 bg-white text-brand-blue-deep px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-50 transition-colors shadow-sm"
               >
                 Buka Hasil Analisis <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             <Brain className="absolute right-4 bottom-4 w-28 h-28 text-white/10" />
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-teal-500/20 rounded-full" />
+            <div className="absolute -top-8 -right-8 w-32 h-32 bg-blue-500/20 rounded-full" />
           </div>
         )}
 
@@ -303,8 +303,8 @@ export default async function PsychologyPage() {
               { step: "3", title: "Rekomendasi Jabatan", desc: "Lihat jabatan dan instansi yang paling sesuai dengan profilmu.", icon: Target },
             ].map(({ step, title, desc, icon: Icon }) => (
               <div key={step} className="flex gap-3">
-                <div className="w-7 h-7 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-[10px] font-black text-teal-700">{step}</span>
+                <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-[10px] font-black text-brand-blue-deep">{step}</span>
                 </div>
                 <div>
                   <p className="font-bold text-slate-900 text-sm mb-0.5">{title}</p>

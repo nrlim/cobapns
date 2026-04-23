@@ -49,9 +49,9 @@ type QStatus = "unvisited" | "answered" | "ragu" | "current"
 
 const STATUS_CLASSES: Record<QStatus, string> = {
   unvisited: "bg-slate-200 text-slate-500 hover:bg-slate-300",
-  answered:  "bg-teal-500 text-white",
+  answered:  "bg-blue-500 text-white",
   ragu:      "bg-amber-400 text-white",
-  current:   "bg-teal-700 text-white ring-2 ring-teal-400 ring-offset-1 scale-110",
+  current:   "bg-brand-blue-deep text-white ring-2 ring-brand-blue-light ring-offset-1 scale-110",
 }
 
 export function CATSessionClient({
@@ -230,9 +230,9 @@ export function CATSessionClient({
           <div className="grid grid-cols-2 gap-1.5 text-[10px] font-bold">
             {[
               { color: "bg-slate-300", label: "Belum dikunjungi" },
-              { color: "bg-teal-500",  label: "Sudah dijawab" },
+              { color: "bg-blue-500",  label: "Sudah dijawab" },
               { color: "bg-amber-400", label: "Ragu-ragu" },
-              { color: "bg-teal-700",  label: "Soal aktif" },
+              { color: "bg-brand-blue-deep",  label: "Soal aktif" },
             ].map(({ color, label }) => (
               <div key={label} className="flex items-center gap-1.5">
                 <div className={`w-3 h-3 rounded ${color} flex-shrink-0`} />
@@ -278,7 +278,7 @@ export function CATSessionClient({
           <button
             onClick={() => setShowConfirmSubmit(true)}
             disabled={submitting}
-            className="w-full py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-sm font-black transition-colors flex items-center justify-center gap-2"
+            className="w-full py-2.5 bg-brand-blue-deep hover:bg-brand-blue-deep text-white rounded-xl text-sm font-black transition-colors flex items-center justify-center gap-2"
           >
             <Send className="w-4 h-4" />
             Kumpulkan Jawaban
@@ -354,14 +354,14 @@ export function CATSessionClient({
                     onClick={() => selectOption(option.id)}
                     className={`w-full flex items-start gap-3 p-4 rounded-2xl border-2 text-left transition-all group ${
                       isSelected
-                        ? "border-teal-500 bg-teal-50 shadow-sm shadow-teal-100"
+                        ? "border-blue-500 bg-blue-50 shadow-sm shadow-blue-100"
                         : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
                     }`}
                   >
                     <div
                       className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 transition-colors ${
                         isSelected
-                          ? "bg-teal-600 text-white"
+                          ? "bg-brand-blue text-white"
                           : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
                       }`}
                     >
@@ -369,7 +369,7 @@ export function CATSessionClient({
                     </div>
                     <span
                       className={`text-sm font-medium leading-relaxed pt-0.5 ${
-                        isSelected ? "text-teal-900" : "text-slate-700"
+                        isSelected ? "text-blue-900" : "text-slate-700"
                       }`}
                     >
                       {option.text}
@@ -407,7 +407,7 @@ export function CATSessionClient({
           {currentIdx < questions.length - 1 ? (
             <button
               onClick={() => goTo(currentIdx + 1)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm"
             >
               Selanjutnya
               <ChevronRight className="w-4 h-4" />
@@ -415,7 +415,7 @@ export function CATSessionClient({
           ) : (
             <button
               onClick={() => setShowConfirmSubmit(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm"
             >
               <Send className="w-4 h-4" />
               Selesai & Kumpulkan
@@ -442,7 +442,7 @@ export function CATSessionClient({
 
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 grid grid-cols-3 gap-3 text-center text-sm">
               <div>
-                <div className="text-2xl font-black text-teal-700">{answeredCount}</div>
+                <div className="text-2xl font-black text-brand-blue-deep">{answeredCount}</div>
                 <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Dijawab</div>
               </div>
               <div>
@@ -472,7 +472,7 @@ export function CATSessionClient({
               <button
                 onClick={() => handleSubmit(false)}
                 disabled={submitting}
-                className="flex-1 py-3 rounded-2xl bg-teal-700 hover:bg-teal-800 text-white font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                className="flex-1 py-3 rounded-2xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 {submitting ? (
                   <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />

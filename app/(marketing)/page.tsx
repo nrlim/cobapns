@@ -14,12 +14,13 @@ export default async function HomePage() {
     <main className="pt-16">
       {/* 1. Hero Section */}
       <section className="relative px-6 pt-10 pb-20 md:pt-16 md:pb-32 overflow-hidden bg-surface">
+        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,#1E73BE,#2DBE60)]" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold tracking-widest uppercase mb-6">Persiapan CPNS 2024</span>
-            <h1 className="text-5xl md:text-7xl font-extrabold text-on-surface tracking-tighter leading-[0.9] mb-8">
-              Sistem Persiapan CPNS <br className="hidden md:block" />
-              <span className="text-primary italic">Paling Mutakhir.</span>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[0.9] mb-8">
+              <span className="text-brand-blue">Sistem Persiapan CPNS</span> <br className="hidden md:block" />
+              <span className="text-brand-green italic">Paling Mutakhir.</span>
             </h1>
             <p className="text-lg md:text-xl text-on-secondary-container leading-relaxed max-w-xl mb-10">
               Tingkatkan peluang kelulusan Anda dengan teknologi <span className="font-bold text-on-surface underline decoration-primary/30">Smart Shuffle Engine</span> &amp; <span className="font-bold text-on-surface underline decoration-primary/30">Diagnostic Roadmap</span> berstandar nasional. Antarmuka profesional, tanpa distraksi, dan teruji akurat.

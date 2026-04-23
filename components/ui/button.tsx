@@ -4,17 +4,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-light focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-teal-600 text-white hover:bg-teal-700 shadow-sm",
+        default: "bg-[linear-gradient(135deg,#1E73BE,#2DBE60)] text-white hover:bg-[linear-gradient(135deg,#0F4FA8,#1FA84E)] shadow-sm border-0",
         destructive: "bg-red-500 text-white hover:bg-red-600 shadow-sm",
-        outline:
-          "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400",
-        secondary: "bg-slate-100 text-slate-800 hover:bg-slate-200",
+        outline: "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400",
+        secondary: "border-2 border-brand-blue text-brand-blue bg-transparent hover:border-brand-green-light hover:text-brand-green-deep hover:bg-brand-green-light/10 transition-all",
         ghost: "hover:bg-slate-100 text-slate-700",
-        link: "text-teal-600 underline-offset-4 hover:underline",
+        link: "text-brand-blue underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

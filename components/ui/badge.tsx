@@ -9,9 +9,9 @@ function Badge({ className, variant = "default", ...props }: BadgeProps) {
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2",
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
         {
-          "border-transparent bg-teal-600 text-white hover:bg-teal-700":
+          "border-transparent bg-brand-blue text-white hover:bg-brand-blue-deep":
             variant === "default",
           "border-transparent bg-slate-100 text-slate-700 hover:bg-slate-200":
             variant === "secondary",

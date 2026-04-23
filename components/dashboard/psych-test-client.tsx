@@ -73,19 +73,19 @@ export default function PsychTestClient({ questions }: { questions: PsychQuestio
         {/* Sidebar Header */}
         <div className="p-4 border-b border-slate-100">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-teal-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-brand-blue-deep flex items-center justify-center">
               <span className="font-extrabold text-white text-sm font-serif">S</span>
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-teal-700">COBA PNS</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-blue-deep">COBA PNS</p>
               <h2 className="font-black text-slate-900 text-sm truncate">Psikotes Kepribadian</h2>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-1.5 text-[10px] font-bold">
             {[
               { color: "bg-slate-300", label: "Belum dijawab" },
-              { color: "bg-teal-500",  label: "Sudah dijawab" },
-              { color: "bg-teal-700",  label: "Soal aktif" },
+              { color: "bg-blue-500",  label: "Sudah dijawab" },
+              { color: "bg-brand-blue-deep",  label: "Soal aktif" },
             ].map(({ color, label }) => (
               <div key={label} className="flex items-center gap-1.5">
                 <div className={`w-3 h-3 rounded ${color} flex-shrink-0`} />
@@ -106,8 +106,8 @@ export default function PsychTestClient({ questions }: { questions: PsychQuestio
                     key={pq.id}
                     onClick={() => setCurrent(i)}
                     className={`w-8 h-8 rounded-lg text-[11px] font-black transition-all ${
-                      status === "current"  ? "bg-teal-700 text-white ring-2 ring-teal-400 ring-offset-1 scale-110" :
-                      status === "answered" ? "bg-teal-500 text-white" :
+                      status === "current"  ? "bg-brand-blue-deep text-white ring-2 ring-brand-blue-light ring-offset-1 scale-110" :
+                      status === "answered" ? "bg-blue-500 text-white" :
                                              "bg-slate-200 text-slate-500 hover:bg-slate-300"
                     }`}
                   >
@@ -128,11 +128,11 @@ export default function PsychTestClient({ questions }: { questions: PsychQuestio
                 <div key={label} className="mb-2">
                   <div className="flex justify-between text-[10px] mb-1">
                     <span className="font-bold text-slate-600 truncate">{label}</span>
-                    <span className="font-black text-teal-700 ml-1 flex-shrink-0">{dimAnswered}/{dimQs.length}</span>
+                    <span className="font-black text-brand-blue-deep ml-1 flex-shrink-0">{dimAnswered}/{dimQs.length}</span>
                   </div>
                   <div className="w-full h-1.5 rounded-full bg-slate-100">
                     <div
-                      className="h-1.5 rounded-full bg-teal-500 transition-all"
+                      className="h-1.5 rounded-full bg-blue-500 transition-all"
                       style={{ width: `${(dimAnswered / dimQs.length) * 100}%` }}
                     />
                   </div>
@@ -150,7 +150,7 @@ export default function PsychTestClient({ questions }: { questions: PsychQuestio
           <button
             onClick={handleSubmit}
             disabled={answered < total || submitting}
-            className="w-full py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-sm font-black transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 bg-brand-blue-deep hover:bg-brand-blue-deep text-white rounded-xl text-sm font-black transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? "Mengirim..." : (
               <>
@@ -204,20 +204,20 @@ export default function PsychTestClient({ questions }: { questions: PsychQuestio
                     onClick={() => handleAnswer(val)}
                     className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all group ${
                       isSelected
-                        ? "border-teal-500 bg-teal-50 shadow-sm shadow-teal-100"
+                        ? "border-blue-500 bg-blue-50 shadow-sm shadow-blue-100"
                         : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
                     }`}
                   >
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-black text-sm transition-all ${
-                      isSelected ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
+                      isSelected ? "bg-brand-blue text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
                     }`}>
                       {val}
                     </div>
-                    <span className={`text-sm font-medium flex-1 pt-0.5 ${isSelected ? "text-teal-900" : "text-slate-700"}`}>
+                    <span className={`text-sm font-medium flex-1 pt-0.5 ${isSelected ? "text-blue-900" : "text-slate-700"}`}>
                       {label}
                     </span>
                     <span className={`text-[10px] font-black tracking-widest flex-shrink-0 ${
-                      isSelected ? "text-teal-600" : "text-slate-300"
+                      isSelected ? "text-brand-blue" : "text-slate-300"
                     }`}>
                       {short}
                     </span>
@@ -251,14 +251,14 @@ export default function PsychTestClient({ questions }: { questions: PsychQuestio
              <button
                 onClick={handleSubmit}
                 disabled={answered < total || submitting}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm disabled:opacity-50"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm disabled:opacity-50"
              >
                Selesai & Kumpulkan <Send className="w-4 h-4" />
              </button>
           ) : (
             <button
               onClick={() => setCurrent(c => Math.min(total - 1, c + 1))}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors shadow-sm"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors shadow-sm"
             >
               Berikutnya
               <ChevronRight className="w-4 h-4" />

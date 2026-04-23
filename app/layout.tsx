@@ -40,7 +40,7 @@ export default function RootLayout({
       <body className="antialiased bg-[#f8f9ff] font-sans">
         <ConsoleEasterEgg />
         <NextTopLoader
-          color="#0d9488"
+          color="#1E73BE"
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}
@@ -48,7 +48,7 @@ export default function RootLayout({
           showSpinner={false}
           easing="ease"
           speed={200}
-          shadow="0 0 10px #0d9488,0 0 5px #0d9488"
+          shadow="0 0 10px #1E73BE,0 0 5px #1E73BE"
         />
         {children}
       </body>

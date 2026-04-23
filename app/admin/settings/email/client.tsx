@@ -55,7 +55,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
   )
 
   const openNew = () => {
-    reset({ name: "", subject: "", htmlBody: "<div>\n  <h1 style=\"color: #0f766e;\">Halo {{name}}</h1>\n  <p>Pesan Anda di sini...</p>\n</div>", description: "" })
+    reset({ name: "", subject: "", htmlBody: "<div>\n  <h1 style=\"color: #0F4FA8;\">Halo {{name}}</h1>\n  <p>Pesan Anda di sini...</p>\n</div>", description: "" })
     setViewMode("code")
     setIsEditorOpen(true)
   }
@@ -107,7 +107,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
         )}
         <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
           <h4 className="text-lg font-black text-slate-800 flex items-center gap-2">
-            <Code2 className="w-5 h-5 text-teal-600" />
+            <Code2 className="w-5 h-5 text-brand-blue" />
             {watch("id") ? "Edit Template HTML" : "Buat Template Baru"}
           </h4>
           <Button variant="ghost" size="sm" onClick={() => setIsEditorOpen(false)} className="text-slate-500 hover:bg-slate-100 rounded-full h-8 px-3">
@@ -137,19 +137,19 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold tracking-widest uppercase text-teal-600 border-l-2 border-teal-500 pl-2">Editor Template</label>
+              <label className="text-xs font-bold tracking-widest uppercase text-brand-blue border-l-2 border-blue-500 pl-2">Editor Template</label>
               <div className="flex bg-slate-100 p-1 rounded-lg">
                 <button 
                   type="button"
                   onClick={() => setViewMode("code")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${viewMode === 'code' ? 'bg-white text-teal-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${viewMode === 'code' ? 'bg-white text-brand-blue-deep shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                 >
                   <Code className="w-3.5 h-3.5" /> Code
                 </button>
                 <button 
                   type="button"
                   onClick={() => setViewMode("preview")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${viewMode === 'preview' ? 'bg-white text-teal-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${viewMode === 'preview' ? 'bg-white text-brand-blue-deep shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                 >
                   <Eye className="w-3.5 h-3.5" /> Preview
                 </button>
@@ -166,7 +166,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
                 <textarea 
                   {...register("htmlBody")} 
                   rows={15}
-                  className="w-full font-mono text-sm p-4 bg-slate-900 text-teal-300 rounded-xl outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 resize-y shadow-inner leading-relaxed" 
+                  className="w-full font-mono text-sm p-4 bg-slate-900 text-blue-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 resize-y shadow-inner leading-relaxed" 
                   placeholder="<html><body><h1>Hello World</h1></body></html>"
                   spellCheck={false}
                 />
@@ -181,7 +181,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
                       className="w-full h-full border-none"
                     />
                  </div>
-                 <div className="absolute bottom-4 right-4 bg-teal-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                 <div className="absolute bottom-4 right-4 bg-brand-blue-deep text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
                     Simulated Email Layout
                  </div>
               </div>
@@ -189,7 +189,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
           </div>
 
           <div className="pt-4 flex justify-end">
-            <Button type="submit" disabled={isSubmitting} className="bg-teal-700 hover:bg-teal-800 text-white font-bold px-8 shadow-md">
+            <Button type="submit" disabled={isSubmitting} className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold px-8 shadow-md">
               {isSubmitting ? "Menyimpan..." : (
                 <>
                   <Save className="w-4 h-4 mr-2" />
@@ -221,10 +221,10 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Cari nama template..." 
-            className="pl-9 bg-slate-50 border-none focus-visible:ring-teal-500/30"
+            className="pl-9 bg-slate-50 border-none focus-visible:ring-blue-500/30"
           />
         </div>
-        <Button onClick={openNew} className="w-full sm:w-auto bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl shadow-md transition-all whitespace-nowrap">
+        <Button onClick={openNew} className="w-full sm:w-auto bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold rounded-xl shadow-md transition-all whitespace-nowrap">
           <Plus className="w-4 h-4 mr-2" />
           Template Baru
         </Button>
@@ -254,7 +254,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
               filteredTemplates.map((t) => (
                 <TableRow key={t.id} className="group hover:bg-slate-50/80 transition-colors">
                   <TableCell className="font-medium">
-                    <span className="font-mono text-xs font-bold px-2 py-1 bg-teal-50 text-teal-700 rounded-md border border-teal-100">
+                    <span className="font-mono text-xs font-bold px-2 py-1 bg-blue-50 text-brand-blue-deep rounded-md border border-blue-100">
                       {t.name}
                     </span>
                   </TableCell>
@@ -271,7 +271,7 @@ export function EmailTemplatesClient({ initialData }: { initialData: any[] }) {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end items-center gap-2">
-                      <Button variant="ghost" size="sm" onClick={() => openEdit(t)} className="h-8 text-teal-600 bg-teal-50 hover:bg-teal-100 text-xs font-bold">
+                      <Button variant="ghost" size="sm" onClick={() => openEdit(t)} className="h-8 text-brand-blue bg-blue-50 hover:bg-blue-100 text-xs font-bold">
                         <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
                       </Button>
                       <Button 

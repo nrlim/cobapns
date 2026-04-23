@@ -38,7 +38,7 @@ type FormValues = z.infer<typeof schema>
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const labelCls = "block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5"
-const fieldCls = "w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors"
+const fieldCls = "w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
 
 function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")
@@ -155,7 +155,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/60">
           <div>
             <h2 className="text-xl font-black tracking-tight text-slate-900 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-teal-600" />
+              <BookOpen className="w-5 h-5 text-brand-blue" />
               {isEditing ? "Edit Materi" : "Tambah Materi Baru"}
             </h2>
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">
@@ -182,7 +182,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
           /* ── Preview Mode ──────────────────────────────────────────── */
           <div className="flex-1 overflow-y-auto px-8 py-8">
             <div className="max-w-2xl mx-auto">
-              <p className="text-[10px] font-bold text-teal-600 uppercase tracking-widest mb-2">{watch("category")} · {watch("subCategory")}</p>
+              <p className="text-[10px] font-bold text-brand-blue uppercase tracking-widest mb-2">{watch("category")} · {watch("subCategory")}</p>
               <h1 className="text-2xl font-black text-slate-900 mb-4">{title || "Judul Materi"}</h1>
               {watch("videoUrl") && (
                 <div className="aspect-video w-full rounded-xl overflow-hidden bg-slate-900 mb-6">
@@ -278,7 +278,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => setValue("isPublished", !isPublished)}
-                  className={`relative w-10 h-5 rounded-full transition-colors ${isPublished ? "bg-teal-600" : "bg-slate-200"}`}
+                  className={`relative w-10 h-5 rounded-full transition-colors ${isPublished ? "bg-brand-blue" : "bg-slate-200"}`}
                 >
                   <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${isPublished ? "translate-x-5" : "translate-x-0.5"}`} />
                 </button>
@@ -324,7 +324,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
             {/* Content Editor */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-bold text-slate-900 border-l-4 border-teal-600 pl-2 flex items-center gap-1.5">
+                <label className="text-sm font-bold text-slate-900 border-l-4 border-brand-blue pl-2 flex items-center gap-1.5">
                   <AlignLeft className="w-3.5 h-3.5" />
                   Konten Materi (Markdown) *
                 </label>
@@ -334,7 +334,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
                 {...register("content")}
                 rows={14}
                 placeholder={`# Judul Bab\n\nTulis penjelasan materi di sini menggunakan Markdown...\n\n## Sub Bab 1\n\nIsi penjelasan...\n\n**Poin penting:** Lorem ipsum\n\n> Kutipan atau catatan penting`}
-                className="w-full p-4 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all text-sm font-mono resize-y leading-relaxed"
+                className="w-full p-4 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm font-mono resize-y leading-relaxed"
               />
               {errors.content && <p className="text-red-500 text-xs mt-1">{errors.content.message}</p>}
               <p className="text-[10px] text-slate-400 font-medium">
@@ -350,7 +350,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
               </div>
             )}
             {success && (
-              <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 text-teal-700 rounded-xl px-4 py-3">
+              <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 text-brand-blue-deep rounded-xl px-4 py-3">
                 <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                 <span className="text-sm font-bold">Tersimpan! Menutup editor...</span>
               </div>
@@ -368,7 +368,7 @@ export function MaterialEditor({ initialData, isOpen, onClose }: Props) {
             type="submit"
             form="material-form"
             disabled={isPending || success || previewMode}
-            className="bg-teal-700 hover:bg-teal-800 text-white font-bold px-8 flex items-center gap-2 disabled:opacity-60"
+            className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold px-8 flex items-center gap-2 disabled:opacity-60"
           >
             {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : success ? <CheckCircle2 className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {isEditing ? "Simpan Perubahan" : "Simpan Materi"}

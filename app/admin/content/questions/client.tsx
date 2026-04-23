@@ -37,7 +37,7 @@ export function QuestionCMSClient({ initialData }: { initialData: any[] }) {
         </Button>
         <Button 
           onClick={openNew}
-          className="flex-1 border-teal-800 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all"
+          className="flex-1 border-brand-blue-deep bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all"
         >
           <Plus className="w-4 h-4 mr-2" />
           Tambah Soal

@@ -50,7 +50,7 @@ export function QuestionRowItem({ question }: { question: any }) {
                   (window as any).triggerEditQuestion(question)
                 }
               }} 
-              className="h-8 text-teal-600 bg-teal-50 hover:bg-teal-100 text-xs font-bold"
+              className="h-8 text-brand-blue bg-blue-50 hover:bg-blue-100 text-xs font-bold"
             >
               <Edit2 className="w-3 h-3 mr-1" /> Edit
             </Button>
@@ -72,7 +72,7 @@ export function QuestionRowItem({ question }: { question: any }) {
                 <div className="lg:col-span-2 space-y-6">
                   {/* Pertanyaan */}
                   <div>
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 border-l-2 border-teal-500 pl-2">Pertanyaan</h4>
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 border-l-2 border-blue-500 pl-2">Pertanyaan</h4>
                     <p className="text-slate-800 font-medium leading-relaxed whitespace-pre-wrap text-[15px]">
                       {question.content}
                     </p>
@@ -87,15 +87,15 @@ export function QuestionRowItem({ question }: { question: any }) {
                         const isBest = opt.score === 5 || (question.category !== 'TKP' && opt.score > 0)
                         
                         return (
-                          <div key={opt.id} className={`flex items-start gap-4 p-3 rounded-xl border ${isBest ? 'bg-teal-50/80 border-teal-100' : 'bg-white border-slate-200'}`}>
-                            <div className={`w-7 h-7 rounded-lg shrink-0 flex items-center justify-center font-black ${isBest ? 'bg-teal-600 text-white shadow-sm' : 'bg-slate-100 text-slate-500'}`}>
+                          <div key={opt.id} className={`flex items-start gap-4 p-3 rounded-xl border ${isBest ? 'bg-blue-50/80 border-blue-100' : 'bg-white border-slate-200'}`}>
+                            <div className={`w-7 h-7 rounded-lg shrink-0 flex items-center justify-center font-black ${isBest ? 'bg-brand-blue text-white shadow-sm' : 'bg-slate-100 text-slate-500'}`}>
                               {label}
                             </div>
                             <div className="flex-1 pt-0.5">
-                              <p className={`font-medium text-[13px] ${isBest ? 'text-teal-900' : 'text-slate-700'}`}>{opt.text}</p>
+                              <p className={`font-medium text-[13px] ${isBest ? 'text-blue-900' : 'text-slate-700'}`}>{opt.text}</p>
                             </div>
                             <div className="shrink-0 flex flex-col items-end justify-center gap-1">
-                              <span className={`text-[10px] font-black px-2 py-0.5 rounded ${isBest ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-600'}`}>
+                              <span className={`text-[10px] font-black px-2 py-0.5 rounded ${isBest ? 'bg-blue-100 text-brand-blue-deep' : 'bg-slate-100 text-slate-600'}`}>
                                 Skor: {opt.score}
                               </span>
                             </div>

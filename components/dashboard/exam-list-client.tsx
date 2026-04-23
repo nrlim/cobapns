@@ -93,12 +93,12 @@ export function ExamListClient({ exams }: ExamListClientProps) {
                   ? "border-slate-200 opacity-70"
                   : attempted
                   ? "border-slate-200 hover:border-slate-300 hover:shadow-md"
-                  : "border-slate-100 hover:border-teal-200 hover:shadow-md"
+                  : "border-slate-100 hover:border-blue-200 hover:shadow-md"
               }`}
             >
               {/* Color-coded top accent */}
               {!exam.isLocked && !attempted && (
-                <div className="h-1 bg-gradient-to-r from-teal-600 to-teal-400" />
+                <div className="h-1 bg-gradient-to-r from-brand-blue to-brand-blue-light" />
               )}
               {!exam.isLocked && attempted && exam.myResult?.overallPass && (
                 <div className="h-1 bg-gradient-to-r from-green-500 to-green-400" />
@@ -111,12 +111,12 @@ export function ExamListClient({ exams }: ExamListClientProps) {
 
                 {/* Icon */}
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  exam.isLocked ? "bg-slate-100" : attempted ? "bg-teal-50 border border-teal-100" : "bg-teal-600"
+                  exam.isLocked ? "bg-slate-100" : attempted ? "bg-blue-50 border border-blue-100" : "bg-brand-blue"
                 }`}>
                   {exam.isLocked ? (
                     <Lock className="w-5 h-5 text-slate-400" />
                   ) : (
-                    <BookOpen className={`w-5 h-5 ${attempted ? "text-teal-600" : "text-white"}`} />
+                    <BookOpen className={`w-5 h-5 ${attempted ? "text-brand-blue" : "text-white"}`} />
                   )}
                 </div>
 
@@ -151,7 +151,7 @@ export function ExamListClient({ exams }: ExamListClientProps) {
                       <Users className="w-3 h-3" /> {exam.resultCount} peserta
                     </span>
                     {attempted && exam.myResult && (
-                      <span className="flex items-center gap-1 text-teal-600 font-bold">
+                      <span className="flex items-center gap-1 text-brand-blue font-bold">
                         <CheckCircle2 className="w-3 h-3" />
                         Skormu: {exam.myResult.totalScore}
                       </span>
@@ -193,7 +193,7 @@ export function ExamListClient({ exams }: ExamListClientProps) {
                       </Link>
                       <button
                         onClick={() => openModal(exam)}
-                        className="flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 rounded-xl text-xs font-bold transition-colors"
+                        className="flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-brand-blue-deep border border-blue-200 rounded-xl text-xs font-bold transition-colors"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         Ulangi Ujian
@@ -202,7 +202,7 @@ export function ExamListClient({ exams }: ExamListClientProps) {
                   ) : (
                     <button
                       onClick={() => openModal(exam)}
-                      className="flex items-center justify-center gap-2 px-6 py-3 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-sm font-bold transition-colors shadow-sm active:scale-95"
+                      className="flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-deep hover:bg-brand-blue-deep text-white rounded-xl text-sm font-bold transition-colors shadow-sm active:scale-95"
                     >
                       Mulai Ujian
                       <ChevronRight className="w-4 h-4" />

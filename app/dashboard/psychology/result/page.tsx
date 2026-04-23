@@ -47,7 +47,7 @@ function DimBar({ label, value, pct }: { label: string; value: number; pct: numb
         <span className="text-[11px] font-black text-slate-900">{value}%</span>
       </div>
       <div className="w-full h-2 rounded-full bg-slate-100">
-        <div className="h-2 rounded-full bg-teal-500 transition-all duration-700" style={{ width: `${pct}%` }} />
+        <div className="h-2 rounded-full bg-blue-500 transition-all duration-700" style={{ width: `${pct}%` }} />
       </div>
     </div>
   )
@@ -83,7 +83,7 @@ export default async function PsychResultPage() {
         {/* ── Page Header ─────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Laporan Asesmen</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Laporan Asesmen</p>
             <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
               Profil {firstName}
             </h1>
@@ -136,14 +136,14 @@ export default async function PsychResultPage() {
               value: psychResult?.personalityType ?? "—",
               sub: pInfo?.tagline ?? "Belum ada data",
               icon: Brain,
-              color: "text-teal-600 bg-teal-50 border-teal-100",
+              color: "text-brand-blue bg-blue-50 border-blue-100",
             },
             {
               label: "Skor IQ",
               value: iqResult ? String(iqResult.totalIQ) : "—",
               sub: iqResult?.interpretation ?? "Belum ada data",
               icon: Zap,
-              color: "text-teal-600 bg-teal-50 border-teal-100",
+              color: "text-brand-blue bg-blue-50 border-blue-100",
             },
             {
               label: "Integritas",
@@ -183,8 +183,8 @@ export default async function PsychResultPage() {
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 bg-teal-50 border border-teal-100 rounded-lg flex items-center justify-center">
-                      <Brain className="w-4 h-4 text-teal-600" />
+                    <div className="w-7 h-7 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-center">
+                      <Brain className="w-4 h-4 text-brand-blue" />
                     </div>
                     <div>
                       <p className="font-black text-slate-900 text-sm">Profil Kepribadian – {psychResult.personalityType}</p>
@@ -193,7 +193,7 @@ export default async function PsychResultPage() {
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {pInfo.traits.slice(0, 3).map(t => (
-                      <span key={t} className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 border border-teal-100">
+                      <span key={t} className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-brand-blue-deep border border-blue-100">
                         {t}
                       </span>
                     ))}
@@ -218,7 +218,7 @@ export default async function PsychResultPage() {
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 text-center">
                 <Brain className="w-10 h-10 text-slate-200 mx-auto mb-3" />
                 <p className="font-bold text-slate-500 text-sm mb-2">Psikotes belum dikerjakan</p>
-                <Link href="/dashboard/psychology/test" className="inline-flex items-center gap-1 text-xs font-bold text-teal-700 hover:underline">
+                <Link href="/dashboard/psychology/test" className="inline-flex items-center gap-1 text-xs font-bold text-brand-blue-deep hover:underline">
                   Mulai psikotes <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -229,15 +229,15 @@ export default async function PsychResultPage() {
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 bg-teal-50 border border-teal-100 rounded-lg flex items-center justify-center">
-                      <Zap className="w-4 h-4 text-teal-600" />
+                    <div className="w-7 h-7 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-brand-blue" />
                     </div>
                     <div>
                       <p className="font-black text-slate-900 text-sm">Hasil Tes IQ</p>
                       <p className="text-[10px] text-slate-400 font-medium">Skor terstandarisasi (Mean 100, SD 15)</p>
                     </div>
                   </div>
-                  <span className="text-xs font-black text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-full">
+                  <span className="text-xs font-black text-brand-blue-deep bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full">
                     IQ {iqResult.totalIQ}
                   </span>
                 </div>
@@ -253,7 +253,7 @@ export default async function PsychResultPage() {
                         key={band.label}
                         className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-all ${
                           band.label === iqResult.interpretation
-                            ? "bg-teal-700 text-white"
+                            ? "bg-brand-blue-deep text-white"
                             : "bg-slate-50 text-slate-500"
                         }`}
                       >
@@ -285,7 +285,7 @@ export default async function PsychResultPage() {
                             </div>
                             <div className="text-lg font-black text-slate-900">{raw}<span className="text-xs text-slate-400 font-medium">/{total}</span></div>
                             <div className="w-full h-1.5 rounded-full bg-slate-200 mt-2">
-                              <div className="h-1.5 rounded-full bg-teal-500" style={{ width: `${pct}%` }} />
+                              <div className="h-1.5 rounded-full bg-blue-500" style={{ width: `${pct}%` }} />
                             </div>
                           </div>
                         )
@@ -300,7 +300,7 @@ export default async function PsychResultPage() {
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 text-center">
                 <Zap className="w-10 h-10 text-slate-200 mx-auto mb-3" />
                 <p className="font-bold text-slate-500 text-sm mb-2">Tes IQ belum dikerjakan</p>
-                <Link href="/dashboard/iq-test" className="inline-flex items-center gap-1 text-xs font-bold text-teal-700 hover:underline">
+                <Link href="/dashboard/iq-test" className="inline-flex items-center gap-1 text-xs font-bold text-brand-blue-deep hover:underline">
                   Mulai tes IQ <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -331,26 +331,26 @@ export default async function PsychResultPage() {
 
             {/* Career Recommendations */}
             {hasPsych && careerRecs && (
-              <div className="relative bg-gradient-to-br from-teal-800 via-teal-700 to-teal-600 rounded-2xl p-5 text-white overflow-hidden">
+              <div className="relative bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-brand-blue rounded-2xl p-5 text-white overflow-hidden">
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-4 h-4 text-teal-300" />
+                    <Sparkles className="w-4 h-4 text-blue-300" />
                     <h3 className="font-black text-sm">Rekomendasi Jabatan</h3>
                   </div>
-                  <p className="text-teal-100 text-xs font-medium mb-4 leading-relaxed">
+                  <p className="text-blue-100 text-xs font-medium mb-4 leading-relaxed">
                     Berdasarkan profil <span className="font-black text-white">{psychResult?.personalityType}</span> kamu.
                   </p>
 
                   {careerRecs.positions && careerRecs.positions.length > 0 && (
                     <div className="mb-3">
                       <div className="flex items-center gap-1.5 mb-2">
-                        <Briefcase className="w-3 h-3 text-teal-300" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-teal-200">Formasi Jabatan</span>
+                        <Briefcase className="w-3 h-3 text-blue-300" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-200">Formasi Jabatan</span>
                       </div>
                       <div className="space-y-1.5">
                         {careerRecs.positions.map(p => (
                           <div key={p} className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
-                            <ChevronRight className="w-3 h-3 text-teal-300 flex-shrink-0" />
+                            <ChevronRight className="w-3 h-3 text-blue-300 flex-shrink-0" />
                             <span className="text-xs font-bold">{p}</span>
                           </div>
                         ))}
@@ -361,13 +361,13 @@ export default async function PsychResultPage() {
                   {careerRecs.instansi && careerRecs.instansi.length > 0 && (
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
-                        <Building2 className="w-3 h-3 text-teal-300" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-teal-200">Instansi Ideal</span>
+                        <Building2 className="w-3 h-3 text-blue-300" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-200">Instansi Ideal</span>
                       </div>
                       <div className="space-y-1.5">
                         {careerRecs.instansi.map(inst => (
                           <div key={inst} className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
-                            <ChevronRight className="w-3 h-3 text-teal-300 flex-shrink-0" />
+                            <ChevronRight className="w-3 h-3 text-blue-300 flex-shrink-0" />
                             <span className="text-xs font-bold">{inst}</span>
                           </div>
                         ))}
@@ -376,7 +376,7 @@ export default async function PsychResultPage() {
                   )}
 
                   {(!careerRecs.positions?.length && !careerRecs.instansi?.length) && (
-                    <p className="text-xs text-teal-200 font-medium">
+                    <p className="text-xs text-blue-200 font-medium">
                       Tambahkan data jabatan di Admin Panel untuk mengaktifkan rekomendasi.
                     </p>
                   )}

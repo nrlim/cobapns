@@ -186,7 +186,7 @@ export function LookupClient({
               onClick={() => handleTabChange(tab.value)}
               className={`px-4 py-2 text-sm font-bold rounded-lg transition-all whitespace-nowrap ${
                 activeType === tab.value
-                  ? "bg-white text-teal-700 shadow-sm"
+                  ? "bg-white text-brand-blue-deep shadow-sm"
                   : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
               }`}
             >
@@ -214,7 +214,7 @@ export function LookupClient({
           </button>
           <button 
             onClick={() => handleOpenDialog()}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-teal-500/25"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue hover:bg-brand-blue-deep active:bg-brand-blue-deep text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-blue-500/25"
           >
             <Plus className="w-4 h-4" />
             <span>Tambah Data</span>
@@ -226,7 +226,7 @@ export function LookupClient({
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden relative">
         {isPending && (
           <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-10 flex items-center justify-center">
-            <RefreshCw className="w-6 h-6 animate-spin text-teal-600" />
+            <RefreshCw className="w-6 h-6 animate-spin text-brand-blue" />
           </div>
         )}
 
@@ -239,7 +239,7 @@ export function LookupClient({
               placeholder={`Cari ${TABS.find(t => t.value === activeType)?.label}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
             />
             <button type="submit" className="hidden">Search</button>
           </form>
@@ -270,7 +270,7 @@ export function LookupClient({
                     </td>
                     <td className="px-6 py-4">
                       {item.isActive ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-black bg-teal-50 text-teal-700 border border-teal-200">ACTIVE</span>
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-black bg-blue-50 text-brand-blue-deep border border-blue-200">ACTIVE</span>
                       ) : (
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-black bg-slate-100 text-slate-600 border border-slate-200">INACTIVE</span>
                       )}
@@ -279,7 +279,7 @@ export function LookupClient({
                       <div className="flex items-center justify-end gap-2">
                         <button 
                           onClick={() => handleOpenDialog(item)}
-                          className="p-1.5 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-md transition-all"
+                          className="p-1.5 text-slate-400 hover:text-brand-blue hover:bg-blue-50 rounded-md transition-all"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
@@ -351,7 +351,7 @@ export function LookupClient({
               
               {statusMsg && (
                 <div className={`flex gap-2 p-3 text-sm font-medium rounded-xl border ${
-                  statusMsg.type === "error" ? "bg-red-50 border-red-200 text-red-800" : "bg-teal-50 border-teal-200 text-teal-800"
+                  statusMsg.type === "error" ? "bg-red-50 border-red-200 text-red-800" : "bg-blue-50 border-blue-200 text-brand-blue-deep"
                 }`}>
                   {statusMsg.type === "error" ? <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> : <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />}
                   {statusMsg.msg}
@@ -368,7 +368,7 @@ export function LookupClient({
                   defaultValue={editingItem?.name || ""}
                   required
                   disabled={isPending}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:bg-white transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all disabled:opacity-60"
                   placeholder="Masukkan nama..."
                 />
               </div>
@@ -385,7 +385,7 @@ export function LookupClient({
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 disabled:bg-teal-400 text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-teal-500/25"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-blue hover:bg-brand-blue-deep active:bg-brand-blue-deep disabled:bg-brand-blue-light text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-blue-500/25"
                 >
                   {isPending && <RefreshCw className="w-4 h-4 animate-spin" />}
                   {isPending ? "Menyimpan..." : "Simpan Data"}

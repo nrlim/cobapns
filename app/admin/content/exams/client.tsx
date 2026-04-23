@@ -66,7 +66,7 @@ interface ExamTableClientProps {
 const STATUS_BADGE: Record<string, string> = {
   DRAFT:     "border-slate-200 bg-slate-50 text-slate-600",
   SCHEDULED: "border-blue-200 bg-blue-50 text-blue-700",
-  PUBLISHED: "border-teal-200 bg-teal-50 text-teal-700",
+  PUBLISHED: "border-blue-200 bg-blue-50 text-brand-blue-deep",
 }
 
 const TIER_BADGE: Record<string, string> = {
@@ -113,7 +113,7 @@ export function ExamTableClient({ exams: initialExams, bankStats }: ExamTableCli
       {/* ── Page Header ────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Exam Engine</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Exam Engine</p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Exam Builder</h2>
           <p className="text-slate-500 font-medium mt-1 text-sm">
             Buat, konfigurasi, dan publikasikan ujian CAT untuk siswa.
@@ -121,7 +121,7 @@ export function ExamTableClient({ exams: initialExams, bankStats }: ExamTableCli
         </div>
         <Button
           onClick={openCreate}
-          className="bg-teal-700 hover:bg-teal-800 text-white font-bold flex items-center gap-2 flex-shrink-0 shadow-sm"
+          className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold flex items-center gap-2 flex-shrink-0 shadow-sm"
         >
           <Plus className="w-4 h-4" />
           Buat Ujian Baru
@@ -209,7 +209,7 @@ export function ExamTableClient({ exams: initialExams, bankStats }: ExamTableCli
                     {/* Ujian */}
                     <TableCell className="py-4">
                       <div className="flex flex-col gap-0.5">
-                        <span className="font-semibold text-slate-900 text-sm group-hover:text-teal-700 transition-colors">
+                        <span className="font-semibold text-slate-900 text-sm group-hover:text-brand-blue-deep transition-colors">
                           {exam.title}
                         </span>
                         <span className="text-[11px] text-slate-400 font-medium">
@@ -264,7 +264,7 @@ export function ExamTableClient({ exams: initialExams, bankStats }: ExamTableCli
                           variant="ghost"
                           size="sm"
                           asChild
-                          className="h-8 text-teal-600 bg-teal-50 hover:bg-teal-100 text-xs font-bold"
+                          className="h-8 text-brand-blue bg-blue-50 hover:bg-blue-100 text-xs font-bold"
                         >
                           <a href={`/admin/content/exams/${exam.id}`}>
                             <Wand2 className="w-3 h-3 mr-1" />

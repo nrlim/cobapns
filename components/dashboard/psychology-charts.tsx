@@ -93,7 +93,7 @@ export function IQGauge({ iq }: IQGaugeProps) {
     iq >= 130 ? "#7c3aed" :
     iq >= 120 ? "#2563eb" :
     iq >= 110 ? "#0891b2" :
-    iq >= 90  ? "#0d9488" :
+    iq >= 90  ? "#1E73BE" :
     iq >= 80  ? "#d97706" :
                 "#ef4444"
 

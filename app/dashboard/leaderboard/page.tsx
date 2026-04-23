@@ -86,7 +86,7 @@ export default async function LeaderboardPage() {
         {/* ── Page Header ─────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-widest text-teal-700 mb-1 flex items-center gap-2">
+            <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1 flex items-center gap-2">
               <Trophy className="w-3.5 h-3.5" />
               Kompetisi Global
             </p>
@@ -104,15 +104,15 @@ export default async function LeaderboardPage() {
 
           {/* personal rank pill */}
           {initial.currentUser && (
-            <div className="flex items-center gap-2.5 bg-teal-50 border border-teal-200 rounded-2xl px-4 py-2.5 shrink-0 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white text-xs font-black">
+            <div className="flex items-center gap-2.5 bg-blue-50 border border-blue-200 rounded-2xl px-4 py-2.5 shrink-0 shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-brand-blue flex items-center justify-center text-white text-xs font-black">
                 {initial.currentUser.initials}
               </div>
               <div>
-                <p className="text-[10px] font-black text-teal-500 uppercase tracking-widest">Peringkat Anda</p>
-                <p className="text-sm font-black text-teal-800">
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Peringkat Anda</p>
+                <p className="text-sm font-black text-brand-blue-deep">
                   #{initial.currentUser.rank}{" "}
-                  <span className="text-teal-500 font-medium text-xs">
+                  <span className="text-blue-500 font-medium text-xs">
                     dari {initial.totalCount.toLocaleString("id-ID")}
                   </span>
                 </p>

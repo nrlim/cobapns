@@ -78,18 +78,18 @@ export default async function QuestionDetailPage(props: { params: Promise<{ id: 
                 const isBest = opt.score === 5 || (question.category !== 'TKP' && opt.score > 0)
                 
                 return (
-                  <div key={opt.id} className={`flex items-start gap-4 p-4 rounded-xl border ${isBest ? 'bg-teal-50/50 border-teal-100' : 'bg-slate-50 border-slate-100'}`}>
-                    <div className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center font-black ${isBest ? 'bg-teal-600 text-white shadow-md' : 'bg-white text-slate-500 shadow-sm border border-slate-200'}`}>
+                  <div key={opt.id} className={`flex items-start gap-4 p-4 rounded-xl border ${isBest ? 'bg-blue-50/50 border-blue-100' : 'bg-slate-50 border-slate-100'}`}>
+                    <div className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center font-black ${isBest ? 'bg-brand-blue text-white shadow-md' : 'bg-white text-slate-500 shadow-sm border border-slate-200'}`}>
                       {label}
                     </div>
                     <div className="flex-1 pt-1">
-                      <p className={`font-medium ${isBest ? 'text-teal-900' : 'text-slate-700'}`}>{opt.text}</p>
+                      <p className={`font-medium ${isBest ? 'text-blue-900' : 'text-slate-700'}`}>{opt.text}</p>
                     </div>
                     <div className="shrink-0 flex flex-col items-end justify-center gap-1">
-                      <span className={`text-xs font-black px-2 py-1 rounded-md ${isBest ? 'bg-teal-100 text-teal-800' : 'bg-slate-200 text-slate-600'}`}>
+                      <span className={`text-xs font-black px-2 py-1 rounded-md ${isBest ? 'bg-blue-100 text-brand-blue-deep' : 'bg-slate-200 text-slate-600'}`}>
                         Skor: {opt.score}
                       </span>
-                      {isBest && <CheckCircle2 className="w-4 h-4 text-teal-500" />}
+                      {isBest && <CheckCircle2 className="w-4 h-4 text-blue-500" />}
                     </div>
                   </div>
                 )

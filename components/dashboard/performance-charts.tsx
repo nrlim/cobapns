@@ -57,11 +57,11 @@ export function CategoryRadarChart({ avgTWK, avgTIU, avgTKP }: RadarProps) {
         <Radar
           name="Skor Kamu"
           dataKey="score"
-          stroke="#0D9488"
-          fill="#0D9488"
+          stroke="#1E73BE"
+          fill="#1E73BE"
           fillOpacity={0.25}
           strokeWidth={2.5}
-          dot={{ r: 4, fill: "#0D9488", strokeWidth: 0 }}
+          dot={{ r: 4, fill: "#1E73BE", strokeWidth: 0 }}
         />
         <Tooltip
           contentStyle={{
@@ -109,8 +109,8 @@ export function ScoreTrendChart({ trend }: TrendProps) {
         cx={cx}
         cy={cy}
         r={4}
-        stroke={payload.pass ? "#0D9488" : "#ef4444"}
-        fill={payload.pass ? "#ccfbf1" : "#fee2e2"}
+        stroke={payload.pass ? "#1E73BE" : "#ef4444"}
+        fill={payload.pass ? "#2A8BD6" : "#fee2e2"}
         strokeWidth={2}
       />
     )
@@ -177,7 +177,7 @@ export function ScoreTrendChart({ trend }: TrendProps) {
         <Line
           type="monotone"
           dataKey="Total"
-          stroke="#0D9488"
+          stroke="#1E73BE"
           strokeWidth={2.5}
           strokeDasharray="5 3"
           dot={false}

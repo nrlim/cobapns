@@ -162,7 +162,7 @@ export function ExamQuestionBuilderClient({
       {/* Toast */}
       {toast && (
         <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl shadow-lg text-sm font-bold ${
-          toast.type === "ok" ? "bg-teal-700 text-white" : "bg-red-600 text-white"
+          toast.type === "ok" ? "bg-brand-blue-deep text-white" : "bg-red-600 text-white"
         }`}>
           {toast.msg}
         </div>
@@ -196,7 +196,7 @@ export function ExamQuestionBuilderClient({
           {/* Auto-generate */}
           <div className="flex items-center gap-2">
             <select
-              className="text-sm rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-medium outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+              className="text-sm rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-medium outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               value={randomDiff}
               onChange={(e) => setRandomDiff(e.target.value as Difficulty | "")}
             >
@@ -219,7 +219,7 @@ export function ExamQuestionBuilderClient({
           <Button
             onClick={handleSave}
             disabled={isPending}
-            className="bg-teal-700 hover:bg-teal-800 text-white font-bold gap-2"
+            className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold gap-2"
           >
             {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Simpan ({total} soal)
@@ -249,7 +249,7 @@ export function ExamQuestionBuilderClient({
               onClick={() => applyCategory(cat as Category | "ALL")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                 filterCategory === cat
-                  ? "bg-teal-700 text-white"
+                  ? "bg-brand-blue-deep text-white"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
@@ -289,7 +289,7 @@ export function ExamQuestionBuilderClient({
           <button
             onClick={togglePageAll}
             className={`flex-shrink-0 transition-colors ${
-              pageAllSelected ? "text-teal-600" : pagePartial ? "text-teal-400" : "text-slate-300 hover:text-slate-400"
+              pageAllSelected ? "text-brand-blue" : pagePartial ? "text-brand-blue-light" : "text-slate-300 hover:text-slate-400"
             }`}
             title="Pilih/batalkan semua soal di halaman ini"
           >
@@ -321,12 +321,12 @@ export function ExamQuestionBuilderClient({
                   key={q.id}
                   onClick={() => toggleQuestion(q.id)}
                   className={`w-full flex items-start gap-4 px-5 py-4 text-left transition-colors group ${
-                    isSelected ? "bg-teal-50/50 hover:bg-teal-50" : "hover:bg-slate-50/80"
+                    isSelected ? "bg-blue-50/50 hover:bg-blue-50" : "hover:bg-slate-50/80"
                   }`}
                 >
                   {/* Checkbox */}
                   <div className={`mt-0.5 flex-shrink-0 transition-colors ${
-                    isSelected ? "text-teal-600" : "text-slate-300 group-hover:text-slate-400"
+                    isSelected ? "text-brand-blue" : "text-slate-300 group-hover:text-slate-400"
                   }`}>
                     {isSelected
                       ? <CheckSquare2 className="w-5 h-5" />
@@ -352,7 +352,7 @@ export function ExamQuestionBuilderClient({
 
                   {/* Selection indicator */}
                   {isSelected && (
-                    <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-brand-blue flex-shrink-0 mt-0.5" />
                   )}
                 </button>
               )
@@ -398,7 +398,7 @@ export function ExamQuestionBuilderClient({
                       onClick={() => setPage(item as number)}
                       className={`w-8 h-8 rounded-lg text-sm font-bold transition-colors ${
                         safePage === item
-                          ? "bg-teal-700 text-white"
+                          ? "bg-brand-blue-deep text-white"
                           : "text-slate-500 hover:bg-slate-100"
                       }`}
                     >

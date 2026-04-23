@@ -79,7 +79,7 @@ function loadSnapScript(): Promise<void> {
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG = {
-  SUCCESS: { label: "Sukses",     icon: CheckCircle2, cls: "bg-teal-50 text-teal-700 border-teal-200" },
+  SUCCESS: { label: "Sukses",     icon: CheckCircle2, cls: "bg-blue-50 text-brand-blue-deep border-blue-200" },
   PENDING: { label: "Menunggu",   icon: Clock,        cls: "bg-amber-50 text-amber-700 border-amber-200" },
   FAILED:  { label: "Gagal",      icon: XCircle,      cls: "bg-red-50 text-red-700 border-red-200" },
   EXPIRED: { label: "Kadaluarsa", icon: AlertCircle,  cls: "bg-slate-50 text-slate-500 border-slate-200" },
@@ -136,7 +136,7 @@ function ResumePayButton({ snapToken, planLabel }: { snapToken: string; planLabe
 
   if (done) {
     return (
-      <div className="flex items-center gap-1.5 text-xs font-bold text-teal-700">
+      <div className="flex items-center gap-1.5 text-xs font-bold text-brand-blue-deep">
         <CheckCircle2 className="w-3.5 h-3.5" /> Pembayaran diproses
       </div>
     )
@@ -181,7 +181,7 @@ function FAQModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       <div className="bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-teal-600" />
+            <HelpCircle className="w-5 h-5 text-brand-blue" />
             <h3 className="font-black text-slate-900">Pertanyaan Umum</h3>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
@@ -202,7 +202,7 @@ function FAQModal({ open, onClose }: { open: boolean; onClose: () => void }) {
             href="https://wa.me/62812345678"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-blue-deep hover:underline"
           >
             <MessageCircle className="w-3.5 h-3.5" /> Chat WhatsApp
           </a>
@@ -237,7 +237,7 @@ export function PaymentHistory({ transactions }: PaymentHistoryProps) {
           </div>
           <button
             onClick={() => setFaqOpen(true)}
-            className="flex items-center gap-1.5 text-sm font-bold text-slate-600 hover:text-teal-700 transition-colors border border-slate-200 hover:border-slate-300 bg-white rounded-lg px-3 py-2"
+            className="flex items-center gap-1.5 text-sm font-bold text-slate-600 hover:text-brand-blue-deep transition-colors border border-slate-200 hover:border-slate-300 bg-white rounded-lg px-3 py-2"
           >
             <HelpCircle className="w-4 h-4" /> FAQ
           </button>
@@ -294,7 +294,7 @@ export function PaymentHistory({ transactions }: PaymentHistoryProps) {
               >
                 {/* Plan icon */}
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-black ${
-                  tx.planType === "ELITE" ? "bg-teal-50 text-teal-700" :
+                  tx.planType === "ELITE" ? "bg-blue-50 text-brand-blue-deep" :
                   tx.planType === "MASTER" ? "bg-violet-50 text-violet-700" : "bg-slate-50 text-slate-500"
                 }`}>
                   {tx.planType === "ELITE" ? "E" : tx.planType === "MASTER" ? "M" : "F"}
@@ -310,7 +310,7 @@ export function PaymentHistory({ transactions }: PaymentHistoryProps) {
                 <div className="text-right flex-shrink-0 hidden sm:block">
                   <p className="font-black text-slate-900 text-sm">{fmtIDR(tx.amount)}</p>
                   {tx.discountAmount > 0 && (
-                    <p className="text-[11px] font-bold text-teal-600">- {fmtIDR(tx.discountAmount)}</p>
+                    <p className="text-[11px] font-bold text-brand-blue">- {fmtIDR(tx.discountAmount)}</p>
                   )}
                 </div>
 
@@ -336,7 +336,7 @@ export function PaymentHistory({ transactions }: PaymentHistoryProps) {
                   {tx.promoCode && (
                     <div>
                       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Promo</p>
-                      <p className="font-mono font-bold text-teal-700 text-xs">{tx.promoCode}</p>
+                      <p className="font-mono font-bold text-brand-blue-deep text-xs">{tx.promoCode}</p>
                     </div>
                   )}
                   {tx.paidAt && (

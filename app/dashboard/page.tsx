@@ -54,7 +54,7 @@ export default async function StudentDashboardPage() {
   const tierLabel: Record<string, string> = { FREE: "Free", ELITE: "Elite", MASTER: "Master" }
   const tierColor: Record<string, string> = {
     FREE:   "bg-slate-100 text-slate-600",
-    ELITE:  "bg-teal-50 text-teal-700 border border-teal-200",
+    ELITE:  "text-white border border-white/20",
     MASTER: "bg-amber-50 text-amber-700 border border-amber-200",
   }
   const tier = user?.subscriptionTier ?? "FREE"
@@ -70,7 +70,12 @@ export default async function StudentDashboardPage() {
         {/* ── Welcome Header ──────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Student Portal</p>
+            <p
+              className="text-xs font-bold uppercase tracking-widest mb-1"
+              style={{ color: "#1E73BE" }}
+            >
+              Student Portal
+            </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
               Halo, {firstName}! 👋
             </h2>
@@ -78,7 +83,16 @@ export default async function StudentDashboardPage() {
               Siap melanjutkan perjalanan menuju kelulusan CPNS hari ini?
             </p>
           </div>
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold flex-shrink-0 ${tierColor[tier]}`}>
+          <div
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold flex-shrink-0 ${
+              tier === "ELITE" ? "" : tierColor[tier]
+            }`}
+            style={
+              tier === "ELITE"
+                ? { background: "linear-gradient(135deg, #1E73BE, #2DBE60)", color: "#fff" }
+                : {}
+            }
+          >
             <Trophy className="w-3.5 h-3.5" />
             Paket {tierLabel[tier]}
           </div>
@@ -92,34 +106,45 @@ export default async function StudentDashboardPage() {
               value: totalExamsTaken,
               sub: `dari ${publishedExamCount} tersedia`,
               icon: ClipboardList,
-              color: "text-teal-600 bg-teal-50 border-teal-100",
+              iconBg: "#EFF6FF",
+              iconColor: "#1E73BE",
+              borderColor: "#BFDBFE",
             },
             {
               label: "Ujian Lulus",
               value: passedCount,
               sub: `${passRate}% pass rate`,
               icon: CheckCircle2,
-              color: "text-green-600 bg-green-50 border-green-100",
+              iconBg: "#F0FDF4",
+              iconColor: "#2DBE60",
+              borderColor: "#BBF7D0",
             },
             {
               label: "Ujian Tersedia",
               value: publishedExamCount,
               sub: "siap dikerjakan",
               icon: BookOpen,
-              color: "text-blue-600 bg-blue-50 border-blue-100",
+              iconBg: "#F0F9FF",
+              iconColor: "#2A8BD6",
+              borderColor: "#BAE6FD",
             },
             {
               label: "Streak Belajar",
               value: "7",
               sub: "hari berturut-turut",
               icon: Zap,
-              color: "text-amber-600 bg-amber-50 border-amber-100",
+              iconBg: "#FFFBEB",
+              iconColor: "#D97706",
+              borderColor: "#FDE68A",
             },
-          ].map(({ label, value, sub, icon: Icon, color }) => (
+          ].map(({ label, value, sub, icon: Icon, iconBg, iconColor, borderColor }) => (
             <div key={label} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{label}</p>
-                <div className={`w-8 h-8 rounded-lg border flex items-center justify-center ${color}`}>
+                <div
+                  className="w-8 h-8 rounded-lg border flex items-center justify-center"
+                  style={{ background: iconBg, borderColor, color: iconColor }}
+                >
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
@@ -134,17 +159,23 @@ export default async function StudentDashboardPage() {
           {/* ── Left Column ─────────────────────────────────────── */}
           <div className="lg:col-span-2 space-y-6">
 
-            {/* Hero CTA Banner */}
-            <div className="relative bg-gradient-to-br from-teal-800 via-teal-700 to-teal-600 rounded-2xl p-6 text-white shadow-sm overflow-hidden">
+            {/* Hero CTA Banner — Signature Blue→Green Gradient */}
+            <div
+              className="relative rounded-2xl p-6 text-white shadow-sm overflow-hidden"
+              style={{ background: "linear-gradient(135deg, #0F4FA8 0%, #1E73BE 50%, #2DBE60 100%)" }}
+            >
               <div className="relative z-10">
-                <p className="text-teal-200 text-[10px] font-bold tracking-widest uppercase mb-1">Simulasi CAT CPNS</p>
+                <p className="text-[10px] font-bold tracking-widest uppercase mb-1 text-white/70">
+                  Simulasi CAT CPNS
+                </p>
                 <h3 className="text-xl font-black mb-1 tracking-tight">Mulai Try Out Sekarang</h3>
-                <p className="text-teal-100 text-sm font-medium mb-5 max-w-sm">
+                <p className="text-white/80 text-sm font-medium mb-5 max-w-sm">
                   {publishedExamCount} ujian tersedia. Uji kemampuan SKD-mu dengan simulasi CAT real.
                 </p>
                 <Link
                   href="/dashboard/exams"
-                  className="inline-flex items-center gap-2 bg-white text-teal-800 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-teal-50 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-50 transition-colors shadow-sm"
+                  style={{ color: "#1E73BE" }}
                 >
                   <PlayCircle className="w-4 h-4" />
                   Lihat Daftar Ujian
@@ -153,14 +184,17 @@ export default async function StudentDashboardPage() {
               </div>
               {/* Decorative */}
               <TrendingUp className="absolute right-4 bottom-4 w-28 h-28 text-white/10" />
-              <div className="absolute -top-8 -right-8 w-32 h-32 bg-teal-500/20 rounded-full" />
+              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white/10" />
             </div>
 
             {/* AI Diagnostic */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center">
-                  <BrainCircuit className="w-4 h-4 text-indigo-500" />
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ background: "#EFF6FF", border: "1px solid #BFDBFE" }}
+                >
+                  <BrainCircuit className="w-4 h-4" style={{ color: "#1E73BE" }} />
                 </div>
                 <div>
                   <h3 className="font-black text-slate-900 text-sm">AI Diagnostic</h3>
@@ -171,11 +205,17 @@ export default async function StudentDashboardPage() {
                 Berdasarkan hasil try out terakhir, kamu paling lemah di materi{" "}
                 <span className="font-bold text-slate-900">Silogisme (TIU)</span>. Fokus latihan di sub-bab ini
                 dapat meningkatkan skormu hingga{" "}
-                <span className="font-bold text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-100">+15 poin</span>.
+                <span
+                  className="font-bold px-1.5 py-0.5 rounded border text-sm"
+                  style={{ color: "#1FA84E", background: "#F0FDF4", borderColor: "#BBF7D0" }}
+                >
+                  +15 poin
+                </span>.
               </p>
               <Link
                 href="/dashboard/learning"
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-colors uppercase tracking-widest"
+                className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors uppercase tracking-widest"
+                style={{ color: "#1E73BE", background: "#EFF6FF" }}
               >
                 Mulai Latihan <ChevronRight className="w-3.5 h-3.5" />
               </Link>
@@ -189,29 +229,39 @@ export default async function StudentDashboardPage() {
                   icon: Zap,
                   title: "Kerjakan Try Out",
                   sub: `${publishedExamCount} ujian tersedia`,
-                  iconColor: "bg-teal-50 border-teal-100 text-teal-600",
+                  iconBg: "#EFF6FF",
+                  iconBorder: "#BFDBFE",
+                  iconColor: "#1E73BE",
                 },
                 {
                   href: "/dashboard/learning",
                   icon: BookOpen,
                   title: "Baca Materi SKD",
                   sub: "TWK · TIU · TKP",
-                  iconColor: "bg-blue-50 border-blue-100 text-blue-600",
+                  iconBg: "#F0F9FF",
+                  iconBorder: "#BAE6FD",
+                  iconColor: "#2A8BD6",
                 },
-              ].map(({ href, icon: Icon, title, sub, iconColor }) => (
+              ].map(({ href, icon: Icon, title, sub, iconBg, iconBorder, iconColor }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex items-center gap-4 hover:border-teal-200 hover:shadow-md transition-all group"
+                  className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-all group"
+                  style={{ borderColor: "transparent" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "#BFDBFE" }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "transparent" }}
                 >
-                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center flex-shrink-0 ${iconColor}`}>
+                  <div
+                    className="w-10 h-10 rounded-xl border flex items-center justify-center flex-shrink-0"
+                    style={{ background: iconBg, borderColor: iconBorder, color: iconColor }}
+                  >
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-bold text-slate-900 text-sm group-hover:text-teal-700 transition-colors">{title}</div>
+                    <div className="font-bold text-slate-900 text-sm group-hover:transition-colors" style={{ color: "inherit" }}>{title}</div>
                     <div className="text-[11px] text-slate-400 font-medium">{sub}</div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-500 transition-colors ml-auto flex-shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-slate-300 ml-auto flex-shrink-0" />
                 </Link>
               ))}
             </div>
@@ -223,7 +273,11 @@ export default async function StudentDashboardPage() {
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
                 <h3 className="font-black text-slate-900 text-sm">Riwayat Ujian</h3>
-                <Link href="/dashboard/exams" className="text-[10px] font-bold text-teal-700 uppercase tracking-widest hover:underline">
+                <Link
+                  href="/dashboard/exams"
+                  className="text-[10px] font-bold uppercase tracking-widest hover:underline"
+                  style={{ color: "#1E73BE" }}
+                >
                   Semua
                 </Link>
               </div>
@@ -232,7 +286,11 @@ export default async function StudentDashboardPage() {
                 <div className="p-8 text-center">
                   <ClipboardList className="w-8 h-8 text-slate-200 mx-auto mb-2" />
                   <p className="text-sm font-medium text-slate-400">Belum ada ujian dikerjakan.</p>
-                  <Link href="/dashboard/exams" className="text-xs text-teal-600 font-bold hover:underline mt-1 inline-block">
+                  <Link
+                    href="/dashboard/exams"
+                    className="text-xs font-bold hover:underline mt-1 inline-block"
+                    style={{ color: "#2DBE60" }}
+                  >
                     Mulai sekarang →
                   </Link>
                 </div>
@@ -245,14 +303,17 @@ export default async function StudentDashboardPage() {
                       className="block px-5 py-4 hover:bg-slate-50/80 transition-colors group"
                     >
                       <div className="flex items-start justify-between gap-2 mb-1">
-                        <p className="text-[13px] font-bold text-slate-900 group-hover:text-teal-700 transition-colors line-clamp-1">
+                        <p
+                          className="text-[13px] font-bold text-slate-900 line-clamp-1 group-hover:transition-colors"
+                          style={{ color: "inherit" }}
+                        >
                           {r.exam.title}
                         </p>
-                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 ${
-                          r.overallPass
-                            ? "bg-teal-50 text-teal-700 border border-teal-200"
-                            : "bg-red-50 text-red-600 border border-red-200"
-                        }`}>
+                        <span
+                          className={`text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 ${
+                            r.overallPass ? "badge-lolos" : "badge-gagal"
+                          }`}
+                        >
                           {r.overallPass ? "LULUS" : "GAGAL"}
                         </span>
                       </div>
@@ -266,27 +327,30 @@ export default async function StudentDashboardPage() {
               )}
             </div>
 
-            {/* Progress Toward Kelulusan */}
+            {/* Progress Toward Kelulusan — Brand Gradient Bars */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
               <div className="flex items-center gap-2 mb-4">
-                <Target className="w-4 h-4 text-teal-600" />
+                <Target className="w-4 h-4" style={{ color: "#1E73BE" }} />
                 <h3 className="font-black text-slate-900 text-sm">Progress Kelulusan</h3>
               </div>
               <div className="space-y-3">
                 {[
-                  { label: "TWK",  pct: 72, color: "bg-red-500", trackColor: "bg-red-100" },
-                  { label: "TIU",  pct: 58, color: "bg-blue-500", trackColor: "bg-blue-100" },
-                  { label: "TKP",  pct: 85, color: "bg-purple-500", trackColor: "bg-purple-100" },
-                ].map(({ label, pct, color, trackColor }) => (
+                  { label: "TWK", pct: 72 },
+                  { label: "TIU", pct: 58 },
+                  { label: "TKP", pct: 85 },
+                ].map(({ label, pct }) => (
                   <div key={label}>
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-[11px] font-bold text-slate-600">{label}</span>
                       <span className="text-[11px] font-black text-slate-900">{pct}%</span>
                     </div>
-                    <div className={`w-full h-2 rounded-full ${trackColor}`}>
+                    <div className="w-full h-2 rounded-full bg-slate-100">
                       <div
-                        className={`h-2 rounded-full ${color} transition-all`}
-                        style={{ width: `${pct}%` }}
+                        className="h-2 rounded-full transition-all"
+                        style={{
+                          width: `${pct}%`,
+                          background: "linear-gradient(135deg, #1E73BE, #2DBE60)",
+                        }}
                       />
                     </div>
                   </div>
@@ -313,7 +377,8 @@ export default async function StudentDashboardPage() {
                 </p>
                 <Link
                   href="/dashboard/pembelian"
-                  className="flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors"
+                  className="flex items-center justify-center gap-2 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors"
+                  style={{ background: "linear-gradient(135deg, #1E73BE, #2DBE60)" }}
                 >
                   Lihat Paket <ArrowRight className="w-3.5 h-3.5" />
                 </Link>

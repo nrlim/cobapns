@@ -136,8 +136,8 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
       {activeSubscription && activePlanId !== "FREE" && (
         <div className="bg-white border border-slate-200 rounded-xl p-5 mb-10 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-teal-50 border border-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Zap className="w-5 h-5 text-teal-600" />
+            <div className="w-10 h-10 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Zap className="w-5 h-5 text-brand-blue" />
             </div>
             <div>
               <p className="text-sm font-black text-slate-900">
@@ -168,7 +168,7 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
               key={plan.id}
               className={`relative flex flex-col rounded-2xl bg-white border transition-all duration-200 p-8 ${
                 plan.highlight
-                  ? "border-teal-500 shadow-md ring-1 ring-teal-500"
+                  ? "border-blue-500 shadow-md ring-1 ring-blue-500"
                   : "border-slate-200 shadow-sm hover:border-slate-300"
               }`}
             >
@@ -180,7 +180,7 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
                     <p className="text-[13px] font-medium text-slate-500 mt-1">{plan.tagline}</p>
                   </div>
                   <div className={`w-8 h-8 rounded-md flex items-center justify-center ${
-                    plan.highlight ? "bg-teal-50 text-teal-600" : "bg-slate-50 text-slate-400"
+                    plan.highlight ? "bg-blue-50 text-brand-blue" : "bg-slate-50 text-slate-400"
                   }`}>
                     <Icon className="w-4 h-4" />
                   </div>
@@ -227,7 +227,7 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
                       onClick={() => handleSelect(plan)}
                       className={`w-full py-2.5 rounded-lg text-[13px] font-bold flex items-center justify-center gap-2 transition-colors ${
                         plan.highlight
-                          ? "bg-teal-600 hover:bg-teal-700 text-white"
+                          ? "bg-brand-blue hover:bg-brand-blue-deep text-white"
                           : "bg-slate-900 hover:bg-slate-800 text-white"
                       }`}
                     >

@@ -277,7 +277,7 @@ export function UpsellModal({ isOpen, onClose, requiredTier, featureName }: Upse
         }
         .sipns-upsell-cta-btn:hover { opacity: 0.9; transform: translateY(-1px); }
         .sipns-upsell-cta-btn:active { transform: translateY(0); }
-        .sipns-upsell-cta-elite  { background: linear-gradient(135deg, #0d9488, #0f766e); box-shadow: 0 4px 20px rgba(13,148,136,0.35); }
+        .sipns-upsell-cta-elite  { background: linear-gradient(135deg, #1E73BE, #0F4FA8); box-shadow: 0 4px 20px rgba(13,148,136,0.35); }
         .sipns-upsell-cta-master { background: linear-gradient(135deg, #d97706, #b45309); box-shadow: 0 4px 20px rgba(217,119,6,0.35); }
         .sipns-upsell-cta-secondary {
           background: transparent;
@@ -472,7 +472,7 @@ export function FeatureGate({
           transition: opacity 0.15s, transform 0.15s;
         }
         .sipns-gate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .sipns-gate-btn-elite  { background: #0d9488; }
+        .sipns-gate-btn-elite  { background: #1E73BE; }
         .sipns-gate-btn-master { background: #d97706; }
         .sipns-gate-btn-free   { background: #475569; }
       `}</style>

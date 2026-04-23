@@ -10,7 +10,7 @@ export function ConsoleEasterEgg() {
     if (w[KEY]) return
     w[KEY] = true
 
-    const style = "color: #0D9488; font-size: 14px; font-weight: bold;"
+    const style = "color: #1E73BE; font-size: 14px; font-weight: bold;"
     const dimStyle = "color: #94a3b8; font-size: 12px;"
 
     const lines = [

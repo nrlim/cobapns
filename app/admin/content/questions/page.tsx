@@ -58,7 +58,7 @@ export default async function QuestionsCMSPage(props: {
       {/* Page Hero / Introduction */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1 lg:mb-2 text-opacity-80">Content Engine</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1 lg:mb-2 text-opacity-80">Content Engine</p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Question Bank Manager</h2>
           <p className="text-slate-500 font-medium mt-1 text-sm">Kelola pustaka soal, perbarui materi, dan atur tingkat kesulitan.</p>
         </div>

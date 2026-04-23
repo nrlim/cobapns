@@ -128,18 +128,18 @@ function MaterialCard({ title, slug, subCategory, type, completed, locked }: Mat
   return (
     <Link
       href={`/dashboard/learning/${slug}`}
-      className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-white hover:border-teal-200 hover:shadow-sm transition-all group"
+      className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all group"
     >
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${typeColor}`}>
         <Icon className="w-4 h-4" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs font-bold text-slate-800 group-hover:text-teal-700 transition-colors line-clamp-1">{title}</p>
+        <p className="text-xs font-bold text-slate-800 group-hover:text-brand-blue-deep transition-colors line-clamp-1">{title}</p>
         <p className="text-[10px] text-slate-400 font-medium">{subCategory} · {TYPE_LABEL[type]}</p>
       </div>
       {completed
-        ? <CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" />
-        : <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-400 flex-shrink-0 transition-colors" />
+        ? <CheckCircle2 className="w-4 h-4 text-blue-500 flex-shrink-0" />
+        : <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-brand-blue-light flex-shrink-0 transition-colors" />
       }
     </Link>
   )
@@ -177,7 +177,7 @@ export default async function LearningHubPage() {
         {/* ── Header ─────────────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">
               <GraduationCap className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
               Learning Hub
             </p>
@@ -189,11 +189,11 @@ export default async function LearningHubPage() {
             </p>
           </div>
           {total > 0 && (
-            <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 px-4 py-3 rounded-2xl flex-shrink-0">
-              <CheckCircle2 className="w-5 h-5 text-teal-600" />
+            <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 px-4 py-3 rounded-2xl flex-shrink-0">
+              <CheckCircle2 className="w-5 h-5 text-brand-blue" />
               <div>
-                <div className="text-lg font-black text-teal-800">{totalCompleted}<span className="text-sm font-semibold text-teal-600">/{total}</span></div>
-                <div className="text-[10px] text-teal-600 font-bold uppercase tracking-widest">Materi Selesai</div>
+                <div className="text-lg font-black text-brand-blue-deep">{totalCompleted}<span className="text-sm font-semibold text-brand-blue">/{total}</span></div>
+                <div className="text-[10px] text-brand-blue font-bold uppercase tracking-widest">Materi Selesai</div>
               </div>
             </div>
           )}
@@ -210,7 +210,7 @@ export default async function LearningHubPage() {
             <Link
               key={label}
               href={href}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:border-teal-500 hover:text-teal-700 transition-colors whitespace-nowrap flex-shrink-0"
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:border-blue-500 hover:text-brand-blue-deep transition-colors whitespace-nowrap flex-shrink-0"
             >
               <Icon className="w-3.5 h-3.5" />
               {label}

@@ -12,11 +12,11 @@ import { Writable } from "stream";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {
-  teal:      "#0D9488",
-  tealDark:  "#0F766E",
-  tealDeep:  "#134E4A",
-  tealLight: "#CCFBF1",
-  tealFaint: "#F0FDFA",
+  teal:      "#1E73BE",
+  tealDark:  "#0F4FA8",
+  tealDeep:  "#0F4FA8",
+  tealLight: "#2A8BD6",
+  tealFaint: "#e0eeff",
   white:     "#FFFFFF",
   slate900:  "#0F172A",
   slate800:  "#1E293B",
@@ -397,8 +397,8 @@ export async function generateIQPDF(data: IQReportData): Promise<Buffer> {
 
   const IQ_SCALE = [
     { min: 130, label: "Sangat Superior",    color: "#14B8A6" },
-    { min: 120, label: "Superior",           color: "#0D9488" },
-    { min: 110, label: "Di Atas Rata-rata",  color: "#0F766E" },
+    { min: 120, label: "Superior",           color: "#1E73BE" },
+    { min: 110, label: "Di Atas Rata-rata",  color: "#0F4FA8" },
     { min: 90,  label: "Rata-rata",          color: "#64748B" },
     { min: 80,  label: "Di Bawah Rata-rata", color: "#94A3B8" },
     { min: 0,   label: "Perlu Peningkatan",  color: "#CBD5E1" },

@@ -204,9 +204,9 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
         style={{ background: "rgba(15,23,42,0.65)", backdropFilter: "blur(6px)" }}
       >
         <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
-          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${isSuccess ? "bg-teal-50" : "bg-amber-50"}`}>
+          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${isSuccess ? "bg-blue-50" : "bg-amber-50"}`}>
             {isSuccess
-              ? <CheckCircle2 className="w-8 h-8 text-teal-600" />
+              ? <CheckCircle2 className="w-8 h-8 text-brand-blue" />
               : <AlertCircle className="w-8 h-8 text-amber-500" />
             }
           </div>
@@ -220,7 +220,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
           </p>
           <button
             onClick={onClose}
-            className="w-full py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm rounded-xl transition-colors"
+            className="w-full py-3 bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold text-sm rounded-xl transition-colors"
           >
             Kembali ke Dashboard
           </button>
@@ -246,12 +246,12 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
         }`}
       >
         {/* Header */}
-        <div className="bg-gradient-to-br from-teal-800 to-teal-600 px-6 py-5 text-white flex-shrink-0">
+        <div className="bg-gradient-to-br from-brand-blue-deep to-brand-blue px-6 py-5 text-white flex-shrink-0">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-teal-200 text-[10px] font-black uppercase tracking-widest mb-1">Konfirmasi Pembelian</p>
+              <p className="text-blue-200 text-[10px] font-black uppercase tracking-widest mb-1">Konfirmasi Pembelian</p>
               <h2 className="text-xl font-black tracking-tight">{plan.name}</h2>
-              <p className="text-teal-200 text-sm font-medium mt-1">Masa aktif {plan.durationMonths} bulan</p>
+              <p className="text-blue-200 text-sm font-medium mt-1">Masa aktif {plan.durationMonths} bulan</p>
             </div>
             <button
               onClick={onClose}
@@ -276,16 +276,16 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
               </div>
               {discountAmt > 0 && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-teal-600 flex items-center gap-1">
+                  <span className="font-medium text-brand-blue flex items-center gap-1">
                     <Tag className="w-3.5 h-3.5" /> Diskon ({promoStatus?.pct}%)
                   </span>
-                  <span className="font-bold text-teal-700">- {fmtIDR(discountAmt)}</span>
+                  <span className="font-bold text-brand-blue-deep">- {fmtIDR(discountAmt)}</span>
                 </div>
               )}
               <div className="h-px bg-slate-200 my-1" />
               <div className="flex items-center justify-between">
                 <span className="font-black text-slate-900">Total Pembayaran</span>
-                <span className="text-2xl font-black text-teal-700">{fmtIDR(finalTotal)}</span>
+                <span className="text-2xl font-black text-brand-blue-deep">{fmtIDR(finalTotal)}</span>
               </div>
             </div>
           </div>
@@ -302,7 +302,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
                 onKeyDown={(e) => { if (e.key === "Enter") handleApplyPromo() }}
                 placeholder="Contoh: COBAPNS10"
                 disabled={paymentState === "loading"}
-                className="flex-1 px-4 py-2.5 text-sm font-mono font-bold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all placeholder:font-sans placeholder:font-normal placeholder:text-slate-400 tracking-widest disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 text-sm font-mono font-bold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:font-sans placeholder:font-normal placeholder:text-slate-400 tracking-widest disabled:opacity-50"
               />
               <button
                 onClick={handleApplyPromo}
@@ -313,7 +313,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
               </button>
             </div>
             {promoStatus && (
-              <p className={`text-xs font-bold mt-2 flex items-center gap-1.5 ${promoStatus.valid ? "text-teal-700" : "text-red-600"}`}>
+              <p className={`text-xs font-bold mt-2 flex items-center gap-1.5 ${promoStatus.valid ? "text-brand-blue-deep" : "text-red-600"}`}>
                 {promoStatus.valid ? <CheckCircle2 className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
                 {promoStatus.message}
               </p>
@@ -366,7 +366,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
           <button
             onClick={handleSubmit}
             disabled={paymentState === "loading"}
-            className="flex-[2] py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold transition-colors flex items-center justify-center gap-2 shadow-md shadow-teal-700/20 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex-[2] py-3 rounded-xl bg-brand-blue-deep hover:bg-brand-blue-deep text-white text-sm font-bold transition-colors flex items-center justify-center gap-2 shadow-md shadow-brand-blue-deep/20 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {paymentState === "loading" ? (
               <><Loader2 className="w-4 h-4 animate-spin" /> Menyiapkan Pembayaran...</>

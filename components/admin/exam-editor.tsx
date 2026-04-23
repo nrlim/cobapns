@@ -37,7 +37,7 @@ const DEFAULTS: ExamData = {
 }
 
 const labelCls = "block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5"
-const fieldCls = "w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors"
+const fieldCls = "w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
 
 export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
   const isEditing = !!initialData?.id
@@ -94,7 +94,7 @@ export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-black tracking-tight text-slate-900 flex items-center gap-2">
-              <ClipboardList className="w-5 h-5 text-teal-600" />
+              <ClipboardList className="w-5 h-5 text-brand-blue" />
               {isEditing ? "Edit Ujian" : "Buat Ujian Baru"}
             </h2>
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -154,8 +154,8 @@ export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
                   onClick={() => set("durationMinutes", m)}
                   className={`text-[11px] px-2.5 py-1 rounded-lg font-bold border transition-colors ${
                     form.durationMinutes === m
-                      ? "bg-teal-600 text-white border-teal-600"
-                      : "bg-slate-50 text-slate-500 border-slate-200 hover:border-teal-400 hover:text-teal-600"
+                      ? "bg-brand-blue text-white border-brand-blue"
+                      : "bg-slate-50 text-slate-500 border-slate-200 hover:border-brand-blue-light hover:text-brand-blue"
                   }`}
                 >
                   {m} mnt
@@ -249,7 +249,7 @@ export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
             </div>
           )}
           {success && (
-            <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 text-teal-700 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 text-brand-blue-deep rounded-xl px-4 py-3">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
               <span className="text-sm font-bold">Tersimpan! Menutup drawer...</span>
             </div>
@@ -274,7 +274,7 @@ export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
             type="submit"
             form="exam-editor-form"
             disabled={isPending || success}
-            className="bg-teal-700 hover:bg-teal-800 text-white font-bold px-8 flex items-center gap-2 disabled:opacity-60"
+            className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold px-8 flex items-center gap-2 disabled:opacity-60"
           >
             {isPending ? (
               <Loader2 className="w-4 h-4 animate-spin" />

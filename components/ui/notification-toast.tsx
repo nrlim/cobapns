@@ -36,9 +36,9 @@ export function NotificationToast({
   const config = {
     success: {
       icon: CheckCircle2,
-      color: "text-teal-600",
-      bg: "bg-teal-50",
-      border: "border-teal-200"
+      color: "text-brand-blue",
+      bg: "bg-blue-50",
+      border: "border-blue-200"
     },
     error: {
       icon: XCircle,

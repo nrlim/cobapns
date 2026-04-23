@@ -46,16 +46,16 @@ export interface LockedFeatureConfig {
 
 const TIER_VISUAL = {
   ELITE: {
-    gradient: "from-teal-900 via-teal-800 to-teal-700",
-    accentBg: "bg-teal-500/10",
-    accentBorder: "border-teal-500/30",
-    badge: "bg-teal-500/20 text-teal-300 border-teal-500/30",
-    check: "text-teal-400",
-    btn: "bg-teal-600 hover:bg-teal-500 shadow-teal-900/50",
-    btnOutline: "border-teal-600 text-teal-300 hover:bg-teal-800/50",
-    ring: "ring-teal-500/20",
+    gradient: "from-blue-900 via-brand-blue-deep to-brand-blue-deep",
+    accentBg: "bg-blue-500/10",
+    accentBorder: "border-blue-500/30",
+    badge: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+    check: "text-brand-blue-light",
+    btn: "bg-brand-blue hover:bg-blue-500 shadow-blue-900/50",
+    btnOutline: "border-brand-blue text-blue-300 hover:bg-brand-blue-deep/50",
+    ring: "ring-blue-500/20",
     icon: Star,
-    glow: "bg-teal-500/10",
+    glow: "bg-blue-500/10",
   },
   MASTER: {
     gradient: "from-amber-950 via-amber-900 to-yellow-900",
@@ -173,10 +173,10 @@ export function LockedFeaturePage({ config, userTier, userName }: LockedFeatureP
              </div>
              <div className="px-5 py-3 flex items-center justify-between bg-gradient-to-r from-white to-slate-50/50">
                <div className="flex items-center gap-2">
-                 <TierIcon className={`w-4 h-4 ${requiredTier === "MASTER" ? "text-amber-500" : "text-teal-600"}`} />
+                 <TierIcon className={`w-4 h-4 ${requiredTier === "MASTER" ? "text-amber-500" : "text-brand-blue"}`} />
                  <span className="font-bold text-slate-500 uppercase tracking-widest text-[10px]">Paket Dibutuhkan</span>
                </div>
-               <span className={`font-black uppercase tracking-widest text-[10px] px-2.5 py-1 rounded-full ${requiredTier === "MASTER" ? "bg-amber-100 text-amber-700" : "bg-teal-100 text-teal-700"}`}>
+               <span className={`font-black uppercase tracking-widest text-[10px] px-2.5 py-1 rounded-full ${requiredTier === "MASTER" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-brand-blue-deep"}`}>
                  {tierMeta.label}
                </span>
              </div>
@@ -187,8 +187,8 @@ export function LockedFeaturePage({ config, userTier, userName }: LockedFeatureP
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                {tierMeta.benefits.slice(0, 6).map((benefit) => (
                  <div key={benefit} className="flex items-start gap-2.5">
-                   <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${requiredTier === "MASTER" ? "bg-amber-100" : "bg-teal-100"}`}>
-                     <CheckCircle2 className={`w-3 h-3 ${requiredTier === "MASTER" ? "text-amber-600" : "text-teal-600"}`} />
+                   <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${requiredTier === "MASTER" ? "bg-amber-100" : "bg-blue-100"}`}>
+                     <CheckCircle2 className={`w-3 h-3 ${requiredTier === "MASTER" ? "text-amber-600" : "text-brand-blue"}`} />
                    </div>
                    <p className="text-xs text-slate-600 font-medium leading-relaxed">{benefit}</p>
                  </div>

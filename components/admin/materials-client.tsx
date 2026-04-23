@@ -113,7 +113,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
       <div className="p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">
               <BookOpen className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
               Content Management
             </p>
@@ -124,7 +124,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
           </div>
           <Button
             onClick={openCreate}
-            className="bg-teal-700 hover:bg-teal-800 text-white font-bold flex-shrink-0"
+            className="bg-brand-blue-deep hover:bg-brand-blue-deep text-white font-bold flex-shrink-0"
           >
             <Plus className="w-4 h-4" />
             Tambah Materi
@@ -134,7 +134,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
         {/* ── Stats Row ──────────────────────────────────────────── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Total Materi",   value: initialMaterials.length,                                           icon: BookOpen,  color: "text-teal-600 bg-teal-50" },
+            { label: "Total Materi",   value: initialMaterials.length,                                           icon: BookOpen,  color: "text-brand-blue bg-blue-50" },
             { label: "Published",      value: totalPublished,                                                    icon: Eye,       color: "text-green-600 bg-green-50" },
             { label: "Draft",          value: initialMaterials.length - totalPublished,                          icon: EyeOff,    color: "text-slate-500 bg-slate-100" },
             { label: "Siswa Belajar",  value: initialMaterials.reduce((s, m) => s + m._count.progress, 0),       icon: BarChart3, color: "text-blue-600 bg-blue-50" },
@@ -156,7 +156,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/20 transition-colors"
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-colors"
               placeholder="Cari judul atau sub kategori..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -166,7 +166,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
             <select
               value={filterCat}
               onChange={(e) => setFilterCat(e.target.value as QuestionCategory | "ALL")}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-600 outline-none focus:border-teal-500 transition-colors"
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-600 outline-none focus:border-blue-500 transition-colors"
             >
               <option value="ALL">Semua Kategori</option>
               <option value="TWK">TWK</option>
@@ -176,7 +176,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value as MaterialTypeValue | "ALL")}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-600 outline-none focus:border-teal-500 transition-colors"
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-600 outline-none focus:border-blue-500 transition-colors"
             >
               <option value="ALL">Semua Tipe</option>
               <option value="TEXT">📄 Artikel</option>
@@ -206,7 +206,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
             <div className="py-16 text-center">
               <BookOpen className="w-10 h-10 text-slate-200 mx-auto mb-3" />
               <p className="text-sm font-medium text-slate-400">Belum ada materi ditemukan.</p>
-              <button onClick={openCreate} className="text-xs text-teal-600 font-bold hover:underline mt-1">
+              <button onClick={openCreate} className="text-xs text-brand-blue font-bold hover:underline mt-1">
                 Tambah materi pertama →
               </button>
             </div>
@@ -222,7 +222,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
                   >
                     {/* Title + sub */}
                     <div>
-                      <p className="text-sm font-bold text-slate-900 group-hover:text-teal-700 transition-colors line-clamp-1">
+                      <p className="text-sm font-bold text-slate-900 group-hover:text-brand-blue-deep transition-colors line-clamp-1">
                         {m.title}
                       </p>
                       <p className="text-[11px] text-slate-400 font-medium">{m.subCategory}</p>
@@ -246,7 +246,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
 
                     {/* Published */}
                     <span className={`flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      m.isPublished ? "bg-teal-50 text-teal-700" : "bg-slate-100 text-slate-500"
+                      m.isPublished ? "bg-blue-50 text-brand-blue-deep" : "bg-slate-100 text-slate-500"
                     }`}>
                       {m.isPublished ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
                       {m.isPublished ? "Live" : "Draft"}
@@ -256,7 +256,7 @@ export function MaterialsClient({ initialMaterials }: Props) {
                     <div className="flex items-center gap-1 justify-end">
                       <button
                         onClick={() => openEdit(m)}
-                        className="p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
+                        className="p-2 text-slate-400 hover:text-brand-blue hover:bg-blue-50 rounded-lg transition-colors"
                         title="Edit"
                       >
                         <Pencil className="w-3.5 h-3.5" />

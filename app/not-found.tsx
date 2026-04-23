@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="max-w-md w-full bg-white rounded-[2rem] p-8 md:p-12 shadow-xl shadow-slate-200/50 flex flex-col items-center text-center relative overflow-hidden border border-slate-100">
         
         {/* Aesthetic Background flare */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-teal-500 rounded-full blur-3xl opacity-10"></div>
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500 rounded-full blur-3xl opacity-10"></div>
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-rose-500 rounded-full blur-3xl opacity-10"></div>
 
         <div className="relative z-10 w-24 h-24 bg-slate-50 rounded-[2rem] flex items-center justify-center mb-8 shadow-inner border border-slate-100">
@@ -23,7 +23,7 @@ export default function NotFound() {
 
         <Link 
           href="/"
-          className="w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-tr from-teal-700 to-teal-600 text-white rounded-xl font-bold shadow-md hover:shadow-lg active:scale-95 transition-all text-[13px]"
+          className="w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-tr from-brand-blue-deep to-brand-blue text-white rounded-xl font-bold shadow-md hover:shadow-lg active:scale-95 transition-all text-[13px]"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Kembali ke Beranda</span>

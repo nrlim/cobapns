@@ -44,40 +44,40 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <aside className="hidden md:flex flex-col h-screen sticky left-0 top-0 w-64 border-r border-slate-200 bg-slate-50 p-4 space-y-2 z-20">
         <div className="px-2 py-4 mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-800 flex items-center justify-center text-white shadow-inner">
+            <div className="w-10 h-10 rounded-xl bg-brand-blue-deep flex items-center justify-center text-white shadow-inner">
               <span className="font-extrabold text-xl font-serif">S</span>
             </div>
             <div>
-              <h2 className="text-lg font-black text-teal-800 leading-none tracking-tight">COBA PNS Admin</h2>
+              <h2 className="text-lg font-black text-brand-blue-deep leading-none tracking-tight">COBA PNS Admin</h2>
               <p className="text-xs font-medium text-slate-500 mt-1 uppercase tracking-widest">Institutional</p>
             </div>
           </div>
         </div>
         
         <nav className="flex-1 space-y-1">
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-teal-600 rounded-lg font-medium transition-all">
+          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <LayoutDashboard className="w-5 h-5" />
             <span>Dashboard</span>
           </Link>
-          <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-teal-600 rounded-lg font-medium transition-all">
+          <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <Users className="w-5 h-5" />
             <span>User Management</span>
           </Link>
-          <Link href="/admin/content/questions" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-teal-600 rounded-lg font-medium transition-all">
+          <Link href="/admin/content/questions" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <FileText className="w-5 h-5" />
             <span>Question Bank</span>
           </Link>
           <SidebarPsychIqTree />
 
-          <Link href="/admin/content/exams" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-teal-600 rounded-lg font-medium transition-all">
+          <Link href="/admin/content/exams" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <ClipboardList className="w-5 h-5" />
             <span>Exam Builder</span>
           </Link>
-          <Link href="/admin/materials" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-teal-600 rounded-lg font-medium transition-all">
+          <Link href="/admin/materials" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <BookOpen className="w-5 h-5" />
             <span>Material CMS</span>
           </Link>
-          <Link href="/admin/transactions" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-teal-600 rounded-lg font-medium transition-all">
+          <Link href="/admin/transactions" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <CreditCard className="w-5 h-5" />
             <span>Transaksi</span>
           </Link>
@@ -90,11 +90,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         {/* TopAppBar */}
         <header className="bg-white/80 backdrop-blur-md sticky top-0 z-40 flex justify-between items-center w-full px-4 md:px-8 py-4 border-b border-slate-200 shadow-sm">
           <div className="flex items-center gap-8">
-            <h1 className="text-xl font-bold tracking-tighter text-teal-700 antialiased">COBA PNS Portal</h1>
+            <h1 className="text-xl font-bold tracking-tighter text-brand-blue-deep antialiased">COBA PNS Portal</h1>
             <div className="relative group hidden lg:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input 
-                className="pl-10 pr-4 py-2 text-slate-900 bg-slate-100 border-none outline-none rounded-full w-64 text-sm focus:ring-2 focus:ring-teal-500/20 transition-all placeholder:text-slate-500" 
+                className="pl-10 pr-4 py-2 text-slate-900 bg-slate-100 border-none outline-none rounded-full w-64 text-sm focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-500" 
                 placeholder="Search analytics..." 
                 type="text" 
               />

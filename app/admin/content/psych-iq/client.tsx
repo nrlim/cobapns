@@ -129,7 +129,7 @@ function PsychForm({
           value={text}
           onChange={e => setText(e.target.value)}
           rows={3}
-          className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 resize-none"
+          className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 resize-none"
           placeholder="Masukkan teks pernyataan psikotes..."
         />
       </div>
@@ -142,7 +142,7 @@ function PsychForm({
           <select
             value={dimension}
             onChange={e => setDimension(e.target.value)}
-            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           >
             {PSYCH_DIMENSIONS.map(d => (
               <option key={d.value} value={d.value}>{d.label}</option>
@@ -157,7 +157,7 @@ function PsychForm({
             type="number"
             value={order}
             onChange={e => setOrder(Number(e.target.value))}
-            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           />
         </div>
       </div>
@@ -172,7 +172,7 @@ function PsychForm({
         <button
           disabled={!text.trim() || pending}
           onClick={handleSubmit}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-white bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-sm transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-white bg-brand-blue-deep hover:bg-brand-blue-deep disabled:opacity-50 text-sm transition-all"
         >
           <Save className="w-4 h-4" />
           {pending ? "Menyimpan..." : (initial ? "Simpan Perubahan" : "Tambah Soal")}
@@ -235,7 +235,7 @@ function IQForm({
           <select
             value={subTest}
             onChange={e => setSubTest(e.target.value)}
-            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           >
             {IQ_SUBTESTS.map(s => <option key={s} value={s}>{IQ_LABELS[s]}</option>)}
           </select>
@@ -246,7 +246,7 @@ function IQForm({
             type="number"
             value={order}
             onChange={e => setOrder(Number(e.target.value))}
-            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           />
         </div>
       </div>
@@ -257,7 +257,7 @@ function IQForm({
           value={text}
           onChange={e => setText(e.target.value)}
           rows={3}
-          className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 resize-none"
+          className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 resize-none"
           placeholder="Masukkan teks pertanyaan IQ..."
         />
       </div>
@@ -265,7 +265,7 @@ function IQForm({
       <div>
         <label className="text-xs font-black text-slate-700 uppercase tracking-wide block mb-2">
           Opsi Jawaban
-          <span className="ml-2 text-teal-600 font-medium normal-case">
+          <span className="ml-2 text-brand-blue font-medium normal-case">
             (Kunci: {answerKey})
           </span>
         </label>
@@ -276,8 +276,8 @@ function IQForm({
                 type="button"
                 onClick={() => setAnswerKey(opt.key)}
                 className={`w-8 h-8 rounded-lg flex-shrink-0 text-xs font-black border-2 transition-all ${answerKey === opt.key
-                    ? "bg-teal-600 text-white border-teal-600"
-                    : "bg-white text-slate-500 border-slate-200 hover:border-teal-300"
+                    ? "bg-brand-blue text-white border-brand-blue"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-blue-300"
                   }`}
               >
                 {opt.key}
@@ -286,7 +286,7 @@ function IQForm({
                 value={opt.label}
                 onChange={e => updateOption(idx, e.target.value)}
                 placeholder={`Opsi ${opt.key}...`}
-                className="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+                className="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               />
             </div>
           ))}
@@ -304,7 +304,7 @@ function IQForm({
         <button
           disabled={!text.trim() || pending}
           onClick={handleSubmit}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-white bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-sm transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-white bg-brand-blue-deep hover:bg-brand-blue-deep disabled:opacity-50 text-sm transition-all"
         >
           <Save className="w-4 h-4" />
           {pending ? "Menyimpan..." : (initial ? "Simpan Perubahan" : "Tambah Soal")}
@@ -372,13 +372,13 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
       {/* ── Header ───────────────────────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Content Engine</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Content Engine</p>
           <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Psikotes & IQ CMS</h2>
           <p className="text-slate-500 font-medium mt-1 text-sm">Kelola bank soal psikotes kepribadian dan tes IQ multi-dimensi.</p>
         </div>
         <button
           onClick={() => { setEditTarget(null); setShowForm(true) }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-teal-700 text-white rounded-xl font-bold text-sm hover:bg-teal-800 shadow-sm transition-all flex-shrink-0"
+          className="flex items-center gap-2 px-4 py-2.5 bg-brand-blue-deep text-white rounded-xl font-bold text-sm hover:bg-brand-blue-deep shadow-sm transition-all flex-shrink-0"
         >
           <Plus className="w-4 h-4" />
           Tambah Soal
@@ -402,8 +402,8 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shadow-inner">
-              {tab === "psych" ? <Brain className="w-5 h-5 text-teal-600" /> : <Zap className="w-5 h-5 text-teal-600" />}
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shadow-inner">
+              {tab === "psych" ? <Brain className="w-5 h-5 text-brand-blue" /> : <Zap className="w-5 h-5 text-brand-blue" />}
             </div>
             <div>
               <h3 className="font-black text-slate-900 text-lg">
@@ -475,14 +475,14 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                       type="number"
                       value={cfgEdits[s] ?? cfgMap[s] ?? 300}
                       onChange={e => setCfgEdits(prev => ({ ...prev, [s]: Number(e.target.value) }))}
-                      className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+                      className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                     <span className="text-[10px] text-slate-400 font-medium flex-shrink-0">dtk</span>
                   </div>
                   <button
                     onClick={() => saveConfig(s)}
                     disabled={pending}
-                    className="mt-2 w-full text-[10px] font-black px-2 py-1 rounded-lg bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100 transition-all disabled:opacity-50"
+                    className="mt-2 w-full text-[10px] font-black px-2 py-1 rounded-lg bg-blue-50 text-brand-blue-deep border border-blue-200 hover:bg-blue-100 transition-all disabled:opacity-50"
                   >
                     {pending ? "..." : "Simpan"}
                   </button>
@@ -502,7 +502,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
           onKeyDown={e => {
             if (e.key === "Enter") nav({ search: (e.target as HTMLInputElement).value, page: "1" })
           }}
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/30 shadow-sm"
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30 shadow-sm"
         />
       </div>
 
@@ -540,7 +540,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                         </p>
                       </td>
                       <td className="px-5 py-3.5">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-black bg-teal-50 text-teal-700 border border-teal-200">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-black bg-blue-50 text-brand-blue-deep border border-blue-200">
                           {q.dimensionLabel}
                         </span>
                       </td>
@@ -548,7 +548,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                       <td className="px-5 py-3.5 text-center">
                         <button
                           onClick={() => startTransition(() => togglePsychQuestion(q.id, !q.isActive))}
-                          className={`transition-colors ${q.isActive ? "text-teal-600 hover:text-teal-800" : "text-slate-300 hover:text-slate-500"}`}
+                          className={`transition-colors ${q.isActive ? "text-brand-blue hover:text-brand-blue-deep" : "text-slate-300 hover:text-slate-500"}`}
                           title={q.isActive ? "Nonaktifkan" : "Aktifkan"}
                         >
                           {q.isActive
@@ -560,7 +560,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => { setEditTarget(q); setShowForm(true) }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 hover:bg-teal-50 transition-all"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-brand-blue hover:bg-blue-50 transition-all"
                             title="Edit"
                           >
                             <Pencil className="w-4 h-4" />
@@ -645,7 +645,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                             <span
                               key={o.key}
                               className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${o.key === q.answerKey
-                                  ? "bg-teal-100 text-teal-700"
+                                  ? "bg-blue-100 text-brand-blue-deep"
                                   : "bg-slate-100 text-slate-500"
                                 }`}
                             >
@@ -655,7 +655,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                         </div>
                       </td>
                       <td className="px-5 py-3.5 text-center">
-                        <span className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center text-sm font-black mx-auto">
+                        <span className="w-8 h-8 rounded-lg bg-brand-blue text-white flex items-center justify-center text-sm font-black mx-auto">
                           {q.answerKey}
                         </span>
                       </td>
@@ -663,7 +663,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                       <td className="px-5 py-3.5 text-center">
                         <button
                           onClick={() => startTransition(() => toggleIQQuestion(q.id, !q.isActive))}
-                          className={`transition-colors ${q.isActive ? "text-teal-600 hover:text-teal-800" : "text-slate-300 hover:text-slate-500"}`}
+                          className={`transition-colors ${q.isActive ? "text-brand-blue hover:text-brand-blue-deep" : "text-slate-300 hover:text-slate-500"}`}
                         >
                           {q.isActive ? <ToggleRight className="w-6 h-6" /> : <ToggleLeft className="w-6 h-6" />}
                         </button>
@@ -672,7 +672,7 @@ export function PsychIQCMSClient({ tab, psychData, iqData, configs }: Props) {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => { setEditTarget(q); setShowForm(true) }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 hover:bg-teal-50 transition-all"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-brand-blue hover:bg-blue-50 transition-all"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>

@@ -34,12 +34,12 @@ function renderMarkdown(md: string): string {
   // Basic Markdown → HTML
   return md
     .replace(/^### (.+)$/gm, "<h3 class=\"text-base font-black text-slate-900 mt-6 mb-2\">$1</h3>")
-    .replace(/^## (.+)$/gm, "<h2 class=\"text-lg font-black text-slate-900 mt-8 mb-3 border-l-4 border-teal-500 pl-3\">$1</h2>")
+    .replace(/^## (.+)$/gm, "<h2 class=\"text-lg font-black text-slate-900 mt-8 mb-3 border-l-4 border-blue-500 pl-3\">$1</h2>")
     .replace(/^# (.+)$/gm, "<h1 class=\"text-2xl font-black text-slate-900 mb-4\">$1</h1>")
     .replace(/\*\*(.+?)\*\*/g, "<strong class=\"font-black text-slate-900\">$1</strong>")
     .replace(/\*(.+?)\*/g, "<em class=\"italic text-slate-700\">$1</em>")
-    .replace(/`(.+?)`/g, "<code class=\"bg-slate-100 text-teal-700 px-1.5 py-0.5 rounded font-mono text-xs\">$1</code>")
-    .replace(/^> (.+)$/gm, "<blockquote class=\"border-l-4 border-teal-300 pl-4 text-slate-600 italic my-3 bg-teal-50 py-2 pr-4 rounded-r-lg\">$1</blockquote>")
+    .replace(/`(.+?)`/g, "<code class=\"bg-slate-100 text-brand-blue-deep px-1.5 py-0.5 rounded font-mono text-xs\">$1</code>")
+    .replace(/^> (.+)$/gm, "<blockquote class=\"border-l-4 border-blue-300 pl-4 text-slate-600 italic my-3 bg-blue-50 py-2 pr-4 rounded-r-lg\">$1</blockquote>")
     .replace(/^- (.+)$/gm, "<li class=\"ml-4 list-disc text-slate-700\">$1</li>")
     .replace(/\n\n/g, "</p><p class=\"text-slate-700 leading-relaxed\">")
 }
@@ -105,7 +105,7 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
           <div className="px-4 pt-5 pb-3 border-b border-slate-200">
             <Link
               href="/dashboard/learning"
-              className="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-teal-700 transition-colors"
+              className="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-brand-blue-deep transition-colors"
             >
               <ChevronLeft className="w-3.5 h-3.5" /> Kembali ke Library
             </Link>
@@ -129,13 +129,13 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
                   href={`/dashboard/learning/${s.slug}`}
                   className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${
                     isActive
-                      ? "bg-teal-50 text-teal-700 border border-teal-200 shadow-sm"
+                      ? "bg-blue-50 text-brand-blue-deep border border-blue-200 shadow-sm"
                       : "text-slate-600 hover:bg-slate-200/50 hover:text-slate-900"
                   }`}
                 >
                   {isDone
-                    ? <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 flex-shrink-0" />
-                    : <SIcon className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? "text-teal-500" : "text-slate-400"}`} />
+                    ? <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                    : <SIcon className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? "text-blue-500" : "text-slate-400"}`} />
                   }
                   <span className="line-clamp-2 leading-tight">{s.title}</span>
                 </Link>
@@ -150,7 +150,7 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
 
             {/* Mobile Back */}
             <div className="lg:hidden mb-4">
-              <Link href="/dashboard/learning" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-teal-700 transition-colors">
+              <Link href="/dashboard/learning" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-brand-blue-deep transition-colors">
                 <ChevronLeft className="w-3.5 h-3.5" /> Library
               </Link>
             </div>
@@ -176,8 +176,8 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
 
               {completed && (
                 <div className="flex flex-wrap items-center gap-4 mt-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-50 text-xs font-bold text-teal-700 border border-teal-100 animate-in fade-in slide-in-from-left-4 duration-500">
-                    <CheckCircle2 className="w-4 h-4 text-teal-500" />
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-xs font-bold text-brand-blue-deep border border-blue-100 animate-in fade-in slide-in-from-left-4 duration-500">
+                    <CheckCircle2 className="w-4 h-4 text-blue-500" />
                     Progress tersimpan
                   </span>
                 </div>
@@ -198,7 +198,7 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
                 </p>
                 <Link
                   href="/dashboard/pembelian"
-                  className="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors"
+                  className="inline-flex items-center gap-2 bg-brand-blue-deep hover:bg-brand-blue-deep text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors"
                 >
                   Upgrade Paket
                 </Link>
@@ -275,12 +275,12 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
                   {prevMat ? (
                     <Link
                       href={`/dashboard/learning/${prevMat.slug}`}
-                      className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-4 hover:border-teal-300 hover:shadow-sm transition-all group text-left"
+                      className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-sm transition-all group text-left"
                     >
-                      <ChevronLeft className="w-5 h-5 text-slate-400 group-hover:text-teal-600 flex-shrink-0" />
+                      <ChevronLeft className="w-5 h-5 text-slate-400 group-hover:text-brand-blue flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sebelumnya</p>
-                        <p className="text-xs font-bold text-slate-700 group-hover:text-teal-700 line-clamp-1 transition-colors">
+                        <p className="text-xs font-bold text-slate-700 group-hover:text-brand-blue-deep line-clamp-1 transition-colors">
                           {prevMat.title}
                         </p>
                       </div>
@@ -290,15 +290,15 @@ export default async function MaterialReadingPage({ params }: { params: Promise<
                   {nextMat ? (
                     <Link
                       href={`/dashboard/learning/${nextMat.slug}`}
-                      className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-4 hover:border-teal-300 hover:shadow-sm transition-all group text-right justify-end ml-auto w-full"
+                      className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-sm transition-all group text-right justify-end ml-auto w-full"
                     >
                       <div className="min-w-0">
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Berikutnya</p>
-                        <p className="text-xs font-bold text-slate-700 group-hover:text-teal-700 line-clamp-1 transition-colors">
+                        <p className="text-xs font-bold text-slate-700 group-hover:text-brand-blue-deep line-clamp-1 transition-colors">
                           {nextMat.title}
                         </p>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-teal-600 flex-shrink-0" />
+                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-brand-blue flex-shrink-0" />
                     </Link>
                   ) : <div />}
                 </div>

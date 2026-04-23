@@ -41,7 +41,7 @@ export default async function ExamQuestionsPage({
   return (
     <div className="p-4 md:p-8 lg:p-10 w-full flex-1">
       <div className="mb-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Exam Builder</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Exam Builder</p>
         <h2 className="text-2xl font-black tracking-tight text-slate-900">Kelola Soal Ujian</h2>
         <p className="text-slate-500 font-medium text-sm mt-1 truncate">{exam.title}</p>
       </div>

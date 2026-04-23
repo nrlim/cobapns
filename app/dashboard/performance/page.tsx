@@ -50,7 +50,7 @@ const PERFORMANCE_LOCKED_CONFIG: LockedFeatureConfig = {
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function getMasteryLabel(pct: number) {
-  if (pct >= 80) return { label: "Mahir", color: "text-teal-700 bg-teal-50 border-teal-200" }
+  if (pct >= 80) return { label: "Mahir", color: "text-brand-blue-deep bg-blue-50 border-blue-200" }
   if (pct >= 60) return { label: "Cukup", color: "text-blue-700 bg-blue-50 border-blue-200" }
   if (pct >= 40) return { label: "Berkembang", color: "text-amber-700 bg-amber-50 border-amber-200" }
   return { label: "Lemah", color: "text-red-700 bg-red-50 border-red-200" }
@@ -78,7 +78,7 @@ function ScoreCard({
         <span
           className={`text-[9px] font-black px-2 py-0.5 rounded-full border uppercase tracking-widest ${
             isPass
-              ? "bg-teal-50 text-teal-700 border-teal-200"
+              ? "bg-blue-50 text-brand-blue-deep border-blue-200"
               : "bg-red-50 text-red-600 border-red-200"
           }`}
         >
@@ -159,7 +159,7 @@ export default async function PerformancePage() {
         {/* ── Header ─────────────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">
               <BarChart3 className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
               Analitik Performa
             </p>
@@ -175,8 +175,8 @@ export default async function PerformancePage() {
         {!hasData ? (
           /* ── Empty State ──────────────────────────────────────── */
           <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-16 text-center">
-            <div className="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <BarChart3 className="w-8 h-8 text-teal-400" />
+            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <BarChart3 className="w-8 h-8 text-brand-blue-light" />
             </div>
             <h3 className="text-lg font-black text-slate-900 mb-2">Belum Ada Data</h3>
             <p className="text-sm text-slate-400 font-medium mb-6 max-w-sm mx-auto">
@@ -184,7 +184,7 @@ export default async function PerformancePage() {
             </p>
             <Link
               href="/dashboard/exams"
-              className="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-colors"
+              className="inline-flex items-center gap-2 bg-brand-blue-deep hover:bg-brand-blue-deep text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-colors"
             >
               Mulai Try Out <ArrowRight className="w-4 h-4" />
             </Link>
@@ -200,11 +200,11 @@ export default async function PerformancePage() {
               {/* Top Stat Row */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 {/* Total Score */}
-                <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-teal-800 via-teal-700 to-teal-600 rounded-2xl p-5 text-white flex flex-col justify-between shadow-sm">
+                <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-brand-blue rounded-2xl p-5 text-white flex flex-col justify-between shadow-sm">
                   <div>
-                    <p className="text-teal-200 text-[10px] font-bold tracking-widest uppercase mb-1">Total SKD</p>
+                    <p className="text-blue-200 text-[10px] font-bold tracking-widest uppercase mb-1">Total SKD</p>
                     <div className="text-4xl font-black tracking-tight mb-1">{avgTotal}</div>
-                    <p className="text-teal-200 text-xs font-medium">rata-rata dari {passingGrade.totalTaken} ujian</p>
+                    <p className="text-blue-200 text-xs font-medium">rata-rata dari {passingGrade.totalTaken} ujian</p>
                   </div>
                   <div className="mt-4 flex items-center gap-2">
                     <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${passingGrade.passRate >= 50 ? "bg-white/20 text-white" : "bg-red-500/30 text-red-100"}`}>
@@ -241,8 +241,8 @@ export default async function PerformancePage() {
               {/* Radar Chart */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                 <div className="flex items-center gap-2 mb-1">
-                  <div className="w-8 h-8 bg-teal-50 border border-teal-100 rounded-lg flex items-center justify-center">
-                    <BrainCircuit className="w-4 h-4 text-teal-600" />
+                  <div className="w-8 h-8 bg-blue-50 border border-blue-100 rounded-lg flex items-center justify-center">
+                    <BrainCircuit className="w-4 h-4 text-brand-blue" />
                   </div>
                   <div>
                     <h3 className="font-black text-slate-900 text-sm">Power Level</h3>
@@ -269,10 +269,10 @@ export default async function PerformancePage() {
 
                 {/* Overall Pass/Fail */}
                 <div className="flex gap-4 mb-6">
-                  <div className="flex-1 bg-teal-50 border border-teal-100 rounded-xl p-4 text-center">
-                    <CheckCircle2 className="w-6 h-6 text-teal-600 mx-auto mb-1" />
-                    <div className="text-3xl font-black text-teal-800">{passingGrade.passed}</div>
-                    <div className="text-[10px] font-bold text-teal-600 uppercase tracking-widest">Lulus</div>
+                  <div className="flex-1 bg-blue-50 border border-blue-100 rounded-xl p-4 text-center">
+                    <CheckCircle2 className="w-6 h-6 text-brand-blue mx-auto mb-1" />
+                    <div className="text-3xl font-black text-brand-blue-deep">{passingGrade.passed}</div>
+                    <div className="text-[10px] font-bold text-brand-blue uppercase tracking-widest">Lulus</div>
                   </div>
                   <div className="flex-1 bg-red-50 border border-red-100 rounded-xl p-4 text-center">
                     <XCircle className="w-6 h-6 text-red-500 mx-auto mb-1" />
@@ -408,30 +408,30 @@ export default async function PerformancePage() {
                 </div>
 
                 {/* Strongest */}
-                <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5">
+                <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-7 h-7 bg-teal-100 border border-teal-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Star className="w-3.5 h-3.5 text-teal-600" />
+                    <div className="w-7 h-7 bg-blue-100 border border-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Star className="w-3.5 h-3.5 text-brand-blue" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-teal-700 uppercase tracking-widest">Keunggulan Kamu</p>
-                      <h4 className="font-black text-teal-900 text-sm">Titik Kuat</h4>
+                      <p className="text-[10px] font-bold text-brand-blue-deep uppercase tracking-widest">Keunggulan Kamu</p>
+                      <h4 className="font-black text-blue-900 text-sm">Titik Kuat</h4>
                     </div>
                   </div>
                   {strongestSubCategory ? (
                     <>
-                      <p className="text-xs text-teal-800 font-bold mb-1 line-clamp-1">
+                      <p className="text-xs text-brand-blue-deep font-bold mb-1 line-clamp-1">
                         {strongestSubCategory.category} — {strongestSubCategory.subCategory}
                       </p>
-                      <p className="text-xs text-teal-700">
+                      <p className="text-xs text-brand-blue-deep">
                         Tingkat penguasaan:{" "}
-                        <span className="font-black text-teal-900">
+                        <span className="font-black text-blue-900">
                           {strongestSubCategory.masteryPct}%
                         </span>
                       </p>
                     </>
                   ) : (
-                    <p className="text-xs text-teal-700">Belum cukup data.</p>
+                    <p className="text-xs text-brand-blue-deep">Belum cukup data.</p>
                   )}
                 </div>
 

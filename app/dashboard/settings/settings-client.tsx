@@ -31,7 +31,7 @@ interface UserData {
 
 const TIER_LABEL: Record<string, { label: string; cls: string }> = {
   FREE:    { label: "Free Scholar",      cls: "bg-slate-100 text-slate-600 border-slate-200" },
-  PRO:     { label: "Elite Prep",        cls: "bg-teal-50 text-teal-700 border-teal-200" },
+  PRO:     { label: "Elite Prep",        cls: "bg-blue-50 text-brand-blue-deep border-blue-200" },
   PREMIUM: { label: "Master Strategy",   cls: "bg-violet-50 text-violet-700 border-violet-200" },
 }
 
@@ -50,7 +50,7 @@ function InputField({
     <div className="space-y-1.5">
       <label htmlFor={id} className="text-xs font-black uppercase text-slate-500 tracking-widest">{label}</label>
       <div className="relative group">
-        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
         <input
           id={id}
           name={name ?? id}
@@ -61,7 +61,7 @@ function InputField({
           required={required}
           list={listId}
           className={`w-full pl-10 ${isPassword ? "pr-10" : "pr-4"} py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 
-            focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:bg-white transition-all
+            focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all
             disabled:bg-slate-100/60 disabled:text-slate-400 disabled:cursor-not-allowed placeholder:text-slate-400`}
         />
         {listOptions && (
@@ -90,18 +90,18 @@ function SelectField({
     <div className="space-y-1.5">
       <label htmlFor={id} className="text-xs font-black uppercase text-slate-500 tracking-widest">{label}</label>
       <div className="relative group">
-        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
         <select
           id={id}
           name={name ?? id}
           defaultValue={defaultValue}
           required={required}
-          className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:bg-white transition-all appearance-none cursor-pointer"
+          className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all appearance-none cursor-pointer"
         >
           <option value="" disabled>Pilih {label}...</option>
           {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
-        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-teal-500">
+        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-blue-500">
           <ChevronRight className="w-4 h-4 rotate-90" />
         </div>
       </div>
@@ -118,7 +118,7 @@ function TextareaField({
     <div className="space-y-1.5 sm:col-span-2">
       <label htmlFor={id} className="text-xs font-black uppercase text-slate-500 tracking-widest">{label}</label>
       <div className="relative group">
-        <Icon className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 group-focus-within:text-teal-500 transition-colors" />
+        <Icon className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
         <textarea
           id={id}
           name={name ?? id}
@@ -126,7 +126,7 @@ function TextareaField({
           placeholder={placeholder}
           required={required}
           rows={4}
-          className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:bg-white transition-all resize-none"
+          className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all resize-none"
         />
       </div>
     </div>
@@ -151,10 +151,10 @@ function RadioGroupField({
               defaultChecked={defaultValue === opt.value}
               className="peer sr-only"
             />
-            <div className="w-4.5 h-4.5 rounded-full border-2 border-slate-300 peer-checked:border-teal-500 flex items-center justify-center transition-colors">
-              <div className="w-2 h-2 rounded-full bg-teal-500 opacity-0 peer-checked:opacity-100 transition-opacity" />
+            <div className="w-4.5 h-4.5 rounded-full border-2 border-slate-300 peer-checked:border-blue-500 flex items-center justify-center transition-colors">
+              <div className="w-2 h-2 rounded-full bg-blue-500 opacity-0 peer-checked:opacity-100 transition-opacity" />
             </div>
-            <span className="text-sm font-bold text-slate-600 peer-checked:text-teal-800 transition-colors">{opt.label}</span>
+            <span className="text-sm font-bold text-slate-600 peer-checked:text-brand-blue-deep transition-colors">{opt.label}</span>
           </label>
         ))}
       </div>
@@ -165,9 +165,9 @@ function RadioGroupField({
 function Alert({ type, message }: { type: "success" | "error"; message: string }) {
   return (
     <div className={`flex items-start gap-3 p-3.5 rounded-xl border text-sm font-medium
-      ${type === "success" ? "bg-teal-50 border-teal-200 text-teal-800" : "bg-red-50 border-red-200 text-red-800"}`}>
+      ${type === "success" ? "bg-blue-50 border-blue-200 text-brand-blue-deep" : "bg-red-50 border-red-200 text-red-800"}`}>
       {type === "success"
-        ? <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+        ? <CheckCircle2 className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
         : <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />}
       {message}
     </div>
@@ -212,8 +212,8 @@ function SearchableSelectField({
             if (!isOpen) setSearchQuery("");
           }}
           className={`w-full flex items-center justify-between px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium transition-all ${
-            disabled ? 'bg-slate-100/60 text-slate-400 cursor-not-allowed' : 'hover:border-teal-300 focus:bg-white focus:ring-2 focus:ring-teal-500/20 text-slate-900'
-          } ${isOpen ? 'bg-white border-teal-500 ring-2 ring-teal-500/20' : ''}`}
+            disabled ? 'bg-slate-100/60 text-slate-400 cursor-not-allowed' : 'hover:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-500/20 text-slate-900'
+          } ${isOpen ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' : ''}`}
         >
           <div className="flex items-center gap-3 overflow-hidden">
             <Icon className="w-4 h-4 text-slate-400 shrink-0" />
@@ -236,7 +236,7 @@ function SearchableSelectField({
                   placeholder="Ketik untuk mencari..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-slate-900"
+                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-slate-900"
                 />
               </div>
             </div>
@@ -254,11 +254,11 @@ function SearchableSelectField({
                       setSearchQuery("");
                     }}
                     className={`w-full flex items-center justify-between text-left px-4 py-2.5 text-sm font-medium transition-colors ${
-                      value === opt ? 'bg-teal-50 text-teal-800' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                      value === opt ? 'bg-blue-50 text-brand-blue-deep' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                     }`}
                   >
                     <span className="truncate pr-4">{opt}</span>
-                    {value === opt && <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0" />}
+                    {value === opt && <CheckCircle2 className="w-4 h-4 text-brand-blue shrink-0" />}
                   </button>
                 ))
               ) : (
@@ -299,16 +299,16 @@ export function SettingsClient({ user, lookups }: {
       <div className="space-y-8">
 
         {/* ── Profile Hero Banner ────────────────────────────────── */}
-        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 rounded-3xl overflow-hidden shadow-lg">
+        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 rounded-3xl overflow-hidden shadow-lg">
           {/* Background graphics */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-20 -right-20 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl" />
+            <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
             <div className="absolute -bottom-12 -left-12 w-52 h-52 bg-violet-500/10 rounded-full blur-3xl" />
           </div>
 
           <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 sm:p-8">
             {/* Avatar */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-teal-900/30 flex-shrink-0 select-none border-4 border-white/10">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-brand-blue-light to-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-blue-900/30 flex-shrink-0 select-none border-4 border-white/10">
               {user.name.charAt(0).toUpperCase()}
             </div>
 
@@ -340,8 +340,8 @@ export function SettingsClient({ user, lookups }: {
                   onClick={() => setActiveTab(key)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-left whitespace-nowrap w-full
                     ${activeTab === key
-                      ? "bg-teal-600 text-white shadow-md shadow-teal-600/20"
-                      : "bg-white border border-slate-200 text-slate-600 hover:border-teal-200 hover:text-teal-700 hover:bg-teal-50/50"
+                      ? "bg-brand-blue text-white shadow-md shadow-brand-blue/20"
+                      : "bg-white border border-slate-200 text-slate-600 hover:border-blue-200 hover:text-brand-blue-deep hover:bg-blue-50/50"
                     }`}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
@@ -360,8 +360,8 @@ export function SettingsClient({ user, lookups }: {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm">
                 {/* Card Header */}
                 <div className="px-6 py-5 border-b border-slate-100 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center">
-                    <UserCircle2 className="w-5 h-5 text-teal-600" />
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <UserCircle2 className="w-5 h-5 text-brand-blue" />
                   </div>
                   <div>
                     <h2 className="font-black text-slate-900 text-[15px]">Data Profil</h2>
@@ -440,19 +440,19 @@ export function SettingsClient({ user, lookups }: {
                   {/* Notification toggle */}
                   <div className="pt-6 border-t border-slate-100 mt-6">
                     <h3 className="text-sm font-black text-slate-900 flex items-center gap-2 mb-3">
-                      <Bell className="w-4 h-4 text-teal-600" /> Preferensi Notifikasi
+                      <Bell className="w-4 h-4 text-brand-blue" /> Preferensi Notifikasi
                     </h3>
-                    <label className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-teal-50/30 hover:border-teal-200 transition-all group">
+                    <label className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50/30 hover:border-blue-200 transition-all group">
                       <div className="pt-0.5">
                         <input
                           type="checkbox"
                           name="notifEmail"
                           defaultChecked={user.notifEmail}
-                          className="w-4.5 h-4.5 rounded text-teal-600 focus:ring-teal-500 border-slate-300 cursor-pointer"
+                          className="w-4.5 h-4.5 rounded text-brand-blue focus:ring-blue-500 border-slate-300 cursor-pointer"
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-900 group-hover:text-teal-800 transition-colors">Pengingat Belajar via Email</p>
+                        <p className="text-sm font-bold text-slate-900 group-hover:text-brand-blue-deep transition-colors">Pengingat Belajar via Email</p>
                         <p className="text-xs font-medium text-slate-500 mt-0.5">
                           Kami akan sesekali mengirimkan ringkasan progress & jadwal tryout agar kamu tetap konsisten belajar.
                         </p>
@@ -464,7 +464,7 @@ export function SettingsClient({ user, lookups }: {
                     <button
                       type="submit"
                       disabled={isPendingProfile}
-                      className="inline-flex items-center gap-2 px-7 py-2.5 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 disabled:bg-teal-300 text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-teal-500/25"
+                      className="inline-flex items-center gap-2 px-7 py-2.5 bg-brand-blue hover:bg-brand-blue-deep active:bg-brand-blue-deep disabled:bg-blue-300 text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-blue-500/25"
                     >
                       {isPendingProfile ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                       {isPendingProfile ? "Menyimpan..." : "Simpan Perubahan"}
@@ -478,8 +478,8 @@ export function SettingsClient({ user, lookups }: {
             {activeTab === "formation" && (
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm">
                 <div className="px-6 py-5 border-b border-slate-100 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-teal-600" />
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <Target className="w-5 h-5 text-brand-blue" />
                   </div>
                   <div>
                     <h2 className="font-black text-slate-900 text-[15px]">Formasi Target</h2>
@@ -518,7 +518,7 @@ export function SettingsClient({ user, lookups }: {
                     <button
                       type="submit"
                       disabled={isPendingFormation}
-                      className="inline-flex items-center gap-2 px-7 py-2.5 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 disabled:bg-teal-300 text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-teal-500/25"
+                      className="inline-flex items-center gap-2 px-7 py-2.5 bg-brand-blue hover:bg-brand-blue-deep active:bg-brand-blue-deep disabled:bg-blue-300 text-white text-sm font-black rounded-xl transition-all shadow-sm shadow-blue-500/25"
                     >
                       {isPendingFormation ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                       {isPendingFormation ? "Menyimpan..." : "Simpan Perubahan"}
