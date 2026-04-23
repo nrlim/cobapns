@@ -18,8 +18,8 @@ export async function Footer() {
       <div className="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6">
         {/* Brand */}
         <div className="flex flex-col items-center md:items-start">
-          <Link href="/" className="flex items-center mb-2">
-            <img src="/logo.png" alt="COBA PNS Logo" className="h-6 w-auto" />
+          <Link href="/" className="flex items-center mb-4">
+            <img src="/logo-landing.png" alt="COBA PNS Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
           <div className="font-sans text-xs uppercase tracking-widest text-on-surface-variant text-center md:text-left">
             © {new Date().getFullYear()} COBA PNS. Menuju Masa Depan Abdi Negara.

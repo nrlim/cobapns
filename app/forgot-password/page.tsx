@@ -24,11 +24,12 @@ export default function ForgotPasswordPage() {
         <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-brand-blue/20 blur-2xl" />
 
         {/* Logo — click to go back to login */}
-        <Link href="/login" className="relative z-10 flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
-            <span className="text-white font-black text-lg font-serif">S</span>
-          </div>
-          <span className="text-white font-black text-xl tracking-tight group-hover:text-blue-200 transition-colors">COBA PNS</span>
+        <Link href="/login" className="relative z-10 group flex items-center gap-2 w-fit">
+          <img src="/icon-cpns.png" alt="COBA PNS Logo" className="h-12 w-auto drop-shadow-md hover:-translate-y-0.5 transition-transform" />
+          <h2 className="text-2xl font-black leading-none tracking-tight group-hover:opacity-90 transition-opacity">
+            <span className="text-white">COBA</span>
+            <span className="text-brand-green">PNS</span>
+          </h2>
         </Link>
 
         {/* Center content */}
@@ -77,7 +78,7 @@ export default function ForgotPasswordPage() {
           {!isSuccess ? (
             <>
               <div className="flex justify-center lg:justify-start lg:hidden mb-6">
-                <img src="/logo.png" alt="COBA PNS Logo" className="h-8 w-auto" />
+                <img src="/logo-dashboard.png" alt="COBA PNS Logo" className="h-8 w-auto" />
               </div>
 
               {/* Icon + heading */}

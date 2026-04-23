@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
   },
+  icons: {
+    icon: "/icon-cpns.png",
+    apple: "/icon-cpns.png",
+  },
 };
 
 import NextTopLoader from 'nextjs-toploader';

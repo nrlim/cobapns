@@ -6,7 +6,7 @@ export function Navbar() {
       <div className="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto w-full">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2 select-none">
-          <img src="/logo.png" alt="COBA PNS Logo" className="h-8 w-auto" />
+          <img src="/logo-landing.png" alt="COBA PNS Logo" className="h-10 md:h-12 w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav */}

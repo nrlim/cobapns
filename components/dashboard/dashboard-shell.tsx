@@ -47,11 +47,13 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
       <aside className="hidden md:flex flex-col h-screen sticky left-0 top-0 w-64 border-r border-slate-200 bg-white p-4 space-y-2 z-20">
         {/* Logo */}
         <div className="px-2 py-4 mb-4">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="COBA PNS Logo" className="h-10 w-auto" />
-            <div>
-              <p className="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">Student Portal</p>
-            </div>
+          <div className="flex flex-col justify-center items-center text-center py-2">
+            <img src="/icon-cpns.png" alt="COBA PNS Logo" className="h-20 w-auto -mb-2" />
+            <h2 className="text-lg font-black leading-none tracking-tight">
+              <span className="text-brand-blue">COBA</span>
+              <span className="text-brand-green">PNS</span>
+            </h2>
+            <p className="text-[10px] font-bold text-slate-500 mt-1.5 uppercase tracking-widest">Student Portal</p>
           </div>
         </div>
 

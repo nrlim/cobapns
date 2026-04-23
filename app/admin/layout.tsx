@@ -43,14 +43,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* ── Sidebar (Desktop) ─────────────────────────────── */}
       <aside className="hidden md:flex flex-col h-screen sticky left-0 top-0 w-64 border-r border-slate-200 bg-slate-50 p-4 space-y-2 z-20">
         <div className="px-2 py-4 mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-brand-blue-deep flex items-center justify-center text-white shadow-inner">
-              <span className="font-extrabold text-xl font-serif">S</span>
-            </div>
-            <div>
-              <h2 className="text-lg font-black text-brand-blue-deep leading-none tracking-tight">COBA PNS Admin</h2>
-              <p className="text-xs font-medium text-slate-500 mt-1 uppercase tracking-widest">Institutional</p>
-            </div>
+          <div className="flex flex-col justify-center items-center text-center py-2">
+            <img src="/icon-cpns.png" alt="COBA PNS Logo" className="h-20 w-auto -mb-2" />
+            <h2 className="text-lg font-black leading-none tracking-tight">
+              <span className="text-brand-blue">COBA</span>
+              <span className="text-brand-green">PNS</span>
+            </h2>
+            <p className="text-[10px] font-bold text-slate-500 mt-1.5 uppercase tracking-widest">Admin Portal</p>
           </div>
         </div>
         

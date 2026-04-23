@@ -47,11 +47,12 @@ export default function LoginPage() {
         {/* Left Side: Branding Panel */}
         <div className="hidden lg:flex w-5/12 flex-col justify-between px-16 py-12 relative overflow-hidden h-full bg-gradient-to-br from-brand-blue-deep to-blue-900">
           {/* Logo — click to go to homepage */}
-          <Link href="/" className="group flex items-center gap-3 z-10">
-            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-              <span className="font-black text-lg text-white font-serif">S</span>
-            </div>
-            <span className="font-black text-xl text-white tracking-tight group-hover:text-blue-200 transition-colors">COBA PNS</span>
+          <Link href="/" className="group z-10 flex items-center gap-2 w-fit">
+            <img src="/icon-cpns.png" alt="COBA PNS Logo" className="h-12 w-auto drop-shadow-md hover:-translate-y-0.5 transition-transform" />
+            <h2 className="text-2xl font-black leading-none tracking-tight group-hover:opacity-90 transition-opacity">
+              <span className="text-white">COBA</span>
+              <span className="text-brand-green">PNS</span>
+            </h2>
           </Link>
           <div className="absolute inset-0 opacity-10">
             <Image
@@ -106,7 +107,7 @@ export default function LoginPage() {
           <div className="w-full max-w-md my-auto py-12">
             <div className="mb-10 text-center lg:text-left">
               <div className="flex justify-center lg:justify-start lg:hidden mb-6">
-                <img src="/logo.png" alt="COBA PNS Logo" className="h-8 w-auto" />
+                <img src="/logo-dashboard.png" alt="COBA PNS Logo" className="h-8 w-auto" />
               </div>
               <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2">
                 Masuk ke Dashboard Belajar
