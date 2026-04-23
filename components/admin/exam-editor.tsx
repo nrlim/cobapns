@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { ExamStatus, ExamAccessTier } from "@prisma/client"
 import { upsertExam } from "@/app/actions/exams"
 import { X, Save, Loader2, ClipboardList, CheckCircle2, AlertCircle } from "lucide-react"
+import { CURRENT_YEAR } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -125,7 +126,7 @@ export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
             <Input
               value={form.title}
               onChange={(e) => set("title", e.target.value)}
-              placeholder="Contoh: Try Out CAT SKD #12 — Sesi April 2026"
+              placeholder={`Contoh: Try Out CAT SKD #12 — Sesi April ${CURRENT_YEAR}`}
               required
               className="bg-white border-slate-200 font-medium"
             />
@@ -177,7 +178,7 @@ export function ExamEditor({ initialData, isOpen, onClose }: ExamEditorProps) {
               </Badge>
             </div>
             <p className="text-[11px] text-slate-400 font-medium pl-3">
-              Standar SKD 2024: TWK 65 · TIU 80 · TKP 166
+              Standar SKD {CURRENT_YEAR}: TWK 65 · TIU 80 · TKP 166
             </p>
 
             <div className="grid grid-cols-3 gap-3 pt-1">

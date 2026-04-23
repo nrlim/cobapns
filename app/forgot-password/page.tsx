@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Mail, Loader2, CheckCircle2, Send, KeyRound, Shield, Clock, Inbox } from "lucide-react";
 import { forgotPasswordAction, type ForgotResult } from "@/app/actions/password";
+import { CURRENT_YEAR } from "@/lib/utils";
 
 export default function ForgotPasswordPage() {
   const [state, formAction, isPending] = useActionState<ForgotResult | null, FormData>(
@@ -66,7 +67,7 @@ export default function ForgotPasswordPage() {
 
         {/* Bottom */}
         <div className="relative z-10">
-          <p className="text-brand-blue-light/60 text-xs">© 2024 COBA PNS. Hak cipta dilindungi.</p>
+          <p className="text-brand-blue-light/60 text-xs">© {CURRENT_YEAR} COBA PNS. Hak cipta dilindungi.</p>
         </div>
       </div>
 

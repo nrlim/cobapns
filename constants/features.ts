@@ -54,7 +54,7 @@ export const TESTIMONIALS = [
   {
     id: "t1",
     name: "Anisa Rahmawati",
-    role: "Lulus CPNS Kementerian Keuangan 2024",
+    role: `Lulus CPNS Kementerian Keuangan ${new Date().getFullYear()}`,
     initials: "AR",
     scoreImprovement: "+127 poin",
     quote:

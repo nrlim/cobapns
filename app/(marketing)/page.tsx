@@ -6,6 +6,7 @@ import {
   Target, TrendingUp, Clock 
 } from "lucide-react";
 import { getSettings } from "@/app/actions/settings";
+import { CURRENT_YEAR } from "@/lib/utils";
 
 export default async function HomePage() {
   const settings = await getSettings();
@@ -17,7 +18,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,#1E73BE,#2DBE60)]" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold tracking-widest uppercase mb-6">Persiapan CPNS 2024</span>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold tracking-widest uppercase mb-6">Persiapan CPNS {CURRENT_YEAR}</span>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-[0.95] mb-6 md:mb-8">
               <span className="text-brand-blue">Sistem Persiapan CPNS</span>{" "}<br className="hidden md:block" />
               <span className="text-brand-green italic">Paling Mutakhir.</span>

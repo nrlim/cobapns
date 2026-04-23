@@ -4,6 +4,7 @@ import { useActionState, Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Lock, Eye, EyeOff, Loader2, CheckCircle2, ShieldCheck, ShieldAlert, KeyRound, Sparkles } from "lucide-react";
+import { CURRENT_YEAR } from "@/lib/utils";
 import { resetPasswordAction, type ForgotResult } from "@/app/actions/password";
 
 function PasswordStrengthBar({ password }: { password: string }) {
@@ -255,7 +256,7 @@ export default function ResetPasswordPage() {
           </div>
         </div>
 
-        <p className="relative z-10 text-brand-blue-light/60 text-xs">© 2024 COBA PNS. Hak cipta dilindungi.</p>
+        <p className="relative z-10 text-brand-blue-light/60 text-xs">© {CURRENT_YEAR} COBA PNS. Hak cipta dilindungi.</p>
       </div>
 
       {/* ── Right Form Panel ───────────────────────────────── */}

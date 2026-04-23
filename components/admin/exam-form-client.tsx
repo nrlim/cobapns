@@ -20,6 +20,7 @@ import {
   ChevronRight,
   Zap,
 } from "lucide-react"
+import { CURRENT_YEAR } from "@/lib/utils"
 import Link from "next/link"
 
 interface ExamData {
@@ -240,7 +241,7 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
                   className={inputBase}
                   value={form.title}
                   onChange={(e) => update("title", e.target.value)}
-                  placeholder="Contoh: Try Out CAT SKD #12 — Sesi April 2026"
+                  placeholder={`Contoh: Try Out CAT SKD #12 — Sesi April ${CURRENT_YEAR}`}
                   required
                 />
                 <p className="text-[11px] text-slate-400 mt-1.5 font-medium">
@@ -575,7 +576,7 @@ export function ExamFormClient({ initialData }: ExamFormClientProps) {
               </li>
               <li className="flex items-start gap-1.5">
                 <span className="font-black">•</span>
-                Passing Grade SKD 2024: TWK 65, TIU 80, TKP 166.
+                Passing Grade SKD {CURRENT_YEAR}: TWK 65, TIU 80, TKP 166.
               </li>
               <li className="flex items-start gap-1.5">
                 <span className="font-black">•</span>

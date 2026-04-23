@@ -1,5 +1,6 @@
 import { cookies } from "next/headers"
 import { verifySession } from "@/lib/session"
+import { CURRENT_YEAR } from "@/lib/utils"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { ShieldCheck, Zap, RefreshCw, HeadphonesIcon } from "lucide-react"
@@ -83,7 +84,7 @@ export default async function BillingPage({
           </h2>
           <p className="text-slate-500 font-medium leading-relaxed">
             Pilih paket yang sesuai kebutuhanmu. Semua paket dilengkapi akses Try Out SKD dengan Simulasi CAT berbasis{" "}
-            <span className="font-bold text-slate-700">Standar BKN 2024</span>.
+            <span className="font-bold text-slate-700">Standar BKN {CURRENT_YEAR}</span>.
           </p>
         </div>
 
