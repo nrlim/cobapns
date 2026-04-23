@@ -35,17 +35,22 @@ export async function sendEmail({ to, subject, html, text }: SendEmailInput) {
     }
 
     if (smtpConfig.smtpHost && smtpConfig.smtpPort && smtpConfig.smtpUser && smtpConfig.smtpPass) {
+      const isSSL = parseInt(smtpConfig.smtpPort, 10) === 465;
+
       const transporter = nodemailer.createTransport({
         host: smtpConfig.smtpHost,
         port: parseInt(smtpConfig.smtpPort, 10),
-        secure: parseInt(smtpConfig.smtpPort, 10) === 465, // true for 465, false for other ports
+        secure: isSSL,
+        requireTLS: !isSSL, // Jika bukan port 465 (misal 587), wajibkan koneksi STARTTLS
         auth: {
           user: smtpConfig.smtpUser,
           pass: smtpConfig.smtpPass,
         },
-        // Jika koneksi lokal (127.0.0.1), jangan paksa TLS karena jaringan lokal sudah aman 
-        // dan localhost tidak bisa memiliki SSL valid. Jika eksternal, tetap verifikasi SSL dengan ketat.
-        ignoreTLS: smtpConfig.smtpHost === "127.0.0.1" || smtpConfig.smtpHost === "localhost"
+        // Menyesuaikan logika dari vea-compro: kita abaikan rejectUnauthorized 
+        // agar koneksi VPS lokal/self-signed cert tetap lolos
+        tls: {
+          rejectUnauthorized: false
+        }
       });
 
       const info = await transporter.sendMail({
