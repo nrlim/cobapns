@@ -246,10 +246,7 @@ export default async function StudentDashboardPage() {
                 <Link
                   key={href}
                   href={href}
-                  className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-all group"
-                  style={{ borderColor: "transparent" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "#BFDBFE" }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "transparent" }}
+                  className="bg-white rounded-2xl border border-transparent shadow-sm p-5 flex items-center gap-4 hover:shadow-md hover:border-blue-200 transition-all group"
                 >
                   <div
                     className="w-10 h-10 rounded-xl border flex items-center justify-center flex-shrink-0"
