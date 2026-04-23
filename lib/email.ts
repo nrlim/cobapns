@@ -43,6 +43,9 @@ export async function sendEmail({ to, subject, html, text }: SendEmailInput) {
           user: smtpConfig.smtpUser,
           pass: smtpConfig.smtpPass,
         },
+        // Jika koneksi lokal (127.0.0.1), jangan paksa TLS karena jaringan lokal sudah aman 
+        // dan localhost tidak bisa memiliki SSL valid. Jika eksternal, tetap verifikasi SSL dengan ketat.
+        ignoreTLS: smtpConfig.smtpHost === "127.0.0.1" || smtpConfig.smtpHost === "localhost"
       });
 
       const info = await transporter.sendMail({
