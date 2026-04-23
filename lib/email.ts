@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { prisma } from "./prisma";
 
 if (!process.env.RESEND_API_KEY && process.env.NODE_ENV === "production") {
   throw new Error("FATAL: RESEND_API_KEY environment variable is not set.")
@@ -16,11 +17,46 @@ export type SendEmailInput = {
   text?: string;
 };
 
+import nodemailer from "nodemailer";
+
 /**
- * Send an email using Resend.
+ * Send an email using SMTP Relay if configured, fallback to Resend.
  */
 export async function sendEmail({ to, subject, html, text }: SendEmailInput) {
   try {
+    // Check SMTP config from DB
+    const smtpSettings = await prisma.systemSetting.findMany({
+      where: { key: { in: ["smtpHost", "smtpPort", "smtpUser", "smtpPass", "smtpFrom"] } }
+    });
+
+    const smtpConfig: Record<string, string> = {};
+    for (const s of smtpSettings) {
+      smtpConfig[s.key] = s.value;
+    }
+
+    if (smtpConfig.smtpHost && smtpConfig.smtpPort && smtpConfig.smtpUser && smtpConfig.smtpPass) {
+      const transporter = nodemailer.createTransport({
+        host: smtpConfig.smtpHost,
+        port: parseInt(smtpConfig.smtpPort, 10),
+        secure: parseInt(smtpConfig.smtpPort, 10) === 465, // true for 465, false for other ports
+        auth: {
+          user: smtpConfig.smtpUser,
+          pass: smtpConfig.smtpPass,
+        },
+      });
+
+      const info = await transporter.sendMail({
+        from: smtpConfig.smtpFrom || "noreply@cobapns.com",
+        to,
+        subject,
+        text: text || "",
+        html: html || "",
+      });
+
+      return { success: true, data: info };
+    }
+
+    // Fallback to Resend
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to,
@@ -36,12 +72,13 @@ export async function sendEmail({ to, subject, html, text }: SendEmailInput) {
     }
 
     return { success: true, data };
-  } catch {
+  } catch (error) {
+    console.error("[email] Failed to send email:", error);
     return { success: false, error: "Failed to send email" };
   }
 }
 
-import { prisma } from "./prisma";
+
 
 /**
  * Send a dynamic email using a template stored in the EmailTemplate table.
