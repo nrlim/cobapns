@@ -85,7 +85,7 @@ export async function forgotPasswordAction(
       await prisma.passwordResetToken.deleteMany({ where: { email } });
       return {
         success: false,
-        message: "Gagal mengirim email. Pastikan template 'LUPA_PASSWORD' sudah dikonfigurasi di Settings.",
+        message: `Gagal mengirim email: ${emailResult.error || "Pastikan SMTP / Template sudah dikonfigurasi di Settings."}`,
       };
     }
 
