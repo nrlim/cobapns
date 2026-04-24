@@ -15,7 +15,7 @@ type Platform = "ios" | "android-chrome" | "desktop-chrome" | null
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const DISMISS_STORAGE_KEY = "cobapns-install-dismissed-until"
-const DISMISS_DURATION_DAYS = 7
+const DISMISS_DURATION_DAYS = 1
 const isDev = process.env.NODE_ENV === "development"
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -86,35 +86,25 @@ export function GlobalInstallPrompt() {
     const detected = detectPlatform()
     setPlatform(detected)
 
-    // ── DEV MODE: always show so the prompt can be previewed ──────────
-    if (isDev) {
-      const timer = setTimeout(() => {
-        setVisible(true)
-        requestAnimationFrame(() => setAnimating(true))
-      }, 1500)
-      return () => clearTimeout(timer)
-    }
-
     // Show after a short delay so it doesn't block initial render
     const timer = setTimeout(() => {
-      if (detected === "ios" || detected === "android-chrome" || deferredPrompt) {
+      if (isDev || detected === "ios" || detected === "android-chrome" || (detected === "desktop-chrome" && deferredPrompt)) {
         setVisible(true)
-        // Trigger slide-in animation
-        requestAnimationFrame(() => setAnimating(true))
       }
-    }, 3000)
+    }, isDev ? 1500 : 2500)
 
     return () => clearTimeout(timer)
   }, [deferredPrompt, isInstalled])
 
-  // Also show for desktop Chrome once deferredPrompt is available
+  // Separate animation trigger to ensure CSS transition works
   useEffect(() => {
-    if (isInstalled || isDismissed() || !deferredPrompt) return
-    if (platform === "desktop-chrome") {
-      setVisible(true)
-      requestAnimationFrame(() => setAnimating(true))
+    if (visible) {
+      const raf = requestAnimationFrame(() => {
+        setAnimating(true)
+      })
+      return () => cancelAnimationFrame(raf)
     }
-  }, [deferredPrompt, platform, isInstalled])
+  }, [visible])
 
   const handleDismiss = useCallback(() => {
     setAnimating(false)
@@ -234,8 +224,8 @@ export function GlobalInstallPrompt() {
           <Image
             src="/icon-cpns.png"
             alt="COBA PNS"
-            width={44}
-            height={44}
+            width={40}
+            height={40}
             className="cobapns-pwa-logo"
           />
           <div className="cobapns-pwa-text">

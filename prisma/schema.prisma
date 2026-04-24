@@ -44,6 +44,7 @@ model User {
   learningGoal     String?
   notifEmail       Boolean          @default(true)
   isActive         Boolean          @default(true)
+  hasGivenFeedback Boolean          @default(false)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
 
@@ -55,6 +56,7 @@ model User {
   transactions       Transaction[]
   psychometricResult PsychometricResult?
   iqResult           IQResult?
+  testimonials       Testimonial[]
 
   @@map("users")
 }
@@ -461,4 +463,30 @@ model IQResult {
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("iq_results")
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  guestName   String?
+  guestRole   String?
+  guestAvatar String?
+  rating      Int      @default(5)
+  content     String   @db.Text
+  tags        String[]
+  isVerified  Boolean  @default(false) // Untuk menandai real buyer
+  isBackdoor  Boolean  @default(false) // Untuk tracking internal admin
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt   DateTime @default(now())
+
+  @@map("testimonials")
+}
+
+model SystemConfig {
+  id                    String  @id @default("global_config")
+  showTestimonials      Boolean @default(true) // Global On/Off Toggle
+  publicBackdoorEnabled Boolean @default(false) // Toggle for public backdoor link
+
+  @@map("system_configs")
 }

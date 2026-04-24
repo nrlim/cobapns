@@ -18,6 +18,7 @@ import {
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { ReviewExamModal } from "@/components/dashboard/review-modal"
 import { ReportButton } from "@/components/shared/report-modal"
+import { FeedbackModal } from "@/components/shared/FeedbackModal"
 import { hasAccess, type UserTier } from "@/constants/permissions"
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string; resultId: string }> }) {
@@ -46,7 +47,7 @@ export default async function ExamResultPage({
   // Live tier check for PDF access gating
   const dbUser = await prisma.user.findUnique({
     where: { id: session.userId },
-    select: { subscriptionTier: true, subscriptionEnds: true },
+    select: { subscriptionTier: true, subscriptionEnds: true, hasGivenFeedback: true },
   })
   const rawTier = dbUser?.subscriptionTier ?? "FREE"
   const effectiveTier: UserTier =
@@ -111,6 +112,7 @@ export default async function ExamResultPage({
 
   return (
     <DashboardShell activeHref="/dashboard/exams" user={{ name: session.name, role: session.role }}>
+      <FeedbackModal hasGivenFeedback={dbUser?.hasGivenFeedback || false} />
       <div className="p-4 md:p-8 lg:p-10 w-full space-y-6">
         
         {/* Header Section */}

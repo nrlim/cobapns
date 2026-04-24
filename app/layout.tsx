@@ -60,6 +60,8 @@ export default function RootLayout({
         <ConsoleEasterEgg />
         {/* Register service worker (production only, no-op in dev) */}
         <ServiceWorkerRegistrar />
+        {/* Floating PWA install prompt — shown globally across all pages */}
+        <GlobalInstallPrompt />
         <NextTopLoader
           color="#1E73BE"
           initialPosition={0.08}
@@ -72,8 +74,6 @@ export default function RootLayout({
           shadow="0 0 10px #1E73BE,0 0 5px #1E73BE"
         />
         {children}
-        {/* Floating PWA install prompt — shown globally across all pages */}
-        <GlobalInstallPrompt />
       </body>
     </html>
   );

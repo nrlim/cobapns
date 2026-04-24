@@ -8,10 +8,28 @@ import {
 } from "lucide-react";
 import { getSettings } from "@/app/actions/settings";
 import { CURRENT_YEAR } from "@/lib/utils";
-import { TestimonialCarousel } from "@/components/ui/testimonial-carousel";
+import { TestimonialCarousel, type DynamicTestimonial } from "@/components/ui/testimonial-carousel";
+import { prisma } from "@/lib/prisma";
 
 export default async function HomePage() {
   const settings = await getSettings();
+
+  const raw = await prisma.testimonial.findMany({
+    where: { status: "APPROVED" },
+    include: { user: true },
+    orderBy: { createdAt: "desc" },
+    take: 10
+  });
+  
+  const testimonialsData: DynamicTestimonial[] = raw.map(t => ({
+      id: t.id,
+      name: t.user?.name || t.guestName || "Pengguna CPNS",
+      role: t.guestRole || (t.isVerified ? "Pengguna Terverifikasi" : "Pengguna Setia COBA PNS"),
+      quote: t.content,
+      image: t.user?.avatarUrl || t.guestAvatar || null,
+      tags: t.tags,
+      rating: t.rating || 5
+    }));
 
   return (
     <main className="pt-16">
@@ -341,8 +359,27 @@ export default async function HomePage() {
       <section className="py-14 md:py-24 bg-surface" id="testimoni">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4">Apa Kata Mereka?</h2>
-            <p className="text-on-secondary-container text-lg max-w-2xl mx-auto">Cerita sukses mereka yang sudah merasakan manfaat belajar bersama COBACPNS.</p>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+              Cerita Sukses <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-green">Alumni</span>
+            </h2>
+            <p className="text-slate-600 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+              Bergabunglah dengan ribuan peserta lain yang telah membuktikan keakuratan sistem kami.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center">
+              <div className="text-4xl font-black text-slate-900 mb-1">98%</div>
+              <div className="text-sm font-bold text-slate-500 uppercase tracking-wider">Tingkat Kemiripan</div>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center">
+              <div className="text-4xl font-black text-slate-900 mb-1">4.9/5</div>
+              <div className="text-sm font-bold text-slate-500 uppercase tracking-wider">Rating Peserta</div>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center">
+              <div className="text-4xl font-black text-slate-900 mb-1">10k+</div>
+              <div className="text-sm font-bold text-slate-500 uppercase tracking-wider">Pengguna Aktif</div>
+            </div>
           </div>
           
           {/* Video Testimonials */}
@@ -378,10 +415,10 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <TestimonialCarousel />
+          <TestimonialCarousel testimonials={testimonialsData} />
         </div>
       </section>
-
+      
       {/* 7. Pricing Section */}
       <section className="py-14 md:py-24 px-4 sm:px-6 bg-surface-container-low" id="harga">
         <div className="max-w-7xl mx-auto">

@@ -1,178 +1,151 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Quote } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 
-type Testimonial = {
-  id: number;
+export type DynamicTestimonial = {
+  id: string;
   name: string;
   role: string;
   quote: string;
-  image: string;
-  bgColor: string;
+  image: string | null;
+  tags: string[];
+  rating: number;
 };
 
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Andi Setiawan",
-    role: "Lulus CPNS Kemenkumham",
-    quote: "Sumpah, tryoutnya mirip banget sama CAT aslinya! Sempet deg-degan tapi karena sering latihan di COBACPNS jadi lancar pas hari H.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-blue-100"
-  },
-  {
-    id: 2,
-    name: "Siti Aminah",
-    role: "Lulus CPNS Pemprov Jatim",
-    quote: "Materinya gampang dipahami. Fitur analisanya bantu aku banget tau kelemahanku di TIU. Alhamdulilah akhirnya bisa tembus passing grade tinggi.",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-green-100"
-  },
-  {
-    id: 3,
-    name: "Rizky Pratama",
-    role: "Lulus CPNS Kemenag",
-    quote: "Belajar jadi ngga bosen. Pembahasannya lengkap banget step-by-step. Terimakasih COBACPNS udah jadi teman belajar setahun terakhir.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-yellow-100"
-  },
-  {
-    id: 4,
-    name: "Dewi Lestari",
-    role: "Lulus CPNS BKN",
-    quote: "Paling suka sama simulasi waktunya. Bener-bener melatih mental buat ngerjain soal dengan cepat dan tepat. Recommended banget!",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-red-100"
-  },
-  {
-    id: 5,
-    name: "Bagas Mulyadi",
-    role: "Lulus CPNS Pemkot Bandung",
-    quote: "Awalnya ragu, tapi setelah coba paket Elite, nilaiku naik drastis. Grafik performa bener-bener ngebantu buat tau kelemahan di TKP.",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-indigo-100"
-  },
-  {
-    id: 6,
-    name: "Putri Anjani",
-    role: "Lulus CPNS Kemenkeu",
-    quote: "Soal-soalnya up-to-date banget! Banyak materi dari COBACPNS yang keluar persis saat tes asli. Sangat membantu persiapan aku.",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-pink-100"
-  },
-  {
-    id: 7,
-    name: "Hendra Wijaya",
-    role: "Lulus CPNS Kemenhub",
-    quote: "Sistem ranking nasional bikin makin semangat belajar. Setiap kali TO, pengen banget ngejar posisi di atas. Seru dan kompetitif!",
-    image: "https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-orange-100"
-  },
-  {
-    id: 8,
-    name: "Ayu Puspita",
-    role: "Lulus CPNS Pemprov Jateng",
-    quote: "E-book strateginya juara. Tips dan trik jawab TWK bener-bener membuka wawasan yang selama ini aku bingung cara memahaminya.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-teal-100"
-  },
-  {
-    id: 9,
-    name: "Dika Pratama",
-    role: "Lulus CPNS Mahkamah Agung",
-    quote: "Gak rugi ambil Master Strategy. Video lesson-nya gampang dipahami buat orang awam kaya aku. Sekarang aku bangga pakai seragam!",
-    image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-    bgColor: "bg-gray-200"
-  }
-];
-
-export function TestimonialCarousel() {
+export function TestimonialCarousel({ testimonials }: { testimonials: DynamicTestimonial[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-scroll effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (scrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        const isEnd = Math.ceil(scrollLeft + clientWidth) >= scrollWidth;
-        
-        if (isEnd) {
-          // Reset to beginning
-          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          // Scroll to next item (approx 340px + gap)
-          const scrollAmount = clientWidth > 640 ? 364 : clientWidth * 0.85; 
-          scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-      }
-    }, 4000); // 4 seconds interval
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Update active index based on scroll position
-  const handleScroll = () => {
+  const scrollTo = useCallback((index: number) => {
     if (!scrollRef.current) return;
-    const { scrollLeft, clientWidth } = scrollRef.current;
+    const { clientWidth, scrollWidth } = scrollRef.current;
     
-    // Estimate active index based on scroll position
+    // Exact card width calculation based on CSS (340px width + 24px gap = 364px)
     const cardWidth = clientWidth > 640 ? 364 : clientWidth * 0.85;
-    const index = Math.round(scrollLeft / cardWidth);
-    setActiveIndex(Math.min(index, testimonials.length - 1));
-  };
+    
+    // If the entire track fits in the container, we don't strictly need to scroll
+    // but we can still update the bullet point.
+    if (scrollWidth <= clientWidth) {
+      setActiveIndex(index);
+      return;
+    }
 
-  const scrollTo = (index: number) => {
-    if (!scrollRef.current) return;
-    const { clientWidth } = scrollRef.current;
-    const cardWidth = clientWidth > 640 ? 364 : clientWidth * 0.85;
     scrollRef.current.scrollTo({
       left: index * cardWidth,
       behavior: 'smooth'
     });
     setActiveIndex(index);
+  }, []);
+
+  // Auto-play effect
+  useEffect(() => {
+    if (testimonials.length <= 1 || isHovered) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((current) => {
+        const next = (current + 1) % testimonials.length;
+        scrollTo(next);
+        return next;
+      });
+    }, 3500); // 3.5 seconds
+
+    return () => clearInterval(interval);
+  }, [testimonials.length, isHovered, scrollTo]);
+
+  // Sync scroll manually if user swipes
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
+    if (scrollWidth <= clientWidth) return;
+    
+    const cardWidth = clientWidth > 640 ? 364 : clientWidth * 0.85;
+    const index = Math.round(scrollLeft / cardWidth);
+    
+    // Update bullet to match manual swipe position
+    if (index >= 0 && index < testimonials.length) {
+      setActiveIndex(index);
+    }
   };
 
+  if (!testimonials || testimonials.length === 0) return null;
+
   return (
-    <div className="w-full">
+    <div 
+      className="w-full relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
+    >
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
       >
-        {testimonials.map((testi) => (
-          <div key={testi.id} className="w-[85vw] sm:w-[300px] md:w-[340px] snap-center shrink-0 bg-surface-container-lowest p-8 rounded-3xl shadow border border-outline-variant/10 relative flex flex-col justify-between h-full">
+        {testimonials.map((testi, idx) => {
+          const isActive = idx === activeIndex;
+          return (
+          <div 
+            key={testi.id} 
+            className={`w-[85vw] sm:w-[300px] md:w-[340px] snap-center shrink-0 p-8 rounded-3xl relative flex flex-col justify-between h-full transition-all duration-500 ease-out border
+              ${isActive 
+                ? "bg-white shadow-2xl shadow-slate-200/50 border-[#1E73BE]/20 scale-100 opacity-100 z-10" 
+                : "bg-slate-50 shadow-sm border-slate-200/60 scale-90 opacity-50 z-0 hover:opacity-80 hover:scale-95"
+              }
+            `}
+          >
             <div>
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-primary/10" />
+              <Quote className="absolute top-6 right-6 w-10 h-10 text-[#1E73BE]/10" />
               <div className="flex items-center gap-4 mb-6">
-                <div className={`w-14 h-14 ${testi.bgColor} rounded-full flex items-center justify-center overflow-hidden`}>
-                  <Image src={testi.image} alt={testi.name} width={56} height={56} className="object-cover" unoptimized />
+                <div className={`w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center overflow-hidden font-bold text-slate-500`}>
+                  {testi.image ? (
+                    <Image src={testi.image} alt={testi.name} width={56} height={56} className="object-cover w-full h-full" unoptimized />
+                  ) : (
+                    <span className="text-xl">{testi.name.charAt(0).toUpperCase()}</span>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-bold text-on-surface">{testi.name}</h4>
-                  <p className="text-xs text-green-600 font-medium">{testi.role}</p>
+                  <p className="text-xs text-[#2DBE60] font-medium">{testi.role}</p>
                 </div>
               </div>
-              <p className="text-on-secondary-container italic">
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star 
+                    key={i} 
+                    className={`w-4 h-4 ${i < testi.rating ? "fill-[#2DBE60] text-[#2DBE60]" : "fill-slate-200 text-slate-200"}`} 
+                  />
+                ))}
+              </div>
+              <p className="text-on-secondary-container italic mb-4 line-clamp-4">
                 &quot;{testi.quote}&quot;
               </p>
+              <div className="flex flex-wrap gap-1 mt-auto">
+                {testi.tags?.map((t, i) => (
+                  <span key={i} className="text-[10px] font-bold bg-[#2DBE60]/10 text-[#2DBE60] px-2 py-1 rounded-md">
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Pagination Bullets */}
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="flex justify-center gap-2 mt-2">
         {testimonials.map((_, idx) => (
           <button
             key={idx}
             onClick={() => scrollTo(idx)}
             className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               activeIndex === idx 
-                ? "bg-primary w-6" 
-                : "bg-surface-container-highest hover:bg-primary/50"
+                ? "bg-[#1E73BE] w-6" 
+                : "bg-slate-200 hover:bg-[#1E73BE]/50"
             }`}
             aria-label={`Go to testimonial ${idx + 1}`}
           />

@@ -5,6 +5,8 @@ import { requireAuth } from "@/lib/auth-guard"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import bcrypt from "bcryptjs"
+import fs from "fs/promises"
+import path from "path"
 
 export type ActionResult = {
   success: boolean
@@ -212,4 +214,51 @@ export async function getLiveUserTierAction(): Promise<{ tier: string } | null> 
     return null // Return null silently for client components
   }
 }
+
+// ── Upload Avatar ─────────────────────────────────────────────────────────────
+
+export async function uploadAvatar(formData: FormData): Promise<ActionResult & { url?: string }> {
+  try {
+    const session = await requireAuth()
+    const file = formData.get("avatar") as File | null
+    if (!file || file.size === 0) return { success: false, error: "Pilih file gambar terlebih dahulu." }
+    
+    if (file.size > 2 * 1024 * 1024) return { success: false, error: "Ukuran gambar maksimal 2MB." }
+    if (!file.type.startsWith("image/")) return { success: false, error: "Hanya format gambar yang diperbolehkan." }
+
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    
+    const ext = file.name.split(".").pop() || "png"
+    const fileName = `avatar.${ext}`
+    
+    // Group base on folder masing masing usernya
+    // Diarahkan sesuai path spesifik untuk produksi
+    const baseDir = process.env.NODE_ENV === "production" 
+      ? "/var/www/cobapns-com/public/uploads"
+      : path.join(process.cwd(), "public", "uploads")
+      
+    const userDir = path.join(baseDir, session.userId)
+    
+    await fs.mkdir(userDir, { recursive: true })
+    const filePath = path.join(userDir, fileName)
+    await fs.writeFile(filePath, buffer)
+    
+    const avatarUrl = `/uploads/${session.userId}/${fileName}?v=${Date.now()}`
+    
+    await prisma.user.update({
+      where: { id: session.userId },
+      data: { avatarUrl }
+    })
+    
+    revalidatePath("/dashboard/settings")
+    return { success: true, message: "Foto profil berhasil diperbarui.", url: avatarUrl }
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === "UNAUTHENTICATED")
+      return { success: false, error: "Sesi tidak valid." }
+    console.error("[uploadAvatar]", err)
+    return { success: false, error: "Gagal mengupload foto profil." }
+  }
+}
+
 

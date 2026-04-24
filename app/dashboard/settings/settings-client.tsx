@@ -1,11 +1,11 @@
 "use client"
 
 import { useActionState, useState, useRef, useEffect } from "react"
-import { updateProfileSettings, updatePassword, updateFormation } from "@/app/actions/profile"
+import { updateProfileSettings, updatePassword, updateFormation, uploadAvatar } from "@/app/actions/profile"
 import {
   User, Mail, Phone, Building2, Shield, Bell,
   CheckCircle2, AlertCircle, Loader2, Save, Key,
-  UserCircle2, Lock, Eye, EyeOff, ChevronRight,
+  UserCircle2, Lock, Eye, EyeOff, ChevronRight, Camera,
   Target, FileText, Briefcase, GraduationCap, Search
 } from "lucide-react"
 
@@ -285,6 +285,25 @@ export function SettingsClient({ user, lookups }: {
   const [formState, formActionFormation, isPendingFormation] = useActionState(updateFormation, null)
   
   const [activeTab, setActiveTab] = useState<"profile" | "formation" | "security">("profile")
+  const [isUploading, setIsUploading] = useState(false)
+  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl)
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    const formData = new FormData()
+    formData.append("avatar", file)
+
+    const result = await uploadAvatar(formData)
+    if (result.success && result.url) {
+      setAvatarUrl(result.url)
+    } else {
+      alert(result.error || "Gagal mengupload foto profil")
+    }
+    setIsUploading(false)
+  }
 
   const tier = TIER_LABEL[user.subscriptionTier] ?? TIER_LABEL.FREE
 
@@ -308,8 +327,23 @@ export function SettingsClient({ user, lookups }: {
 
           <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 sm:p-8">
             {/* Avatar */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-brand-blue-light to-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-blue-900/30 flex-shrink-0 select-none border-4 border-white/10">
-              {user.name.charAt(0).toUpperCase()}
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-brand-blue-light to-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-blue-900/30 flex-shrink-0 select-none border-4 border-white/10 relative group overflow-hidden">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                user.name.charAt(0).toUpperCase()
+              )}
+              {isUploading ? (
+                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
+                  <Loader2 className="w-6 h-6 animate-spin mb-1" />
+                </div>
+              ) : (
+                <label className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white">
+                  <Camera className="w-6 h-6 mb-1" />
+                  <span className="text-[9px] font-bold">Ubah Foto</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} disabled={isUploading} />
+                </label>
+              )}
             </div>
 
             {/* Info */}
