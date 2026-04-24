@@ -11,6 +11,8 @@ import { CURRENT_YEAR } from "@/lib/utils";
 import { TestimonialCarousel, type DynamicTestimonial } from "@/components/ui/testimonial-carousel";
 import { prisma } from "@/lib/prisma";
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   const settings = await getSettings();
 
