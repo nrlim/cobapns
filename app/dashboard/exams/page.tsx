@@ -68,9 +68,9 @@ export default async function StudentExamsPage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Simulasi CAT CPNS</p>
-            <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Daftar Try Out</h1>
+            <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Pilih Latihan Try Out</h1>
             <p className="text-slate-500 font-medium text-sm mt-1">
-              Pilih ujian dan kerjakan simulasi CAT secara real-time.
+              Yuk, asah kemampuanmu dengan mengerjakan simulasi ujian CAT yang sesungguhnya.
             </p>
           </div>
 
@@ -78,17 +78,17 @@ export default async function StudentExamsPage() {
           <div className="flex items-center gap-4 flex-shrink-0 bg-white border border-slate-100 rounded-2xl px-5 py-3 shadow-sm">
             <div className="text-center">
               <div className="text-xl font-black text-brand-blue-deep">{done}</div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Dikerjakan</div>
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selesai</div>
             </div>
             <div className="h-8 w-px bg-slate-200" />
             <div className="text-center">
               <div className="text-xl font-black text-green-600">{passed}</div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lulus</div>
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Berhasil</div>
             </div>
             <div className="h-8 w-px bg-slate-200" />
             <div className="text-center">
               <div className="text-xl font-black text-slate-900">{total}</div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total</div>
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tersedia</div>
             </div>
           </div>
         </div>
@@ -97,11 +97,11 @@ export default async function StudentExamsPage() {
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <div>
-            <h3 className="font-black text-amber-900 text-sm mb-1.5">Tata Tertib Ujian CAT</h3>
+            <h3 className="font-black text-amber-900 text-sm mb-1.5">Aturan Pengerjaan Ujian</h3>
             <ul className="text-xs text-amber-800 grid sm:grid-cols-2 gap-1 font-medium">
-              <li>• Gunakan browser desktop atau Chrome mobile.</li>
-              <li>• Jawaban tersimpan otomatis secara real-time.</li>
-              <li>• Timer berjalan meski browser di-minimize.</li>
+              <li>• Bisa dikerjakan lewat Laptop atau HP (Chrome).</li>
+              <li>• Jawabanmu akan langsung tersimpan otomatis.</li>
+              <li>• Waktu terus berjalan meski aplikasi ditutup.</li>
               <li>• TWK &amp; TIU: +5 benar, 0 salah. TKP: 1–5 poin.</li>
             </ul>
           </div>
@@ -110,7 +110,7 @@ export default async function StudentExamsPage() {
         {/* ── Exam List (client — owns the modal) ────────── */}
         <div>
           <div className="mb-4">
-            <h2 className="font-black text-slate-900 text-sm">{total} Ujian Tersedia</h2>
+            <h2 className="font-black text-slate-900 text-sm">Ada {total} Latihan Untukmu</h2>
           </div>
           <ExamListClient exams={examCards} />
         </div>

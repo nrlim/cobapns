@@ -78,13 +78,13 @@ export default async function BillingPage({
 
         {/* ── Page Header ──────────────────────────────────────── */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-3">Paket & Pembayaran</p>
+          <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-3">Pilihan Paket</p>
           <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-slate-900 mb-3">
-            Investasi Terbaik untuk Lulus CPNS
+            Ayo Upgrade &amp; Lolos CPNS!
           </h2>
           <p className="text-slate-500 font-medium leading-relaxed">
-            Pilih paket yang sesuai kebutuhanmu. Semua paket dilengkapi akses Try Out SKD dengan Simulasi CAT berbasis{" "}
-            <span className="font-bold text-slate-700">Standar BKN {CURRENT_YEAR}</span>.
+            Pilih paket belajar yang paling cocok buat kamu. Semua paket sudah pakai simulasi CAT sesuai standar{" "}
+            <span className="font-bold text-slate-700">BKN {CURRENT_YEAR}</span> terbaru.
           </p>
         </div>
 
@@ -103,9 +103,9 @@ export default async function BillingPage({
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1000px] mx-auto mt-16 pt-16 border-t border-slate-100">
           {[
             { icon: ShieldCheck, title: "Pembayaran Aman", sub: "SSL 256-bit + Midtrans" },
-            { icon: Zap, title: "Aktivasi Instan", sub: "Aktif < 5 menit setelah bayar" },
+            { icon: Zap, title: "Langsung Aktif", sub: "Bisa langsung dipakai belajar" },
             { icon: RefreshCw, title: "Garansi 7 Hari", sub: "Uang kembali 100%" },
-            { icon: HeadphonesIcon, title: "Support Responsif", sub: "Bantuan via WhatsApp" },
+            { icon: HeadphonesIcon, title: "Bantuan Cepat", sub: "Tanya-tanya via WhatsApp" },
           ].map(({ icon: Icon, title, sub }) => (
             <div key={title} className="flex flex-col items-center text-center gap-3">
               <div className="w-10 h-10 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center">

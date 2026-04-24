@@ -119,7 +119,7 @@ function MaterialCard({ title, slug, subCategory, type, completed, locked }: Mat
         </div>
         <div className="min-w-0">
           <p className="text-xs font-bold text-slate-500 line-clamp-1">{title}</p>
-          <p className="text-[10px] text-slate-400">Upgrade paket untuk akses</p>
+          <p className="text-[10px] text-slate-400">Buka dengan Upgrade Paket</p>
         </div>
       </div>
     )
@@ -182,10 +182,10 @@ export default async function LearningHubPage() {
               Learning Hub
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
-              Pusat Belajar SKD
+              Ruang Belajar Mandiri
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm">
-              Kuasai semua materi TWK, TIU, dan TKP untuk lolos CPNS.
+              Pelajari materi pilihan untuk tingkatkan skor TWK, TIU, dan TKP kamu.
             </p>
           </div>
           {total > 0 && (
@@ -193,7 +193,7 @@ export default async function LearningHubPage() {
               <CheckCircle2 className="w-5 h-5 text-brand-blue" />
               <div>
                 <div className="text-lg font-black text-brand-blue-deep">{totalCompleted}<span className="text-sm font-semibold text-brand-blue">/{total}</span></div>
-                <div className="text-[10px] text-brand-blue font-bold uppercase tracking-widest">Materi Selesai</div>
+                <div className="text-[10px] text-brand-blue font-bold uppercase tracking-widest">Materi Dipelajari</div>
               </div>
             </div>
           )}
@@ -202,10 +202,10 @@ export default async function LearningHubPage() {
         {/* ── Quick Filter Row ───────────────────────────────────── */}
         <div className="flex gap-3 overflow-x-auto pb-1">
           {[
-            { label: "Semua Materi", icon: BookOpen, href: "/dashboard/learning" },
-            { label: "Video Lesson", icon: Video, href: "/dashboard/learning?type=VIDEO" },
-            { label: "E-Book / PDF", icon: FileText, href: "/dashboard/learning?type=PDF" },
-            { label: "Cheat Sheet",  icon: Zap,      href: "/dashboard/learning?type=TEXT" },
+            { label: "Semua", icon: BookOpen, href: "/dashboard/learning" },
+            { label: "Video Belajar", icon: Video, href: "/dashboard/learning?type=VIDEO" },
+            { label: "E-Book & PDF", icon: FileText, href: "/dashboard/learning?type=PDF" },
+            { label: "Ringkasan Materi",  icon: Zap,      href: "/dashboard/learning?type=TEXT" },
           ].map(({ label, icon: Icon, href }) => (
             <Link
               key={label}
@@ -222,9 +222,9 @@ export default async function LearningHubPage() {
           /* ── Empty State ────────────────────────────────────────── */
           <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-16 text-center">
             <GraduationCap className="w-12 h-12 text-slate-200 mx-auto mb-4" />
-            <h3 className="font-black text-slate-900 mb-2">Belum Ada Materi</h3>
+            <h3 className="font-black text-slate-900 mb-2">Materi Belum Tersedia</h3>
             <p className="text-sm text-slate-400 font-medium">
-              Admin sedang menyiapkan modul belajar. Cek kembali nanti!
+              Sabar ya, tim kami sedang menyiapkan modul belajar terbaik untukmu. Cek lagi nanti!
             </p>
           </div>
         ) : (
@@ -256,8 +256,8 @@ export default async function LearningHubPage() {
                     {/* Progress Bar */}
                     <div className="mt-3">
                       <div className="flex justify-between text-[10px] font-bold text-slate-400 mb-1">
-                        <span>{items.filter((i) => i.completed).length}/{items.length} selesai</span>
-                        <span>Penguasaan {mastery}%</span>
+                        <span>{items.filter((i) => i.completed).length} dari {items.length} materi</span>
+                        <span>Sudah Paham {mastery}%</span>
                       </div>
                       <div className="w-full h-1.5 rounded-full bg-white/60">
                         <div

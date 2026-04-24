@@ -117,13 +117,13 @@ export default async function ExamResultPage({
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-2">
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1">
-              Hasil Try Out
+              Hasil Latihan
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
               {exam.title}
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm">
-              Rekapitulasi nilai dan status kelulusan passing grade SKD.
+              Ringkasan nilai dan status kelulusan kamu di latihan ini.
             </p>
           </div>
         </div>
@@ -152,18 +152,18 @@ export default async function ExamResultPage({
                     )}
                   </div>
                   <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2">
-                    {result.overallPass ? "Selamat, Kamu Lulus!" : "Belum Lulus"}
+                    {result.overallPass ? "Selamat, Kamu Lolos!" : "Belum Lolos"}
                   </h1>
                   <p className={`text-sm font-medium ${result.overallPass ? "text-blue-100" : "text-slate-300"}`}>
                     {result.overallPass 
-                      ? "Skor kamu memenuhi semua ambang batas nilai SKD CPNS. Pertahankan preatasimu!" 
-                      : "Skor kamu belum memenuhi standar ambang batas. Pelajari materi yang lemah dan coba lagi."}
+                      ? "Skor kamu sudah di atas nilai minimal. Keren, pertahankan terus ya!" 
+                      : "Nilai kamu masih di bawah batas minimal. Jangan menyerah, pelajari lagi materinya ya!"}
                   </p>
                 </div>
 
                 <div className="flex-shrink-0 text-center">
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl">
-                    <div className="text-[10px] font-black text-white/70 uppercase tracking-widest mb-2">Total Nilai</div>
+                    <div className="text-[10px] font-black text-white/70 uppercase tracking-widest mb-2">Skor Kamu</div>
                     <div className="text-6xl font-black tracking-tighter leading-none mb-1">{result.totalScore}</div>
                     <div className="text-xs text-white/50 font-bold mt-2 pt-2 border-t border-white/10">
                       dari {MAX_SCORES.TWK + MAX_SCORES.TIU + MAX_SCORES.TKP} poin
@@ -175,7 +175,7 @@ export default async function ExamResultPage({
 
             {/* Sub-Category Breakdown (Bento Grid) */}
             <div>
-              <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Rincian Per Kategori</h3>
+              <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Nilai per Bagian</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {categories.map(({ key, label, score, passing, max, pass, color }) => {
                   const pct = Math.round((score / max) * 100)
@@ -194,7 +194,7 @@ export default async function ExamResultPage({
                             : "bg-red-50 text-red-600 border-red-200"
                         }`}>
                           {pass ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
-                          {pass ? "Lulus" : "Gagal"}
+                          {pass ? "Lolos" : "Belum Lolos"}
                         </div>
                       </div>
 
@@ -206,7 +206,7 @@ export default async function ExamResultPage({
                       <div className="mt-auto space-y-2">
                         <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                           <span>0</span>
-                          <span>Max {max}</span>
+                          <span>Maksimal {max}</span>
                         </div>
                         <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden relative">
                           <div 
@@ -221,7 +221,7 @@ export default async function ExamResultPage({
                         </div>
                         {!pass && (
                           <p className="text-[10px] font-bold text-red-500 pt-1">
-                            Kurang {passing - score} poin
+                            Butuh {passing - score} poin lagi
                           </p>
                         )}
                       </div>
@@ -237,19 +237,19 @@ export default async function ExamResultPage({
             
             {/* Actions Panel */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-              <h3 className="font-black text-slate-900 text-sm mb-4">Tindakan Selanjutnya</h3>
+              <h3 className="font-black text-slate-900 text-sm mb-4">Apa yang harus dilakukan?</h3>
               <div className="space-y-3">
                 <ReviewExamModal examId={result.examId} title={exam.title} />
 
                 {/* Report Preview */}
                 <div className="pt-1 pb-1">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Laporan PDF</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Download Hasil</p>
                   <ReportButton
                     type="TRYOUT"
                     examResultId={resultId}
                     hasAccess={canDownloadPDF}
                     requiredTier="ELITE"
-                    label="Pratinjau & Unduh Laporan"
+                    label="Lihat & Simpan Laporan"
                     variant="outline"
                     size="sm"
                   />
@@ -263,7 +263,7 @@ export default async function ExamResultPage({
                     <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
                       <RotateCcw className="w-4 h-4" />
                     </div>
-                    Ulangi Ujian
+                    Coba Lagi
                   </div>
                   <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
@@ -276,7 +276,7 @@ export default async function ExamResultPage({
                     <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center transition-colors">
                       <BarChart2 className="w-4 h-4" />
                     </div>
-                    Semua Try Out
+                    Lihat Semua Latihan
                   </div>
                 </Link>
               </div>
@@ -293,11 +293,11 @@ export default async function ExamResultPage({
                   <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center">
                     <TrendingUp className="w-4 h-4" />
                   </div>
-                  <h3 className="font-black text-indigo-900 text-sm">Fokus Belajar</h3>
+                  <h3 className="font-black text-indigo-900 text-sm">Saran Belajar</h3>
                 </div>
                 
                 <p className="text-sm font-medium text-indigo-800/80 leading-relaxed mb-5">
-                  Dari hasil tes ini, kamu paling merekomendasikan untuk memperdalam materi <span className="font-black text-indigo-900 bg-indigo-200/50 px-1 py-0.5 rounded">{weakest}</span>.
+                  Berdasarkan hasil tes ini, kami sarankan kamu perdalam lagi materi <span className="font-black text-indigo-900 bg-indigo-200/50 px-1 py-0.5 rounded">{weakest}</span>.
                 </p>
 
                 <Link

@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 
 const LEADERBOARD_LOCKED_CONFIG: LockedFeatureConfig = {
   pageKey: "leaderboard",
-  featureName: "Ranking Nasional",
+  featureName: "Peringkat Nasional",
   featureDesc:
-    "Lihat posisimu di antara ribuan peserta CPNS se-Indonesia secara real-time. Ketahui seberapa kompetitif skormu dan siapa yang harus kamu kejar.",
+    "Cek posisi kamu di antara ribuan pejuang CPNS lainnya secara real-time. Lihat seberapa kompetitif nilaimu saat ini.",
   requiredTier: "ELITE",
   Icon: Trophy,
   highlights: [
@@ -88,17 +88,17 @@ export default async function LeaderboardPage() {
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1 flex items-center gap-2">
               <Trophy className="w-3.5 h-3.5" />
-              Kompetisi Global
+              Persaingan Nasional
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
-              Leaderboard
+              Peringkat Nasional
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm">
-              Lihat posisimu di antara{" "}
+              Lihat peringkat kamu di antara{" "}
               <span className="font-bold text-slate-700">
-                {initial.totalCount.toLocaleString("id-ID")} peserta
+                {initial.totalCount.toLocaleString("id-ID")} pejuang
               </span>{" "}
-              COBA PNS aktif.
+              NIP lainnya.
             </p>
           </div>
 
@@ -109,11 +109,11 @@ export default async function LeaderboardPage() {
                 {initial.currentUser.initials}
               </div>
               <div>
-                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Peringkat Anda</p>
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Posisi Kamu</p>
                 <p className="text-sm font-black text-brand-blue-deep">
                   #{initial.currentUser.rank}{" "}
                   <span className="text-blue-500 font-medium text-xs">
-                    dari {initial.totalCount.toLocaleString("id-ID")}
+                    dari {initial.totalCount.toLocaleString("id-ID")} pejuang
                   </span>
                 </p>
               </div>

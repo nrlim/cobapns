@@ -50,10 +50,10 @@ const PERFORMANCE_LOCKED_CONFIG: LockedFeatureConfig = {
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function getMasteryLabel(pct: number) {
-  if (pct >= 80) return { label: "Mahir", color: "text-brand-blue-deep bg-blue-50 border-blue-200" }
-  if (pct >= 60) return { label: "Cukup", color: "text-blue-700 bg-blue-50 border-blue-200" }
-  if (pct >= 40) return { label: "Berkembang", color: "text-amber-700 bg-amber-50 border-amber-200" }
-  return { label: "Lemah", color: "text-red-700 bg-red-50 border-red-200" }
+  if (pct >= 80) return { label: "Sangat Paham", color: "text-brand-blue-deep bg-blue-50 border-blue-200" }
+  if (pct >= 60) return { label: "Cukup Paham", color: "text-blue-700 bg-blue-50 border-blue-200" }
+  if (pct >= 40) return { label: "Sedang Belajar", color: "text-amber-700 bg-amber-50 border-amber-200" }
+  return { label: "Perlu Belajar Lagi", color: "text-red-700 bg-red-50 border-red-200" }
 }
 
 function ScoreCard({
@@ -82,14 +82,14 @@ function ScoreCard({
               : "bg-red-50 text-red-600 border-red-200"
           }`}
         >
-          {isPass ? "✓ Aman" : "Kurang"}
+          {isPass ? "✓ Lolos" : "✕ Belum Lolos"}
         </span>
       </div>
       <div className="text-4xl font-black tracking-tight" style={{ color }}>
         {score}
       </div>
       <div className="text-[11px] text-slate-400 font-medium mb-3">
-        Ambang Batas: {passing} · Max: {max}
+        Nilai Minimal: {passing} · Max: {max}
       </div>
       <div className="w-full h-2 rounded-full bg-slate-100">
         <div
@@ -161,13 +161,13 @@ export default async function PerformancePage() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">
               <BarChart3 className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
-              Analitik Performa
+              Laporan Belajar
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
-              Diagnostik &amp; Progress
+              Analisis & Perkembangan
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm max-w-md">
-              Lihat kekuatan &amp; kelemahan SKD-mu secara mendalam. Data diperbarui otomatis setiap kamu selesai try out.
+              Cek sejauh mana kemampuanmu saat ini. Data ini otomatis diperbarui setiap kali kamu selesai mengerjakan latihan.
             </p>
           </div>
         </div>
@@ -178,9 +178,9 @@ export default async function PerformancePage() {
             <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <BarChart3 className="w-8 h-8 text-brand-blue-light" />
             </div>
-            <h3 className="text-lg font-black text-slate-900 mb-2">Belum Ada Data</h3>
+            <h3 className="text-lg font-black text-slate-900 mb-2">Analisis Belum Muncul</h3>
             <p className="text-sm text-slate-400 font-medium mb-6 max-w-sm mx-auto">
-              Kerjakan minimal 1 try out untuk melihat analitik performa dan diagnostik mendalam kamu.
+              Yuk, coba kerjakan minimal satu latihan dulu supaya kami bisa menganalisis kemampuanmu.
             </p>
             <Link
               href="/dashboard/exams"
@@ -194,7 +194,7 @@ export default async function PerformancePage() {
             {/* ── Section A: Average Score Cards ──────────────────── */}
             <section>
               <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
-                Rata-rata Skor
+                Skor Rata-rata Kamu
               </h3>
 
               {/* Top Stat Row */}
@@ -202,9 +202,9 @@ export default async function PerformancePage() {
                 {/* Total Score */}
                 <div className="col-span-2 lg:col-span-1 bg-gradient-to-br from-brand-blue-deep via-brand-blue-deep to-brand-blue rounded-2xl p-5 text-white flex flex-col justify-between shadow-sm">
                   <div>
-                    <p className="text-blue-200 text-[10px] font-bold tracking-widest uppercase mb-1">Total SKD</p>
+                    <p className="text-blue-200 text-[10px] font-bold tracking-widest uppercase mb-1">Skor Keseluruhan</p>
                     <div className="text-4xl font-black tracking-tight mb-1">{avgTotal}</div>
-                    <p className="text-blue-200 text-xs font-medium">rata-rata dari {passingGrade.totalTaken} ujian</p>
+                    <p className="text-blue-200 text-xs font-medium">dari {passingGrade.totalTaken} kali latihan</p>
                   </div>
                   <div className="mt-4 flex items-center gap-2">
                     <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${passingGrade.passRate >= 50 ? "bg-white/20 text-white" : "bg-red-500/30 text-red-100"}`}>
@@ -245,12 +245,12 @@ export default async function PerformancePage() {
                     <BrainCircuit className="w-4 h-4 text-brand-blue" />
                   </div>
                   <div>
-                    <h3 className="font-black text-slate-900 text-sm">Power Level</h3>
+                    <h3 className="font-black text-slate-900 text-sm">Peta Kemampuan</h3>
                     <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Radar Chart</p>
                   </div>
                 </div>
                 <p className="text-xs text-slate-500 font-medium mb-4">
-                  Visualisasi kekuatan relatif di tiga pilar SKD (dinormalisasi ke 0-100%).
+                  Gambaran kekuatan kamu di setiap bagian ujian (TWK, TIU, TKP).
                 </p>
                 <CategoryRadarChart avgTWK={avgTWK} avgTIU={avgTIU} avgTKP={avgTKP} />
               </div>
@@ -262,8 +262,8 @@ export default async function PerformancePage() {
                     <Target className="w-4 h-4 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-black text-slate-900 text-sm">Passing Grade Tracker</h3>
-                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Ambang Batas</p>
+                    <h3 className="font-black text-slate-900 text-sm">Riwayat Ambang Batas</h3>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Minimal Lolos</p>
                   </div>
                 </div>
 
@@ -272,12 +272,12 @@ export default async function PerformancePage() {
                   <div className="flex-1 bg-blue-50 border border-blue-100 rounded-xl p-4 text-center">
                     <CheckCircle2 className="w-6 h-6 text-brand-blue mx-auto mb-1" />
                     <div className="text-3xl font-black text-brand-blue-deep">{passingGrade.passed}</div>
-                    <div className="text-[10px] font-bold text-brand-blue uppercase tracking-widest">Lulus</div>
+                    <div className="text-[10px] font-bold text-brand-blue uppercase tracking-widest">Lolos</div>
                   </div>
                   <div className="flex-1 bg-red-50 border border-red-100 rounded-xl p-4 text-center">
                     <XCircle className="w-6 h-6 text-red-500 mx-auto mb-1" />
                     <div className="text-3xl font-black text-red-700">{passingGrade.failed}</div>
-                    <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Gagal</div>
+                    <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Belum Lolos</div>
                   </div>
                 </div>
 
@@ -320,25 +320,25 @@ export default async function PerformancePage() {
                     <TrendingUp className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-black text-slate-900 text-sm">Tren Perkembangan Skor</h3>
+                    <h3 className="font-black text-slate-900 text-sm">Grafik Nilai Kamu</h3>
                     <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Score Timeline</p>
                   </div>
                 </div>
                 <div className="flex gap-2 text-[10px] font-bold">
                   <span className="px-2 py-1 rounded-full bg-slate-100 text-slate-500">
-                    {passingGrade.totalTaken} Ujian
+                    {passingGrade.totalTaken} Latihan
                   </span>
                 </div>
               </div>
               {trend.length < 2 ? (
                 <div className="py-6 text-center text-sm text-slate-400 font-medium">
-                  Kerjakan minimal 2 try out untuk melihat grafik tren.
+                  Coba kerjakan latihan lagi supaya grafiknya muncul ya!
                 </div>
               ) : (
                 <ScoreTrendChart trend={trend} />
               )}
               <p className="text-[10px] text-slate-400 font-medium mt-3">
-                * Titik merah = tidak lulus ambang batas, hijau = lulus. Garis putus-putus = total SKD.
+                * Merah = belum lolos, Hijau = lolos. Garis putus-putus = total skor.
               </p>
             </section>
 
@@ -351,9 +351,9 @@ export default async function PerformancePage() {
                     <BarChart3 className="w-4 h-4 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-black text-slate-900 text-sm">Penguasaan Sub-Materi</h3>
+                    <h3 className="font-black text-slate-900 text-sm">Detail Pemahaman Topik</h3>
                     <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
-                      Mastery per Topik
+                      Pemahaman per Materi
                     </p>
                   </div>
                 </div>
@@ -375,8 +375,8 @@ export default async function PerformancePage() {
                       <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Perlu Diperkuat</p>
-                      <h4 className="font-black text-amber-900 text-sm">Titik Lemah</h4>
+                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Ayo Perbaiki!</p>
+                      <h4 className="font-black text-amber-900 text-sm">Materi Paling Sulit</h4>
                     </div>
                   </div>
                   {weakestSubCategory ? (
@@ -385,7 +385,7 @@ export default async function PerformancePage() {
                         {weakestSubCategory.category} — {weakestSubCategory.subCategory}
                       </p>
                       <p className="text-xs text-amber-700 mb-3">
-                        Tingkat penguasaan:{" "}
+                        Sejauh mana pemahamanmu:{" "}
                         <span className="font-black text-amber-900">
                           {weakestSubCategory.masteryPct}%
                         </span>{" "}
@@ -414,8 +414,8 @@ export default async function PerformancePage() {
                       <Star className="w-3.5 h-3.5 text-brand-blue" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-brand-blue-deep uppercase tracking-widest">Keunggulan Kamu</p>
-                      <h4 className="font-black text-blue-900 text-sm">Titik Kuat</h4>
+                      <p className="text-[10px] font-bold text-brand-blue-deep uppercase tracking-widest">Kamu Hebat di Sini!</p>
+                      <h4 className="font-black text-blue-900 text-sm">Materi Paling Dikuasai</h4>
                     </div>
                   </div>
                   {strongestSubCategory ? (
@@ -424,7 +424,7 @@ export default async function PerformancePage() {
                         {strongestSubCategory.category} — {strongestSubCategory.subCategory}
                       </p>
                       <p className="text-xs text-brand-blue-deep">
-                        Tingkat penguasaan:{" "}
+                        Sejauh mana pemahamanmu:{" "}
                         <span className="font-black text-blue-900">
                           {strongestSubCategory.masteryPct}%
                         </span>
@@ -439,9 +439,9 @@ export default async function PerformancePage() {
                 <div className="bg-gradient-to-br from-indigo-900 to-indigo-700 rounded-2xl p-5 text-white">
                   <div className="flex items-center gap-2 mb-2">
                     <Zap className="w-4 h-4 text-indigo-300" />
-                    <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest">AI Study Plan</p>
+                    <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest">Saran Belajar AI</p>
                   </div>
-                  <h4 className="font-black text-white text-sm mb-2">Rekomendasi Belajar</h4>
+                  <h4 className="font-black text-white text-sm mb-2">Tips Untukmu</h4>
                   <p className="text-xs text-indigo-200 font-medium leading-relaxed">
                     {weakestSubCategory
                       ? `Fokuskan 30 menit sehari untuk "${weakestSubCategory.subCategory}" (${weakestSubCategory.category}). Dengan latihan konsisten, penguasaan bisa naik +20% dalam 2 minggu.`

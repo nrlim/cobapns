@@ -118,7 +118,7 @@ function PodiumCard({
       <div className={`font-black text-brand-blue-deep ${size === "large" ? "text-xl" : "text-lg"}`}>
         {entry.highestScore}
       </div>
-      <p className="text-[10px] text-slate-400 font-medium">{entry.totalExams} Try Out</p>
+      <p className="text-[10px] text-slate-400 font-medium">{entry.totalExams} Latihan</p>
 
       {entry.isCurrentUser && (
         <span className="text-[9px] font-black uppercase tracking-widest text-brand-blue-deep bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">
@@ -159,23 +159,23 @@ export default async function StatistikPage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1">
-              Statistik &amp; Peringkat
+              Data &amp; Peringkat
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
-              Data &amp; Statistik
+              Statistik Belajar
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm">
-              Pantau pertumbuhan skormu dan posisimu di antara peserta nasional.
+              Pantau kenaikan nilaimu dan lihat posisimu di antara seluruh pejuang CPNS.
             </p>
           </div>
           {userRank && (
             <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-2xl px-4 py-3 flex-shrink-0">
               <Trophy className="w-4 h-4 text-brand-blue" />
               <div>
-                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Peringkatmu</p>
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Posisi Kamu</p>
                 <p className="text-lg font-black text-brand-blue-deep leading-none">
                   #{userRank.rank}
-                  <span className="text-xs font-medium text-blue-500 ml-1">dari {userRank.total}</span>
+                  <span className="text-xs font-medium text-blue-500 ml-1">dari {userRank.total} pejuang</span>
                 </p>
               </div>
             </div>
@@ -184,48 +184,48 @@ export default async function StatistikPage() {
 
         {/* ── Bento Activity Metrics ───────────────────────────── */}
         <div>
-          <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Ringkasan Aktivitas</h3>
+          <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Ringkasan Latihan</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             <BentoMetric
               icon={ClipboardCheck}
-              label="Total Ujian"
+              label="Total Latihan"
               value={metrics.totalExams}
-              sub="Try Out diselesaikan"
+              sub="Latihan yang selesai"
               accent="bg-blue-50 border border-blue-100 text-brand-blue"
             />
             <BentoMetric
               icon={CheckCircle2}
-              label="Jawaban Benar"
+              label="Total Benar"
               value={metrics.correctAnswers}
               sub={`dari ${metrics.totalAnswers} soal`}
               accent="bg-green-50 border border-green-100 text-green-600"
             />
             <BentoMetric
               icon={XCircle}
-              label="Jawaban Salah"
+              label="Total Salah"
               value={metrics.incorrectAnswers}
-              sub="perlu ditingkatkan"
+              sub="ayo perbaiki!"
               accent="bg-red-50 border border-red-100 text-red-500"
             />
             <BentoMetric
               icon={Flame}
-              label="Study Streak"
+              label="Keaktifan"
               value={`${metrics.studyStreakDays}d`}
               sub="hari berturut-turut"
               accent="bg-amber-50 border border-amber-100 text-amber-600"
             />
             <BentoMetric
               icon={Target}
-              label="Skor Tertinggi"
+              label="Nilai Terbaik"
               value={metrics.bestScore}
-              sub="poin terbaik"
+              sub="poin tertinggi"
               accent="bg-violet-50 border border-violet-100 text-violet-600"
             />
             <BentoMetric
               icon={BarChart2}
-              label="Rata-rata Skor"
+              label="Nilai Rata-rata"
               value={metrics.avgScore}
-              sub="per Try Out"
+              sub="per latihan"
               accent="bg-blue-50 border border-blue-100 text-blue-600"
             />
           </div>
@@ -238,10 +238,10 @@ export default async function StatistikPage() {
           <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="w-4 h-4 text-brand-blue" />
-              <h3 className="font-black text-slate-900 text-sm">Progress Skor</h3>
+              <h3 className="font-black text-slate-900 text-sm">Grafik Nilai</h3>
             </div>
             <p className="text-[11px] text-slate-400 font-medium mb-4">
-              Perjalanan skor dari setiap Try Out — garis putus-putus = ambang batas lolos.
+              Perkembangan nilaimu setiap kali latihan. Garis putus-putus adalah batas minimal lulus.
             </p>
             <ScoreProgressChart trend={trend} />
             <ChartLegend />
@@ -251,20 +251,20 @@ export default async function StatistikPage() {
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
             <div className="flex items-center gap-2 mb-1">
               <Clock className="w-4 h-4 text-blue-500" />
-              <h3 className="font-black text-slate-900 text-sm">Durasi Ujian</h3>
+              <h3 className="font-black text-slate-900 text-sm">Kecepatan Mengerjakan</h3>
             </div>
             <p className="text-[11px] text-slate-400 font-medium mb-4">
-              Rata-rata waktu pengerjaan per Try Out (menit).
+              Rata-rata waktu yang kamu habiskan di setiap latihan (menit).
             </p>
             <TimeAnalysisChart trend={trend} />
             <div className="flex items-center gap-4 mt-3">
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-sm bg-brand-blue flex-shrink-0" />
-                <span className="text-[10px] font-bold text-slate-500">Lulus</span>
+                <span className="text-[10px] font-bold text-slate-500">Lolos</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-sm bg-slate-400 flex-shrink-0" />
-                <span className="text-[10px] font-bold text-slate-500">Tidak Lulus</span>
+                <span className="text-[10px] font-bold text-slate-500">Belum Lolos</span>
               </div>
             </div>
           </div>
@@ -276,28 +276,28 @@ export default async function StatistikPage() {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
             <div>
-              <h3 className="font-black text-slate-900 text-sm">Riwayat Try Out</h3>
+              <h3 className="font-black text-slate-900 text-sm">Hasil Latihan</h3>
               <p className="text-[10px] text-slate-400 font-medium mt-0.5">
-                {examHistory.length} ujian diselesaikan
+                {examHistory.length} latihan selesai
               </p>
             </div>
             <Link
               href="/dashboard/exams"
               className="text-[10px] font-black uppercase tracking-widest text-brand-blue-deep hover:underline flex items-center gap-1"
             >
-              Ujian Baru <ChevronRight className="w-3 h-3" />
+              Cari Latihan <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
 
           {examHistory.length === 0 ? (
             <div className="p-12 text-center">
               <ClipboardCheck className="w-10 h-10 text-slate-200 mx-auto mb-3" />
-              <p className="text-sm font-medium text-slate-400">Belum ada riwayat ujian.</p>
+              <p className="text-sm font-medium text-slate-400">Kamu belum pernah latihan. Ayo mulai sekarang!</p>
               <Link
                 href="/dashboard/exams"
                 className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-brand-blue hover:underline"
               >
-                Mulai Try Out pertamamu →
+                Mulai Latihan Pertama →
               </Link>
             </div>
           ) : (
@@ -305,11 +305,11 @@ export default async function StatistikPage() {
               <table className="w-full min-w-[600px]">
                 <thead>
                   <tr className="border-b border-slate-100">
-                    <th className="text-left text-[10px] font-black text-slate-400 uppercase tracking-widest px-6 py-3">Nama Try Out</th>
+                    <th className="text-left text-[10px] font-black text-slate-400 uppercase tracking-widest px-6 py-3">Nama Latihan</th>
                     <th className="text-left text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-3 hidden sm:table-cell">Tanggal</th>
-                    <th className="text-right text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-3">Total</th>
+                    <th className="text-right text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-3">Skor</th>
                     <th className="text-right text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-3 hidden md:table-cell">TWK / TIU / TKP</th>
-                    <th className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-3">Status</th>
+                    <th className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-3">Hasil</th>
                     <th className="px-6 py-3" />
                   </tr>
                 </thead>
@@ -343,9 +343,9 @@ export default async function StatistikPage() {
                             }`}
                         >
                           {row.overallPass ? (
-                            <><CheckCircle2 className="w-2.5 h-2.5" /> LULUS</>
+                            <><CheckCircle2 className="w-2.5 h-2.5" /> LOLOS</>
                           ) : (
-                            <><XCircle className="w-2.5 h-2.5" /> GAGAL</>
+                            <><XCircle className="w-2.5 h-2.5" /> BELUM LOLOS</>
                           )}
                         </span>
                       </td>
@@ -354,7 +354,7 @@ export default async function StatistikPage() {
                           href={`/dashboard/exams/${row.examId}/result/${row.id}`}
                           className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-brand-blue transition-colors group-hover:text-brand-blue whitespace-nowrap"
                         >
-                          Review <ChevronRight className="w-3 h-3" />
+                          Lihat Detail <ChevronRight className="w-3 h-3" />
                         </Link>
                       </td>
                     </tr>

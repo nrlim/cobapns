@@ -80,7 +80,7 @@ export default async function StudentDashboardPage() {
               Halo, {firstName}! 👋
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm">
-              Siap melanjutkan perjalanan menuju kelulusan CPNS hari ini?
+              Semangat belajarnya! Siap selangkah lebih dekat jadi ASN hari ini?
             </p>
           </div>
           <div
@@ -102,16 +102,16 @@ export default async function StudentDashboardPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             {
-              label: "Try Out Dikerjakan",
+              label: "Latihan Selesai",
               value: totalExamsTaken,
-              sub: `dari ${publishedExamCount} tersedia`,
+              sub: `dari total ${publishedExamCount}`,
               icon: ClipboardList,
               iconBg: "#EFF6FF",
               iconColor: "#1E73BE",
               borderColor: "#BFDBFE",
             },
             {
-              label: "Ujian Lulus",
+              label: "Berhasil Lulus",
               value: passedCount,
               sub: `${passRate}% pass rate`,
               icon: CheckCircle2,
@@ -120,16 +120,16 @@ export default async function StudentDashboardPage() {
               borderColor: "#BBF7D0",
             },
             {
-              label: "Ujian Tersedia",
+              label: "Siap Dikerjakan",
               value: publishedExamCount,
-              sub: "siap dikerjakan",
+              sub: "siap latih kemampuanmu",
               icon: BookOpen,
               iconBg: "#F0F9FF",
               iconColor: "#2A8BD6",
               borderColor: "#BAE6FD",
             },
             {
-              label: "Streak Belajar",
+              label: "Keaktifan Belajar",
               value: "7",
               sub: "hari berturut-turut",
               icon: Zap,
@@ -168,9 +168,9 @@ export default async function StudentDashboardPage() {
                 <p className="text-[10px] font-bold tracking-widest uppercase mb-1 text-white/70">
                   Simulasi CAT CPNS
                 </p>
-                <h3 className="text-xl font-black mb-1 tracking-tight">Mulai Try Out Sekarang</h3>
+                <h3 className="text-xl font-black mb-1 tracking-tight">Ayo Mulai Latihan!</h3>
                 <p className="text-white/80 text-sm font-medium mb-5 max-w-sm">
-                  {publishedExamCount} ujian tersedia. Uji kemampuan SKD-mu dengan simulasi CAT real.
+                  Ada ${publishedExamCount} latihan yang bisa kamu coba. Yuk, asah kemampuanmu sekarang!
                 </p>
                 <Link
                   href="/dashboard/exams"
@@ -178,7 +178,7 @@ export default async function StudentDashboardPage() {
                   style={{ color: "#1E73BE" }}
                 >
                   <PlayCircle className="w-4 h-4" />
-                  Lihat Daftar Ujian
+                  Pilih Latihan
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -198,13 +198,12 @@ export default async function StudentDashboardPage() {
                 </div>
                 <div>
                   <h3 className="font-black text-slate-900 text-sm">AI Diagnostic</h3>
-                  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Rekomendasi Belajar</p>
+                  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Tips Belajar Untukmu</p>
                 </div>
               </div>
               <p className="text-sm text-slate-600 font-medium leading-relaxed mb-4">
-                Berdasarkan hasil try out terakhir, kamu paling lemah di materi{" "}
-                <span className="font-bold text-slate-900">Silogisme (TIU)</span>. Fokus latihan di sub-bab ini
-                dapat meningkatkan skormu hingga{" "}
+                Berdasarkan hasil latihan terakhir, kamu perlu memperkuat materi{" "}
+                <span className="font-bold text-slate-900">Silogisme (TIU)</span>. Kalau kamu pelajari bab ini, skor kamu bisa naik sampai{" "}
                 <span
                   className="font-bold px-1.5 py-0.5 rounded border text-sm"
                   style={{ color: "#1FA84E", background: "#F0FDF4", borderColor: "#BBF7D0" }}
@@ -217,7 +216,7 @@ export default async function StudentDashboardPage() {
                 className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors uppercase tracking-widest"
                 style={{ color: "#1E73BE", background: "#EFF6FF" }}
               >
-                Mulai Latihan <ChevronRight className="w-3.5 h-3.5" />
+                Pelajari Sekarang <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
@@ -227,8 +226,8 @@ export default async function StudentDashboardPage() {
                 {
                   href: "/dashboard/exams",
                   icon: Zap,
-                  title: "Kerjakan Try Out",
-                  sub: `${publishedExamCount} ujian tersedia`,
+                  title: "Mulai Try Out",
+                  sub: `${publishedExamCount} latihan tersedia`,
                   iconBg: "#EFF6FF",
                   iconBorder: "#BFDBFE",
                   iconColor: "#1E73BE",
@@ -236,8 +235,8 @@ export default async function StudentDashboardPage() {
                 {
                   href: "/dashboard/learning",
                   icon: BookOpen,
-                  title: "Baca Materi SKD",
-                  sub: "TWK · TIU · TKP",
+                  title: "Pelajari Materi",
+                  sub: "Konsep Dasar SKD",
                   iconBg: "#F0F9FF",
                   iconBorder: "#BAE6FD",
                   iconColor: "#2A8BD6",
@@ -269,7 +268,7 @@ export default async function StudentDashboardPage() {
             {/* Recent Results */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
-                <h3 className="font-black text-slate-900 text-sm">Riwayat Ujian</h3>
+                <h3 className="font-black text-slate-900 text-sm">Hasil Terakhir</h3>
                 <Link
                   href="/dashboard/exams"
                   className="text-[10px] font-bold uppercase tracking-widest hover:underline"
@@ -282,13 +281,13 @@ export default async function StudentDashboardPage() {
               {recentResults.length === 0 ? (
                 <div className="p-8 text-center">
                   <ClipboardList className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                  <p className="text-sm font-medium text-slate-400">Belum ada ujian dikerjakan.</p>
+                  <p className="text-sm font-medium text-slate-400">Belum ada latihan yang selesai. Yuk, mulai satu sekarang!</p>
                   <Link
                     href="/dashboard/exams"
                     className="text-xs font-bold hover:underline mt-1 inline-block"
                     style={{ color: "#2DBE60" }}
                   >
-                    Mulai sekarang →
+                    Ayo Mulai! →
                   </Link>
                 </div>
               ) : (
@@ -328,7 +327,7 @@ export default async function StudentDashboardPage() {
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
               <div className="flex items-center gap-2 mb-4">
                 <Target className="w-4 h-4" style={{ color: "#1E73BE" }} />
-                <h3 className="font-black text-slate-900 text-sm">Progress Kelulusan</h3>
+                <h3 className="font-black text-slate-900 text-sm">Peluang Kelulusan</h3>
               </div>
               <div className="space-y-3">
                 {[
@@ -354,7 +353,7 @@ export default async function StudentDashboardPage() {
                 ))}
               </div>
               <p className="text-[10px] text-slate-400 font-medium mt-4">
-                * Berdasarkan hasil try out terbaru.
+                * Hasil ini diambil dari latihan terakhirmu.
               </p>
             </div>
 
@@ -364,7 +363,7 @@ export default async function StudentDashboardPage() {
                 <div className="flex items-center gap-2 mb-2">
                   <Trophy className="w-4 h-4 text-amber-600" />
                   <h3 className="font-black text-amber-900 text-sm">
-                    {tier === "FREE" ? "Upgrade ke Elite" : "Upgrade ke Master"}
+                    {tier === "FREE" ? "Ambil Paket Elite" : "Ambil Paket Master"}
                   </h3>
                 </div>
                 <p className="text-xs text-amber-700 font-medium mb-3">
@@ -377,7 +376,7 @@ export default async function StudentDashboardPage() {
                   className="flex items-center justify-center gap-2 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors"
                   style={{ background: "linear-gradient(135deg, #1E73BE, #2DBE60)" }}
                 >
-                  Lihat Paket <ArrowRight className="w-3.5 h-3.5" />
+                  Cek Pilihan Paket <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             )}

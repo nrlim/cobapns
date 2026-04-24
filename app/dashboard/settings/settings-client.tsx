@@ -289,9 +289,9 @@ export function SettingsClient({ user, lookups }: {
   const tier = TIER_LABEL[user.subscriptionTier] ?? TIER_LABEL.FREE
 
   const TABS = [
-    { key: "profile" as const, icon: UserCircle2, label: "Profil Dasar" },
-    { key: "formation" as const, icon: Target, label: "Formasi Target" },
-    { key: "security" as const, icon: Shield, label: "Keamanan Sandi" },
+    { key: "profile" as const, icon: UserCircle2, label: "Data Diri" },
+    { key: "formation" as const, icon: Target, label: "Target CPNS" },
+    { key: "security" as const, icon: Shield, label: "Ganti Password" },
   ]
 
   return (
@@ -321,7 +321,7 @@ export function SettingsClient({ user, lookups }: {
                   {tier.label}
                 </span>
                 <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/10 text-slate-300 border border-white/10">
-                  Bergabung {new Date(user.createdAt).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
+                  Pejuang sejak {new Date(user.createdAt).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                 </span>
               </div>
             </div>
@@ -364,8 +364,8 @@ export function SettingsClient({ user, lookups }: {
                     <UserCircle2 className="w-5 h-5 text-brand-blue" />
                   </div>
                   <div>
-                    <h2 className="font-black text-slate-900 text-[15px]">Data Profil</h2>
-                    <p className="text-xs font-medium text-slate-500">Informasi yang ditampilkan di portal COBA PNS.</p>
+                    <h2 className="font-black text-slate-900 text-[15px]">Informasi Akun</h2>
+                    <p className="text-xs font-medium text-slate-500">Atur profil kamu biar kami bisa kasih saran belajar yang lebih pas.</p>
                   </div>
                 </div>
 
@@ -431,7 +431,7 @@ export function SettingsClient({ user, lookups }: {
                     </div>
 
                     <TextareaField
-                      id="learningGoal" label="Tujuan Pembelajaran Khusus" icon={Target}
+                      id="learningGoal" label="Apa yang Ingin Kamu Fokuskan?" icon={Target}
                       placeholder="Apa materi/topik yang paling ingin kamu kuasai? (Contoh: Saya ingin lebih jago di soal Penalaran Analitis TIU)"
                       defaultValue={user.learningGoal || ""}
                     />
@@ -440,7 +440,7 @@ export function SettingsClient({ user, lookups }: {
                   {/* Notification toggle */}
                   <div className="pt-6 border-t border-slate-100 mt-6">
                     <h3 className="text-sm font-black text-slate-900 flex items-center gap-2 mb-3">
-                      <Bell className="w-4 h-4 text-brand-blue" /> Preferensi Notifikasi
+                      <Bell className="w-4 h-4 text-brand-blue" /> Pengaturan Notifikasi
                     </h3>
                     <label className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50/30 hover:border-blue-200 transition-all group">
                       <div className="pt-0.5">
@@ -452,9 +452,9 @@ export function SettingsClient({ user, lookups }: {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-900 group-hover:text-brand-blue-deep transition-colors">Pengingat Belajar via Email</p>
+                        <p className="text-sm font-bold text-slate-900 group-hover:text-brand-blue-deep transition-colors">Ingatkan Saya Belajar</p>
                         <p className="text-xs font-medium text-slate-500 mt-0.5">
-                          Kami akan sesekali mengirimkan ringkasan progress & jadwal tryout agar kamu tetap konsisten belajar.
+                          Kami bakal kirim jadwal latihan dan progres kamu lewat email biar nggak ketinggalan.
                         </p>
                       </div>
                     </label>
@@ -482,8 +482,8 @@ export function SettingsClient({ user, lookups }: {
                     <Target className="w-5 h-5 text-brand-blue" />
                   </div>
                   <div>
-                    <h2 className="font-black text-slate-900 text-[15px]">Formasi Target</h2>
-                    <p className="text-xs font-medium text-slate-500">Target instansi CPNS yang ingin kamu lamar.</p>
+                    <h2 className="font-black text-slate-900 text-[15px]">Incaran Instansi</h2>
+                    <p className="text-xs font-medium text-slate-500">Tentukan instansi impianmu biar makin semangat belajarnya!</p>
                   </div>
                 </div>
 
@@ -539,8 +539,8 @@ export function SettingsClient({ user, lookups }: {
                       <Key className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
-                      <h2 className="font-black text-slate-900 text-[15px]">Ubah Kata Sandi</h2>
-                      <p className="text-xs font-medium text-slate-500">Pastikan password kamu unik dan minimal 8 karakter.</p>
+                      <h2 className="font-black text-slate-900 text-[15px]">Ganti Password</h2>
+                      <p className="text-xs font-medium text-slate-500">Pake password yang kuat biar akun kamu aman ya.</p>
                     </div>
                   </div>
 
@@ -573,10 +573,9 @@ export function SettingsClient({ user, lookups }: {
                 <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-2xl">
                   <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-bold text-amber-900">Keamanan Akun</p>
+                    <p className="text-sm font-bold text-amber-900">Tips Keamanan</p>
                     <p className="text-xs font-medium text-amber-800/80 mt-1 leading-relaxed">
-                      Jangan pernah membagikan password ke siapapun termasuk tim COBA PNS.
-                      Satu akun hanya diperbolehkan untuk satu pengguna sesuai Syarat & Ketentuan kami.
+                      Jangan pernah kasih password ke siapapun ya. Inget, satu akun cuma boleh dipake satu orang biar progres belajarmu nggak berantakan.
                     </p>
                   </div>
                 </div>
