@@ -345,6 +345,17 @@ model Transaction {
   @@map("transactions")
 }
 
+model PaymentLog {
+  id              String   @id @default(cuid())
+  orderId         String?  // Can be transaction externalId or unknown
+  event           String   // e.g., WEBHOOK_RECEIVED, SIGNATURE_MISMATCH, PAYMENT_SUCCESS
+  payload         Json?    // Store the raw request body or relevant data
+  status          String   // e.g., INFO, WARNING, ERROR, SUCCESS
+  createdAt       DateTime @default(now())
+
+  @@map("payment_logs")
+}
+
 enum LookupType {
   INSTANCE
   POSITION

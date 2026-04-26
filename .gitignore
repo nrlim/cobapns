@@ -56,3 +56,4 @@ Thumbs.db
 
 # Uploads
 /public/uploads/
+/public/logs/
