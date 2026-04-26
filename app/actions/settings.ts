@@ -11,13 +11,17 @@ const ALLOWED_KEYS = new Set([
   "contactPhone",
   "socialInstagram",
   "socialTiktok",
+  "socialFacebook",
+  "socialYoutube",
 ])
 
 const DEFAULT_SETTINGS: Record<string, string> = {
-  contactEmail:    "support@cobapns.com",
-  contactPhone:    "6281234567890",
+  contactEmail: "support@cobapns.com",
+  contactPhone: "6281234567890",
   socialInstagram: "https://instagram.com/cobapns",
-  socialTiktok:    "https://tiktok.com/@cobapns",
+  socialTiktok: "https://tiktok.com/@cobapns",
+  socialFacebook: "https://www.facebook.com/cobapns",
+  socialYoutube: "https://www.youtube.com/cobapns",
 }
 
 const settingsValueSchema = z.string().trim().max(500)
@@ -60,7 +64,7 @@ export async function updateSettings(data: Record<string, string>) {
 
   const operations = safeEntries.map(([key, value]) =>
     prisma.systemSetting.upsert({
-      where:  { key },
+      where: { key },
       update: { value },
       create: { key, value },
     })

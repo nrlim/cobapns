@@ -85,7 +85,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         {/* Proper mobile viewport — prevents unwanted zoom on form focus */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        
+
         {/* Structured Data / JSON-LD */}
         <script
           type="application/ld+json"
@@ -98,7 +98,9 @@ export default function RootLayout({
               "logo": "https://cobapns.com/logo-landing.png",
               "sameAs": [
                 "https://www.instagram.com/cobapns",
-                "https://www.tiktok.com/@cobapns"
+                "https://www.tiktok.com/@cobapns",
+                "https://www.facebook.com/cobapns",
+                "https://www.youtube.com/cobapns"
               ],
               "description": "Platform persiapan CPNS terpintar di Indonesia dengan AI Diagnostic dan Ranking Nasional."
             })

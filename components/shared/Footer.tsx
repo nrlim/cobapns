@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram } from "lucide-react";
+import { Instagram, Facebook, Youtube } from "lucide-react";
 import { getSettings } from "@/app/actions/settings";
 
 function TikTokIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -57,12 +57,28 @@ export async function Footer() {
         {/* Social Icons */}
         <div className="flex gap-4">
           <a
+            href={settings.socialFacebook || "https://www.facebook.com/cobapns"}
+            target="_blank"
+            rel="noreferrer"
+            className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-brand-blue transition-all cursor-pointer"
+          >
+            <Facebook className="w-5 h-5" />
+          </a>
+          <a
             href={settings.socialInstagram || "https://instagram.com/cobapns"}
             target="_blank"
             rel="noreferrer"
             className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-brand-blue transition-all cursor-pointer"
           >
             <Instagram className="w-5 h-5" />
+          </a>
+          <a
+            href={settings.socialYoutube || "https://www.youtube.com/cobapns"}
+            target="_blank"
+            rel="noreferrer"
+            className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-brand-blue transition-all cursor-pointer"
+          >
+            <Youtube className="w-5 h-5" />
           </a>
           <a
             href={settings.socialTiktok || "https://tiktok.com/@cobapns"}
