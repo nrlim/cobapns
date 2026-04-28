@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/shared/Navbar";
-import { Footer } from "@/components/shared/Footer";
+import NextTopLoader from "nextjs-toploader";
+import { ConsoleEasterEgg } from "@/components/shared/ConsoleEasterEgg";
+import { ServiceWorkerRegistrar } from "@/components/shared/ServiceWorkerRegistrar";
+import { GlobalInstallPrompt } from "@/components/shared/GlobalInstallPrompt";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,10 +69,6 @@ export const metadata: Metadata = {
   },
 };
 
-import NextTopLoader from "nextjs-toploader";
-import { ConsoleEasterEgg } from "@/components/shared/ConsoleEasterEgg";
-import { ServiceWorkerRegistrar } from "@/components/shared/ServiceWorkerRegistrar";
-import { GlobalInstallPrompt } from "@/components/shared/GlobalInstallPrompt";
 
 export default function RootLayout({
   children,
@@ -83,8 +81,11 @@ export default function RootLayout({
         {/* PWA theme color for browser chrome */}
         <meta name="theme-color" content="#1E73BE" />
         <meta name="mobile-web-app-capable" content="yes" />
-        {/* Proper mobile viewport — prevents unwanted zoom on form focus */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+        {/* Preconnect to external domains for LCP images — reduces DNS + TCP handshake latency */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+        <link rel="dns-prefetch" href="https://i.ytimg.com" />
 
         {/* Structured Data / JSON-LD */}
         <script

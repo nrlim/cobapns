@@ -102,7 +102,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: DynamicTes
               <div className="flex items-center gap-4 mb-6">
                 <div className={`w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center overflow-hidden font-bold text-slate-500`}>
                   {testi.image ? (
-                    <Image src={testi.image} alt={testi.name} width={56} height={56} className="object-cover w-full h-full" unoptimized />
+                    <Image src={testi.image} alt={testi.name} width={56} height={56} className="object-cover w-full h-full" />
                   ) : (
                     <span className="text-xl">{testi.name.charAt(0).toUpperCase()}</span>
                   )}

@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
+  { label: "Keunggulan", href: "/#kenapa-kami" },
+  { label: "Fitur Utama", href: "/#fitur-unggulan" },
+  { label: "Testimoni", href: "/#testimoni" },
   { label: "Tentang Kami", href: "/#tentang" },
-  { label: "Fitur Unggulan", href: "/#program" },
   { label: "Paket Belajar", href: "/#harga" },
-  { label: "Hubungi Kami", href: "/#kontak" },
+  { label: "Kontak", href: "/#kontak" },
 ];
 
 export function Navbar() {
@@ -21,7 +24,14 @@ export function Navbar() {
 
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-2 select-none flex-shrink-0" onClick={() => setOpen(false)}>
-            <img src="/logo-landing.png" alt="COBA PNS Logo" className="h-8 sm:h-10 md:h-11 w-auto object-contain" />
+            <Image
+              src="/logo-landing.png"
+              alt="COBA PNS Logo"
+              width={160}
+              height={44}
+              className="h-8 sm:h-10 md:h-11 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

@@ -9,12 +9,22 @@ import { registerAction, type ActionResult } from "@/app/actions/auth";
 
 export default function RegisterPage() {
   const searchParams = useSearchParams();
-  const planParam = searchParams.get("plan")?.toUpperCase() ?? null; // "ELITE" | "MASTER" | null
-  const validPlans: Record<string, { name: string; price: string }> = {
-    ELITE: { name: "Elite Prep", price: "Rp 149.000/bln" },
-    MASTER: { name: "Master Strategy", price: "Rp 249.000/bln" },
+  const planParam = searchParams.get("plan")?.toUpperCase() ?? null;
+  const duration = searchParams.get("dur") === "1" ? "1" : "12";
+  const validPlans: Record<string, Record<string, { name: string; price: string }>> = {
+    ELITE: {
+      "1": { name: "Elite Prep (Bulanan)", price: "Rp 79.000/bln" },
+      "12": { name: "Elite Prep (Tahunan)", price: "Rp 149.000" },
+    },
+    MASTER: {
+      "1": { name: "Master Strategy (Bulanan)", price: "Rp 149.000/bln" },
+      "12": { name: "Master Strategy (Tahunan)", price: "Rp 299.000" },
+    },
+
+
   };
-  const selectedPlan = planParam ? validPlans[planParam] ?? null : null;
+
+  const selectedPlan = planParam ? validPlans[planParam]?.[duration] ?? null : null;
 
   const [state, formAction, isPending] = useActionState<ActionResult | null, FormData>(
     registerAction,
@@ -118,6 +128,7 @@ export default function RegisterPage() {
             <form action={formAction} className="space-y-5">
               {/* Hidden plan intent — so server action can redirect to pembelian */}
               {planParam && <input type="hidden" name="plan" value={planParam} />}
+              {duration && <input type="hidden" name="dur" value={duration} />}
 
               {/* Plan intent banner */}
               {selectedPlan && (
@@ -305,7 +316,7 @@ export default function RegisterPage() {
             <p className="text-center text-sm text-gray-500 mt-6">
               Sudah punya akun?{" "}
               <Link
-                href={planParam ? `/login?plan=${planParam.toLowerCase()}` : "/login"}
+                href={planParam ? `/login?plan=${planParam.toLowerCase()}&dur=${duration}` : "/login"}
                 className="text-brand-blue font-bold hover:underline"
               >
                 Masuk di sini

@@ -3,13 +3,14 @@ import Image from "next/image";
 import { 
   LineChart, Zap, Cpu, CreditCard, ShieldCheck, 
   CheckCircle2, Star, Rocket, Mail, Phone, 
-  Target, TrendingUp, Clock, BookOpen, MonitorPlay, 
-  BarChart, Users, Trophy, Map, LayoutDashboard, Quote, CheckCircle, MoveHorizontal
+  Target, TrendingUp, Clock, MonitorPlay, 
+  BarChart, Trophy, Map, CheckCircle
 } from "lucide-react";
 import { getSettings } from "@/app/actions/settings";
 import { CURRENT_YEAR } from "@/lib/utils";
 import { TestimonialCarousel, type DynamicTestimonial } from "@/components/ui/testimonial-carousel";
 import { prisma } from "@/lib/prisma";
+import { PricingTable } from "@/components/ui/pricing-table";
 
 export const revalidate = 60;
 
@@ -34,7 +35,7 @@ export default async function HomePage() {
     }));
 
   return (
-    <main className="pt-16">
+    <>
       {/* 1. Hero Section */}
       <section className="relative px-4 sm:px-6 pt-8 pb-16 md:pt-16 md:pb-32 overflow-hidden bg-surface">
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,#1E73BE,#2DBE60)]" />
@@ -55,7 +56,14 @@ export default async function HomePage() {
           </div>
           <div className="md:col-span-5 relative mt-12 md:mt-0">
             <div className="rounded-3xl overflow-hidden shadow-2xl border-8 border-surface-container-lowest rotate-2 bg-surface-container-lowest">
-              <Image alt="Belajar CPNS" width={600} height={800} className="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-OS-zDEcYfpL0OQ0aGPPZBM8Gq6A6vYhXT2U-Gnoyn7SwnNgR0GZHCSkoG5-idKAMbK1Dcj6ZDslorQ3Ea9xlHYu5liWORoLVLxxEjarTtr6z7nteFZRzOJar0Zsec9MMR0v7Tbs2P7ZGexC3kjgv_rdwZGKVOltTpEEzESsq35Pxgq5ftWIiHSR8B8bnrgz8shwz2dJyXhUu7gIYxA5w7SfJ7357DfuXiNYHQi5I8vvJtDAv_Gn6cj2EqX9ZWXfQQ0_ReSxtG7U0" unoptimized />
+              <Image
+                alt="Belajar CPNS"
+                width={600}
+                height={800}
+                className="w-full h-auto object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-OS-zDEcYfpL0OQ0aGPPZBM8Gq6A6vYhXT2U-Gnoyn7SwnNgR0GZHCSkoG5-idKAMbK1Dcj6ZDslorQ3Ea9xlHYu5liWORoLVLxxEjarTtr6z7nteFZRzOJar0Zsec9MMR0v7Tbs2P7ZGexC3kjgv_rdwZGKVOltTpEEzESsq35Pxgq5ftWIiHSR8B8bnrgz8shwz2dJyXhUu7gIYxA5w7SfJ7357DfuXiNYHQi5I8vvJtDAv_Gn6cj2EqX9ZWXfQQ0_ReSxtG7U0"
+                priority
+              />
             </div>
             {/* Decorative Element */}
             <div className="absolute -bottom-10 -left-10 bg-surface-container-lowest p-6 rounded-2xl shadow-xl border border-outline-variant/20 hidden lg:block">
@@ -154,7 +162,7 @@ export default async function HomePage() {
               </div>
               <div className="order-1 md:order-2 bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Learning Hub" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" unoptimized/>
+                   <Image src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Learning Hub" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                    <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Platform Belajar Terpusat</div>
                 </div>
@@ -165,7 +173,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tryout & Exam" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" unoptimized/>
+                   <Image src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tryout & Exam" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                    <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Simulasi Ujian Realistis</div>
                 </div>
@@ -202,7 +210,7 @@ export default async function HomePage() {
               </div>
               <div className="order-1 md:order-2 bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Performa & Statistik" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" unoptimized/>
+                   <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Performa & Statistik" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                    <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Grafik Analisa Mendalam</div>
                 </div>
@@ -219,7 +227,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <div className="bg-surface-container-low p-6 rounded-[2.5rem] border border-outline-variant/20 shadow-2xl relative z-10 overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dashboard Analytics" width={800} height={600} className="rounded-3xl shadow-lg" unoptimized/>
+                <Image src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dashboard Analytics" width={800} height={600} className="rounded-3xl shadow-lg" />
                 {/* Floating Stats Cards */}
                 <div className="absolute top-12 -right-4 bg-white p-4 rounded-2xl shadow-xl border border-outline-variant/10 animate-bounce-slow">
                   <div className="flex items-center gap-3">
@@ -330,7 +338,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1 relative">
               <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-surface-container-lowest">
-                <Image alt="Tentang COBACPNS" width={600} height={400} className="w-full h-auto object-cover" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" unoptimized />
+                <Image alt="Tentang COBACPNS" width={600} height={400} className="w-full h-auto object-cover" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" />
               </div>
             </div>
             <div className="order-1 md:order-2">
@@ -384,36 +392,27 @@ export default async function HomePage() {
             </div>
           </div>
           
-          {/* Video Testimonials */}
+          {/* Video Testimonials — loaded lazily so they don't block page render */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
-            {/* Video 1 */}
-            <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 aspect-video relative">
-              <div className="absolute inset-0 bg-surface-container flex items-center justify-center animate-pulse">
-                <span className="text-on-surface-variant text-sm font-medium">Memuat Video...</span>
-              </div>
-              {/* Ganti src dengan URL embed video Anda (YouTube/Vimeo/Google Drive) */}
-              <iframe 
-                className="w-full h-full absolute top-0 left-0 z-10" 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" 
-                title="Testimoni Video 1" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 relative" style={{ aspectRatio: '16/9' }}>
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                title="Testimoni Video 1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-              ></iframe>
+                loading="lazy"
+                className="absolute inset-0 w-full h-full"
+              />
             </div>
-            
-            {/* Video 2 */}
-            <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 aspect-video relative">
-              <div className="absolute inset-0 bg-surface-container flex items-center justify-center animate-pulse">
-                <span className="text-on-surface-variant text-sm font-medium">Memuat Video...</span>
-              </div>
-              {/* Ganti src dengan URL embed video Anda */}
-              <iframe 
-                className="w-full h-full absolute top-0 left-0 z-10" 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" 
-                title="Testimoni Video 2" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 relative" style={{ aspectRatio: '16/9' }}>
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                title="Testimoni Video 2"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-              ></iframe>
+                loading="lazy"
+                className="absolute inset-0 w-full h-full"
+              />
             </div>
           </div>
 
@@ -428,117 +427,8 @@ export default async function HomePage() {
             <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4">Pilih Jalur Suksesmu</h2>
             <p className="text-on-secondary-container text-lg">Investasi terbaik untuk masa depan karier abdi negara Anda.</p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* FREE ACCESS */}
-            <div className="bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/10 flex flex-col h-full transition-transform hover:-translate-y-2 shadow-lg">
-              <div className="mb-8">
-                <span className="px-3 py-1 bg-surface-container-high text-on-surface-variant text-xs font-bold rounded-lg uppercase tracking-wider">Coba Dulu</span>
-                <h3 className="text-2xl font-bold text-on-surface mt-4 uppercase">Free Access</h3>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-on-surface">Gratis</span>
-                </div>
-              </div>
-              <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  1x Mini Try Out CAT
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Akses materi dasar
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Laporan skor singkat
-                </li>
-              </ul>
-              <Link href="/register" className="w-full py-4 text-center block bg-surface-container-high text-on-surface-variant font-bold rounded-xl hover:bg-surface-container-highest transition-colors">Mulai Gratis</Link>
-            </div>
+          <PricingTable />
 
-            {/* ELITE PREP */}
-            <div className="bg-surface-container-lowest rounded-3xl p-8 border-2 border-primary ring-4 ring-primary/5 flex flex-col h-full relative transition-transform hover:-translate-y-2 shadow-xl shadow-primary/5">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-6 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Paling Populer</div>
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-on-surface mt-4 uppercase">Elite Prep</h3>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-on-surface">Rp 129.000</span>
-                  <span className="text-sm font-bold text-on-secondary-container">/bulan</span>
-                </div>
-              </div>
-              <div className="mb-6 p-4 bg-primary/5 rounded-2xl">
-                <p className="text-xs font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
-                  <Star className="w-4 h-4 fill-current" />
-                  Feature Highlight
-                </p>
-                <p className="text-sm font-bold text-on-surface mt-1">Smart Shuffle Engine Enabled</p>
-              </div>
-              <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Unlimited Try Out CAT penuh
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Akses semua materi teks
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Ranking Nasional Real-time
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Analitik & Diagnostik mendalam
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Materi Strategi Digital (E-Book)
-                </li>
-              </ul>
-              <Link href="/register?plan=elite" className="w-full py-4 text-center block primary-gradient text-on-primary font-bold rounded-xl shadow-xl shadow-primary/20 hover:opacity-90 transition-opacity">Pilih Paket Elite</Link>
-            </div>
-
-            {/* MASTER STRATEGY */}
-            <div className="bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/10 flex flex-col h-full transition-transform hover:-translate-y-2 shadow-lg">
-              <div className="mb-8">
-                <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold rounded-lg uppercase tracking-wider">Full Access</span>
-                <h3 className="text-2xl font-bold text-on-surface mt-4 uppercase">Master Strategy</h3>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-on-surface">Rp 249.000</span>
-                  <span className="text-sm font-bold text-on-secondary-container">/bulan</span>
-                </div>
-              </div>
-              <div className="mb-6 p-4 bg-tertiary/5 rounded-2xl">
-                <p className="text-xs font-bold text-tertiary flex items-center gap-2 uppercase tracking-wide">
-                  <Rocket className="w-4 h-4 fill-current" />
-                  Premium Tech
-                </p>
-                <p className="text-sm font-bold text-on-surface mt-1">Diagnostic Roadmap Active</p>
-              </div>
-              <ul className="space-y-4 mb-10 flex-grow">
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Semua fitur Elite Prep
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Psikotes & Tes IQ Lengkap
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Video Lesson Eksklusif
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  AI Roadmap & Career Mapping
-                </li>
-                <li className="flex items-center gap-3 text-on-secondary-container">
-                  <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
-                  Priority Support 24/7
-                </li>
-              </ul>
-              <Link href="/register?plan=master" className="w-full py-4 text-center block border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary/5 transition-colors">Dapatkan Full Access</Link>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -590,6 +480,6 @@ export default async function HomePage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-2xl -ml-32 -mb-32"></div>
       </section>
-    </main>
+    </>
   );
 }

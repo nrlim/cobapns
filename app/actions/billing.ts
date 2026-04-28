@@ -9,10 +9,16 @@ import { z } from "zod"
 
 // ─── Plan Config ──────────────────────────────────────────────────────────────
 
-const PLAN_PRICES: Record<string, number> = {
-  ELITE:  149_000,
-  MASTER: 249_000,
-}
+const PLAN_PRICES: Record<string, Record<number, number>> = {
+  ELITE: {
+    1: 79_000,
+    12: 149_000,
+  },
+  MASTER: {
+    1: 149_000,
+    12: 299_000,
+  },
+};
 
 const VALID_PAID_PLANS = ["ELITE", "MASTER"] as const
 type PaidPlan = typeof VALID_PAID_PLANS[number]
@@ -105,8 +111,9 @@ export async function applyPromoCode(
 
   if (!pct) return { valid: false, discountPct: 0, message: "Kode promo tidak valid atau sudah kedaluwarsa." }
 
-  const base = PLAN_PRICES[planType] ?? 0
-  if (base === 0) return { valid: false, discountPct: 0, message: "Kode promo tidak berlaku untuk paket Free." }
+  const prices = PLAN_PRICES[planType]
+  if (!prices) return { valid: false, discountPct: 0, message: "Kode promo tidak berlaku untuk paket ini." }
+
 
   return { valid: true, discountPct: pct, message: `Diskon ${pct}% berhasil diterapkan! 🎉` }
 }
@@ -150,7 +157,9 @@ export async function createTransaction(input: {
       return { success: false, error: "Paket tidak valid." }
     }
 
-    const baseAmount = PLAN_PRICES[planType]! // safe — validated above
+    const prices = PLAN_PRICES[planType]!
+    const baseAmount = prices[durationMonths] ?? prices[1] // Default to 1 month if duration not found
+
 
     // ── Idempotency: reuse existing valid PENDING order ───────────────────────
     const existingPending = await prisma.transaction.findFirst({
@@ -184,8 +193,9 @@ export async function createTransaction(input: {
       }
     }
 
-    // Midtrans minimum is 1,000 IDR
-    const finalAmount = Math.max(1_000, (baseAmount - discountAmount) * durationMonths)
+    // Total amount is already based on the selected package duration
+    const finalAmount = Math.max(1_000, baseAmount - discountAmount)
+
     // Unique, collision-resistant order ID
     const externalId = `SIPNS-${session.userId.slice(-6)}-${Date.now()}-${crypto.randomBytes(3).toString("hex")}`
 
@@ -244,6 +254,7 @@ export async function createTransaction(input: {
         externalId,
         promoCode:      appliedPromo,
         discountAmount,
+        durationMonths,
         expiredAt:      new Date(Date.now() + 24 * 60 * 60 * 1_000),
       },
     })
@@ -330,17 +341,32 @@ export async function processWebhookPayload(payload: {
 
   // ── Success path: atomic transaction ─────────────────────────────────────────
   // 1. Update transaction status
-  // 2. Create subscription
-  // 3. Update user tier
+  // 2. Create subscription (extending if active)
+  // 3. Update user tier and expiration date
   // All or nothing — prevents partial state if one write fails
   await prisma.$transaction(async (trx) => {
-    const endDate = addMonths(new Date(), 1)
+    // Determine duration based on stored durationMonths
+    const monthsToAdd = tx.durationMonths ?? 1;
+
+    // Check for existing active subscription of the SAME plan to extend it
+    const currentSub = await trx.subscription.findFirst({
+      where: {
+        userId: tx.userId,
+        planType: tx.planType,
+        status: "ACTIVE",
+        endDate: { gt: new Date() },
+      },
+      orderBy: { endDate: "desc" },
+    });
+
+    const baseDate = currentSub ? currentSub.endDate : new Date();
+    const endDate = addMonths(baseDate, monthsToAdd);
 
     // Update transaction status first
     await trx.transaction.update({
       where: { id: tx.id },
       data:  { status: "SUCCESS", paidAt: new Date() },
-    })
+    });
 
     // Create subscription
     const sub = await trx.subscription.create({
@@ -351,23 +377,26 @@ export async function processWebhookPayload(payload: {
         startDate: new Date(),
         endDate,
       },
-    })
+    });
 
     // Link subscription to transaction
     await trx.transaction.update({
       where: { id: tx.id },
       data:  { subscriptionId: sub.id },
-    })
+    });
 
-    // Upgrade user tier
-    const tier = PLAN_TIER_MAP[tx.planType as PaidPlan]
+    // Upgrade user tier and set expiration date
+    const tier = PLAN_TIER_MAP[tx.planType as PaidPlan];
     if (tier) {
       await trx.user.update({
         where: { id: tx.userId },
-        data:  { subscriptionTier: tier },
-      })
+        data:  { 
+          subscriptionTier: tier,
+          subscriptionEnds: endDate,
+        },
+      });
     }
-  })
+  });
 
   revalidatePath("/dashboard/pembelian")
   revalidatePath("/dashboard")

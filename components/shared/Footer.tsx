@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, Facebook, Youtube } from "lucide-react";
 import { getSettings } from "@/app/actions/settings";
 
@@ -19,7 +20,13 @@ export async function Footer() {
         {/* Brand */}
         <div className="flex flex-col items-center md:items-start">
           <Link href="/" className="flex items-center mb-4">
-            <img src="/logo-landing.png" alt="COBA PNS Logo" className="h-8 md:h-10 w-auto object-contain" />
+            <Image
+              src="/logo-landing.png"
+              alt="COBA PNS Logo"
+              width={120}
+              height={36}
+              className="h-8 md:h-10 w-auto object-contain"
+            />
           </Link>
           <div className="font-sans text-xs uppercase tracking-widest text-on-surface-variant text-center md:text-left">
             © {new Date().getFullYear()} COBA PNS. Menuju Masa Depan Abdi Negara.

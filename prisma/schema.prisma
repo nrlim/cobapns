@@ -334,6 +334,7 @@ model Transaction {
   externalId      String?           // Gateway order ID
   promoCode       String?
   discountAmount  Int               @default(0)
+  durationMonths  Int               @default(1)
   paidAt          DateTime?
   expiredAt       DateTime?
   createdAt       DateTime          @default(now())

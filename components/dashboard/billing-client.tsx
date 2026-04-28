@@ -25,12 +25,12 @@ interface Plan {
   highlight: boolean
 }
 
-const PLANS: Plan[] = [
+const PLANS = [
   {
     id: "FREE",
     name: "Free Access",
     tagline: "Dasar persiapan CPNS",
-    price: 0,
+    prices: { 1: 0, 12: 0 },
     sub: "Selamanya",
     icon: Shield,
     highlight: false,
@@ -48,8 +48,11 @@ const PLANS: Plan[] = [
     name: "Elite Prep",
     badge: "Paling Populer",
     tagline: "Akselerasi tingkat lanjut",
-    price: 129_000,
-    sub: "per bulan",
+    prices: { 1: 79_000, 12: 149_000 },
+
+
+    sub: "per periode",
+
     icon: Zap,
     highlight: true,
     ctaLabel: "Pilih Elite",
@@ -65,8 +68,10 @@ const PLANS: Plan[] = [
     id: "MASTER",
     name: "Master Strategy",
     tagline: "Strategi menang total",
-    price: 249_000,
-    sub: "per bulan",
+    prices: { 1: 149_000, 12: 299_000 },
+
+    sub: "per periode",
+
     icon: CreditCard,
     highlight: false,
     ctaLabel: "Pilih Master",
@@ -80,6 +85,7 @@ const PLANS: Plan[] = [
   },
 ]
 
+
 // ─── Main Client Component ────────────────────────────────────────────────────
 
 interface BillingClientProps {
@@ -92,34 +98,45 @@ interface BillingClientProps {
 }
 
 export function BillingClient({ currentTier, initialPlan, activeSubscription }: BillingClientProps) {
+  const [isYearly, setIsYearly] = useState(true)
   const [checkoutPlan, setCheckoutPlan] = useState<CheckoutPlan | null>(null)
   const [paid, setPaid] = useState(false)
+
+
 
   // Auto-open checkout modal when arriving from landing page CTA
   useEffect(() => {
     if (!initialPlan) return
     const match = PLANS.find(p => p.id === initialPlan)
     if (match && match.id !== "FREE") {
+      // Check if duration is passed in URL (?dur=1 or ?dur=12)
+      const urlParams = new URLSearchParams(window.location.search)
+      const dur = parseInt(urlParams.get("dur") || "12")
+      if (dur === 1) setIsYearly(false)
+
       setCheckoutPlan({
         id: match.id,
         name: match.name,
-        price: match.price,
-        durationMonths: 1,
+        price: (match.prices as Record<number, number>)[dur === 1 ? 1 : 12] ?? 0,
+        durationMonths: dur === 1 ? 1 : 12,
       })
     }
-  // Only run once on mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [initialPlan])
 
-  const handleSelect = useCallback((plan: Plan) => {
+
+
+  const handleSelect = useCallback((plan: any) => {
     if (plan.id === "FREE") return
+    const dur = isYearly ? 12 : 1
     setCheckoutPlan({
       id: plan.id,
       name: plan.name,
-      price: plan.price,
-      durationMonths: 1,
+      price: (plan.prices as Record<number, number>)[dur] ?? 0,
+      durationMonths: dur,
     })
-  }, [])
+  }, [isYearly])
+
+
 
   const handleClose = useCallback(() => setCheckoutPlan(null), [])
   const handleSuccess = useCallback(() => {
@@ -157,6 +174,37 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
         </div>
       )}
 
+      {/* Toggle */}
+      <div className="flex justify-center mb-10">
+        <div className="bg-white border border-slate-200 p-1 rounded-xl flex items-center shadow-sm">
+          <button
+            onClick={() => setIsYearly(false)}
+            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
+              !isYearly
+                ? "bg-slate-900 text-white shadow-md"
+                : "text-slate-500 hover:text-slate-900"
+            }`}
+          >
+            Bulanan
+          </button>
+          <button
+            onClick={() => setIsYearly(true)}
+            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${
+              isYearly
+                ? "bg-brand-blue text-white shadow-md"
+                : "text-slate-500 hover:text-slate-900"
+            }`}
+          >
+            Tahunan
+            <span className={`text-[10px] px-2 py-0.5 rounded-full ${isYearly ? "bg-white/20 text-white" : "bg-brand-blue/10 text-brand-blue"}`}>
+              Hemat 80%
+            </span>
+          </button>
+        </div>
+      </div>
+
+
+
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
         {PLANS.map((plan) => {
@@ -187,12 +235,29 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
                 </div>
 
                 {/* Pricing Number */}
-                <div className="mb-8 flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-slate-900 tracking-tight">
-                    {plan.price === 0 ? "Gratis" : fmtIDR(plan.price).replace(",00", "")}
+                <div className="mb-8 flex items-start gap-1">
+                  {plan.id !== "FREE" && (
+                    <span className="text-base font-bold text-slate-900 pt-1.5">Rp</span>
+                  )}
+                  <span className="text-4xl font-black text-slate-900 tracking-tighter">
+                    {plan.id === "FREE" 
+                      ? "Gratis" 
+                      : (((plan.prices as Record<number, number>)[isYearly ? 12 : 1] ?? 0) / 1000).toFixed(3).replace(".", ".")}
                   </span>
-                  {plan.price > 0 && <span className="text-xs font-bold text-slate-500 ml-1">{plan.sub}</span>}
+                  {plan.id !== "FREE" && (
+                    <span className="text-xs font-bold text-slate-500 self-end pb-1.5">
+                      /{isYearly ? "tahun" : "bln"}
+                    </span>
+                  )}
                 </div>
+                {plan.id !== "FREE" && isYearly && (
+                  <p className="text-[11px] font-bold text-brand-blue mt-[-24px] mb-6">
+                    Hanya {fmtIDR(Math.round(((plan.prices as Record<number, number>)[12] ?? 0) / 12)).replace(",00", "")}/bulan
+                  </p>
+                )}
+
+
+
 
                 {/* Features List */}
                 <ul className="space-y-4 mb-8 flex-1">

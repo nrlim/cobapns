@@ -66,8 +66,10 @@ export async function registerAction(
 
   // Optional plan intent carried from landing page
   const planIntent = (formData.get("plan") as string | null)?.toUpperCase() ?? null;
+  const durIntent  = (formData.get("dur") as string | null) ?? "1";
   const validPlans = ["ELITE", "MASTER"];
   const safePlan = planIntent && validPlans.includes(planIntent) ? planIntent : null;
+  const safeDur  = durIntent === "12" ? "12" : "1";
 
   // Validate
   const parsed = RegisterSchema.safeParse(raw);
@@ -125,7 +127,7 @@ export async function registerAction(
 
   // ✅ Redirect: if the user came from a plan CTA, go straight to checkout
   if (safePlan) {
-    redirect(`/dashboard/pembelian?plan=${safePlan}`);
+    redirect(`/dashboard/pembelian?plan=${safePlan.toLowerCase()}&dur=${safeDur}`);
   }
   redirect("/dashboard");
 }
@@ -144,8 +146,10 @@ export async function loginAction(
 
   // Optional plan intent carried from landing page
   const planIntent = (formData.get("plan") as string | null)?.toUpperCase() ?? null;
+  const durIntent  = (formData.get("dur") as string | null) ?? "1";
   const validPlans = ["ELITE", "MASTER"];
   const safePlan = planIntent && validPlans.includes(planIntent) ? planIntent : null;
+  const safeDur  = durIntent === "12" ? "12" : "1";
 
   // Validate
   const parsed = LoginSchema.safeParse(raw);
@@ -210,7 +214,7 @@ export async function loginAction(
   if (role === "ADMIN") {
     redirect("/admin");
   } else if (safePlan) {
-    redirect(`/dashboard/pembelian?plan=${safePlan}`);
+    redirect(`/dashboard/pembelian?plan=${safePlan.toLowerCase()}&dur=${safeDur}`);
   } else {
     redirect("/dashboard");
   }
