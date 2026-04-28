@@ -3,6 +3,25 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cobapns.com";
 
+  // Landing page sections for sitelinks / better indexing
+  const sections = [
+    { id: "kenapa-kami", priority: 0.8 },
+    { id: "fitur-unggulan", priority: 0.8 },
+    { id: "progres-belajar", priority: 0.7 },
+    { id: "perjalanan", priority: 0.7 },
+    { id: "tentang", priority: 0.6 },
+    { id: "testimoni", priority: 0.7 },
+    { id: "harga", priority: 0.9 },
+    { id: "kontak", priority: 0.5 },
+  ];
+
+  const sectionEntries: MetadataRoute.Sitemap = sections.map((s) => ({
+    url: `${baseUrl}/#${s.id}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: s.priority,
+  }));
+
   return [
     {
       url: baseUrl,
@@ -10,23 +29,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1,
     },
+    ...sectionEntries,
     {
       url: `${baseUrl}/login`,
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.5,
     },
     {
       url: `${baseUrl}/register`,
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/testimonials`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.7,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/kebijakan-privasi`,

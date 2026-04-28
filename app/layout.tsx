@@ -82,10 +82,12 @@ export default function RootLayout({
         <meta name="theme-color" content="#1E73BE" />
         <meta name="mobile-web-app-capable" content="yes" />
 
-        {/* Preconnect to external domains for LCP images — reduces DNS + TCP handshake latency */}
-        <link rel="preconnect" href="https://images.unsplash.com" />
-        <link rel="preconnect" href="https://lh3.googleusercontent.com" />
-        <link rel="dns-prefetch" href="https://i.ytimg.com" />
+        {/* Preconnect: only origins in the critical render path */}
+        {/* Google Fonts blocks FCP — preconnect cuts the handshake from the critical path */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* YouTube nocookie iframe — dns-prefetch is enough (not render-blocking) */}
+        <link rel="dns-prefetch" href="https://www.youtube-nocookie.com" />
 
         {/* Structured Data / JSON-LD */}
         <script

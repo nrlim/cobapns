@@ -62,6 +62,7 @@ export default async function HomePage() {
                 height={800}
                 className="w-full h-auto object-cover"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-OS-zDEcYfpL0OQ0aGPPZBM8Gq6A6vYhXT2U-Gnoyn7SwnNgR0GZHCSkoG5-idKAMbK1Dcj6ZDslorQ3Ea9xlHYu5liWORoLVLxxEjarTtr6z7nteFZRzOJar0Zsec9MMR0v7Tbs2P7ZGexC3kjgv_rdwZGKVOltTpEEzESsq35Pxgq5ftWIiHSR8B8bnrgz8shwz2dJyXhUu7gIYxA5w7SfJ7357DfuXiNYHQi5I8vvJtDAv_Gn6cj2EqX9ZWXfQQ0_ReSxtG7U0"
+                sizes="(max-width: 768px) 100vw, 42vw"
                 priority
               />
             </div>
@@ -162,7 +163,7 @@ export default async function HomePage() {
               </div>
               <div className="order-1 md:order-2 bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Learning Hub" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" />
+                   <Image src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Learning Hub" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                    <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Platform Belajar Terpusat</div>
                 </div>
@@ -173,7 +174,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tryout & Exam" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" />
+                   <Image src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tryout & Exam" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                    <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Simulasi Ujian Realistis</div>
                 </div>
@@ -210,7 +211,7 @@ export default async function HomePage() {
               </div>
               <div className="order-1 md:order-2 bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Performa & Statistik" width={800} height={450} className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" />
+                   <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Performa & Statistik" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                    <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Grafik Analisa Mendalam</div>
                 </div>
@@ -396,7 +397,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
             <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 relative" style={{ aspectRatio: '16/9' }}>
               <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0"
                 title="Testimoni Video 1"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -406,7 +407,7 @@ export default async function HomePage() {
             </div>
             <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 relative" style={{ aspectRatio: '16/9' }}>
               <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0"
                 title="Testimoni Video 2"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
