@@ -346,7 +346,7 @@ export async function generateTryoutPDF(data: TryoutReportData): Promise<Buffer>
   hr(doc, y + 4);
   fill(doc, C.slate400);
   doc.fontSize(7).font("Helvetica").text(
-    "Laporan dihasilkan otomatis oleh sistem COBA PNS. Hasil bersifat indikatif dan tidak menggantikan proses seleksi resmi CPNS/BKN.",
+    "Laporan dihasilkan otomatis oleh sistem COBA PNS. Hasil bersifat indikatif dan tidak menggantikan proses seleksi resmi PNS/BKN.",
     M, y + 10, { width: IW, align: "center" }
   );
 
@@ -530,7 +530,7 @@ export async function generatePsychometricPDF(data: PsychReportData): Promise<Bu
   const buf = streamToBuffer(doc);
 
   let y = drawPageHeader(doc, {
-    badge:       "Laporan Psikometri & Pemetaan Karir CPNS",
+    badge:       "Laporan Psikometri & Pemetaan Karir PNS",
     title:       "Psychometric Full Profile",
     subtitle:    "Tes Kepribadian Big Five + Dimensi ASN & Career Mapping",
     userName:    data.userName,
@@ -639,7 +639,7 @@ export async function generatePsychometricPDF(data: PsychReportData): Promise<Bu
   rRect(doc, 0, 0, W, 64, 0, C.tealDeep);
   fill(doc, C.white);
   doc.fontSize(16).font("Helvetica-Bold").text("Career Mapping Report", M, 16);
-  doc.fillOpacity(0.7).fontSize(8).font("Helvetica").text("Rekomendasi Jabatan & Instansi CPNS", M, 38);
+  doc.fillOpacity(0.7).fontSize(8).font("Helvetica").text("Rekomendasi Jabatan & Instansi PNS", M, 38);
   doc.fillOpacity(1).fontSize(8.5).font("Helvetica-Bold").text(data.userName, W - M - 160, 36, { width: 160, align: "right" });
   fill(doc, C.slate200);
   doc.fontSize(6.5).font("Helvetica").text("Dokumen Resmi COBA PNS  ·  Rahasia", 0, H - 22, { width: W, align: "center" });
@@ -691,7 +691,7 @@ export async function generatePsychometricPDF(data: PsychReportData): Promise<Bu
     { n: "01", text: "Pelajari materi SKB sesuai jabatan yang dituju menggunakan fitur Learning Hub COBA PNS." },
     { n: "02", text: "Tingkatkan dimensi kepribadian yang masih berkembang melalui refleksi dan latihan harian." },
     { n: "03", text: "Ikuti Try Out intensif secara konsisten untuk meningkatkan skor SKD." },
-    { n: "04", text: "Pantau pengumuman CPNS resmi di sscasn.bkn.go.id dan cermati formasi yang sesuai profil Anda." },
+    { n: "04", text: "Pantau pengumuman PNS resmi di sscasn.bkn.go.id dan cermati formasi yang sesuai profil Anda." },
   ];
 
   const stepH = steps.length * 28 + 14;

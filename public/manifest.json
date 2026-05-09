@@ -1,7 +1,7 @@
 {
   "name": "COBA PNS - Latihan Hari Ini, Lolos Besok",
   "short_name": "COBA PNS",
-  "description": "Platform persiapan CPNS terpintar di Indonesia. Latihan Try Out berbasis AI, ranking nasional, dan analitik mendalam.",
+  "description": "Platform persiapan PNS terpintar di Indonesia. Latihan Try Out berbasis AI, ranking nasional, dan analitik mendalam.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -28,7 +28,7 @@
     {
       "name": "Mulai Try Out",
       "short_name": "Try Out",
-      "description": "Kerjakan soal Try Out CPNS",
+      "description": "Kerjakan soal Try Out PNS",
       "url": "/dashboard/exams",
       "icons": [{ "src": "/icon-cpns.png", "sizes": "96x96" }]
     },

@@ -17,7 +17,8 @@ interface Plan {
   name: string
   badge?: string
   tagline: string
-  price: number
+  prices: Record<number, number>
+  originalPrices?: Record<number, number>
   sub: string
   icon: React.ElementType
   features: Feature[]
@@ -29,7 +30,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Free Access",
-    tagline: "Dasar persiapan CPNS",
+    tagline: "Dasar persiapan PNS",
     prices: { 1: 0, 12: 0 },
     sub: "Selamanya",
     icon: Shield,
@@ -48,9 +49,8 @@ const PLANS = [
     name: "Elite Prep",
     badge: "Paling Populer",
     tagline: "Akselerasi tingkat lanjut",
-    prices: { 1: 79_000, 12: 149_000 },
-
-
+    prices: { 1: 49_000, 12: 99_000 },
+    originalPrices: { 1: 79_000, 12: 149_000 },
     sub: "per periode",
 
     icon: Zap,
@@ -68,8 +68,8 @@ const PLANS = [
     id: "MASTER",
     name: "Master Strategy",
     tagline: "Strategi menang total",
-    prices: { 1: 149_000, 12: 299_000 },
-
+    prices: { 1: 89_000, 12: 149_000 },
+    originalPrices: { 1: 149_000, 12: 299_000 },
     sub: "per periode",
 
     icon: CreditCard,
@@ -101,6 +101,11 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
   const [isYearly, setIsYearly] = useState(true)
   const [checkoutPlan, setCheckoutPlan] = useState<CheckoutPlan | null>(null)
   const [paid, setPaid] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
 
 
@@ -235,20 +240,27 @@ export function BillingClient({ currentTier, initialPlan, activeSubscription }: 
                 </div>
 
                 {/* Pricing Number */}
-                <div className="mb-8 flex items-start gap-1">
-                  {plan.id !== "FREE" && (
-                    <span className="text-base font-bold text-slate-900 pt-1.5">Rp</span>
+                <div className="mb-8">
+                  {mounted && plan.id !== "FREE" && plan.originalPrices?.[isYearly ? 12 : 1] && (
+                    <div className="text-xs font-bold text-slate-400 line-through mb-1">
+                      Rp {(plan.originalPrices[isYearly ? 12 : 1] / 1000).toFixed(3).replace(".", ".")}
+                    </div>
                   )}
-                  <span className="text-4xl font-black text-slate-900 tracking-tighter">
-                    {plan.id === "FREE" 
-                      ? "Gratis" 
-                      : (((plan.prices as Record<number, number>)[isYearly ? 12 : 1] ?? 0) / 1000).toFixed(3).replace(".", ".")}
-                  </span>
-                  {plan.id !== "FREE" && (
-                    <span className="text-xs font-bold text-slate-500 self-end pb-1.5">
-                      /{isYearly ? "tahun" : "bln"}
+                  <div className="flex items-start gap-1">
+                    {plan.id !== "FREE" && (
+                      <span className="text-base font-bold text-slate-900 pt-1.5">Rp</span>
+                    )}
+                    <span className="text-4xl font-black text-slate-900 tracking-tighter">
+                      {plan.id === "FREE" 
+                        ? "Gratis" 
+                        : (plan.prices[mounted && !isYearly ? 1 : 12] / 1000).toFixed(3).replace(".", ".")}
                     </span>
-                  )}
+                    {plan.id !== "FREE" && (
+                      <span className="text-xs font-bold text-slate-500 self-end pb-1.5">
+                        /{mounted && !isYearly ? "bln" : "tahun"}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 {plan.id !== "FREE" && isYearly && (
                   <p className="text-[11px] font-bold text-brand-blue mt-[-24px] mb-6">

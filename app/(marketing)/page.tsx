@@ -26,7 +26,7 @@ export default async function HomePage() {
   
   const testimonialsData: DynamicTestimonial[] = raw.map(t => ({
       id: t.id,
-      name: t.user?.name || t.guestName || "Pengguna CPNS",
+      name: t.user?.name || t.guestName || "Pengguna PNS",
       role: t.guestRole || (t.isVerified ? "Pengguna Terverifikasi" : "Pengguna Setia COBA PNS"),
       quote: t.content,
       image: t.user?.avatarUrl || t.guestAvatar || null,
@@ -41,13 +41,13 @@ export default async function HomePage() {
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,#1E73BE,#2DBE60)]" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold tracking-widest uppercase mb-6">Persiapan CPNS {CURRENT_YEAR}</span>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold tracking-widest uppercase mb-6">Persiapan PNS {CURRENT_YEAR}</span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight mb-6">
               <span className="text-brand-blue">Cara Pintar & Mudah</span>{" "}<br className="hidden md:block" />
-              <span className="text-brand-green italic">Lulus CPNS Tahun Ini!</span>
+              <span className="text-brand-green italic">Lulus PNS Tahun Ini!</span>
             </h1>
             <p className="text-base md:text-xl text-on-secondary-container leading-relaxed max-w-xl mb-8">
-              Belajar nggak perlu pusing. COBACPNS hadir dengan sistem belajar yang <strong>simpel, terarah, dan mirip aslinya</strong>. Mulai dari materi lengkap hingga tryout berstandar BKN, semua ada di sini.
+              Belajar nggak perlu pusing. COBAPNS hadir dengan sistem belajar yang <strong>simpel, terarah, dan mirip aslinya</strong>. Mulai dari materi lengkap hingga tryout berstandar BKN, semua ada di sini.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/register" className="primary-gradient text-on-primary px-6 py-3.5 rounded-xl font-bold text-base md:text-lg shadow-2xl shadow-primary/30 transition-transform active:scale-95 text-center">Coba Gratis Sekarang</Link>
@@ -57,7 +57,7 @@ export default async function HomePage() {
           <div className="md:col-span-5 relative mt-12 md:mt-0">
             <div className="rounded-3xl overflow-hidden shadow-2xl border-8 border-surface-container-lowest rotate-2 bg-surface-container-lowest">
               <Image
-                alt="Belajar CPNS"
+                alt="Belajar PNS"
                 width={600}
                 height={800}
                 className="w-full h-auto object-cover"
@@ -82,11 +82,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 2. Kenapa orang pilih belajar di cobacpns? */}
+      {/* 2. Kenapa orang pilih belajar di cobapns? */}
       <section className="py-14 md:py-24 bg-surface-container-low" id="kenapa-kami">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4 text-balance">Alasan COBACPNS Jadi Pilihan Utama Para Pejuang NIP</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4 text-balance">Alasan COBAPNS Jadi Pilihan Utama Para Pejuang NIP</h2>
             <p className="text-on-secondary-container text-lg max-w-2xl mx-auto">Kami menghadirkan teknologi dan metode belajar modern untuk memastikan kesiapan maksimal Anda.</p>
           </div>
           
@@ -141,7 +141,7 @@ export default async function HomePage() {
       <section className="py-14 md:py-24 bg-surface" id="fitur-unggulan">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4">Satu Platform, Solusi Lengkap Lulus CPNS</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4">Satu Platform, Solusi Lengkap Lulus PNS</h2>
             <p className="text-on-secondary-container text-lg max-w-2xl mx-auto">Fitur lengkap dan canggih untuk menemani perjuanganmu meraih NIP.</p>
           </div>
 
@@ -326,29 +326,29 @@ export default async function HomePage() {
             </div>
             <div className="relative z-10 bg-surface p-6 rounded-2xl shadow border border-outline-variant/10 text-center">
               <div className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4 border-4 border-surface">4</div>
-              <h4 className="font-bold text-on-surface mb-2">Lulus CPNS!</h4>
+              <h4 className="font-bold text-on-surface mb-2">Lulus PNS!</h4>
               <p className="text-sm text-on-secondary-container">Raih impianmu dengan percaya diri di hari ujian.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. Tentang COBACPNS */}
+      {/* 5. Tentang COBAPNS */}
       <section className="py-14 md:py-24 bg-surface" id="tentang">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1 relative">
               <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-surface-container-lowest">
-                <Image alt="Tentang COBACPNS" width={600} height={400} className="w-full h-auto object-cover" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" />
+                <Image alt="Tentang COBAPNS" width={600} height={400} className="w-full h-auto object-cover" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" />
               </div>
             </div>
             <div className="order-1 md:order-2">
-              <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4 md:mb-6">Tentang COBACPNS</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4 md:mb-6">Tentang COBAPNS</h2>
               <p className="text-lg text-on-secondary-container leading-relaxed mb-6">
-                Kami hadir dengan niat sederhana: Membantu kamu belajar CPNS tanpa harus pusing cari materi sana-sini. Kami mengumpulkan pakar materi dan menggabungkannya dengan teknologi agar belajarmu jadi lebih gampang.
+                Kami hadir dengan niat sederhana: Membantu kamu belajar PNS tanpa harus pusing cari materi sana-sini. Kami mengumpulkan pakar materi dan menggabungkannya dengan teknologi agar belajarmu jadi lebih gampang.
               </p>
               <p className="text-lg text-on-secondary-container leading-relaxed mb-8">
-                Dengan COBACPNS, kamu nggak cuma sekadar latihan soal, tapi kamu juga dibimbing buat tahu mana kelebihanmu dan mana materi yang masih harus kamu kejar. Mari berjuang bersama, dan jadikan tahun ini sebagai tahun kelulusanmu!
+                Dengan COBAPNS, kamu nggak cuma sekadar latihan soal, tapi kamu juga dibimbing buat tahu mana kelebihanmu dan mana materi yang masih harus kamu kejar. Mari berjuang bersama, dan jadikan tahun ini sebagai tahun kelulusanmu!
               </p>
               <div className="flex items-center gap-4 bg-surface-container p-4 rounded-2xl inline-flex border border-outline-variant/20 shadow-sm">
                 <div className="text-center px-4">
@@ -393,7 +393,7 @@ export default async function HomePage() {
             </div>
           </div>
           
-          {/* Video Testimonials — loaded lazily so they don't block page render */}
+          {/* Video Testimonials — loaded lazily so they don't block page render 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
             <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 relative" style={{ aspectRatio: '16/9' }}>
               <iframe
@@ -416,6 +416,7 @@ export default async function HomePage() {
               />
             </div>
           </div>
+          */}
 
           <TestimonialCarousel testimonials={testimonialsData} />
         </div>
@@ -471,7 +472,7 @@ export default async function HomePage() {
       <section className="py-20 bg-primary-container text-on-primary-container relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-4 md:mb-6 tracking-tight">Siap Memulai Belajarmu?</h2>
-          <p className="text-base md:text-xl opacity-90 mb-8 md:mb-10 max-w-2xl mx-auto">Jangan tunda lagi! Semakin cepat kamu mulai, semakin besar peluangmu untuk lulus CPNS tahun ini.</p>
+          <p className="text-base md:text-xl opacity-90 mb-8 md:mb-10 max-w-2xl mx-auto">Jangan tunda lagi! Semakin cepat kamu mulai, semakin besar peluangmu untuk lulus PNS tahun ini.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <Link href="/register" className="bg-white text-primary px-8 py-4 rounded-2xl font-black text-lg shadow-2xl hover:scale-105 transition-transform">Daftar Akun Gratis</Link>
             <Link href="#kontak" className="bg-primary-fixed-dim text-on-primary-fixed px-8 py-4 rounded-2xl font-black text-lg hover:bg-primary-fixed transition-colors">Tanya Admin</Link>

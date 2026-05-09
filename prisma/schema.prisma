@@ -502,3 +502,34 @@ model SystemConfig {
 
   @@map("system_configs")
 }
+
+// ─── Article / Blog ────────────────────────────────────────────────────────────
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Article {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  excerpt         String?       // Short summary shown in cards
+  content         String        @db.Text // Rich text / Markdown body
+  coverImage      String?       // URL to cover image
+  category        String?       // e.g. "Tips CPNS", "Berita"
+  tags            String[]      // Searchable tags
+  status          ArticleStatus @default(DRAFT)
+  // ── SEO ──────────────────────────────────────────────────────────
+  metaTitle       String?       // Overrides <title> tag (max 60 chars)
+  metaDescription String?       // Meta description (max 160 chars)
+  metaKeywords    String?       // Comma-separated keywords
+  ogImage         String?       // Open Graph image URL
+  canonicalUrl    String?       // Canonical URL override
+  // ── Publishing ───────────────────────────────────────────────────
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("articles")
+}

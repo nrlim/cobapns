@@ -12,14 +12,14 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Leaderboard – COBA PNS",
-  description: "Lihat peringkat global peserta COBA PNS. Bandingkan skor SKD-mu dengan ribuan calon peserta CPNS lainnya.",
+  description: "Lihat peringkat global peserta COBA PNS. Bandingkan skor SKD-mu dengan ribuan calon peserta PNS lainnya.",
 }
 
 const LEADERBOARD_LOCKED_CONFIG: LockedFeatureConfig = {
   pageKey: "leaderboard",
   featureName: "Peringkat Nasional",
   featureDesc:
-    "Cek posisi kamu di antara ribuan pejuang CPNS lainnya secara real-time. Lihat seberapa kompetitif nilaimu saat ini.",
+    "Cek posisi kamu di antara ribuan pejuang PNS lainnya secara real-time. Lihat seberapa kompetitif nilaimu saat ini.",
   requiredTier: "ELITE",
   Icon: Trophy,
   highlights: [

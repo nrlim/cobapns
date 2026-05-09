@@ -166,7 +166,7 @@ export default async function StudentDashboardPage() {
             >
               <div className="relative z-10">
                 <p className="text-[10px] font-bold tracking-widest uppercase mb-1 text-white/70">
-                  Simulasi CAT CPNS
+                  Simulasi CAT PNS
                 </p>
                 <h3 className="text-xl font-black mb-1 tracking-tight">Ayo Mulai Latihan!</h3>
                 <p className="text-white/80 text-sm font-medium mb-5 max-w-sm">

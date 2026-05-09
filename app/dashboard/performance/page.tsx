@@ -29,7 +29,7 @@ import Link from "next/link"
 
 export const metadata = {
   title: "Analitik & Diagnostik – COBA PNS",
-  description: "Pantau progress belajar CPNS kamu dengan analisa mendalam per kategori.",
+  description: "Pantau progress belajar PNS kamu dengan analisa mendalam per kategori.",
 }
 
 const PERFORMANCE_LOCKED_CONFIG: LockedFeatureConfig = {

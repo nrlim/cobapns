@@ -112,7 +112,10 @@ export default async function ExamResultPage({
 
   return (
     <DashboardShell activeHref="/dashboard/exams" user={{ name: session.name, role: session.role }}>
-      <FeedbackModal hasGivenFeedback={dbUser?.hasGivenFeedback || false} />
+      <FeedbackModal 
+        hasGivenFeedback={dbUser?.hasGivenFeedback || false} 
+        isFreeTier={effectiveTier === "FREE"}
+      />
       <div className="p-4 md:p-8 lg:p-10 w-full space-y-6">
         
         {/* Header Section */}

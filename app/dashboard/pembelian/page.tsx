@@ -10,7 +10,7 @@ import { PaymentHistory } from "@/components/dashboard/payment-history"
 
 export const metadata = {
   title: "Paket & Pembayaran – COBA PNS",
-  description: "Pilih paket belajar terbaik untuk persiapan CPNS kamu. Tersedia paket Free, Elite, dan Master.",
+  description: "Pilih paket belajar terbaik untuk persiapan PNS kamu. Tersedia paket Free, Elite, dan Master.",
 }
 
 export default async function BillingPage({
@@ -80,7 +80,7 @@ export default async function BillingPage({
         <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-3">Pilihan Paket</p>
           <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-slate-900 mb-3">
-            Ayo Upgrade &amp; Lolos CPNS!
+            Ayo Upgrade &amp; Lolos PNS!
           </h2>
           <p className="text-slate-500 font-medium leading-relaxed">
             Pilih paket belajar yang paling cocok buat kamu. Semua paket sudah pakai simulasi CAT sesuai standar{" "}

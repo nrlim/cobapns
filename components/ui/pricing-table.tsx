@@ -1,11 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { CheckCircle2, Star, Rocket } from "lucide-react";
 
 export function PricingTable() {
   const [isYearly, setIsYearly] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
 
   const plans = {
@@ -23,9 +28,10 @@ export function PricingTable() {
     },
     elite: {
       name: "Elite Prep",
-      monthlyPrice: 79000,
-      yearlyPrice: 149000,
-
+      monthlyPrice: 49000,
+      yearlyPrice: 99000,
+      originalMonthlyPrice: 79000,
+      originalYearlyPrice: 149000,
 
       features: [
 
@@ -40,8 +46,10 @@ export function PricingTable() {
     },
     master: {
       name: "Master Strategy",
-      monthlyPrice: 149000,
-      yearlyPrice: 299000,
+      monthlyPrice: 89000,
+      yearlyPrice: 149000,
+      originalMonthlyPrice: 149000,
+      originalYearlyPrice: 299000,
 
       features: [
 
@@ -125,14 +133,25 @@ export function PricingTable() {
           <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-6 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Paling Populer</div>
           <div className="mb-8">
             <h3 className="text-2xl font-bold text-on-surface mt-4 uppercase">{plans.elite.name}</h3>
-            <div className="mt-4 flex items-start gap-1">
-              <span className="text-lg font-bold text-on-surface pt-2">Rp</span>
-              <span className="text-5xl font-black text-on-surface tracking-tighter">
-                {isYearly 
-                  ? (plans.elite.yearlyPrice / 1000).toFixed(3).replace(".", ".") 
-                  : (plans.elite.monthlyPrice / 1000).toFixed(3).replace(".", ".")}
-              </span>
-              <span className="text-sm font-bold text-on-secondary-container self-end pb-2">/{isYearly ? "tahun" : "bln"}</span>
+            <div className="mt-4">
+              {mounted && plans.elite.originalYearlyPrice && (
+                <div className="text-sm font-bold text-slate-400 line-through">
+                  Rp {isYearly 
+                    ? (plans.elite.originalYearlyPrice / 1000).toFixed(3).replace(".", ".") 
+                    : (plans.elite.originalMonthlyPrice / 1000).toFixed(3).replace(".", ".")}
+                </div>
+              )}
+              <div className="flex items-start gap-1">
+                <span className="text-lg font-bold text-on-surface pt-2">Rp</span>
+                <span className="text-5xl font-black text-on-surface tracking-tighter">
+                  {mounted
+                    ? isYearly 
+                      ? (plans.elite.yearlyPrice / 1000).toFixed(3).replace(".", ".") 
+                      : (plans.elite.monthlyPrice / 1000).toFixed(3).replace(".", ".")
+                    : (plans.elite.yearlyPrice / 1000).toFixed(3).replace(".", ".")}
+                </span>
+                <span className="text-sm font-bold text-on-secondary-container self-end pb-2">/{mounted && !isYearly ? "bln" : "tahun"}</span>
+              </div>
             </div>
             {isYearly && (
               <p className="text-[10px] text-primary font-bold mt-1 tracking-tight">Hanya {formatPrice(Math.round(plans.elite.yearlyPrice / 12))}/bulan</p>
@@ -166,14 +185,25 @@ export function PricingTable() {
           <div className="mb-8">
             <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold rounded-lg uppercase tracking-wider">Full Access</span>
             <h3 className="text-2xl font-bold text-on-surface mt-4 uppercase">{plans.master.name}</h3>
-            <div className="mt-4 flex items-start gap-1">
-              <span className="text-lg font-bold text-on-surface pt-2">Rp</span>
-              <span className="text-5xl font-black text-on-surface tracking-tighter">
-                {isYearly 
-                  ? (plans.master.yearlyPrice / 1000).toFixed(3).replace(".", ".") 
-                  : (plans.master.monthlyPrice / 1000).toFixed(3).replace(".", ".")}
-              </span>
-              <span className="text-sm font-bold text-on-secondary-container self-end pb-2">/{isYearly ? "tahun" : "bln"}</span>
+            <div className="mt-4">
+              {mounted && plans.master.originalYearlyPrice && (
+                <div className="text-sm font-bold text-slate-400 line-through">
+                  Rp {isYearly 
+                    ? (plans.master.originalYearlyPrice / 1000).toFixed(3).replace(".", ".") 
+                    : (plans.master.originalMonthlyPrice / 1000).toFixed(3).replace(".", ".")}
+                </div>
+              )}
+              <div className="flex items-start gap-1">
+                <span className="text-lg font-bold text-on-surface pt-2">Rp</span>
+                <span className="text-5xl font-black text-on-surface tracking-tighter">
+                  {mounted
+                    ? isYearly 
+                      ? (plans.master.yearlyPrice / 1000).toFixed(3).replace(".", ".") 
+                      : (plans.master.monthlyPrice / 1000).toFixed(3).replace(".", ".")
+                    : (plans.master.yearlyPrice / 1000).toFixed(3).replace(".", ".")}
+                </span>
+                <span className="text-sm font-bold text-on-secondary-container self-end pb-2">/{mounted && !isYearly ? "bln" : "tahun"}</span>
+              </div>
             </div>
             {isYearly && (
               <p className="text-[10px] text-tertiary font-bold mt-1 tracking-tight">Hanya {formatPrice(Math.round(plans.master.yearlyPrice / 12))}/bulan</p>

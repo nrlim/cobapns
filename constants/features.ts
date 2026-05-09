@@ -10,7 +10,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     id: "smart-cat",
     title: "Smart CAT Engine",
     description:
-      "Sistem soal adaptif yang mensimulasikan ujian CPNS resmi BKN dengan bobot dan distribusi soal yang akurat.",
+      "Sistem soal adaptif yang mensimulasikan ujian PNS resmi BKN dengan bobot dan distribusi soal yang akurat.",
     icon: "BrainCircuit",
   },
   {
@@ -38,7 +38,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     id: "ebook-materi",
     title: "E-Book & Materi",
     description:
-      "Materi ringkas berbasis pola soal CPNS terbaru, tersedia dalam format PDF yang bisa diunduh dan dipelajari offline.",
+      "Materi ringkas berbasis pola soal PNS terbaru, tersedia dalam format PDF yang bisa diunduh dan dipelajari offline.",
     icon: "BookOpen",
   },
   {
@@ -54,7 +54,7 @@ export const TESTIMONIALS = [
   {
     id: "t1",
     name: "Anisa Rahmawati",
-    role: `Lulus CPNS Kementerian Keuangan ${new Date().getFullYear()}`,
+    role: `Lulus PNS Kementerian Keuangan ${new Date().getFullYear()}`,
     initials: "AR",
     scoreImprovement: "+127 poin",
     quote:
@@ -63,7 +63,7 @@ export const TESTIMONIALS = [
   {
     id: "t2",
     name: "Budi Santoso",
-    role: "Lulus CPNS Pemerintah Provinsi Jawa Barat",
+    role: "Lulus PNS Pemerintah Provinsi Jawa Barat",
     initials: "BS",
     scoreImprovement: "+89 poin",
     quote:
@@ -72,7 +72,7 @@ export const TESTIMONIALS = [
   {
     id: "t3",
     name: "Clara Dewi Putri",
-    role: "Lulus CPNS Badan Pemeriksa Keuangan",
+    role: "Lulus PNS Badan Pemeriksa Keuangan",
     initials: "CD",
     scoreImprovement: "+203 poin",
     quote:

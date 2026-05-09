@@ -146,7 +146,7 @@ export function TestimonialSubmitForm() {
             value={guestRole}
             onChange={(e) => setGuestRole(e.target.value)}
             className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1E73BE]/20 focus:border-[#1E73BE]"
-            placeholder="Contoh: Lulus CPNS Kemenkeu"
+            placeholder="Contoh: Lulus PNS Kemenkeu"
             required
           />
         </div>

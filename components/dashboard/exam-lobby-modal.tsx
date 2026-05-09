@@ -110,7 +110,7 @@ export function ExamLobbyModal({ exam, onClose }: ExamLobbyModalProps) {
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex-1 min-w-0">
                 <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-1">
-                  Simulasi CAT CPNS
+                  Simulasi CAT PNS
                 </p>
                 <h2 className="text-lg sm:text-xl font-black tracking-tight leading-snug">
                   {exam.title}

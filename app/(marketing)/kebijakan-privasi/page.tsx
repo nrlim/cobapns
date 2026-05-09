@@ -32,7 +32,7 @@ export default function KebijakanPrivasiPage() {
           </p>
           <ul className="list-disc pl-6 space-y-2">
             <li>Menyediakan fitur Diagnostic Modules (menyesuaikan materi berdasarkan kelemahan Anda).</li>
-            <li>Mengirimkan notifikasi pembaruan materi atau info lowongan CPNS terbaru.</li>
+            <li>Mengirimkan notifikasi pembaruan materi atau info lowongan PNS terbaru.</li>
             <li>Memproses transaksi pembayaran paket layanan secara aman.</li>
           </ul>
 

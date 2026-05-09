@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Star, Quote, X, CheckCircle2, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -13,7 +14,13 @@ const AVAILABLE_TAGS = [
   "Penjelasan Lengkap"
 ]
 
-export function FeedbackModal({ hasGivenFeedback }: { hasGivenFeedback: boolean }) {
+export function FeedbackModal({ 
+  hasGivenFeedback, 
+  isFreeTier = false 
+}: { 
+  hasGivenFeedback: boolean
+  isFreeTier?: boolean
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const [rating, setRating] = useState(5)
   const [hoveredRating, setHoveredRating] = useState(0)
@@ -21,16 +28,21 @@ export function FeedbackModal({ hasGivenFeedback }: { hasGivenFeedback: boolean 
   const [tags, setTags] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     if (hasGivenFeedback) return
 
+    // If free tier, show almost immediately after result page loads
+    // Otherwise wait 30s as a subtle nudge
+    const delay = isFreeTier ? 2000 : 30000
+
     const timer = setTimeout(() => {
       setIsOpen(true)
-    }, 30000)
+    }, delay)
 
     return () => clearTimeout(timer)
-  }, [hasGivenFeedback])
+  }, [hasGivenFeedback, isFreeTier])
 
   const toggleTag = (tag: string) => {
     setTags(prev => 
@@ -52,6 +64,7 @@ export function FeedbackModal({ hasGivenFeedback }: { hasGivenFeedback: boolean 
 
       if (res.ok) {
         setIsSuccess(true)
+        router.refresh()
         setTimeout(() => setIsOpen(false), 3000)
       }
     } catch (error) {
@@ -73,7 +86,7 @@ export function FeedbackModal({ hasGivenFeedback }: { hasGivenFeedback: boolean 
 
         <button 
           onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
+          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-[60]"
         >
           <X className="w-5 h-5" />
         </button>

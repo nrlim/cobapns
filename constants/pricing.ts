@@ -34,7 +34,7 @@ export const PRICING_TIERS: PricingTier[] = [
     name: "Elite Prep",
     badge: "Terpopuler",
     badgeVariant: "featured",
-    price: "Rp 129.000",
+    price: "Rp 99.000",
     priceNote: "per bulan",
     description: "Untuk peserta serius yang ingin ranking teratas secara konsisten.",
     features: [
@@ -42,7 +42,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "Smart Shuffle Engine",
       "Ranking Nasional Real-time",
       "Time Analytics per Sub-Kategori",
-      "E-Book PDF Materi CPNS",
+      "E-Book PDF Materi PNS",
       "Laporan Progres Mingguan",
     ],
     cta: "Pilih Elite",
@@ -53,7 +53,7 @@ export const PRICING_TIERS: PricingTier[] = [
     name: "Master Strategy",
     badge: "Terbaik",
     badgeVariant: "premium",
-    price: "Rp 249.000",
+    price: "Rp 149.000",
     priceNote: "per bulan",
     description: "Solusi komprehensif dengan panduan AI untuk memastikan kelulusan.",
     features: [

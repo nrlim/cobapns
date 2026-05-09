@@ -21,7 +21,7 @@ import { hasAccess } from "@/constants/permissions"
 
 export const metadata = {
   title: "Psikotes & Tes IQ – COBA PNS",
-  description: "Tes psikologi Big Five dan tes IQ multi-dimensi untuk rekomendasi karir CPNS.",
+  description: "Tes psikologi Big Five dan tes IQ multi-dimensi untuk rekomendasi karir PNS.",
 }
 
 // ─── Locked feature config for this page ──────────────────────────────────────
@@ -30,7 +30,7 @@ const PSYCH_LOCKED_CONFIG: LockedFeatureConfig = {
   pageKey: "psychology",
   featureName: "Psikotes & Tes IQ",
   featureDesc:
-    "Kenali potensi dirimu melalui tes psikologi Big Five dan kecerdasan multi-dimensi. Dapatkan rekomendasi jabatan CPNS yang paling sesuai dengan profilmu.",
+    "Kenali potensi dirimu melalui tes psikologi Big Five dan kecerdasan multi-dimensi. Dapatkan rekomendasi jabatan PNS yang paling sesuai dengan profilmu.",
   requiredTier: "MASTER",
   Icon: Brain,
   highlights: [
@@ -38,7 +38,7 @@ const PSYCH_LOCKED_CONFIG: LockedFeatureConfig = {
     "Tes IQ Multi-Dimensi — Verbal, Numerik, Logika, Spasial",
     "Skor IQ Terstandarisasi (Mean 100, SD 15)",
     "Rekomendasi jabatan & instansi berdasarkan profilmu",
-    "Career Mapping eksklusif untuk peserta CPNS",
+    "Career Mapping eksklusif untuk peserta PNS",
   ],
 }
 

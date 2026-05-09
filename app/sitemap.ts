@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
+import { getAllPublishedArticlesForSitemap } from "@/app/actions/articles";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://cobapns.com";
 
   // Landing page sections for sitelinks / better indexing
@@ -22,6 +23,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: s.priority,
   }));
 
+  // Dynamic article pages
+  let articleEntries: MetadataRoute.Sitemap = [];
+  try {
+    const articles = await getAllPublishedArticlesForSitemap();
+    articleEntries = articles.map((a) => ({
+      url: `${baseUrl}/artikel/${a.slug}`,
+      lastModified: a.updatedAt,
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    }));
+  } catch {
+    // Fail silently - sitemap still serves static pages
+  }
+
   return [
     {
       url: baseUrl,
@@ -30,6 +45,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     ...sectionEntries,
+    {
+      url: `${baseUrl}/artikel`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    ...articleEntries,
     {
       url: `${baseUrl}/login`,
       lastModified: new Date(),

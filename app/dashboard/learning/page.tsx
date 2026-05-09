@@ -13,7 +13,7 @@ import { QuestionCategory } from "@prisma/client"
 
 export const metadata = {
   title: "Learning Hub – COBA PNS",
-  description: "Belajar materi SKD CPNS: TWK, TIU, TKP. Modul lengkap, video, dan e-book.",
+  description: "Belajar materi SKD PNS: TWK, TIU, TKP. Modul lengkap, video, dan e-book.",
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

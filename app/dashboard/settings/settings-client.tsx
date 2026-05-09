@@ -309,7 +309,7 @@ export function SettingsClient({ user, lookups }: {
 
   const TABS = [
     { key: "profile" as const, icon: UserCircle2, label: "Data Diri" },
-    { key: "formation" as const, icon: Target, label: "Target CPNS" },
+    { key: "formation" as const, icon: Target, label: "Target PNS" },
     { key: "security" as const, icon: Shield, label: "Ganti Password" },
   ]
 

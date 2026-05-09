@@ -8,7 +8,7 @@ import { ExamListClient, type ExamCardData } from "@/components/dashboard/exam-l
 
 export const metadata = {
   title: "Try Out CAT – COBA PNS",
-  description: "Daftar ujian Try Out CAT CPNS yang tersedia untukmu.",
+  description: "Daftar ujian Try Out CAT PNS yang tersedia untukmu.",
 }
 
 const SUBSCRIPTION_RANK: Record<string, number> = { FREE: 0, PRO: 1, PREMIUM: 2 }
@@ -67,7 +67,7 @@ export default async function StudentExamsPage() {
         {/* ── Page Header ────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Simulasi CAT CPNS</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">Simulasi CAT PNS</p>
             <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">Pilih Latihan Try Out</h1>
             <p className="text-slate-500 font-medium text-sm mt-1">
               Yuk, asah kemampuanmu dengan mengerjakan simulasi ujian CAT yang sesungguhnya.

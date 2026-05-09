@@ -25,7 +25,7 @@ const IQ_LOCKED_CONFIG: LockedFeatureConfig = {
     "Timer adaptif per sub-tes (±21 menit total)",
     "Skor IQ Terstandarisasi — Mean 100, SD 15",
     "Interpretasi hasil lengkap dengan kategori kemampuan",
-    "Bandingkan IQ-mu dengan peserta CPNS lainnya",
+    "Bandingkan IQ-mu dengan peserta PNS lainnya",
   ],
 }
 

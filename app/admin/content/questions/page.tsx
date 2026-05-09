@@ -15,7 +15,7 @@ import { QuestionRowItem } from "@/components/admin/question-row-item"
 
 export const metadata = {
   title: "Question Bank CMS - COBA PNS Admin",
-  description: "Advanced Question Bank Management for CPNS materials.",
+  description: "Advanced Question Bank Management for PNS materials.",
 }
 
 export default async function QuestionsCMSPage(props: {

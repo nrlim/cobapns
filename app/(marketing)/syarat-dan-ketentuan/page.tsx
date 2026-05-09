@@ -45,7 +45,7 @@ export default function SyaratDanKetentuanPage() {
 
           <h2 className="text-2xl font-bold text-on-surface mt-10 mb-4">5. Batasan Tanggung Jawab</h2>
           <p>
-            COBA PNS merupakan sarana pendukung belajar. Kami tidak memberikan jaminan kelulusan mutlak dalam ujian CPNS yang sesungguhnya karena hasil akhir sepenuhnya bergantung pada usaha, kemampuan, dan strategi masing-masing individu.
+            COBA PNS merupakan sarana pendukung belajar. Kami tidak memberikan jaminan kelulusan mutlak dalam ujian PNS yang sesungguhnya karena hasil akhir sepenuhnya bergantung pada usaha, kemampuan, dan strategi masing-masing individu.
           </p>
 
           <h2 className="text-2xl font-bold text-on-surface mt-10 mb-4">6. Perubahan Ketentuan</h2>

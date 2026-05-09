@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 const NAV_LINKS = [
   { label: "Keunggulan", href: "/#kenapa-kami" },
   { label: "Fitur Utama", href: "/#fitur-unggulan" },
+  { label: "Artikel", href: "/artikel" },
   { label: "Testimoni", href: "/#testimoni" },
   { label: "Tentang Kami", href: "/#tentang" },
   { label: "Paket Belajar", href: "/#harga" },

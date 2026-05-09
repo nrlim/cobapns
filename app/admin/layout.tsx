@@ -16,6 +16,7 @@ import {
   CreditCard,
   Brain,
   MessageSquare,
+  Newspaper,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -76,6 +77,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/admin/materials" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <BookOpen className="w-5 h-5" />
             <span>Material CMS</span>
+          </Link>
+          <Link href="/admin/articles" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
+            <Newspaper className="w-5 h-5" />
+            <span>Artikel / Blog</span>
           </Link>
           <Link href="/admin/testimonials/manage" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <MessageSquare className="w-5 h-5" />

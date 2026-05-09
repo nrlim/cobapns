@@ -137,9 +137,11 @@ export async function smartRandomizeQuestions(
       const where: Record<string, unknown> = { category }
       if (difficulty) where.difficulty = difficulty
 
-      // Get all eligible IDs then shuffle in JS (Postgres random() is fine too)
+      // Memprioritaskan soal terbaru: ambil maksimal 2x dari count yang dibutuhkan agar tetap ada variasi
       const pool = await prisma.question.findMany({
         where,
+        orderBy: { createdAt: 'desc' },
+        take: count * 2,
         select: { id: true },
       })
 

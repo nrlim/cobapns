@@ -82,7 +82,7 @@ export const PERSONALITY_NARRATIVES: Record<string, {
   },
   Sentinel: {
     tagline: "Pelaksana Andal & Disiplin",
-    description: "Anda adalah tipe individu yang sangat dapat diandalkan, disiplin, dan terorganisir. Kemampuan Anda untuk mengeksekusi rencana secara konsisten adalah aset besar di birokrasi CPNS.",
+    description: "Anda adalah tipe individu yang sangat dapat diandalkan, disiplin, dan terorganisir. Kemampuan Anda untuk mengeksekusi rencana secara konsisten adalah aset besar di birokrasi PNS.",
     strengths: ["Disiplin tinggi", "Loyalitas", "Eksekusi rencana yang konsisten"],
     growthAreas: ["Kreativitas dalam problem solving", "Adaptasi terhadap perubahan cepat"],
   },

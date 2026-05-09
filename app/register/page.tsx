@@ -11,14 +11,14 @@ export default function RegisterPage() {
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan")?.toUpperCase() ?? null;
   const duration = searchParams.get("dur") === "1" ? "1" : "12";
-  const validPlans: Record<string, Record<string, { name: string; price: string }>> = {
+  const validPlans: Record<string, Record<string, { name: string; price: string; originalPrice?: string }>> = {
     ELITE: {
-      "1": { name: "Elite Prep (Bulanan)", price: "Rp 79.000/bln" },
-      "12": { name: "Elite Prep (Tahunan)", price: "Rp 149.000" },
+      "1": { name: "Elite Prep (Bulanan)", price: "Rp 49.000/bln", originalPrice: "Rp 79.000" },
+      "12": { name: "Elite Prep (Tahunan)", price: "Rp 99.000", originalPrice: "Rp 149.000" },
     },
     MASTER: {
-      "1": { name: "Master Strategy (Bulanan)", price: "Rp 149.000/bln" },
-      "12": { name: "Master Strategy (Tahunan)", price: "Rp 299.000" },
+      "1": { name: "Master Strategy (Bulanan)", price: "Rp 89.000/bln", originalPrice: "Rp 149.000" },
+      "12": { name: "Master Strategy (Tahunan)", price: "Rp 149.000", originalPrice: "Rp 299.000" },
     },
 
 
@@ -92,7 +92,7 @@ export default function RegisterPage() {
               <span className="text-blue-300">ASN Impianmu.</span>
             </h1>
             <p className="text-blue-100 text-lg max-w-md leading-relaxed mb-12 opacity-90">
-              Bergabung dengan ribuan calon ASN yang telah menggunakan COBA PNS untuk mempersiapkan diri menghadapi seleksi CPNS.
+              Bergabung dengan ribuan calon ASN yang telah menggunakan COBA PNS untuk mempersiapkan diri menghadapi seleksi PNS.
             </p>
 
             {/* Stats */}
@@ -138,7 +138,10 @@ export default function RegisterPage() {
                   </div>
                   <div>
                     <p className="text-xs font-black text-brand-blue-deep">Paket terpilih: {selectedPlan.name}</p>
-                    <p className="text-xs text-brand-blue font-medium">{selectedPlan.price} · Daftar dulu, bayar setelah masuk</p>
+                    <p className="text-xs text-brand-blue font-medium">
+                      <span className="line-through opacity-50 mr-1.5">{(selectedPlan as any).originalPrice}</span>
+                      {selectedPlan.price} · Daftar dulu, bayar setelah masuk
+                    </p>
                   </div>
                 </div>
               )}

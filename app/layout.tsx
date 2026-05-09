@@ -15,19 +15,19 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://cobapns.com"),
   title: {
-    default: "COBA PNS — Platform Try Out CAT CPNS #1 dengan AI",
+    default: "COBA PNS — Platform Try Out CAT PNS #1 dengan AI",
     template: "%s | COBA PNS",
   },
   description:
-    "Persiapan CPNS 2024/2025 terpintar di Indonesia. Latihan Try Out CAT berbasis AI, ranking nasional, analitik mendalam, dan materi terupdate untuk memastikan kamu lolos CPNS.",
+    "Persiapan PNS 2024/2025 terpintar di Indonesia. Latihan Try Out CAT berbasis AI, ranking nasional, analitik mendalam, dan materi terupdate untuk memastikan kamu lolos PNS.",
   keywords: [
-    "CPNS 2024",
-    "Try Out CPNS",
-    "Bimbel CPNS Online",
-    "Soal CPNS 2024",
-    "CAT CPNS",
-    "Latihan Soal CPNS",
-    "Ranking Nasional CPNS",
+    "PNS 2024",
+    "Try Out PNS",
+    "Bimbel PNS Online",
+    "Soal PNS 2024",
+    "CAT PNS",
+    "Latihan Soal PNS",
+    "Ranking Nasional PNS",
     "COBA PNS",
   ],
   authors: [{ name: "COBA PNS" }],
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "COBA PNS — Coba Sekarang, Lolos Kemudian",
-    description: "Platform Try Out CAT CPNS terpintar dengan AI Diagnostic, Ranking Nasional, dan Pembahasan Lengkap.",
+    description: "Platform Try Out CAT PNS terpintar dengan AI Diagnostic, Ranking Nasional, dan Pembahasan Lengkap.",
     url: "https://cobapns.com",
     siteName: "COBA PNS",
     images: [
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "COBA PNS — Platform Try Out CAT CPNS #1 dengan AI",
-    description: "Latihan Try Out CPNS dengan sistem CAT asli, ranking nasional, dan bantuan AI Diagnostic.",
+    title: "COBA PNS — Platform Try Out CAT PNS #1 dengan AI",
+    description: "Latihan Try Out PNS dengan sistem CAT asli, ranking nasional, dan bantuan AI Diagnostic.",
     images: ["/thumbnail-sosmed.jpeg"],
     creator: "@cobapns",
   },
@@ -105,7 +105,7 @@ export default function RootLayout({
                 "https://www.facebook.com/cobapns",
                 "https://www.youtube.com/cobapns"
               ],
-              "description": "Platform persiapan CPNS terpintar di Indonesia dengan AI Diagnostic dan Ranking Nasional."
+              "description": "Platform persiapan PNS terpintar di Indonesia dengan AI Diagnostic dan Ranking Nasional."
             })
           }}
         />

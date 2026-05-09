@@ -22,6 +22,9 @@ import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { ScoreProgressChart, TimeAnalysisChart, ChartLegend } from "@/components/dashboard/statistics-charts"
 import { getUserStatsTrend, getGlobalRanking } from "@/app/actions/statistics"
 import type { LeaderboardEntry, UserRankInfo, ExamHistoryRow, ScoreTrendPoint, ActivityMetrics } from "@/app/actions/statistics"
+import { prisma } from "@/lib/prisma"
+import { FeedbackModal } from "@/components/shared/FeedbackModal"
+import { MessageSquareHeart, Lock } from "lucide-react"
 
 export const metadata = {
   title: "Statistik & Leaderboard – COBA PNS",
@@ -137,6 +140,18 @@ export default async function StatistikPage() {
   const session = token ? await verifySession(token) : null
   if (!session) redirect("/login")
 
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { subscriptionTier: true, subscriptionEnds: true, hasGivenFeedback: true },
+  })
+
+  // Calculate effective tier (consistent with other pages)
+  const rawTier = dbUser?.subscriptionTier ?? "FREE"
+  const effectiveTier = rawTier !== "FREE" && dbUser?.subscriptionEnds && new Date(dbUser.subscriptionEnds) < new Date()
+    ? "FREE" 
+    : rawTier
+
+  const isFreeTier = effectiveTier === "FREE"
   const [statsData, rankData] = await Promise.all([
     getUserStatsTrend(),
     getGlobalRanking(),
@@ -145,11 +160,101 @@ export default async function StatistikPage() {
   const { trend, metrics, examHistory }: { trend: ScoreTrendPoint[]; metrics: ActivityMetrics; examHistory: ExamHistoryRow[] } = statsData
   const { leaderboard, userRank }: { leaderboard: LeaderboardEntry[]; userRank: UserRankInfo | null } = rankData
 
+  const needsFeedback = isFreeTier && !dbUser?.hasGivenFeedback && examHistory.length > 0
+
   const top3 = leaderboard.slice(0, 3)
   const rest = leaderboard.slice(3)
 
   // Find user's position inside top 100 list to highlight
   const userInTop100 = leaderboard.find((e) => e.isCurrentUser)
+
+  if (needsFeedback) {
+    return (
+      <DashboardShell activeHref="/dashboard/statistik" user={{ name: session.name, role: session.role, tier: session.tier }}>
+        <FeedbackModal hasGivenFeedback={false} isFreeTier={true} />
+        <div className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-72px)] w-full flex flex-col p-3 sm:p-4 md:p-6 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col xl:flex-row w-full flex-1 overflow-hidden">
+            
+            {/* ═══ LEFT — Hero gradient panel ═══════════════════════ */}
+            <div className={`relative bg-gradient-to-br from-[#0F4FA8] via-[#1E73BE] to-[#1560a8] flex flex-col xl:flex-[1.2] overflow-hidden`}>
+              {/* Ambient blobs */}
+              <div className={`pointer-events-none absolute -top-24 -right-16 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-blue-400/20 blur-3xl`} />
+              <div className={`pointer-events-none absolute -bottom-24 -left-16 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-cyan-400/10 blur-3xl`} />
+
+              {/* Content */}
+              <div className="relative z-10 p-6 sm:p-8 xl:p-12 flex flex-col h-full justify-center">
+                <div className="flex items-start gap-3 sm:gap-4 mb-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0 border border-white/20 mt-0.5">
+                    <MessageSquareHeart className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1 text-blue-200`}>
+                      Akses Terkunci
+                    </p>
+                    <h1 className="text-xl sm:text-2xl md:text-3xl xl:text-4xl font-black tracking-tight text-white leading-tight">
+                      Statistik & Leaderboard
+                    </h1>
+                  </div>
+                </div>
+
+                <p className="text-white/75 text-sm sm:text-base font-medium leading-relaxed mb-6 max-w-lg">
+                  Buka fitur ini dan pantau terus perkembangan nilaimu serta bandingkan dengan ribuan pejuang PNS lainnya di seluruh Indonesia.
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {[
+                    "Analisis Nilai Detail",
+                    "Grafik Perkembangan",
+                    "Ranking Nasional Real-time",
+                    "Riwayat Try Out",
+                  ].map((h) => (
+                    <div key={h} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 border backdrop-blur-md bg-white/8 border-white/10">
+                      <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-blue-200" />
+                      <span className="text-[11px] sm:text-xs text-white/90 font-semibold">{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ═══ RIGHT — Details panel ════════════════════════════ */}
+            <div className="bg-slate-50/80 p-6 sm:p-8 xl:p-12 flex flex-col justify-center xl:flex-[1] xl:overflow-y-auto border-t xl:border-t-0 xl:border-l border-slate-100">
+              <div className="flex items-start gap-3 mb-6">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-blue-100">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 text-[#1E73BE]" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-black tracking-tight text-slate-900">
+                    Eits, Sebentar! ✋
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5 leading-relaxed">
+                    Khusus pengguna <strong className="text-slate-800">Free Tier</strong>, silakan berikan testimoni atau feedback kamu terlebih dahulu untuk membuka fitur ini.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 text-left mb-8">
+                <Lock className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-xs font-bold text-amber-900 leading-relaxed">
+                  Popup testimoni akan muncul secara otomatis. Jika tidak muncul, silakan segarkan (refresh) halaman ini.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                  Kenapa harus kasih testimoni?
+                </p>
+                <p className="text-xs text-slate-500 font-medium italic border-l-2 border-slate-200 pl-3">
+                  "Feedback kamu sangat berarti dan membantu kami untuk terus menyediakan akses belajar gratis bagi pejuang PNS lainnya di seluruh Indonesia."
+                </p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </DashboardShell>
+    )
+  }
 
   return (
     <DashboardShell activeHref="/dashboard/statistik" user={{ name: session.name, role: session.role, tier: session.tier }}>
@@ -165,7 +270,7 @@ export default async function StatistikPage() {
               Statistik Belajar
             </h2>
             <p className="text-slate-500 font-medium mt-1 text-sm">
-              Pantau kenaikan nilaimu dan lihat posisimu di antara seluruh pejuang CPNS.
+              Pantau kenaikan nilaimu dan lihat posisimu di antara seluruh pejuang PNS.
             </p>
           </div>
           {userRank && (

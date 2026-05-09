@@ -11,14 +11,14 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan")?.toUpperCase() ?? null;
   const duration = searchParams.get("dur") === "1" ? "1" : "12";
-  const validPlans: Record<string, Record<string, { name: string; price: string }>> = {
+  const validPlans: Record<string, Record<string, { name: string; price: string; originalPrice?: string }>> = {
     ELITE: {
-      "1": { name: "Elite Prep (Bulanan)", price: "Rp 79.000/bln" },
-      "12": { name: "Elite Prep (Tahunan)", price: "Rp 149.000" },
+      "1": { name: "Elite Prep (Bulanan)", price: "Rp 49.000/bln", originalPrice: "Rp 79.000" },
+      "12": { name: "Elite Prep (Tahunan)", price: "Rp 99.000", originalPrice: "Rp 149.000" },
     },
     MASTER: {
-      "1": { name: "Master Strategy (Bulanan)", price: "Rp 149.000/bln" },
-      "12": { name: "Master Strategy (Tahunan)", price: "Rp 299.000" },
+      "1": { name: "Master Strategy (Bulanan)", price: "Rp 89.000/bln", originalPrice: "Rp 149.000" },
+      "12": { name: "Master Strategy (Tahunan)", price: "Rp 149.000", originalPrice: "Rp 299.000" },
     },
 
 
@@ -139,7 +139,10 @@ export default function LoginPage() {
                   </div>
                   <div>
                     <p className="text-xs font-black text-brand-blue-deep">Paket terpilih: {selectedPlan.name}</p>
-                    <p className="text-xs text-brand-blue font-medium">{selectedPlan.price} · Login untuk lanjutkan pembayaran</p>
+                    <p className="text-xs text-brand-blue font-medium">
+                      <span className="line-through opacity-50 mr-1.5">{(selectedPlan as any).originalPrice}</span>
+                      {selectedPlan.price} · Login untuk lanjutkan pembayaran
+                    </p>
                   </div>
                 </div>
               )}
