@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  LineChart, Zap, Cpu, CreditCard, ShieldCheck, 
-  CheckCircle2, Star, Rocket, Mail, Phone, 
-  Target, TrendingUp, Clock, MonitorPlay, 
+import {
+  LineChart, Zap, Cpu, CreditCard, ShieldCheck,
+  CheckCircle2, Star, Rocket, Mail, Phone,
+  Target, TrendingUp, Clock, MonitorPlay,
   BarChart, Trophy, Map, CheckCircle
 } from "lucide-react";
 import { getSettings } from "@/app/actions/settings";
@@ -23,21 +23,21 @@ export default async function HomePage() {
     orderBy: { createdAt: "desc" },
     take: 10
   });
-  
+
   const testimonialsData: DynamicTestimonial[] = raw.map(t => ({
-      id: t.id,
-      name: t.user?.name || t.guestName || "Pengguna PNS",
-      role: t.guestRole || (t.isVerified ? "Pengguna Terverifikasi" : "Pengguna Setia COBA PNS"),
-      quote: t.content,
-      image: t.user?.avatarUrl || t.guestAvatar || null,
-      tags: t.tags,
-      rating: t.rating || 5
-    }));
+    id: t.id,
+    name: t.user?.name || t.guestName || "Pengguna PNS",
+    role: t.guestRole || (t.isVerified ? "Pengguna Terverifikasi" : "Pengguna Setia COBA PNS"),
+    quote: t.content,
+    image: t.user?.avatarUrl || t.guestAvatar || null,
+    tags: t.tags,
+    rating: t.rating || 5
+  }));
 
   return (
     <>
       {/* 1. Hero Section */}
-      <section className="relative px-4 sm:px-6 pt-8 pb-16 md:pt-16 md:pb-32 overflow-hidden bg-surface">
+      <section className="relative px-4 sm:px-6 pt-2 pb-16 md:pt-6 md:pb-32 overflow-x-clip bg-surface">
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,#1E73BE,#2DBE60)]" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 z-10">
@@ -54,28 +54,43 @@ export default async function HomePage() {
               <Link href="#harga" className="bg-surface-container-high text-primary px-6 py-3.5 rounded-xl font-bold text-base md:text-lg transition-all hover:bg-surface-container-highest text-center">Lihat Paket Belajar</Link>
             </div>
           </div>
-          <div className="md:col-span-5 relative mt-12 md:mt-0">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-8 border-surface-container-lowest rotate-2 bg-surface-container-lowest">
+          <div className="md:col-span-5 relative mt-12 md:mt-0 min-h-[400px] md:min-h-[500px] flex items-end justify-center">
+            {/* Glowing background effect */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-brand-blue/20 to-brand-green/20 blur-[80px] rounded-full z-0 pointer-events-none"></div>
+
+            {/* Single Large Talent Image (PNG with transparent bg) */}
+            <div className="relative w-[90%] md:w-[100%] z-10 transition-transform duration-700 hover:scale-105 origin-bottom drop-shadow-2xl">
               <Image
-                alt="Belajar PNS"
+                alt="Dania merekomendasikan COBAPNS"
                 width={600}
                 height={800}
-                className="w-full h-auto object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-OS-zDEcYfpL0OQ0aGPPZBM8Gq6A6vYhXT2U-Gnoyn7SwnNgR0GZHCSkoG5-idKAMbK1Dcj6ZDslorQ3Ea9xlHYu5liWORoLVLxxEjarTtr6z7nteFZRzOJar0Zsec9MMR0v7Tbs2P7ZGexC3kjgv_rdwZGKVOltTpEEzESsq35Pxgq5ftWIiHSR8B8bnrgz8shwz2dJyXhUu7gIYxA5w7SfJ7357DfuXiNYHQi5I8vvJtDAv_Gn6cj2EqX9ZWXfQQ0_ReSxtG7U0"
-                sizes="(max-width: 768px) 100vw, 42vw"
+                className="w-full h-auto object-contain"
+                src="/talents/dania-hero.png"
+                sizes="(max-width: 768px) 90vw, 50vw"
                 priority
               />
-            </div>
-            {/* Decorative Element */}
-            <div className="absolute -bottom-10 -left-10 bg-surface-container-lowest p-6 rounded-2xl shadow-xl border border-outline-variant/20 hidden lg:block">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                  <CheckCircle className="w-6 h-6" />
+
+              {/* Floating Promo / Quote Card */}
+              <div className="absolute top-[-5%] md:top-10 -right-4 sm:-right-8 md:-right-28 lg:-right-36 z-30 bg-surface p-3 md:p-5 rounded-3xl rounded-bl-none shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-outline-variant/20 max-w-[190px] sm:max-w-[200px] md:max-w-[280px] transition-transform hover:-translate-y-2 duration-300">
+                <div className="flex gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3 h-3 md:w-4 md:h-4 text-orange-400 fill-orange-400" />
+                  ))}
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-on-surface">Tingkat Kelulusan</p>
-                  <p className="text-lg font-black text-primary">Tinggi!</p>
+                <p className="text-xs md:text-base font-bold text-on-surface leading-snug mb-2 md:mb-3">
+                  "Sumpah ngebantu banget! Tryoutnya bener-bener mirip ujian aslinya. Wajib pakai COBAPNS kalau mau tembus tahun ini!"
+                </p>
+                <div className="flex items-center gap-2 md:gap-3">
+                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-black text-[10px] md:text-xs">
+                    <CheckCircle className="w-4 h-4 md:w-5 md:h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] md:text-xs font-black text-on-surface">Agna Putri Dania</p>
+                    <p className="text-[9px] md:text-[10px] text-on-surface-variant font-medium">Pengadministrasi Keuangan Kemhan RI</p>
+                  </div>
                 </div>
+                {/* Speech bubble arrow pointing down-left towards the talent */}
+                <div className="absolute -bottom-3 left-4 md:left-6 w-5 h-5 md:w-6 md:h-6 bg-surface border-b border-l border-outline-variant/20 transform -rotate-45"></div>
               </div>
             </div>
           </div>
@@ -89,7 +104,7 @@ export default async function HomePage() {
             <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tight mb-4 text-balance">Alasan COBAPNS Jadi Pilihan Utama Para Pejuang NIP</h2>
             <p className="text-on-secondary-container text-lg max-w-2xl mx-auto">Kami menghadirkan teknologi dan metode belajar modern untuk memastikan kesiapan maksimal Anda.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-surface p-8 rounded-3xl shadow-sm border border-outline-variant/10 text-center hover:shadow-md transition-shadow group">
               <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mx-auto mb-6 group-hover:scale-110 transition-transform">
@@ -163,9 +178,9 @@ export default async function HomePage() {
               </div>
               <div className="order-1 md:order-2 bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Learning Hub" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
-                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                   <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Platform Belajar Terpusat</div>
+                  <Image src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Learning Hub" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Platform Belajar Terpusat</div>
                 </div>
               </div>
             </div>
@@ -174,9 +189,9 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tryout & Exam" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
-                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                   <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Simulasi Ujian Realistis</div>
+                  <Image src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tryout & Exam" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Simulasi Ujian Realistis</div>
                 </div>
               </div>
               <div>
@@ -211,9 +226,9 @@ export default async function HomePage() {
               </div>
               <div className="order-1 md:order-2 bg-surface-container-low p-4 rounded-3xl border border-outline-variant/20 shadow-xl">
                 <div className="aspect-video bg-surface rounded-2xl border border-outline-variant/10 flex items-center justify-center overflow-hidden relative">
-                   <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Performa & Statistik" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
-                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                   <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Grafik Analisa Mendalam</div>
+                  <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Performa & Statistik" width={800} height={450} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 text-white font-bold text-lg">Grafik Analisa Mendalam</div>
                 </div>
               </div>
             </div>
@@ -226,34 +241,20 @@ export default async function HomePage() {
       <section className="py-14 md:py-24 bg-surface-container-lowest" id="progres-belajar">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="bg-surface-container-low p-6 rounded-[2.5rem] border border-outline-variant/20 shadow-2xl relative z-10 overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dashboard Analytics" width={800} height={600} className="rounded-3xl shadow-lg" />
-                {/* Floating Stats Cards */}
-                <div className="absolute top-12 -right-4 bg-white p-4 rounded-2xl shadow-xl border border-outline-variant/10 animate-bounce-slow">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                      <TrendingUp className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Skor Rata-rata</p>
-                      <p className="text-lg font-black text-primary">485.5</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute bottom-12 -left-4 bg-white p-4 rounded-2xl shadow-xl border border-outline-variant/10 animate-pulse">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
-                      <Clock className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Sisa Waktu</p>
-                      <p className="text-lg font-black text-primary">00:45:20</p>
-                    </div>
-                  </div>
-                </div>
+            <div className="relative w-[90%] sm:w-full max-w-md md:max-w-lg lg:max-w-[500px] xl:max-w-[560px] mx-auto lg:mx-0 flex justify-center mt-8 lg:mt-0">
+              {/* Glowing Background */}
+              <div className="absolute inset-0 bg-brand-blue/15 rounded-full blur-[100px] z-0 pointer-events-none"></div>
+
+              {/* Talent Image (Portrait, Frameless) */}
+              <div className="relative z-10 w-full hover:scale-[1.02] transition-transform duration-700 origin-bottom">
+                <Image
+                  src="/talents/dania-learn.png"
+                  alt="Dania Belajar Analitik Cerdas"
+                  width={600}
+                  height={800}
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                />
               </div>
-              <div className="absolute -inset-4 bg-primary/5 rounded-[3rem] -z-0 blur-2xl"></div>
             </div>
             <div>
               <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6">Evaluasi Berbasis Data</span>
@@ -308,7 +309,7 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
             <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-outline-variant/20 -translate-y-1/2 z-0"></div>
-            
+
             <div className="relative z-10 bg-surface p-6 rounded-2xl shadow border border-outline-variant/10 text-center">
               <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4 border-4 border-surface">1</div>
               <h4 className="font-bold text-on-surface mb-2">Daftar Akun</h4>
@@ -392,7 +393,7 @@ export default async function HomePage() {
               <div className="text-sm font-bold text-slate-500 uppercase tracking-wider">Pengguna Aktif</div>
             </div>
           </div>
-          
+
           {/* Video Testimonials — loaded lazily so they don't block page render 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
             <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20 relative" style={{ aspectRatio: '16/9' }}>
@@ -421,7 +422,7 @@ export default async function HomePage() {
           <TestimonialCarousel testimonials={testimonialsData} />
         </div>
       </section>
-      
+
       {/* 7. Pricing Section */}
       <section className="py-14 md:py-24 px-4 sm:px-6 bg-surface-container-low" id="harga">
         <div className="max-w-7xl mx-auto">
@@ -441,7 +442,7 @@ export default async function HomePage() {
             <h2 className="text-3xl md:text-5xl font-black text-on-surface tracking-tighter mb-4">Butuh Bantuan?</h2>
             <p className="text-on-secondary-container text-lg">Jangan ragu untuk menghubungi kami jika ada pertanyaan seputar pendaftaran atau fitur.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             <div className="bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 hover:shadow-xl transition-shadow text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mx-auto mb-6">
