@@ -71,7 +71,7 @@ export default async function HomePage() {
               />
 
               {/* Floating Promo / Quote Card */}
-              <div className="absolute top-[-5%] md:top-10 -right-4 sm:-right-8 md:-right-28 lg:-right-36 z-30 bg-surface p-3 md:p-5 rounded-3xl rounded-bl-none shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-outline-variant/20 max-w-[190px] sm:max-w-[200px] md:max-w-[280px] transition-transform hover:-translate-y-2 duration-300">
+              <div className="absolute -top-16 sm:-top-20 md:top-10 right-0 sm:-right-8 md:-right-28 lg:-right-36 z-30 bg-surface p-3 md:p-5 rounded-3xl rounded-bl-none shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-outline-variant/20 max-w-[190px] sm:max-w-[200px] md:max-w-[280px] transition-transform hover:-translate-y-2 duration-300">
                 <div className="flex gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3 h-3 md:w-4 md:h-4 text-orange-400 fill-orange-400" />
