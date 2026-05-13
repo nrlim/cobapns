@@ -1,5 +1,5 @@
-// COBA PNS Service Worker v1.0.0
-const CACHE_NAME = "cobapns-v1";
+// COBA PNS Service Worker v1.0.1
+const CACHE_NAME = "cobapns-v1.0.1";
 const STATIC_ASSETS = [
   "/",
   "/manifest.json",
@@ -39,6 +39,13 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// ── Message: Handle skip waiting ──────────────────────────────────────────────
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 // ── Fetch: Network-first with cache fallback ──────────────────────────────────
 self.addEventListener("fetch", (event) => {
   // Skip non-GET, chrome-extension, and API routes
@@ -50,8 +57,11 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // For navigation requests: network-first
-  if (event.request.mode === "navigate") {
+  const isNavigate = event.request.mode === "navigate";
+  const isNextData = event.request.headers.get("RSC") === "1" || event.request.url.includes("_rsc=");
+
+  // For navigation requests and Next.js data: network-first
+  if (isNavigate || isNextData) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -63,10 +73,13 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => {
-          // Offline fallback: serve cached version or root
-          return caches.match(event.request).then(
-            (cached) => cached || caches.match("/")
-          );
+          // Offline fallback: serve cached version
+          return caches.match(event.request).then((cached) => {
+            if (cached) return cached;
+            // If it's HTML navigation, serve root shell. If it's RSC, return empty or let it fail gracefully.
+            if (isNavigate) return caches.match("/");
+            return new Response("Offline", { status: 503, statusText: "Service Unavailable" });
+          });
         })
     );
     return;

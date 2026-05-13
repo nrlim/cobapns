@@ -16,6 +16,14 @@ export function ServiceWorkerRegistrar() {
       return
     }
 
+    let refreshing = false
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!refreshing) {
+        refreshing = true
+        window.location.reload()
+      }
+    })
+
     const registerSW = async () => {
       try {
         const registration = await navigator.serviceWorker.register("/sw.js", {
@@ -29,8 +37,9 @@ export function ServiceWorkerRegistrar() {
           if (!newWorker) return
           newWorker.addEventListener("statechange", () => {
             if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-              // A new version is available; you can notify the user here
-              console.log("[COBA PNS] New SW version available.")
+              // A new version is available; force update and reload
+              console.log("[COBA PNS] New SW version available. Auto-updating...")
+              newWorker.postMessage({ type: "SKIP_WAITING" })
             }
           })
         })
