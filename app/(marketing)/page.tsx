@@ -340,7 +340,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1 relative">
               <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-surface-container-lowest">
-                <Image alt="Tentang COBAPNS" width={600} height={400} className="w-full h-auto object-cover" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" />
+                <Image alt="Tentang COBAPNS" width={600} height={400} className="w-full h-auto object-cover" src="/talents/cpns-landing.jpeg" />
               </div>
             </div>
             <div className="order-1 md:order-2">
