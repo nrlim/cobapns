@@ -11,6 +11,8 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan")?.toUpperCase() ?? null;
   const duration = searchParams.get("dur") === "1" ? "1" : "12";
+  const verified = searchParams.get("verified");
+  const urlError = searchParams.get("error");
   const validPlans: Record<string, Record<string, { name: string; price: string; originalPrice?: string }>> = {
     ELITE: {
       "1": { name: "Elite Prep (Bulanan)", price: "Rp 49.000/bln", originalPrice: "Rp 79.000" },
@@ -127,6 +129,20 @@ export default function LoginPage() {
               </h2>
               <p className="text-gray-500">Selamat datang kembali, pejuang ASN! 👋</p>
             </div>
+
+            {verified === "1" && (
+              <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-xl mb-6 text-sm font-medium flex gap-2 items-start">
+                <span className="text-green-600 mt-0.5">✔</span>
+                <span>Email Anda berhasil diverifikasi! Silakan masuk ke akun Anda.</span>
+              </div>
+            )}
+
+            {urlError && (
+              <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl mb-6 text-sm font-medium flex gap-2 items-start">
+                <span className="text-red-600 mt-0.5">⚠</span>
+                <span>{urlError}</span>
+              </div>
+            )}
 
             <form action={formAction} className="space-y-5">
               {/* Hidden plan intent — so server action can redirect to pembelian */}

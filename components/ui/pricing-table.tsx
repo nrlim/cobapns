@@ -19,7 +19,7 @@ export function PricingTable() {
       price: "Gratis",
       sub: "Selamanya",
       features: [
-        "1x Mini Try Out CAT",
+        "3x Mini Try Out CAT",
         "Akses materi dasar",
         "Laporan skor singkat",
       ],

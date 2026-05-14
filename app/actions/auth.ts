@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { sendVerificationEmail } from "@/lib/email";
 
 // ─────────────────────────────────────────────────────────────
 // Validation Schemas
@@ -44,7 +45,7 @@ async function setAuthCookie(token: string) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60, // 1 hour — matches JWT expiry
     path: "/",
   });
 }
@@ -108,28 +109,30 @@ export async function registerAction(
       },
     });
 
-    // Create JWT session
-    const token = await signSession({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-      name: user.name,
-      tier: "FREE", // new registrations always start as FREE
+    // Create verification token
+    const tokenStr = crypto.randomUUID();
+    await prisma.verificationToken.create({
+      data: {
+        email: user.email,
+        token: tokenStr,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24 hours
+      },
     });
 
-    await setAuthCookie(token);
-  } catch {
+    // Send verification email
+    await sendVerificationEmail(user.email, tokenStr, user.name);
+
+    return {
+      success: true,
+      message: "Pendaftaran berhasil! Kami telah mengirimkan email verifikasi. Silakan periksa inbox atau folder spam Anda untuk mengaktifkan akun.",
+    };
+  } catch (err) {
+    console.error(err);
     return {
       success: false,
       message: "Terjadi kesalahan server. Coba lagi nanti.",
     };
   }
-
-  // ✅ Redirect: if the user came from a plan CTA, go straight to checkout
-  if (safePlan) {
-    redirect(`/dashboard/pembelian?plan=${safePlan.toLowerCase()}&dur=${safeDur}`);
-  }
-  redirect("/dashboard");
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -180,6 +183,14 @@ export async function loginAction(
       return {
         success: false,
         message: "Email atau password salah.",
+      };
+    }
+
+    // Check if email is verified
+    if (!user.emailVerified) {
+      return {
+        success: false,
+        message: "Akun Anda belum diverifikasi. Silakan periksa email Anda untuk memverifikasi akun.",
       };
     }
 

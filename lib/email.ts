@@ -126,3 +126,21 @@ export async function sendTemplatedEmail({
     return { success: false, error: "Failed to compile or send templated email" };
   }
 }
+
+/**
+ * Send an email verification link.
+ */
+export async function sendVerificationEmail(email: string, token: string, name: string) {
+  const confirmLink = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/verify-email?token=${token}`;
+
+  return sendTemplatedEmail({
+    templateName: "VERIFIKASI_EMAIL",
+    to: email,
+    variables: {
+      name: name,
+      confirm_link: confirmLink,
+      expires_in: "24 jam",
+      app_name: "COBA PNS",
+    },
+  });
+}

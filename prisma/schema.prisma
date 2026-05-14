@@ -26,6 +26,7 @@ model User {
   id               String           @id @default(cuid())
   name             String
   email            String           @unique
+  emailVerified    DateTime?
   password         String
   phoneNumber      String?
   role             Role             @default(STUDENT)
@@ -217,6 +218,16 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@map("password_reset_tokens")
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("verification_tokens")
 }
 
 model SystemSetting {

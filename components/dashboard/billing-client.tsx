@@ -37,7 +37,7 @@ const PLANS = [
     highlight: false,
     ctaLabel: "Paket Aktif",
     features: [
-      { label: "1x Mini Try Out CAT", available: true },
+      { label: "3x Mini Try Out CAT", available: true },
       { label: "Akses materi dasar", available: true },
       { label: "Laporan skor singkat", available: true },
       { label: "Unlimited Try Out penuh", available: false },

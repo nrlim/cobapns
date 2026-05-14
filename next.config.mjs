@@ -96,7 +96,34 @@ const nextConfig = {
         ],
       },
       {
-        // Cache static assets for 1 year
+        // ── Strategy: HTML pages MUST revalidate on every request ────────────────
+        // This ensures users ALWAYS get the latest HTML after a deploy.
+        // "no-cache" doesn't mean "never cache" — it means "always ask the server
+        // if there's a newer version before using the cached copy" (via ETag/Last-Modified).
+        // This is the correct solution for the "user sees old broken page after deploy" problem.
+        source: "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|woff|woff2|ttf|otf)).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, must-revalidate",
+          },
+        ],
+      },
+      {
+        // ── Strategy: Static assets = cache 1 year, immutable ────────────────────
+        // Safe because Next.js gives every file a content hash in its filename.
+        // When we deploy, the filename CHANGES, so browsers auto-bust the cache.
+        // Example: app-abc123.js → app-def456.js on next deploy.
+        source: "/_next/static/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Public images/fonts — also safe to cache long-term
         source: "/(.*)\\.(png|jpg|jpeg|gif|svg|webp|avif|ico|woff|woff2|ttf|otf)",
         headers: [
           {
@@ -106,13 +133,28 @@ const nextConfig = {
         ],
       },
       {
-        // Cache Next.js static chunks for 1 year
-        source: "/_next/static/(.*)",
+        // ── Auth & Dashboard pages: additionally mark as private ──────────────────
+        // "private" tells CDNs/proxies NOT to cache these pages (only browser can).
+        // "no-store" for dashboard is stronger — don't even write to disk cache.
+        source: "/(login|register)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            value: "private, no-cache, must-revalidate",
           },
+          { key: "Pragma", value: "no-cache" },
+          { key: "Expires", value: "0" },
+        ],
+      },
+      {
+        source: "/(dashboard|admin)(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, no-cache, must-revalidate",
+          },
+          { key: "Pragma", value: "no-cache" },
+          { key: "Expires", value: "0" },
         ],
       },
     ];

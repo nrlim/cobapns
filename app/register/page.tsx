@@ -121,12 +121,42 @@ export default function RegisterPage() {
                   <img src="/logo-landing.png" alt="COBA PNS Logo" className="h-10 sm:h-12 w-auto" />
                 </Link>
               </div>
-              <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2">
-                Buat Akun Baru
-              </h2>
-              <p className="text-gray-500">Gratis selamanya. Tidak perlu kartu kredit.</p>
+            {state?.success ? (
+              <div className="bg-white border border-gray-100 shadow-xl p-8 rounded-3xl mb-6 text-center max-w-md w-full">
+                <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                  <Mail className="w-10 h-10" />
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 mb-3">Cek Email Kamu!</h3>
+                <p className="text-gray-500 mb-6 leading-relaxed">
+                  Kami telah mengirimkan tautan verifikasi ke email yang kamu daftarkan. 
+                  Silakan klik tautan tersebut untuk mengaktifkan akunmu dan mulai belajar.
+                </p>
+                <div className="bg-blue-50 text-brand-blue-deep p-4 rounded-xl text-sm font-medium mb-6">
+                  Tidak menemukan emailnya? Coba periksa folder <strong>Spam</strong> atau <strong>Promosi</strong>.
+                </div>
+                <Link href="/login" className="inline-block w-full py-4 rounded-xl font-bold bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors border border-gray-200">
+                  Kembali ke Login
+                </Link>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2">
+                  Buat Akun Baru
+                </h2>
+                <p className="text-gray-500 mb-6">Gratis selamanya. Tidak perlu kartu kredit.</p>
+                {state?.message && !state.success && (
+                  <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-medium border border-red-100 flex items-start gap-3">
+                    <div className="bg-red-100 p-1 rounded-md shrink-0">
+                      <Lock className="w-4 h-4" />
+                    </div>
+                    {state.message}
+                  </div>
+                )}
+              </>
+            )}
             </div>
 
+            {!state?.success && (
             <form action={formAction} className="space-y-5">
               {/* Hidden plan intent — so server action can redirect to pembelian */}
               {planParam && <input type="hidden" name="plan" value={planParam} />}
@@ -317,7 +347,9 @@ export default function RegisterPage() {
                 </button>
               </div>
             </form>
+            )}
 
+            {!state?.success && (
             <p className="text-center text-sm text-gray-500 mt-6">
               Sudah punya akun?{" "}
               <Link
@@ -327,6 +359,7 @@ export default function RegisterPage() {
                 Masuk di sini
               </Link>
             </p>
+            )}
           </div>
         </div>
       </div>

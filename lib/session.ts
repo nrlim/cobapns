@@ -22,7 +22,7 @@ export async function signSession(payload: SessionPayload): Promise<string> {
   return await new SignJWT({ ...payload })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("7d")
+    .setExpirationTime("1h") // Session expires in 1 hour
     .sign(secret);
 }
 
