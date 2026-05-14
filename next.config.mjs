@@ -47,18 +47,18 @@ const nextConfig = {
     // 'unsafe-inline' is required for Next.js JSON-LD scripts (dangerouslySetInnerHTML).
     const csp = [
       "default-src 'self'",
-      // Scripts: self + Next.js inline hydration + analytics
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      // Scripts: self + Next.js inline hydration + analytics + Midtrans
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://app.midtrans.com https://app.sandbox.midtrans.com",
       // Styles: self + Google Fonts inline styles
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Fonts: Google Fonts
       "font-src 'self' https://fonts.gstatic.com",
       // Images: self + Unsplash + Google user content + YouTube thumbnails + data URIs
       "img-src 'self' data: blob: https://images.unsplash.com https://*.googleusercontent.com https://*.ytimg.com https://i.pravatar.cc",
-      // Iframes: self + YouTube Privacy-Enhanced Mode
-      "frame-src 'self' https://www.youtube-nocookie.com",
+      // Iframes: self + YouTube Privacy-Enhanced Mode + Midtrans Snap
+      "frame-src 'self' https://www.youtube-nocookie.com https://app.midtrans.com https://app.sandbox.midtrans.com",
       // Connections: self + your API base + Midtrans
-      "connect-src 'self' https://cobapns.com https://*.cobapns.com https://api.midtrans.com https://app.midtrans.com",
+      "connect-src 'self' https://cobapns.com https://*.cobapns.com https://api.midtrans.com https://app.midtrans.com https://api.sandbox.midtrans.com https://app.sandbox.midtrans.com",
       // Media: self only
       "media-src 'self'",
       // Objects: none
