@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Keunggulan", href: "/#kenapa-kami" },
@@ -16,7 +14,6 @@ const NAV_LINKS = [
 ];
 
 export function Navbar() {
-  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -24,7 +21,7 @@ export function Navbar() {
         <div className="flex justify-between items-center px-4 sm:px-6 py-3 max-w-7xl mx-auto w-full">
 
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2 select-none flex-shrink-0" onClick={() => setOpen(false)}>
+          <Link href="/" className="flex items-center gap-2 select-none flex-shrink-0">
             <Image
               src="/logo-landing.png"
               alt="COBA PNS Logo"
@@ -64,7 +61,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile: CTA + Hamburger */}
+          {/* Mobile: CTA Only (Menu is now in bottom bar) */}
           <div className="flex md:hidden items-center gap-2">
             <Link
               href="/register"
@@ -72,43 +69,6 @@ export function Navbar() {
             >
               Mulai Gratis
             </Link>
-            <button
-              onClick={() => setOpen((v) => !v)}
-              aria-label={open ? "Tutup menu" : "Buka menu"}
-              aria-expanded={open}
-              className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
-            >
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Drawer */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-          } border-t border-slate-100 bg-white`}
-        >
-          <div className="px-4 py-4 flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E73BE] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="border-t border-slate-100 mt-2 pt-3">
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center w-full px-4 py-3 rounded-xl text-sm font-bold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors"
-              >
-                Masuk ke Dashboard
-              </Link>
-            </div>
           </div>
         </div>
       </nav>

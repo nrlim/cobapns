@@ -116,8 +116,10 @@ export default function RegisterPage() {
         <div className="w-full lg:w-7/12 flex flex-col justify-center items-center px-6 md:px-12 lg:px-24 py-16 bg-white">
           <div className="w-full max-w-md">
             <div className="mb-10 text-center lg:text-left">
-              <div className="flex justify-center lg:justify-start lg:hidden mb-6">
-                <img src="/logo-dashboard.png" alt="COBA PNS Logo" className="h-8 w-auto" />
+              <div className="flex justify-center lg:justify-start lg:hidden mb-8">
+                <Link href="/" className="inline-block hover:scale-105 active:scale-95 transition-transform">
+                  <img src="/logo-landing.png" alt="COBA PNS Logo" className="h-10 sm:h-12 w-auto" />
+                </Link>
               </div>
               <h2 className="text-3xl font-black tracking-tight text-gray-900 mb-2">
                 Buat Akun Baru
