@@ -55,8 +55,13 @@ function loadSnapScript(clientKey: string): Promise<void> {
 
     const existing = document.querySelector(`script[src="${src}"]`)
     if (existing) {
-      existing.addEventListener("load", () => resolve(), { once: true })
-      return
+      if (window.snap) {
+        resolve()
+        return
+      }
+      // If script exists but window.snap is missing, it probably failed to load previously (e.g. adblocker)
+      // Remove it so we can try injecting it again.
+      existing.remove()
     }
 
     const script = document.createElement("script")
@@ -124,74 +129,80 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
   }
 
   async function handleSubmit() {
-    setPaymentState("loading")
-    setErrorMsg(null)
-
-    // 1. Create transaction server-side → get Midtrans snap_token
-    const res = await createTransaction({
-      planType: plan!.id,
-      promoCode: promoStatus?.valid ? promoInput : undefined,
-      durationMonths: plan!.durationMonths,
-    })
-
-    if (!res.success || !res.snapToken) {
-      setPaymentState("error")
-      setErrorMsg(res.error ?? "Gagal menghubungi gateway pembayaran.")
-      return
-    }
-
-    // 2. Load Midtrans Snap.js (cached after first load)
     try {
-      await loadSnapScript(res.clientKey ?? "")
-    } catch {
-      setPaymentState("error")
-      setErrorMsg("Gagal memuat modul pembayaran Midtrans. Periksa koneksi internet Anda.")
-      return
-    }
+      setPaymentState("loading")
+      setErrorMsg(null)
 
-    if (!window.snap) {
-      setPaymentState("error")
-      setErrorMsg("Modul pembayaran tidak tersedia. Coba refresh halaman.")
-      return
-    }
+      // 1. Create transaction server-side → get Midtrans snap_token
+      const res = await createTransaction({
+        planType: plan!.id,
+        promoCode: promoStatus?.valid ? promoInput : undefined,
+        durationMonths: plan!.durationMonths,
+      })
 
-    // 3. Open Midtrans Snap popup
-    setPaymentState("snap_open")
+      if (!res.success || !res.snapToken) {
+        setPaymentState("error")
+        setErrorMsg(res.error ?? "Gagal menghubungi gateway pembayaran.")
+        return
+      }
 
-    window.snap.pay(res.snapToken, {
-      language: "id",
+      // 2. Load Midtrans Snap.js (cached after first load)
+      try {
+        await loadSnapScript(res.clientKey ?? "")
+      } catch (err) {
+        setPaymentState("error")
+        setErrorMsg("Gagal memuat halaman Midtrans. Pastikan koneksi internet stabil dan matikan AdBlock jika ada.")
+        return
+      }
 
-      onSuccess(result) {
-        console.log("[Midtrans] onSuccess", result)
-        if (result && result.order_id) {
-          syncMidtransTransaction(result.order_id as string).then(() => {
+      if (!window.snap) {
+        setPaymentState("error")
+        setErrorMsg("Modul pembayaran tidak tersedia. Coba refresh halaman.")
+        return
+      }
+
+      // 3. Open Midtrans Snap popup
+      setPaymentState("snap_open")
+
+      window.snap.pay(res.snapToken, {
+        language: "id",
+
+        onSuccess(result) {
+          console.log("[Midtrans] onSuccess", result)
+          if (result && result.order_id) {
+            syncMidtransTransaction(result.order_id as string).then(() => {
+              setPaymentState("success")
+              onSuccess()
+            })
+          } else {
             setPaymentState("success")
             onSuccess()
-          })
-        } else {
-          setPaymentState("success")
-          onSuccess()
-        }
-      },
+          }
+        },
 
-      onPending(result) {
-        console.log("[Midtrans] onPending", result)
-        setPaymentState("pending")
-      },
+        onPending(result) {
+          console.log("[Midtrans] onPending", result)
+          setPaymentState("pending")
+        },
 
-      onError(result) {
-        console.error("[Midtrans] onError", result)
-        setPaymentState("error")
-        setErrorMsg("Pembayaran gagal. Silakan coba metode pembayaran lain.")
-      },
+        onError(result) {
+          console.error("[Midtrans] onError", result)
+          setPaymentState("error")
+          setErrorMsg("Pembayaran gagal. Silakan coba metode pembayaran lain.")
+        },
 
-      onClose() {
-        // User closed Snap popup without completing payment
-        if (paymentState === "snap_open") {
-          setPaymentState("idle")
-        }
-      },
-    })
+        onClose() {
+          // User closed Snap popup without completing payment
+          if (paymentState === "snap_open") {
+            setPaymentState("idle")
+          }
+        },
+      })
+    } catch (error) {
+      console.error("[Checkout] Fatal error:", error)
+      setPaymentState("error")
+      setErrorMsg("Terjadi kesalahan sistem yang tidak terduga. Silakan muat ulang halaman.")
+    }
   }
 
   // ── After payment result states ────────────────────────────────────────────
