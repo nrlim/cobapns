@@ -1,0 +1,73 @@
+export const AI_SETTINGS_KEY = {
+  API_KEY:  "ai_api_key",
+  MODEL:    "ai_model",
+  BASE_URL: "ai_base_url",
+} as const
+
+export const SUPPORTED_MODELS = [
+  { id: "qwen3.6-flash", label: "Qwen 3.6 Flash", provider: "Alibaba", tier: "Fast & Affordable" },
+  { id: "qwen3.6-plus", label: "Qwen 3.6 Plus", provider: "Alibaba", tier: "Premium" },
+  { id: "claude-haiku-4-5", label: "Claude Haiku 4.5", provider: "Anthropic", tier: "Fast & Affordable" },
+  { id: "claude-opus-4-6", label: "Claude Opus 4.6", provider: "Anthropic", tier: "Premium" },
+  { id: "claude-opus-4-7", label: "Claude Opus 4.7", provider: "Anthropic", tier: "Premium" },
+  { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6", provider: "Anthropic", tier: "Standard" },
+  { id: "deepseek-v3-2", label: "DeepSeek v3 2", provider: "Byteplus", tier: "Standard" },
+  { id: "glm-4-7", label: "GLM 4.7", provider: "Byteplus", tier: "Standard" },
+  { id: "seed-2-0-code", label: "Seed 2.0 Code", provider: "Byteplus", tier: "Coding" },
+  { id: "seed-2-0-lite", label: "Seed 2.0 Lite", provider: "Byteplus", tier: "Fast & Affordable" },
+  { id: "seed-2-0-mini", label: "Seed 2.0 Mini", provider: "Byteplus", tier: "Fast & Affordable" },
+  { id: "seed-2-0-pro", label: "Seed 2.0 Pro", provider: "Byteplus", tier: "Premium" },
+  { id: "nvidia/nemotron-3-nano-30b", label: "Nemotron 3 Nano", provider: "Cloudeka", tier: "Fast & Affordable" },
+  { id: "openai/gpt-oss-20b", label: "GPT OSS 20b", provider: "Cloudeka", tier: "Standard" },
+  { id: "qwen/qwen3-30b-a3b-instruct-2507", label: "Qwen 3 30b", provider: "Cloudeka", tier: "Standard" },
+  { id: "zai/glm-4.7-fp8", label: "GLM 4.7 FP8", provider: "Cloudeka", tier: "Standard" },
+  { id: "deepseek-v4-flash", label: "DeepSeek v4 Flash", provider: "DeepSeek", tier: "Fast & Affordable" },
+  { id: "deepseek-v4-pro", label: "DeepSeek v4 Pro", provider: "DeepSeek", tier: "Premium" },
+  { id: "gemini/gemini-2.5-flash", label: "Gemini 2.5 Flash", provider: "Google", tier: "Fast & Affordable" },
+  { id: "gemini/gemini-2.5-flash-lite", label: "Gemini 2.5 Flash Lite", provider: "Google", tier: "Fast & Affordable" },
+  { id: "gemini/gemini-2.0-flash", label: "Gemini 2.0 Flash", provider: "Google", tier: "Fast & Affordable" },
+  { id: "gemini/gemini-2.0-flash-lite", label: "Gemini 2.0 Flash Lite", provider: "Google", tier: "Fast & Affordable" },
+  { id: "gemini/gemini-2.5-pro", label: "Gemini 2.5 Pro", provider: "Google", tier: "Premium" },
+  { id: "gemini/gemini-3-flash-preview", label: "Gemini 3 Flash Preview", provider: "Google", tier: "Fast & Affordable" },
+  { id: "gemini/gemini-3-pro-preview", label: "Gemini 3 Pro Preview", provider: "Google", tier: "Premium" },
+  { id: "gemini/gemini-3.1-flash-lite-preview", label: "Gemini 3.1 Flash Lite", provider: "Google", tier: "Fast & Affordable" },
+  { id: "gemini/gemini-3.1-pro-preview", label: "Gemini 3.1 Pro Preview", provider: "Google", tier: "Premium" },
+  { id: "mimo-v2-flash", label: "Mimo v2 Flash", provider: "Mimo", tier: "Fast & Affordable" },
+  { id: "mimo-v2-omni", label: "Mimo v2 Omni", provider: "Mimo", tier: "Standard" },
+  { id: "mimo-v2-pro", label: "Mimo v2 Pro", provider: "Mimo", tier: "Premium" },
+  { id: "mimo-v2.5", label: "Mimo v2.5", provider: "Mimo", tier: "Standard" },
+  { id: "mimo-v2.5-pro", label: "Mimo v2.5 Pro", provider: "Mimo", tier: "Premium" },
+  { id: "MiniMax-M2.7-highspeed", label: "MiniMax M2.7", provider: "MiniMax", tier: "Fast & Affordable" },
+  { id: "kimi-k2.6", label: "Kimi K2.6", provider: "Moonshot", tier: "Standard" },
+  { id: "gpt-4.1", label: "GPT 4.1", provider: "OpenAI", tier: "Standard" },
+  { id: "gpt-4.1-mini", label: "GPT 4.1 Mini", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-4.1-nano", label: "GPT 4.1 Nano", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-4o", label: "GPT 4o", provider: "OpenAI", tier: "Premium" },
+  { id: "gpt-4o-mini", label: "GPT 4o Mini", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-5", label: "GPT 5", provider: "OpenAI", tier: "Premium" },
+  { id: "gpt-5-mini", label: "GPT 5 Mini", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-5-mini-free", label: "GPT 5 Mini Free", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-5-nano", label: "GPT 5 Nano", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-5.1", label: "GPT 5.1", provider: "OpenAI", tier: "Premium" },
+  { id: "gpt-5.1-codex", label: "GPT 5.1 Codex", provider: "OpenAI", tier: "Coding" },
+  { id: "gpt-5.1-codex-mini", label: "GPT 5.1 Codex Mini", provider: "OpenAI", tier: "Coding" },
+  { id: "gpt-5.2", label: "GPT 5.2", provider: "OpenAI", tier: "Premium" },
+  { id: "gpt-5.2-codex", label: "GPT 5.2 Codex", provider: "OpenAI", tier: "Coding" },
+  { id: "gpt-5.3-codex", label: "GPT 5.3 Codex", provider: "OpenAI", tier: "Coding" },
+  { id: "gpt-5.4", label: "GPT 5.4", provider: "OpenAI", tier: "Premium" },
+  { id: "gpt-5.4-mini", label: "GPT 5.4 Mini", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gpt-5.4-nano", label: "GPT 5.4 Nano", provider: "OpenAI", tier: "Fast & Affordable" },
+  { id: "gemma-4-31b-free", label: "Gemma 4 31b Free", provider: "SumoPod", tier: "Fast & Affordable" },
+  { id: "gemma-4-31b-it", label: "Gemma 4 31b IT", provider: "SumoPod", tier: "Standard" },
+  { id: "qwen3.6-27b", label: "Qwen 3.6 27b", provider: "SumoPod", tier: "Standard" },
+  { id: "glm-5", label: "GLM 5", provider: "Z.AI", tier: "Premium" },
+  { id: "glm-5-turbo", label: "GLM 5 Turbo", provider: "Z.AI", tier: "Fast & Affordable" },
+  { id: "glm-5.1", label: "GLM 5.1", provider: "Z.AI", tier: "Premium" }
+] as const
+
+export interface AIGatewaySettings {
+  apiKey: string    // masked on read
+  apiKeySet: boolean
+  model: string
+  baseUrl: string
+}

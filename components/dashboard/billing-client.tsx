@@ -41,7 +41,8 @@ const PLANS = [
       { label: "Akses materi dasar", available: true },
       { label: "Laporan skor singkat", available: true },
       { label: "Unlimited Try Out penuh", available: false },
-      { label: "Analitik mendalam", available: false },
+      { label: "Analitik & Diagnostik mendalam", available: false },
+      { label: "Rekomendasi Belajar Personal", available: false },
     ],
   },
   {
@@ -61,7 +62,7 @@ const PLANS = [
       { label: "Akses semua materi teks", available: true },
       { label: "Ranking Nasional Real-time", available: true },
       { label: "Analitik & Diagnostik mendalam", available: true },
-      { label: "Full Materials Access", available: true },
+      { label: "Rekomendasi Belajar Personal — 3x/bulan", available: true },
     ],
   },
   {
@@ -79,7 +80,8 @@ const PLANS = [
       { label: "Semua fitur Elite Prep", available: true },
       { label: "Psikotes & Tes IQ Lengkap", available: true },
       { label: "Exclusive Video Lessons", available: true },
-      { label: "AI Roadmap & Career Mapping", available: true },
+      { label: "Career Mapping & Panduan Karir", available: true },
+      { label: "Rekomendasi Belajar Personal — 10x/bulan", available: true },
       { label: "Priority Support 24/7", available: true },
     ],
   },

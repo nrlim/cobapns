@@ -5,6 +5,7 @@ import { cookies } from "next/headers"
 import { verifySession } from "@/lib/session"
 import { requireTier, handleAuthError } from "@/lib/auth-guard"
 import { revalidatePath } from "next/cache"
+import { markAIFeedbackStale } from "@/app/actions/ai-feedback"
 
 // ── Scoring Constants ──────────────────────────────────────────────────────
 const TWK_CORRECT_SCORE = 5
@@ -182,6 +183,9 @@ export async function submitExam(examId: string) {
         overallPass,
       },
     })
+
+    // Mark AI feedback as stale (lazy invalidation — don't re-generate here)
+    await markAIFeedbackStale(userId)
 
     revalidatePath(`/dashboard/exams/${examId}/result`)
     revalidatePath(`/dashboard/exams/${examId}/session`)

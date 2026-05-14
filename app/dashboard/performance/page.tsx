@@ -366,7 +366,7 @@ export default async function PerformancePage() {
                 )}
               </div>
 
-              {/* Smart Recommendations */}
+              {/* Smart Recommendations + AI Banner */}
               <div className="space-y-4">
                 {/* Weakest */}
                 <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
@@ -434,22 +434,9 @@ export default async function PerformancePage() {
                     <p className="text-xs text-brand-blue-deep">Belum cukup data.</p>
                   )}
                 </div>
-
-                {/* AI Recomendation Banner */}
-                <div className="bg-gradient-to-br from-indigo-900 to-indigo-700 rounded-2xl p-5 text-white">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Zap className="w-4 h-4 text-indigo-300" />
-                    <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest">Saran Belajar AI</p>
-                  </div>
-                  <h4 className="font-black text-white text-sm mb-2">Tips Untukmu</h4>
-                  <p className="text-xs text-indigo-200 font-medium leading-relaxed">
-                    {weakestSubCategory
-                      ? `Fokuskan 30 menit sehari untuk "${weakestSubCategory.subCategory}" (${weakestSubCategory.category}). Dengan latihan konsisten, penguasaan bisa naik +20% dalam 2 minggu.`
-                      : "Kerjakan lebih banyak try out agar AI dapat merekomendasikan materi yang tepat buatmu."}
-                  </p>
-                </div>
               </div>
             </section>
+
           </>
         )}
       </div>

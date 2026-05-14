@@ -19,6 +19,7 @@ export type FeatureKey =
   | "take_psychology_test"
   | "view_career_mapping"
   | "view_ai_roadmap"
+  | "view_personal_recommendation"
   | "priority_support";
 
 // ─── Tier Permission Map ───────────────────────────────────────────────────────
@@ -39,9 +40,10 @@ export const FEATURE_TIER_MAP: Record<FeatureKey, UserTier> = {
   view_all_materials:       "MASTER",
   view_video_lessons:       "MASTER",
   take_psychology_test:     "MASTER",
-  view_career_mapping:      "MASTER",
-  view_ai_roadmap:          "MASTER",
-  priority_support:         "MASTER",
+  view_career_mapping:              "MASTER",
+  view_ai_roadmap:                  "MASTER",
+  view_personal_recommendation:     "ELITE",  // ELITE+ only, with monthly quota
+  priority_support:                 "MASTER",
 } as const;
 
 // ─── Tier Hierarchy ────────────────────────────────────────────────────────────
@@ -95,6 +97,7 @@ export const TIER_METADATA: Record<
       "Ranking Nasional Real-time",
       "Analitik & Diagnostik mendalam",
       "Tes IQ lengkap",
+      "Rekomendasi Belajar Personal — 3x/bulan",
     ],
   },
   MASTER: {
@@ -106,7 +109,8 @@ export const TIER_METADATA: Record<
       "Semua fitur Elite Prep",
       "Video Lesson Eksklusif",
       "Tes Psikologi & Career Mapping",
-      "AI Roadmap & Diagnostik Lanjutan",
+      "Panduan Karir & Pemetaan Formasi",
+      "Rekomendasi Belajar Personal — 10x/bulan",
       "Priority Support 24/7",
     ],
   },

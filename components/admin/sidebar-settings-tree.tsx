@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Settings, ChevronDown, ChevronRight, Mail, KeyRound, Database, Server } from "lucide-react"
+import { Settings, ChevronDown, ChevronRight, Mail, KeyRound, Database, Server, Bot } from "lucide-react"
 
 export function SidebarSettingsTree() {
   const pathname = usePathname() || ""
@@ -59,6 +59,13 @@ export function SidebarSettingsTree() {
           >
             <Server className="w-3.5 h-3.5" />
             SMTP Relay
+          </Link>
+          <Link 
+            href="/admin/settings/ai-gateway" 
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === '/admin/settings/ai-gateway' ? 'text-brand-blue-deep bg-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+          >
+            <Bot className="w-3.5 h-3.5" />
+            AI Gateway
           </Link>
           <Link 
             href="/admin/settings/lookups" 
