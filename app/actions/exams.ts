@@ -131,17 +131,21 @@ export async function smartRandomizeQuestions(
       { category: QuestionCategory.TKP, count: 45, difficulty: data.difficultyTKP },
     ]
 
+    const exam = await prisma.exam.findUnique({ where: { id: data.examId }, select: { accessTier: true } })
+    const isPremiumTier = exam?.accessTier === "ELITE" || exam?.accessTier === "MASTER"
+    const takeMultiplier = isPremiumTier ? 1.5 : 3
+
     const selectedIds: string[] = []
 
     for (const { category, count, difficulty } of TARGETS) {
       const where: Record<string, unknown> = { category }
       if (difficulty) where.difficulty = difficulty
 
-      // Memprioritaskan soal terbaru: ambil maksimal 2x dari count yang dibutuhkan agar tetap ada variasi
+      // Memprioritaskan soal terbaru: ambil pool dari terbaru berdasarkan tier
       const pool = await prisma.question.findMany({
         where,
         orderBy: { createdAt: 'desc' },
-        take: count * 2,
+        take: Math.floor(count * takeMultiplier),
         select: { id: true },
       })
 

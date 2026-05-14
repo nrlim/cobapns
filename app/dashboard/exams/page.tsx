@@ -56,6 +56,13 @@ export default async function StudentExamsPage() {
     isLocked: TIER_RANK[e.accessTier] > userRank,
   }))
 
+  // Sort by eligibility (unlocked first). The original array is already sorted by createdAt desc, 
+  // and Array.prototype.sort is stable in modern environments, but to be safe we can just rely on the stable sort.
+  examCards.sort((a, b) => {
+    if (a.isLocked === b.isLocked) return 0
+    return a.isLocked ? 1 : -1
+  })
+
   const total    = examCards.length
   const done     = examCards.filter((e) => e.myResult).length
   const passed   = examCards.filter((e) => e.myResult?.overallPass).length
