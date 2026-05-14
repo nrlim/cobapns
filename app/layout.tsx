@@ -5,6 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import { ConsoleEasterEgg } from "@/components/shared/ConsoleEasterEgg";
 import { ServiceWorkerRegistrar } from "@/components/shared/ServiceWorkerRegistrar";
 import { GlobalInstallPrompt } from "@/components/shared/GlobalInstallPrompt";
+import { StaleDeploymentHandler } from "@/components/shared/StaleDeploymentHandler";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -134,6 +135,8 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-[#f8f9ff] font-sans">
         <ConsoleEasterEgg />
+        {/* Detect stale Server Action hashes after a new deployment and auto-reload */}
+        <StaleDeploymentHandler />
         {/* Register service worker (production only, no-op in dev) */}
         <ServiceWorkerRegistrar />
         {/* Floating PWA install prompt — shown globally across all pages */}
