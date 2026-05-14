@@ -11,7 +11,7 @@ export const metadata = {
   description: "Daftar ujian Try Out CAT PNS yang tersedia untukmu.",
 }
 
-const SUBSCRIPTION_RANK: Record<string, number> = { FREE: 0, PRO: 1, PREMIUM: 2 }
+const SUBSCRIPTION_RANK: Record<string, number> = { FREE: 0, ELITE: 1, MASTER: 2 }
 const TIER_RANK: Record<string, number>          = { FREE: 0, ELITE: 1, MASTER: 2 }
 
 export default async function StudentExamsPage() {

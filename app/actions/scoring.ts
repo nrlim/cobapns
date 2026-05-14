@@ -158,9 +158,18 @@ export async function submitExam(examId: string) {
     })
 
     revalidatePath(`/dashboard/exams/${examId}/result`)
+    revalidatePath(`/dashboard/exams/${examId}/session`)
     return { success: true, resultId: result.id }
-  } catch {
-    return { success: false, error: "Gagal submit ujian." }
+  } catch (err) {
+    // Surface auth/tier errors properly (e.g. if requireTier throws without being caught above)
+    if (err instanceof Error) {
+      const knownAuthErrors = ["UNAUTHENTICATED", "FORBIDDEN", "TIER_INSUFFICIENT", "SUBSCRIPTION_EXPIRED"]
+      if (knownAuthErrors.includes(err.message)) {
+        return handleAuthError(err)
+      }
+    }
+    console.error("[submitExam] unexpected error:", err)
+    return { success: false, error: "Gagal submit ujian. Silakan coba lagi." }
   }
 }
 

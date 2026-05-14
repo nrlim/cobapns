@@ -13,6 +13,7 @@ import {
   X,
   BookOpen
 } from "lucide-react"
+import { NotificationToast } from "@/components/ui/notification-toast"
 
 interface Option { id: string; text: string; score: number }
 interface Question {
@@ -98,6 +99,12 @@ export function CATSessionClient({
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [notification, setNotification] = useState<{
+    isOpen: boolean;
+    type: "success" | "error" | "info";
+    title: string;
+    message?: string;
+  }>({ isOpen: false, type: "info", title: "" })
 
   const saveDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const currentQ = questions[currentIdx]
@@ -172,7 +179,12 @@ export function CATSessionClient({
         router.push(`/dashboard/exams/${examId}/result/${res.resultId}`)
       } else {
         setSubmitting(false)
-        alert("Gagal submit. Coba lagi.")
+        setNotification({
+          isOpen: true,
+          type: "error",
+          title: "Gagal Mengumpulkan",
+          message: res.error ?? "Terjadi kesalahan. Silakan coba lagi.",
+        })
       }
     },
     [examId, router, submitting]
@@ -485,6 +497,15 @@ export function CATSessionClient({
           </div>
         </div>
       )}
+
+      {/* ── Notification Toast ────────────────────────────────────────── */}
+      <NotificationToast
+        isOpen={notification.isOpen}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+        onClose={() => setNotification(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   )
 }
