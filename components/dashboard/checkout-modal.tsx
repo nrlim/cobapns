@@ -111,7 +111,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
 
   if (!plan) return null
 
-  const baseTotal = plan.price * plan.durationMonths
+  const baseTotal = plan.price // Price is already the total for the selected duration
   const discountAmt = promoStatus?.valid ? Math.round(baseTotal * (promoStatus.pct / 100)) : 0
   const finalTotal = baseTotal - discountAmt
 
@@ -271,7 +271,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Ringkasan Pesanan</h3>
             <div className="space-y-2.5">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium text-slate-600">{plan.name} × {plan.durationMonths} bulan</span>
+                <span className="font-medium text-slate-600">{plan.name} ({plan.durationMonths} bulan)</span>
                 <span className="font-bold text-slate-900">{fmtIDR(baseTotal)}</span>
               </div>
               {discountAmt > 0 && (

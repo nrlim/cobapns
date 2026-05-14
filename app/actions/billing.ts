@@ -11,12 +11,12 @@ import { z } from "zod"
 
 const PLAN_PRICES: Record<string, Record<number, number>> = {
   ELITE: {
-    1: 79_000,
-    12: 149_000,
+    1: 49_000,
+    12: 99_000,
   },
   MASTER: {
-    1: 149_000,
-    12: 299_000,
+    1: 89_000,
+    12: 149_000,
   },
 };
 
@@ -162,13 +162,29 @@ export async function createTransaction(input: {
 
 
     // ── Idempotency: reuse existing valid PENDING order ───────────────────────
+    // Compute the intended amount first to ensure we don't reuse an order with an old/different price
+    let discountAmount = 0
+    let appliedPromo: string | null = null
+    if (promoCode) {
+      const upper = promoCode.trim().toUpperCase().slice(0, 32)
+      const pct = PROMO_CODES[upper]
+      if (pct) {
+        discountAmount = Math.round(baseAmount * (pct / 100))
+        appliedPromo = upper
+      }
+    }
+
+    const finalAmount = Math.max(1_000, baseAmount - discountAmount)
+
     const existingPending = await prisma.transaction.findFirst({
       where: {
-        userId:    session.userId,
-        planType:  planType as PaidPlan,
-        status:    "PENDING",
-        snapToken: { not: null },
-        expiredAt: { gt: new Date() },
+        userId:         session.userId,
+        planType:       planType as PaidPlan,
+        durationMonths: durationMonths,
+        amount:         finalAmount,
+        status:         "PENDING",
+        snapToken:      { not: null },
+        expiredAt:      { gt: new Date() },
       },
       orderBy: { createdAt: "desc" },
     })
@@ -181,20 +197,7 @@ export async function createTransaction(input: {
       }
     }
 
-    // ── Compute discount server-side (client cannot modify this) ─────────────
-    let discountAmount = 0
-    let appliedPromo: string | null = null
-    if (promoCode) {
-      const upper = promoCode.trim().toUpperCase().slice(0, 32)
-      const pct = PROMO_CODES[upper]
-      if (pct) {
-        discountAmount = Math.round(baseAmount * (pct / 100))
-        appliedPromo = upper
-      }
-    }
 
-    // Total amount is already based on the selected package duration
-    const finalAmount = Math.max(1_000, baseAmount - discountAmount)
 
     // Unique, collision-resistant order ID
     const externalId = `SIPNS-${session.userId.slice(-6)}-${Date.now()}-${crypto.randomBytes(3).toString("hex")}`
