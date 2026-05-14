@@ -14,6 +14,13 @@ import {
   CheckCircle2,
   Info,
   ArrowRight,
+  TrendingUp,
+  CheckCircle,
+  AlertTriangle,
+  Milestone,
+  Target,
+  ArrowDownCircle,
+  MapPin
 } from "lucide-react"
 import Link from "next/link"
 import { generateAIFeedback } from "@/app/actions/ai-feedback"
@@ -36,6 +43,32 @@ function formatRelativeTime(isoString: string): string {
   return `${diffDays} hari lalu`
 }
 
+// Strip markdown fences + extract first {...} block from any AI response string
+function extractJSON(raw: string): Record<string, unknown> | null {
+  if (!raw) return null
+  try {
+    // Fast path: already valid JSON
+    return JSON.parse(raw)
+  } catch {
+    // Strip ```json ... ``` or ``` ... ``` wrappers
+    let cleaned = raw.trim()
+      .replace(/^```(?:json)?\s*/i, "")
+      .replace(/\s*```$/, "")
+      .trim()
+    // Extract the outermost { ... } block
+    const start = cleaned.indexOf("{")
+    const end = cleaned.lastIndexOf("}")
+    if (start !== -1 && end > start) {
+      cleaned = cleaned.slice(start, end + 1)
+    }
+    try {
+      return JSON.parse(cleaned)
+    } catch {
+      return null
+    }
+  }
+}
+
 function MarkdownRenderer({ content }: { content: string }) {
   if (!content) return null
   const rendered = content
@@ -56,6 +89,185 @@ function MarkdownRenderer({ content }: { content: string }) {
         __html: `<p class="text-sm text-slate-700 leading-relaxed mb-3">${rendered}</p>`,
       }}
     />
+  )
+}
+
+// ─── Priority config ──────────────────────────────────────────────────────────
+
+const PRIORITY_CONFIG = {
+  critical: { label: "Prioritas Utama", ring: "ring-rose-200",   text: "text-rose-700",        nodeBg: "bg-rose-500"         },
+  high:     { label: "Penting",         ring: "ring-amber-200",  text: "text-amber-700",       nodeBg: "bg-amber-500"        },
+  medium:   { label: "Dianjurkan",      ring: "ring-blue-200",   text: "text-brand-blue-deep", nodeBg: "bg-brand-blue-deep"  },
+} as const
+
+function ModernFeedbackRenderer({ data }: { data: any }) {
+  if (!data) return null
+
+  const urgency = data.urgencyLevel ?? "medium"
+
+  return (
+    <div className="space-y-5">
+
+      {/* ── Personal Message ────────────────────────────── */}
+      {(data.personalMessage || data.summary) && (
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-blue-deep to-slate-800 p-6 text-white shadow-sm">
+          {/* decorative blob */}
+          <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/5" />
+          <div className="absolute bottom-0 left-12 w-16 h-16 rounded-full bg-white/5" />
+          <div className="relative z-10">
+            <span className="inline-block text-[10px] font-black uppercase tracking-widest text-blue-300 mb-3">
+              Pesan Personal dari Mentor Kamu
+            </span>
+            <p className="text-sm font-medium leading-relaxed text-blue-50">
+              {data.personalMessage ?? data.summary}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ── Emotional Insight ───────────────────────────── */}
+      {data.emotionalInsight && (
+        <div className="rounded-2xl border border-violet-200 bg-violet-50 p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-violet-100 border border-violet-200 flex items-center justify-center mt-0.5">
+              <TrendingUp className="w-4 h-4 text-violet-600" />
+            </div>
+            <div>
+              <h4 className="font-black text-violet-900 text-sm mb-1.5">Apa yang Terlihat dari Data Kamu</h4>
+              <p className="text-xs text-violet-800 font-medium leading-relaxed">{data.emotionalInsight}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Mindset Reframe ─────────────────────────────── */}
+      {data.mindsetNote && (
+        <div className="rounded-2xl border border-sky-200 bg-sky-50 p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-sky-100 border border-sky-200 flex items-center justify-center mt-0.5">
+              <Info className="w-4 h-4 text-sky-600" />
+            </div>
+            <div>
+              <h4 className="font-black text-sky-900 text-sm mb-1.5">Ubah Cara Pandang Kamu</h4>
+              <p className="text-xs text-sky-800 font-medium leading-relaxed">{data.mindsetNote}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Strengths ───────────────────────────────────── */}
+      {data.strengths?.length > 0 && (
+        <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <h4 className="font-black text-emerald-900 text-sm">Kekuatan yang Perlu Kamu Pertahankan</h4>
+          </div>
+          <ul className="space-y-2">
+            {data.strengths.map((item: string, i: number) => (
+              <li key={i} className="flex gap-2.5 text-[11px] text-emerald-800 font-medium leading-relaxed">
+                <span className="text-emerald-500 flex-shrink-0 mt-0.5 font-black">→</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* ── Roadmap Timeline ─────────────────────────────── */}
+      {data.roadmap?.length > 0 && (
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-5">
+            <Milestone className="w-4 h-4 text-brand-blue-deep" />
+            <h4 className="font-black text-slate-900 text-sm">Langkah Nyata yang Bisa Kamu Mulai</h4>
+          </div>
+          <div className="space-y-0">
+            {data.roadmap.map((step: any, i: number) => {
+              const pcfg = PRIORITY_CONFIG[step.priority as keyof typeof PRIORITY_CONFIG] ?? PRIORITY_CONFIG.medium
+              const isLast = i === data.roadmap.length - 1
+              return (
+                <div key={i} className="flex gap-4">
+                  <div className="flex flex-col items-center flex-shrink-0">
+                    <div className={`w-8 h-8 rounded-full ${pcfg.nodeBg} flex items-center justify-center shadow-sm ring-4 ${pcfg.ring} flex-shrink-0`}>
+                      <span className="text-[10px] font-black text-white">{step.step}</span>
+                    </div>
+                    {!isLast && <div className="w-0.5 flex-1 bg-slate-100 my-1" />}
+                  </div>
+                  <div className={`pb-5 flex-1 min-w-0`}>
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <h5 className="font-black text-slate-900 text-sm">{step.title}</h5>
+                      <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${pcfg.text} bg-white border ${pcfg.ring.replace("ring-", "border-")}`}>
+                        {pcfg.label}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-600 leading-relaxed">{step.description}</p>
+                    {step.estimasi && (
+                      <div className="flex items-center gap-1 mt-1.5">
+                        <Clock className="w-3 h-3 text-slate-400" />
+                        <span className="text-[10px] font-bold text-slate-400">{step.estimasi}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Weekly Study Plan ────────────────────────── */}
+      {data.weeklyPlan?.length > 0 && (
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <MapPin className="w-4 h-4 text-brand-blue-deep" />
+            <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Rencana Belajar Mingguan</h4>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {data.weeklyPlan.map((plan: any, i: number) => (
+              <div key={i} className="bg-white border border-slate-200 rounded-xl p-4 hover:border-brand-blue-deep/40 hover:shadow-sm transition-all duration-200">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <span className="font-black text-slate-900 text-xs">{plan.day}</span>
+                  <span className="text-[10px] font-bold text-brand-blue-deep bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full flex-shrink-0 flex items-center gap-1">
+                    <Clock className="w-2.5 h-2.5" />{plan.duration}
+                  </span>
+                </div>
+                <p className="text-[11px] font-black text-slate-600 uppercase tracking-wide mb-2">{plan.focus}</p>
+                <div className="flex flex-wrap gap-1">
+                  {plan.topics.map((t: string, ti: number) => (
+                    <span key={ti} className="text-[10px] font-medium text-slate-700 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-full">{t}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Psychometric Insight ─────────────────────── */}
+      {data.psychInsight && (
+        <div className="bg-purple-50 border border-purple-100 rounded-2xl p-4">
+          <div className="flex items-start gap-3">
+            <Info className="w-4 h-4 text-purple-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-black text-purple-900 text-sm mb-1">Insight Profil Kepribadian</h4>
+              <p className="text-xs text-purple-800 font-medium leading-relaxed">{data.psychInsight}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Target ───────────────────────────────────── */}
+      {data.target && (
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4">
+          <div className="flex items-start gap-3">
+            <Target className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-black text-sm text-amber-900 mb-1">Target Realistis</h4>
+              <p className="text-xs text-amber-800 font-medium leading-relaxed">{data.target}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -299,8 +511,24 @@ export default function AIFeedbackCard({ initialStatus }: { initialStatus: AIFee
           </button>
 
           {isExpanded && (
-            <div className="mx-4 sm:mx-6 mb-5 sm:mb-6 bg-slate-50 border border-slate-100 rounded-xl p-5">
-              <MarkdownRenderer content={feedback.content} />
+            <div className="px-5 sm:px-6 pb-6 pt-2">
+              {(() => {
+                const parsed = extractJSON(feedback.content)
+                if (parsed && (parsed.personalMessage || parsed.summary || parsed.roadmap)) {
+                  return <ModernFeedbackRenderer data={parsed} />
+                }
+                // Legacy format or completely unparseable — render as markdown so user doesn't lose old data
+                return (
+                  <div className="bg-slate-50 border border-slate-100 rounded-xl p-5">
+                    <MarkdownRenderer content={feedback.content} />
+                    <div className="mt-4 pt-4 border-t border-slate-200 text-center">
+                      <p className="text-[11px] text-slate-500 font-medium">
+                        Klik &ldquo;Generate Ulang&rdquo; di atas untuk mendapatkan format rekomendasi terbaru.
+                      </p>
+                    </div>
+                  </div>
+                )
+              })()}
             </div>
           )}
         </div>
@@ -308,16 +536,23 @@ export default function AIFeedbackCard({ initialStatus }: { initialStatus: AIFee
 
       {/* Loading skeleton */}
       {isPending && (
-        <div className="border-t border-slate-100 px-5 sm:px-6 py-5">
-          <div className="space-y-3 animate-pulse">
-            <div className="h-3 bg-slate-200 rounded-full w-3/4" />
-            <div className="h-3 bg-slate-200 rounded-full w-full" />
-            <div className="h-3 bg-slate-200 rounded-full w-5/6" />
-            <div className="h-3 bg-slate-200 rounded-full w-2/3" />
-            <div className="h-3 bg-slate-200 rounded-full w-full" />
+        <div className="border-t border-slate-100 px-5 sm:px-6 py-6 space-y-4 animate-pulse">
+          {/* Personal message banner */}
+          <div className="h-20 bg-slate-200 rounded-2xl" />
+          {/* Emotional insight + mindset */}
+          <div className="h-16 bg-violet-100 rounded-2xl" />
+          <div className="h-14 bg-sky-50 rounded-2xl" />
+          {/* Strengths */}
+          <div className="h-20 bg-emerald-50 rounded-2xl" />
+          {/* Roadmap */}
+          <div className="space-y-3">
+            <div className="h-3 bg-slate-200 rounded-full w-2/5" />
+            <div className="h-16 bg-slate-100 rounded-2xl" />
+            <div className="h-16 bg-slate-100 rounded-2xl" />
+            <div className="h-16 bg-slate-100 rounded-2xl" />
           </div>
-          <p className="text-center text-[11px] text-slate-400 font-medium mt-4">
-            ✨ Sedang membaca profil dan riwayat try out kamu...
+          <p className="text-center text-[11px] text-slate-400 font-medium pt-1">
+            Mentor AI sedang membaca profil dan riwayat belajar kamu...
           </p>
         </div>
       )}

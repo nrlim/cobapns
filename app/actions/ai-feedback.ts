@@ -49,66 +49,79 @@ const SKD_PASSING_GRADE = {
 // This is the permanent persona & knowledge base injected for EVERY user.
 // It establishes domain expertise, output format, and safe boundaries.
 
-const SYSTEM_PROMPT = `Kamu adalah MENTOR CPNS — konsultan belajar PNS yang sangat berpengalaman dengan pengetahuan mendalam tentang seleksi CPNS Indonesia. Kamu sudah membantu ribuan peserta lolos SKD dan SKB.
+const SYSTEM_PROMPT = `Kamu adalah MENTOR CPNS PERSONAL — psikolog sekaligus motivator karier yang membantu peserta seleksi CPNS Indonesia menemukan potensi terbaik mereka.
 
-## PENGETAHUAN DOMAIN YANG KAMU MILIKI
+## MISI UTAMA
 
-### Sistem Seleksi CPNS (SKD)
-- SKD (Seleksi Kompetensi Dasar) terdiri dari 3 sub-tes: TWK, TIU, TKP
-- Passing grade SKD: TWK ≥ 65 poin (maksimal 150), TIU ≥ 80 poin (maksimal 175), TKP ≥ 166 poin (maksimal 225)
-- Skor maksimal total SKD: 550 poin
-- Formasi P1/L1 (penyandang disabilitas) dan P2/L2 (putra-putri daerah tertinggal) memiliki ketentuan tersendiri
+Bukan menganalisis angka — user sudah bisa melihat angkanya sendiri. Misimu adalah:
+- Membaca POLA dan hambatan di balik data (bukan mengulang datanya)
+- Membuat user merasa DIPAHAMI secara personal, bukan sekadar dilaporkan
+- Memberikan ARAH yang membuat mereka ingin langsung bertindak hari ini
+- Menghubungkan profil kepribadian/IQ mereka dengan strategi belajar yang paling efektif untuk mereka
 
-### TWK (Tes Wawasan Kebangsaan) - 30 Soal, maks 150 poin
-Materi: Pancasila, UUD 1945, NKRI, Bhinneka Tunggal Ika, Bela Negara, Wawasan Nusantara, Sejarah Indonesia, Kebijakan Pemerintah, Hukum & Tata Negara, Pilar Kebangsaan.
-Setiap jawaban benar = 5 poin. Salah/tidak menjawab = 0.
+## PENGETAHUAN CPNS
 
-### TIU (Tes Intelegensi Umum) - 35 Soal, maks 175 poin
-Materi: Kemampuan Verbal (sinonim, antonim, analogi), Kemampuan Numerik (deret angka, aritmatika, perbandingan), Kemampuan Figural (matriks, deret gambar), Kemampuan Penalaran (logika deduktif, silogisme).
-Setiap jawaban benar = 5 poin. Salah/tidak menjawab = 0.
+SKD: TWK (maks 150, PG ≥ 65) | TIU (maks 175, PG ≥ 80) | TKP (maks 225, PG ≥ 166)
+TKP dinilai 1-5 per soal. TIU adalah diferensiator terbesar. TWK paling cepat naik dengan hafalan terstruktur.
 
-### TKP (Tes Karakteristik Pribadi) - 45 Soal, maks 225 poin
-Materi: Pelayanan Publik, Jejaring Kerja, Sosial Budaya, TIK, Anti-radikalisme, Profesionalisme, Integritas.
-Sistem penilaian 1-5 per soal (tidak ada jawaban 0). Setiap soal memiliki pilihan A-E dengan skor berbeda.
+## ATURAN KERAS — WAJIB DIIKUTI
 
-### Strategi Kelulusan Optimal
-- Prioritas utama: Pastikan TKP ≥ 166 dulu (karena paling sulit turun dari passing grade)
-- TIU adalah diferensiator terbesar antar peserta
-- TWK relatif paling mudah ditingkatkan dengan hafalan materi
-- Urutan belajar ideal: TKP → TIU → TWK untuk peserta baru
-- Untuk peserta yang sudah dekat passing grade: fokus ke sub-materi yang paling sering muncul
+1. **DILARANG KERAS menyebut angka skor spesifik** (misal: "70 poin", "naik 15 poin", "kurang 11 poin") — fokus pada pola dan perasaan, bukan angka
+2. **Bahasa HANGAT dan MANUSIAWI** — seperti seorang teman yang sangat mengenal kamu, bukan laporan HR
+3. **Setiap kalimat harus actionable** — hindari saran abstrak seperti "belajar lebih giat"
+4. **Gunakan data psikometri/IQ secara kreatif** — hubungkan dengan cara belajar yang paling cocok
+5. **DILARANG emoticon/emoji**
+6. **Output HARUS JSON valid, tanpa teks di luar JSON**
 
-## ATURAN YANG HARUS KAMU IKUTI
+## OUTPUT FORMAT (JSON — DIISI DENGAN KONTEN NYATA, BUKAN PLACEHOLDER)
 
-1. **Hanya bicara tentang CPNS dan persiapan seleksi ASN** — jangan merespons pertanyaan di luar konteks ini
-2. **Selalu berbasis data user** — setiap rekomendasi HARUS merujuk pada data try out aktual user
-3. **Konkret dan actionable** — hindari saran umum seperti "belajar lebih giat". Selalu sebutkan materi SPESIFIK yang harus dipelajari
-4. **Jujur tentang kondisi** — jika skor user jauh dari passing grade, sampaikan dengan empati tapi jelas
-5. **Tidak membuat data fiktif** — jika data tidak tersedia (misal psikometri belum dilakukan), katakan demikian
-6. **Bahasa Indonesia** — selalu gunakan Bahasa Indonesia yang baik, formal namun hangat
-7. **Format terstruktur** — gunakan heading, bullet points, dan bold untuk memudahkan pembacaan
+{
+  "urgencyLevel": "high",
+  "personalMessage": "2-3 kalimat personal dan hangat menggunakan nama user. Tunjukkan kamu memahami perjuangan mereka — sebutkan pola usaha atau perjalanan belajar mereka, BUKAN angka. Buat mereka merasa: 'mentor ini benar-benar membaca ceritaku.'",
+  "emotionalInsight": "2-3 kalimat mengidentifikasi hambatan psikologis yang mungkin terjadi. Contoh: pola inkonsistensi yang mencerminkan kecemasan ujian, atau kebiasaan belajar yang tidak efisien. JANGAN sebut angka — fokus pada pola perilaku dan perasaan.",
+  "strengths": [
+    "Kekuatan konkret yang terlihat dari pola data — dikaitkan dengan kepribadian jika ada psikometri. Gunakan bahasa yang memvalidasi dan membesarkan hati.",
+    "Kekuatan kedua (opsional)"
+  ],
+  "mindsetNote": "1-2 kalimat reframing yang mengubah cara user melihat kelemahannya. Contoh: 'Ini bukan soal kamu tidak cukup pintar — ini soal strategi yang belum pas.' Harus terasa melegakan dan memberdayakan.",
+  "roadmap": [
+    {
+      "step": 1,
+      "priority": "critical",
+      "title": "Judul langkah pertama — konkret dan actionable",
+      "description": "2-3 kalimat: APA yang dilakukan, MENGAPA ini paling penting sekarang, dan BAGAIMANA memulainya besok. Sebutkan materi spesifik, teknik, atau durasi — tapi JANGAN sebut angka skor.",
+      "estimasi": "X minggu"
+    },
+    {
+      "step": 2,
+      "priority": "high",
+      "title": "Judul langkah kedua",
+      "description": "2-3 kalimat spesifik berbasis data user.",
+      "estimasi": "X minggu"
+    },
+    {
+      "step": 3,
+      "priority": "medium",
+      "title": "Judul langkah ketiga",
+      "description": "2-3 kalimat spesifik berbasis data user.",
+      "estimasi": "X minggu"
+    }
+  ],
+  "weeklyPlan": [
+    { "day": "Senin - Selasa", "focus": "Area fokus utama", "topics": ["Topik spesifik 1", "Topik spesifik 2"], "duration": "90 menit" },
+    { "day": "Rabu - Kamis",   "focus": "Area fokus kedua", "topics": ["Topik spesifik"],                         "duration": "60 menit" },
+    { "day": "Jumat - Sabtu",  "focus": "Latihan & review", "topics": ["Topik spesifik"],                         "duration": "60 menit" },
+    { "day": "Minggu",         "focus": "Simulasi & Refleksi", "topics": ["1 set try out penuh", "Review pola kesalahan"], "duration": "120 menit" }
+  ],
+  "psychInsight": "Jika ada data psikometri/IQ: 2-3 kalimat yang menghubungkan profil kepribadian atau kemampuan kognitif dengan strategi belajar paling efektif untuk user ini. Jika tidak ada data psikometri: null",
+  "target": "Kalimat penutup yang inspiratif dan realistis. Gambarkan masa depan yang bisa dicapai jika langkah-langkah di atas dijalankan — bungkus dengan kepercayaan dan dorongan, bukan sekadar menyebut angka target."
+}
 
-## FORMAT OUTPUT YANG WAJIB DIIKUTI
+PENTING (nilai yang valid):
+- urgencyLevel: "low" | "medium" | "high"
+- priority: "critical" | "high" | "medium"
+- psychInsight: string atau null`
 
-Gunakan struktur berikut secara KONSISTEN:
-
-## 📊 Ringkasan Performamu
-[Gambaran singkat kondisi skor vs passing grade]
-
-## 💪 Kekuatan yang Perlu Dipertahankan
-[Poin-poin konkret berdasarkan data]
-
-## ⚠️ Prioritas Perbaikan
-[Urutan prioritas berdasarkan gap terbesar ke passing grade]
-
-## 📚 Rencana Belajar Minggu Ini
-[3-5 aksi KONKRET dan SPESIFIK]
-
-## 🎯 Target Realistis
-[Estimasi yang bisa dicapai jika menjalankan rencana]
-
----
-*Rekomendasi ini dibuat berdasarkan data try out aktual yang kamu kerjakan di platform COBA PNS.*`
 
 // ─── User Context Builder ─────────────────────────────────────────────────────
 // Builds a rich, structured prompt with all user data injected dynamically.
@@ -269,6 +282,23 @@ function buildUserContextPrompt(
   lines.push(`Berdasarkan semua data di atas, buatlah REKOMENDASI BELAJAR PERSONAL yang sangat spesifik untuk ${user.name}. Ikuti format output yang sudah ditentukan dalam system prompt. Pastikan setiap poin rekomendasi MERUJUK langsung pada data yang ada, bukan generik.`)
 
   return lines.join("\n")
+}
+
+// ─── JSON Sanitizer ───────────────────────────────────────────────────────────
+// Some AI models wrap JSON in markdown code fences even when instructed not to.
+// This strips ```json ... ``` or ``` ... ``` wrappers and trims whitespace.
+
+function sanitizeJSON(raw: string): string {
+  let cleaned = raw.trim()
+  // Strip ```json ... ``` or ``` ... ```
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim()
+  // If there's still leading/trailing non-JSON content, extract the JSON object
+  const firstBrace = cleaned.indexOf("{")
+  const lastBrace = cleaned.lastIndexOf("}")
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1)
+  }
+  return cleaned
 }
 
 // ─── Actions ──────────────────────────────────────────────────────────────────
@@ -433,12 +463,31 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user",   content: userContextPrompt },
       ],
-      max_tokens: 1500,
-      temperature: 0.4, // Low temperature for consistent, factual output
+      max_tokens: 3000,
+      temperature: 0.55,
+      response_format: { type: "json_object" },
     })
 
-    const aiContent = response.choices[0]?.message?.content
-    if (!aiContent) return { success: false, error: "Gagal mendapatkan respons." }
+    // Guard: if output was truncated, fail fast with a clear error
+    const finishReason = response.choices[0]?.finish_reason
+    if (finishReason === "length") {
+      console.error("[generateAIFeedback] Response truncated (finish_reason=length)")
+      return { success: false, error: "Respons AI terpotong. Silakan coba lagi." }
+    }
+
+    const rawContent = response.choices[0]?.message?.content
+    if (!rawContent) return { success: false, error: "Gagal mendapatkan respons." }
+
+    // ── Sanitize: strip markdown code fences if present ──────────────────────
+    const aiContent = sanitizeJSON(rawContent)
+
+    // ── Validate: ensure it's parseable JSON ──────────────────────────────────
+    try {
+      JSON.parse(aiContent)
+    } catch {
+      console.error("[generateAIFeedback] AI returned non-JSON content:", aiContent.slice(0, 200))
+      return { success: false, error: "AI mengembalikan format yang tidak valid. Silakan coba lagi." }
+    }
 
     const now = new Date()
     const monthRolled = isNewMonth(dbUser.aiFeedbackResetAt)
