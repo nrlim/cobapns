@@ -10,13 +10,12 @@ import {
   HelpCircle,
   Search,
   Bell,
-  Mail,
-  ClipboardList,
   BookOpen,
   CreditCard,
   Brain,
   MessageSquare,
   Newspaper,
+  ClipboardList,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -24,6 +23,7 @@ import { ProfileDropdown } from "@/components/profile-dropdown";
 import { BulkImportModal } from "@/components/admin/bulk-import-modal";
 import { SidebarSettingsTree } from "@/components/admin/sidebar-settings-tree";
 import { SidebarPsychIqTree } from "@/components/admin/sidebar-psych-iq-tree";
+import { AdminMobileNav } from "@/components/admin/admin-mobile-nav";
 
 export const metadata: Metadata = {
   title: "Admin Portal | COBA PNS",
@@ -129,33 +129,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         {children}
       </main>
 
-      {/* Responsive Bottom Bar for Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-2 flex justify-between items-center z-50 pb-safe shadow-[0_-4px_24px_rgba(0,0,0,0.05)]">
-        <Link href="/admin" className="flex flex-col items-center gap-1 text-slate-400 p-2 hover:text-slate-600 transition-colors">
-          <LayoutDashboard className="w-5 h-5" />
-          <span className="text-[10px] font-bold tracking-tight">Dashboard</span>
-        </Link>
-        <Link href="/admin/users" className="flex flex-col items-center gap-1 text-slate-400 p-2 hover:text-slate-600 transition-colors">
-          <Users className="w-5 h-5" />
-          <span className="text-[10px] font-bold tracking-tight">Users</span>
-        </Link>
-        <Link href="/admin/content/questions" className="flex flex-col items-center gap-1 text-slate-400 p-2 hover:text-slate-600 transition-colors">
-           <FileText className="w-5 h-5" />
-           <span className="text-[10px] font-bold tracking-tight">CMS</span>
-        </Link>
-        <Link href="/admin/settings/email" className="flex flex-col items-center gap-1 text-slate-400 p-2 hover:text-slate-600 transition-colors">
-           <Mail className="w-5 h-5" />
-           <span className="text-[10px] font-bold tracking-tight">Emails</span>
-        </Link>
-        <Link href="/admin/transactions" className="flex flex-col items-center gap-1 text-slate-400 p-2 hover:text-slate-600 transition-colors">
-           <CreditCard className="w-5 h-5" />
-           <span className="text-[10px] font-bold tracking-tight">Revenue</span>
-        </Link>
-        <Link href="/admin/settings" className="flex flex-col items-center gap-1 text-slate-400 p-2 hover:text-slate-600 transition-colors">
-           <Settings className="w-5 h-5" />
-           <span className="text-[10px] font-bold tracking-tight">Settings</span>
-        </Link>
-      </nav>
+      {/* Responsive Bottom Bar for Mobile — new FAB style */}
+      <AdminMobileNav />
 
       {/* Global Background Workers & Modals */}
       <BulkImportModal />
