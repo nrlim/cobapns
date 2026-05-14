@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { signSession } from "@/lib/session";
+import { signSession, verifySession } from "@/lib/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
@@ -245,4 +245,44 @@ export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("sipns-session");
   redirect("/login");
+}
+
+// ─────────────────────────────────────────────────────────────
+// REFRESH SESSION ACTION (Syncs JWT with DB)
+// ─────────────────────────────────────────────────────────────
+export async function refreshSessionAction() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("sipns-session")?.value;
+  if (!token) return { success: false };
+
+  const session = await verifySession(token).catch(() => null);
+  if (!session) return { success: false };
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.userId },
+      select: { id: true, email: true, role: true, name: true, subscriptionTier: true, subscriptionEnds: true, isActive: true }
+    });
+
+    if (!user || !user.isActive) return { success: false };
+
+    // Calculate effective tier (handle expired)
+    let effectiveTier = user.subscriptionTier;
+    if (effectiveTier !== "FREE" && user.subscriptionEnds && new Date(user.subscriptionEnds) < new Date()) {
+      effectiveTier = "FREE";
+    }
+
+    const newToken = await signSession({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+      name: user.name,
+      tier: effectiveTier as "FREE" | "ELITE" | "MASTER",
+    });
+
+    await setAuthCookie(newToken);
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
 }

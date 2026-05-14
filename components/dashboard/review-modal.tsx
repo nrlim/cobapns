@@ -265,7 +265,7 @@ export function ReviewExamModal({ examId, title }: ReviewExamModalProps) {
                     </div>
 
                     {/* Explanation Section */}
-                    {currentQ.explanation && (
+                    {currentQ.explanation && !isQuestionCorrect(currentQ) && (
                       <div className="mt-8 bg-blue-50/50 border border-blue-100 rounded-2xl p-5 sm:p-6">
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
