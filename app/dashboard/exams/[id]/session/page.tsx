@@ -33,6 +33,29 @@ export default async function ExamSessionPage({
     redirect(`/dashboard/exams/${id}/result/${existingResult.id}`)
   }
 
+  // ── FREE Tier Limit Check ───────────────────────────────────────────────
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { subscriptionTier: true, subscriptionEnds: true },
+  })
+  
+  const effectiveTier =
+    user?.subscriptionTier !== "FREE" &&
+    user?.subscriptionEnds &&
+    new Date(user.subscriptionEnds) < new Date()
+      ? "FREE"
+      : (user?.subscriptionTier ?? "FREE")
+
+  if (session.role !== "ADMIN" && effectiveTier === "FREE") {
+    const submittedCount = await prisma.examResult.count({
+      where: { userId: session.userId },
+    })
+    if (submittedCount >= 3) {
+      redirect("/dashboard/exams?error=limit_reached")
+    }
+  }
+  // ──────────────────────────────────────────────────────────────────────
+
   const exam = await prisma.exam.findUnique({
     where: { id, status: "PUBLISHED" },
     include: {
@@ -47,6 +70,18 @@ export default async function ExamSessionPage({
     },
   })
   if (!exam || exam.questions.length === 0) notFound()
+
+  // ── Access Tier Check for Exam ──────────────────────────────────────────
+  if (session.role !== "ADMIN" && exam.accessTier !== "FREE") {
+    const TIER_WEIGHT = { FREE: 0, ELITE: 1, MASTER: 2 }
+    const requiredWeight = TIER_WEIGHT[exam.accessTier]
+    const userWeight = TIER_WEIGHT[effectiveTier as "FREE" | "ELITE" | "MASTER"]
+    
+    if (userWeight < requiredWeight) {
+      redirect(`/dashboard/exams?error=tier_insufficient`)
+    }
+  }
+  // ──────────────────────────────────────────────────────────────────────
 
   // Fetch existing saved answers for resume
   const savedAnswers = await prisma.userAnswer.findMany({
