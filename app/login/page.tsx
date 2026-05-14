@@ -177,6 +177,7 @@ export default function LoginPage() {
                     name="email"
                     type="email"
                     required
+                    defaultValue={state?.payload?.email || ""}
                     className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-gray-900 placeholder:text-gray-400"
                     placeholder="nama@example.com"
                   />

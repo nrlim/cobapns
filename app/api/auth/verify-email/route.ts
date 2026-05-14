@@ -6,8 +6,10 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get("token");
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || request.url;
+
     if (!token) {
-      return NextResponse.redirect(new URL("/login?error=Token verifikasi tidak valid.", request.url));
+      return NextResponse.redirect(new URL("/login?error=Token verifikasi tidak valid.", baseUrl));
     }
 
     const verificationToken = await prisma.verificationToken.findUnique({
@@ -15,11 +17,11 @@ export async function GET(request: Request) {
     });
 
     if (!verificationToken) {
-      return NextResponse.redirect(new URL("/login?error=Token verifikasi tidak valid atau sudah digunakan.", request.url));
+      return NextResponse.redirect(new URL("/login?error=Token verifikasi tidak valid atau sudah digunakan.", baseUrl));
     }
 
     if (verificationToken.expiresAt < new Date()) {
-      return NextResponse.redirect(new URL("/login?error=Token verifikasi sudah kedaluwarsa. Silakan daftar ulang.", request.url));
+      return NextResponse.redirect(new URL("/login?error=Token verifikasi sudah kedaluwarsa. Silakan daftar ulang.", baseUrl));
     }
 
     const user = await prisma.user.findUnique({
@@ -27,7 +29,7 @@ export async function GET(request: Request) {
     });
 
     if (!user) {
-      return NextResponse.redirect(new URL("/login?error=Pengguna tidak ditemukan.", request.url));
+      return NextResponse.redirect(new URL("/login?error=Pengguna tidak ditemukan.", baseUrl));
     }
 
     // Mark user as verified
@@ -43,9 +45,10 @@ export async function GET(request: Request) {
       where: { token },
     });
 
-    return NextResponse.redirect(new URL("/login?verified=1", request.url));
+    return NextResponse.redirect(new URL("/login?verified=1", baseUrl));
   } catch (error) {
     console.error("[verify-email] Error:", error);
-    return NextResponse.redirect(new URL("/login?error=Terjadi kesalahan saat memverifikasi email.", request.url));
+    const errBaseUrl = process.env.NEXT_PUBLIC_APP_URL || request.url;
+    return NextResponse.redirect(new URL("/login?error=Terjadi kesalahan saat memverifikasi email.", errBaseUrl));
   }
 }

@@ -34,6 +34,7 @@ export type ActionResult = {
   success: boolean;
   message: string;
   errors?: Record<string, string[]>;
+  payload?: any;
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -161,6 +162,7 @@ export async function loginAction(
       success: false,
       message: "Validasi gagal.",
       errors: parsed.error.flatten().fieldErrors,
+      payload: raw,
     };
   }
 
@@ -174,6 +176,7 @@ export async function loginAction(
       return {
         success: false,
         message: "Email atau password salah.",
+        payload: raw,
       };
     }
 
@@ -183,6 +186,7 @@ export async function loginAction(
       return {
         success: false,
         message: "Email atau password salah.",
+        payload: raw,
       };
     }
 
@@ -191,6 +195,7 @@ export async function loginAction(
       return {
         success: false,
         message: "Akun Anda belum diverifikasi. Silakan periksa email Anda untuk memverifikasi akun.",
+        payload: raw,
       };
     }
 
@@ -199,6 +204,7 @@ export async function loginAction(
       return {
         success: false,
         message: "Akun Anda telah dinonaktifkan oleh Admin. Silakan hubungi dukungan.",
+        payload: raw,
       };
     }
 
@@ -218,6 +224,7 @@ export async function loginAction(
     return {
       success: false,
       message: "Terjadi kesalahan server. Coba lagi nanti.",
+      payload: raw,
     };
   }
 
