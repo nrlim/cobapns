@@ -47,7 +47,7 @@ const nextConfig = {
     // 'unsafe-inline' is required for Next.js JSON-LD scripts (dangerouslySetInnerHTML).
     const csp = [
       "default-src 'self'",
-      // Scripts: self + Next.js inline hydration + analytics (add yours here)
+      // Scripts: self + Next.js inline hydration + analytics
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       // Styles: self + Google Fonts inline styles
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
@@ -55,7 +55,7 @@ const nextConfig = {
       "font-src 'self' https://fonts.gstatic.com",
       // Images: self + Unsplash + Google user content + YouTube thumbnails + data URIs
       "img-src 'self' data: blob: https://images.unsplash.com https://*.googleusercontent.com https://*.ytimg.com https://i.pravatar.cc",
-      // Iframes: only YouTube Privacy-Enhanced Mode
+      // Iframes: self + YouTube Privacy-Enhanced Mode
       "frame-src 'self' https://www.youtube-nocookie.com",
       // Connections: self + your API base + Midtrans
       "connect-src 'self' https://cobapns.com https://*.cobapns.com https://api.midtrans.com https://app.midtrans.com",
@@ -67,8 +67,9 @@ const nextConfig = {
       "base-uri 'self'",
       // Form actions: self only
       "form-action 'self'",
-      // Frame ancestors: prevent clickjacking
-      "frame-ancestors 'self'",
+      // NOTE: frame-ancestors intentionally omitted — adding 'self' would block
+      // Instagram IAB, Facebook IAB, TikTok WebView, and other social media browsers
+      // from rendering the page when users click links in those apps.
     ].join("; ");
 
     return [
@@ -77,21 +78,20 @@ const nextConfig = {
         headers: [
           // ── Existing headers ──────────────────────────────────────────────
           { key: "X-Content-Type-Options",  value: "nosniff" },
-          { key: "X-Frame-Options",         value: "SAMEORIGIN" },
+          // NOTE: X-Frame-Options SAMEORIGIN removed — it blocks Instagram IAB, Facebook
+          // WebView, TikTok WebView, and other social media in-app browsers from rendering.
           { key: "X-XSS-Protection",        value: "1; mode=block" },
           { key: "Referrer-Policy",         value: "strict-origin-when-cross-origin" },
-          // ── NEW: HTTP Strict Transport Security (HSTS) ────────────────────
-          // max-age=31536000 = 1 year. Enables full HSTS score in PageSpeed.
+          // ── HTTP Strict Transport Security (HSTS) ────────────────────────────
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
-          // ── NEW: Cross-Origin-Opener-Policy (COOP) ────────────────────────
-          // Isolates browsing context to prevent Spectre attacks.
+          // ── Cross-Origin-Opener-Policy (COOP) ───────────────────────────────
           { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
-          // ── NEW: Cross-Origin-Resource-Policy (CORP) ─────────────────────
-          { key: "Cross-Origin-Resource-Policy", value: "same-site" },
-          // ── NEW: Permissions Policy ───────────────────────────────────────
-          // Disable features not used by this app.
+          // ── Cross-Origin-Resource-Policy (CORP) ─────────────────────────────
+          // cross-origin allows social media WebViews to load our JS/CSS resources
+          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
+          // ── Permissions Policy ───────────────────────────────────────────────
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(self), usb=()" },
-          // ── NEW: Content Security Policy ──────────────────────────────────
+          // ── Content Security Policy ──────────────────────────────────────────
           { key: "Content-Security-Policy", value: csp },
         ],
       },

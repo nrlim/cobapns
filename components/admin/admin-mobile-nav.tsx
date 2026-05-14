@@ -196,7 +196,7 @@ export function AdminMobileNav() {
             style={{
               background: "linear-gradient(180deg, #f8faff 0%, #ffffff 100%)",
               borderRadius: "28px 28px 0 0",
-              maxHeight: "92dvh",
+              maxHeight: "92vh",     /* fallback for Instagram IAB / old WebViews */
               boxShadow: "0 -16px 64px rgba(30,115,190,0.15), 0 -2px 8px rgba(0,0,0,0.06)",
               animation: "drawerSlideUp 0.32s cubic-bezier(0.22,1,0.36,1)",
             }}

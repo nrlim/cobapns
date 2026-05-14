@@ -106,6 +106,10 @@
   html {
     scroll-behavior: smooth;
     font-size: 14px;
+    /* Prevent iOS text-size-adjust on orientation change */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -115,6 +119,8 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Prevent horizontal overflow on mobile WebViews */
+    overflow-x: hidden;
   }
 }
 
@@ -143,6 +149,7 @@
   .primary-gradient {
     background: var(--gradient-primary);
     color: #ffffff;
+    -webkit-transition: opacity 0.2s ease, -webkit-transform 0.15s ease;
     transition: opacity 0.2s ease, transform 0.15s ease;
   }
   .primary-gradient:hover {
@@ -158,8 +165,9 @@
   /* ── Glassmorphism ───────────────────────────────────── */
   .glass {
     background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(24px);
+    /* -webkit- must come BEFORE unprefixed for older WebKit (Instagram IAB, UC Browser) */
     -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
   }
 
   /* ── Typography helpers ──────────────────────────────── */
@@ -190,11 +198,13 @@
     background: var(--gradient-primary);
     border-radius: 9999px;
     height: 8px;
+    -webkit-transition: width 0.5s ease;
     transition: width 0.5s ease;
   }
 
   /* ── Toast animation ─────────────────────────────────── */
   .animate-slide-down {
+    -webkit-animation: slide-down 0.3s ease-out;
     animation: slide-down 0.3s ease-out;
   }
 
@@ -203,8 +213,15 @@
   .text-brand-green { color: #2DBE60; }
 
   /* ── Safe-area inset (PWA / iPhone notch) ────────────── */
-  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .pt-safe { padding-top:    env(safe-area-inset-top, 0px); }
+  /* Always declare 0px fallback first — WebViews that don't support env() will use it */
+  .pb-safe {
+    padding-bottom: 0px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .pt-safe {
+    padding-top: 0px;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
 
   /* ── Mobile tap target size ──────────────────────────── */
   .tap-target { min-width: 44px; min-height: 44px; }

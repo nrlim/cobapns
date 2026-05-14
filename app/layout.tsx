@@ -78,6 +78,12 @@ export default function RootLayout({
   return (
     <html lang="id" className={inter.variable}>
       <head>
+        {/* Ensure proper rendering & touch zooming in all mobile browsers */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* Prevent iOS from auto-linking phone/email/dates — avoids style disruption */}
+        <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
+        {/* IE11 / Legacy Edge compatibility */}
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         {/* PWA theme color for browser chrome */}
         <meta name="theme-color" content="#1E73BE" />
         <meta name="mobile-web-app-capable" content="yes" />
