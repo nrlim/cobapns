@@ -32,18 +32,12 @@ export interface LeaderboardResult {
   instansiList: string[]
 }
 
-// ── Privacy helpers ─────────────────────────────────────────────────────────
+// ── Display helpers ─────────────────────────────────────────────────────────
 
 function maskName(name: string): string {
-  const parts = name.trim().split(" ")
-  return parts
-    .map((part) => {
-      if (part.length <= 2) return part
-      const visible = Math.max(2, Math.ceil(part.length * 0.4))
-      return part.slice(0, visible) + "*".repeat(part.length - visible)
-    })
-    .join(" ")
+  return name
 }
+
 
 function getInitials(name: string): string {
   return name

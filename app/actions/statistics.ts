@@ -29,7 +29,7 @@ export interface ActivityMetrics {
 
 export interface LeaderboardEntry {
   rank: number
-  displayName: string   // masked, e.g. "A*** S***"
+  displayName: string   // e.g. "Andi Saputra"
   institution: string   // anonymized tier
   highestScore: number
   totalExams: number
@@ -62,10 +62,8 @@ export interface ExamHistoryRow {
 
 function maskName(name: string): string {
   return name
-    .split(" ")
-    .map((word) => (word.length <= 1 ? word : word[0] + "*".repeat(word.length - 1)))
-    .join(" ")
 }
+
 
 function calcStreakDays(dates: Date[]): number {
   if (dates.length === 0) return 0
@@ -219,7 +217,7 @@ export async function getGlobalRanking(): Promise<{
     const u = userMap.get(g.userId)
     return {
       rank: i + 1,
-      displayName: u ? maskName(u.name) : "Peserta ***",
+      displayName: u ? maskName(u.name) : "Peserta",
       institution: u ? instLabel[u.subscriptionTier] ?? "Peserta Umum" : "Peserta Umum",
       highestScore: g._max.totalScore ?? 0,
       totalExams: g._count.id,
