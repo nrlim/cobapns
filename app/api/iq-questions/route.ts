@@ -1,8 +1,16 @@
 // app/api/iq-questions/route.ts
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { cookies } from "next/headers"
+import { verifySession } from "@/lib/session"
 
 export async function GET() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get("sipns-session")?.value
+  const session = token ? await verifySession(token) : null
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
   const [verbal, numeric, logic, spatial, configs] = await Promise.all([
     prisma.iQQuestion.findMany({
       where: { subTest: "VERBAL", isActive: true },

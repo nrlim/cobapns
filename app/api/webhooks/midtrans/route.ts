@@ -106,7 +106,7 @@ export async function POST(req: Request) {
 
     if (!signatureValid) {
       console.warn("[Webhook] Signature mismatch for order:", order_id)
-      await logPayment(order_id, "SIGNATURE_MISMATCH", "WARNING", { incomingSig: signature_key, computed })
+      await logPayment(order_id, "SIGNATURE_MISMATCH", "WARNING", { warning: "signature_invalid" })
       return NextResponse.json({ received: true, warning: "invalid_signature" }, { status: 200 })
     }
 

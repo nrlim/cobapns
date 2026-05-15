@@ -168,7 +168,6 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
         language: "id",
 
         onSuccess(result) {
-          console.log("[Midtrans] onSuccess", result)
           if (result && result.order_id) {
             syncMidtransTransaction(result.order_id as string).then(() => {
               setPaymentState("success")
@@ -180,13 +179,11 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
           }
         },
 
-        onPending(result) {
-          console.log("[Midtrans] onPending", result)
+        onPending(_result) {
           setPaymentState("pending")
         },
 
-        onError(result) {
-          console.error("[Midtrans] onError", result)
+        onError(_result) {
           setPaymentState("error")
           setErrorMsg("Pembayaran gagal. Silakan coba metode pembayaran lain.")
         },
@@ -198,8 +195,7 @@ export function CheckoutModal({ plan, onClose, onSuccess }: CheckoutModalProps) 
           }
         },
       })
-    } catch (error) {
-      console.error("[Checkout] Fatal error:", error)
+    } catch {
       setPaymentState("error")
       setErrorMsg("Terjadi kesalahan sistem yang tidak terduga. Silakan muat ulang halaman.")
     }

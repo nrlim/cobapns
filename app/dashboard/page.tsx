@@ -30,7 +30,7 @@ export default async function StudentDashboardPage() {
   if (!session) redirect("/login")
 
   // Fetch data in parallel to avoid waterfall requests and optimize TTFB
-  const [user, recentResults, publishedExamCount, totalExamsTaken, passedCount] = await Promise.all([
+  const [user, recentResults, publishedExamCount, publishedSkbCount, totalExamsTaken, passedCount, recentActivityCount] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.userId },
       select: { subscriptionTier: true, createdAt: true },
@@ -44,9 +44,18 @@ export default async function StudentDashboardPage() {
       },
     }),
     prisma.exam.count({ where: { status: "PUBLISHED" } }),
+    prisma.sKBExam.count({ where: { status: "PUBLISHED" } }),
     prisma.examResult.count({ where: { userId: session.userId } }),
-    prisma.examResult.count({ where: { userId: session.userId, overallPass: true } })
+    prisma.examResult.count({ where: { userId: session.userId, overallPass: true } }),
+    prisma.examResult.count({
+      where: {
+        userId: session.userId,
+        submittedAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
+      }
+    })
   ])
+
+  const totalPublishedExams = publishedExamCount + publishedSkbCount;
 
   const passRate = totalExamsTaken > 0 ? Math.round((passedCount / totalExamsTaken) * 100) : 0
 
@@ -58,6 +67,31 @@ export default async function StudentDashboardPage() {
     MASTER: "bg-amber-50 text-amber-700 border border-amber-200",
   }
   const tier = user?.subscriptionTier ?? "FREE"
+
+  let twkPct = 0;
+  let tiuPct = 0;
+  let tkpPct = 0;
+  let weakestSubText = "Semua Materi";
+  let pointPotential = 15;
+
+  if (recentResults.length > 0) {
+    const r = recentResults[0];
+    twkPct = Math.round((r.scoreTWK / 150) * 100);
+    tiuPct = Math.round((r.scoreTIU / 175) * 100);
+    tkpPct = Math.round((r.scoreTKP / 225) * 100);
+    const minPct = Math.min(twkPct, tiuPct, tkpPct);
+    
+    if (minPct === twkPct) {
+      weakestSubText = "Tes Wawasan Kebangsaan (TWK)";
+      pointPotential = Math.min(20, Math.max(5, 150 - r.scoreTWK));
+    } else if (minPct === tiuPct) {
+      weakestSubText = "Tes Intelegensia Umum (TIU)";
+      pointPotential = Math.min(20, Math.max(5, 175 - r.scoreTIU));
+    } else {
+      weakestSubText = "Tes Karakteristik Pribadi (TKP)";
+      pointPotential = Math.min(20, Math.max(5, 225 - r.scoreTKP));
+    }
+  }
 
   function fmtDate(d: Date) {
     return new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "short", year: "numeric" }).format(new Date(d))
@@ -104,7 +138,7 @@ export default async function StudentDashboardPage() {
             {
               label: "Latihan Selesai",
               value: totalExamsTaken,
-              sub: `dari total ${publishedExamCount}`,
+              sub: `dari total ${totalPublishedExams}`,
               icon: ClipboardList,
               iconBg: "#EFF6FF",
               iconColor: "#1E73BE",
@@ -121,7 +155,7 @@ export default async function StudentDashboardPage() {
             },
             {
               label: "Siap Dikerjakan",
-              value: publishedExamCount,
+              value: totalPublishedExams,
               sub: "siap latih kemampuanmu",
               icon: BookOpen,
               iconBg: "#F0F9FF",
@@ -130,8 +164,8 @@ export default async function StudentDashboardPage() {
             },
             {
               label: "Keaktifan Belajar",
-              value: "7",
-              sub: "hari berturut-turut",
+              value: recentActivityCount,
+              sub: "latihan dlm 7 hari",
               icon: Zap,
               iconBg: "#FFFBEB",
               iconColor: "#D97706",
@@ -170,7 +204,7 @@ export default async function StudentDashboardPage() {
                 </p>
                 <h3 className="text-xl font-black mb-1 tracking-tight">Ayo Mulai Latihan!</h3>
                 <p className="text-white/80 text-sm font-medium mb-5 max-w-sm">
-                  Ada ${publishedExamCount} latihan yang bisa kamu coba. Yuk, asah kemampuanmu sekarang!
+                  Ada ${totalPublishedExams} latihan yang bisa kamu coba. Yuk, asah kemampuanmu sekarang!
                 </p>
                 <Link
                   href="/dashboard/exams"
@@ -201,16 +235,22 @@ export default async function StudentDashboardPage() {
                   <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Tips Belajar Untukmu</p>
                 </div>
               </div>
-              <p className="text-sm text-slate-600 font-medium leading-relaxed mb-4">
-                Berdasarkan hasil latihan terakhir, kamu perlu memperkuat materi{" "}
-                <span className="font-bold text-slate-900">Silogisme (TIU)</span>. Kalau kamu pelajari bab ini, skor kamu bisa naik sampai{" "}
-                <span
-                  className="font-bold px-1.5 py-0.5 rounded border text-sm"
-                  style={{ color: "#1FA84E", background: "#F0FDF4", borderColor: "#BBF7D0" }}
-                >
-                  +15 poin
-                </span>.
-              </p>
+              {recentResults.length > 0 ? (
+                <p className="text-sm text-slate-600 font-medium leading-relaxed mb-4">
+                  Berdasarkan hasil latihan terakhir, kamu perlu memperkuat materi{" "}
+                  <span className="font-bold text-slate-900">{weakestSubText}</span>. Kalau kamu pelajari bab ini, skor kamu bisa naik sampai{" "}
+                  <span
+                    className="font-bold px-1.5 py-0.5 rounded border text-sm inline-block"
+                    style={{ color: "#1FA84E", background: "#F0FDF4", borderColor: "#BBF7D0" }}
+                  >
+                    +{pointPotential} poin
+                  </span>.
+                </p>
+              ) : (
+                <p className="text-sm text-slate-600 font-medium leading-relaxed mb-4">
+                  Selesaikan setidaknya satu simulasi Try Out agar AI kami bisa memberikan rekomendasi materi spesifik yang perlu kamu tingkatkan.
+                </p>
+              )}
               <Link
                 href="/dashboard/learning"
                 className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors uppercase tracking-widest"
@@ -227,7 +267,7 @@ export default async function StudentDashboardPage() {
                   href: "/dashboard/exams",
                   icon: Zap,
                   title: "Mulai Try Out",
-                  sub: `${publishedExamCount} latihan tersedia`,
+                  sub: `${totalPublishedExams} latihan tersedia`,
                   iconBg: "#EFF6FF",
                   iconBorder: "#BFDBFE",
                   iconColor: "#1E73BE",
@@ -331,9 +371,9 @@ export default async function StudentDashboardPage() {
               </div>
               <div className="space-y-3">
                 {[
-                  { label: "TWK", pct: 72 },
-                  { label: "TIU", pct: 58 },
-                  { label: "TKP", pct: 85 },
+                  { label: "TWK", pct: twkPct },
+                  { label: "TIU", pct: tiuPct },
+                  { label: "TKP", pct: tkpPct },
                 ].map(({ label, pct }) => (
                   <div key={label}>
                     <div className="flex justify-between items-center mb-1">
