@@ -88,10 +88,12 @@ export async function submitPsychometricTest(answers: PsychAnswers): Promise<voi
 // ─── Submit IQ Test ───────────────────────────────────────────────────────────
 
 export async function submitIQTest(payload: IQAnswers): Promise<void> {
-  // ── Tier Guard: ELITE and above ───────────────────────────────────────────
+  // ── Tier Guard: MASTER and above ──────────────────────────────────────────
   try {
-    await requireTier("ELITE")
+    await requireTier("MASTER")
   } catch (err) {
+    // Re-throw NEXT_REDIRECT so Next.js can navigate correctly
+    if ((err as Error & { digest?: string }).digest?.startsWith("NEXT_REDIRECT")) throw err
     if ((err as Error).message === "UNAUTHENTICATED") redirect("/login")
     redirect("/dashboard/pembelian?upgrade=1&from=iq-test")
   }

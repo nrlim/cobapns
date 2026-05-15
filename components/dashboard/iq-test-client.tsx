@@ -47,6 +47,7 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
   const [timings, setTimings] = useState<Record<SubTest, number>>({ verbal: 0, numeric: 0, logic: 0, spatial: 0 })
   const [timeLeft, setTimeLeft] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [phase, setPhase] = useState<"active" | "between" | "done">("active")
 
   const currentSub = SUB_TESTS[subTestIndex]
@@ -91,14 +92,29 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
   async function handleFinalSubmit() {
     recordTiming()
     setSubmitting(true)
-    // Build answers map using the question's answerKey from DB
-    await submitIQTest({
-      verbal:  answers.verbal,
-      numeric: answers.numeric,
-      logic:   answers.logic,
-      spatial: answers.spatial,
-      timings,
-    })
+    setSubmitError(null)
+    try {
+      await submitIQTest({
+        verbal:  answers.verbal,
+        numeric: answers.numeric,
+        logic:   answers.logic,
+        spatial: answers.spatial,
+        timings,
+      })
+    } catch (err: unknown) {
+      // NEXT_REDIRECT is thrown internally by Next.js — re-throw so navigation works
+      if (
+        err &&
+        typeof err === "object" &&
+        "digest" in err &&
+        typeof (err as { digest?: string }).digest === "string" &&
+        (err as { digest: string }).digest.startsWith("NEXT_REDIRECT")
+      ) {
+        throw err
+      }
+      setSubmitting(false)
+      setSubmitError("Gagal mengirim hasil. Coba lagi dalam beberapa saat.")
+    }
   }
 
   const totalQ    = section.questions.length
@@ -406,6 +422,12 @@ export default function IQTestClient({ iqData }: { iqData: IQData }) {
                     })}
                   </div>
 
+                  {submitError && (
+                    <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-3 text-sm text-red-700 font-medium">
+                      <AlertTriangle className="w-4 h-4 flex-shrink-0 text-red-500" />
+                      {submitError}
+                    </div>
+                  )}
                   <button
                     id="btn-submit-iq"
                     disabled={submitting}
