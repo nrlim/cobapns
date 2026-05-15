@@ -58,7 +58,7 @@ export function NotificationToast({
   const Icon = activeConfig.icon;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] animate-in slide-in-from-bottom-5 fade-in duration-300">
+    <div className="fixed top-6 right-6 z-[100] animate-in slide-in-from-top-5 fade-in duration-300">
       <div className={cn("flex items-start gap-4 p-4 rounded-2xl border shadow-xl shadow-slate-200/50 max-w-sm w-full bg-white", activeConfig.border)}>
         <div className={cn("w-10 h-10 rounded-full flex items-center justify-center shrink-0", activeConfig.bg, activeConfig.color)}>
           <Icon className="w-5 h-5" />

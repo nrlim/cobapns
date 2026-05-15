@@ -84,43 +84,6 @@ export async function submitExam(examId: string) {
     })
     if (!exam) return { success: false, error: "Ujian tidak ditemukan." }
 
-    // ── User Tier & Limit Check ──────────────────────────────────────────────
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { subscriptionTier: true, subscriptionEnds: true },
-    })
-
-    const effectiveTier =
-      user?.subscriptionTier !== "FREE" &&
-      user?.subscriptionEnds &&
-      new Date(user.subscriptionEnds) < new Date()
-        ? "FREE"
-        : (user?.subscriptionTier ?? "FREE")
-
-    // Admin bypasses all tier limits
-    if (session.role !== "ADMIN" && effectiveTier === "FREE") {
-      // FREE tier limit: max 3 exam submissions
-      const submittedCount = await prisma.examResult.count({
-        where: { userId },
-      })
-      if (submittedCount >= 3) {
-        return { 
-          success: false, 
-          error: "Batas 3x ujian untuk akun Free telah tercapai. Upgrade ke Elite/Master untuk akses tanpa batas." 
-        }
-      }
-    }
-
-    // Re-verify tier from DB before allowing full exam submission
-    if (exam.accessTier !== "FREE") {
-      const minTier = exam.accessTier === "MASTER" ? "MASTER" : "ELITE"
-      try {
-        await requireTier(minTier)
-      } catch (err) {
-        return handleAuthError(err)
-      }
-    }
-    // ────────────────────────────────────────────────────────────
 
     // Fetch all questions in this exam with category + their options
     const examQuestions = await prisma.examQuestion.findMany({

@@ -115,7 +115,7 @@ export function BulkImportModal() {
   if (!isOpen && isUploading) {
     return (
       <>
-        <div className="fixed bottom-6 right-6 z-50 bg-white shadow-xl rounded-2xl border border-slate-100 p-5 w-80 animate-in slide-in-from-bottom-5">
+        <div className="fixed top-6 right-6 z-50 bg-white shadow-xl rounded-2xl border border-slate-100 p-5 w-80 animate-in slide-in-from-top-5">
           <div className="flex justify-between items-center mb-3">
             <p className="text-sm font-bold text-slate-800 flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin text-brand-blue" />

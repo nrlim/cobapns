@@ -260,14 +260,6 @@ export async function submitSKBExam(examId: string) {
     })
     if (!exam) return { success: false, error: "Ujian tidak ditemukan." }
 
-    if (exam.accessTier !== "FREE" && session.role !== "ADMIN") {
-      const minTier = exam.accessTier === "MASTER" ? "MASTER" : "ELITE"
-      try {
-        await requireTier(minTier)
-      } catch (err) {
-        return handleAuthError(err)
-      }
-    }
 
     // Fetch all exam questions with options
     const examQuestions = await prisma.sKBExamQuestion.findMany({
