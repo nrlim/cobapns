@@ -123,12 +123,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "COBA PNS",
-              "url": "https://cobapns.com",
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://cobapns.com/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
+              "url": "https://cobapns.com"
             })
           }}
         />
