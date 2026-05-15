@@ -185,3 +185,16 @@ export async function deleteLookup(id: string) {
     return { error: error.message || "Gagal menghapus lookup" }
   }
 }
+
+export async function exportLookupsByType(type: LookupType) {
+  try {
+    const data = await prisma.lookup.findMany({
+      where: { type },
+      orderBy: { name: "asc" },
+      select: { name: true }
+    });
+    return { success: true, data: data.map(d => d.name) };
+  } catch (error: any) {
+    return { error: "Gagal mengekspor data" };
+  }
+}

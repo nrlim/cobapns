@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useRef, useTransition, useEffect } from "react"
-import { Search, Plus, Upload, Edit2, Trash2, X, CheckCircle2, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react"
-import { createLookup, updateLookup, deleteLookup, importBulkLookups } from "@/app/actions/lookup"
+import { Search, Plus, Upload, Edit2, Trash2, X, CheckCircle2, AlertCircle, RefreshCw, ChevronLeft, ChevronRight, Download } from "lucide-react"
+import { createLookup, updateLookup, deleteLookup, importBulkLookups, exportLookupsByType } from "@/app/actions/lookup"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { NotificationToast } from "@/components/ui/notification-toast"
 
@@ -139,6 +139,32 @@ export function LookupClient({
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const handleExport = async () => {
+    startTransition(async () => {
+      setStatusMsg(null)
+      try {
+        const res = await exportLookupsByType(activeType as any)
+        if (res?.error) {
+          showNotification("error", "Export Gagal", res.error)
+        } else if (res?.success && res.data) {
+          const jsonString = JSON.stringify(res.data, null, 2)
+          const blob = new Blob([jsonString], { type: "application/json" })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement("a")
+          a.href = url
+          a.download = `lookup_${activeType.toLowerCase()}.json`
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          URL.revokeObjectURL(url)
+          showNotification("success", "Export Berhasil", "File JSON berhasil diunduh.")
+        }
+      } catch (err) {
+        showNotification("error", "Export Gagal", "Terjadi kesalahan saat mengunduh data.")
+      }
+    })
+  }
+
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -147,7 +173,23 @@ export function LookupClient({
       setStatusMsg(null)
       try {
         const text = await file.text()
-        const items = text.split(/\r?\n/).map(line => line.split(',')[0].trim()).filter(Boolean)
+        let items: string[] = []
+
+        if (!file.name.toLowerCase().endsWith('.json')) {
+          throw new Error("File harus berupa JSON.")
+        }
+
+        const parsed = JSON.parse(text)
+        if (Array.isArray(parsed)) {
+          items = parsed.map(item => {
+            if (typeof item === 'string') return item.trim()
+            if (typeof item === 'object' && item !== null && item.name) return String(item.name).trim()
+            return ''
+          }).filter(Boolean)
+        } else {
+          throw new Error("Format JSON harus berupa array.")
+        }
+
         const res = await importBulkLookups(activeType as any, items)
         
         if (res?.error) {
@@ -157,8 +199,8 @@ export function LookupClient({
           if (fileInputRef.current) fileInputRef.current.value = ""
           router.refresh()
         }
-      } catch (err) {
-        showNotification("error", "Gagal Membaca File", "Pastikan format file CSV sudah benar.")
+      } catch (err: any) {
+        showNotification("error", "Gagal Membaca File", err.message || "Pastikan format file JSON sudah benar.")
       }
     })
   }
@@ -196,21 +238,29 @@ export function LookupClient({
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <input
             type="file"
-            accept=".csv"
+            accept=".json"
             ref={fileInputRef}
             onChange={handleImport}
             className="hidden"
           />
           <button 
             disabled={isPending}
+            onClick={handleExport}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-50 text-slate-700 text-sm font-bold rounded-xl transition-all shadow-sm"
+          >
+            {isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            <span className="hidden sm:inline">Export JSON</span>
+          </button>
+          <button 
+            disabled={isPending}
             onClick={() => fileInputRef.current?.click()}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-50 text-slate-700 text-sm font-bold rounded-xl transition-all shadow-sm"
           >
             {isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-            <span className="hidden sm:inline">{isPending ? "Mengimport..." : "Import CSV"}</span>
+            <span className="hidden sm:inline">{isPending ? "Mengimport..." : "Import JSON"}</span>
           </button>
           <button 
             onClick={() => handleOpenDialog()}

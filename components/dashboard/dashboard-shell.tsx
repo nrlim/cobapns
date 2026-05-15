@@ -18,6 +18,7 @@ import {
   ChevronRight,
   Sparkles,
   Lightbulb,
+  BookMarked,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -26,14 +27,15 @@ import { ProfileDropdown } from "@/components/profile-dropdown"
 /* ── All navigation items ──────────────────────────────────────────── */
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: "Home",          href: "/dashboard",              color: "#1E73BE", bg: "#EFF6FF" },
-  { icon: ClipboardList,   label: "Try Out",        href: "/dashboard/exams",        color: "#7C3AED", bg: "#F5F3FF" },
-  { icon: GraduationCap,   label: "Learning Hub",   href: "/dashboard/learning",     color: "#0891B2", bg: "#ECFEFF" },
-  { icon: Brain,           label: "Psikotes & IQ",  href: "/dashboard/psychology",   color: "#DB2777", bg: "#FDF2F8" },
-  { icon: BarChart3,       label: "Performa",       href: "/dashboard/performance",  color: "#059669", bg: "#ECFDF5" },
-  { icon: Lightbulb,       label: "Rekomendasi",    href: "/dashboard/diagnostik",   color: "#7C3AED", bg: "#F5F3FF" },
-  { icon: PieChart,        label: "Statistik",      href: "/dashboard/statistik",    color: "#D97706", bg: "#FFFBEB" },
-  { icon: Trophy,          label: "Leaderboard",    href: "/dashboard/leaderboard",  color: "#EA580C", bg: "#FFF7ED" },
-  { icon: ShoppingCart,    label: "Pembelian",      href: "/dashboard/pembelian",    color: "#1E73BE", bg: "#EFF6FF" },
+  { icon: ClipboardList,   label: "Try Out SKD",   href: "/dashboard/exams",        color: "#7C3AED", bg: "#F5F3FF" },
+  { icon: BookMarked,      label: "Try Out SKB",   href: "/dashboard/skb",          color: "#EA580C", bg: "#FFF7ED" },
+  { icon: GraduationCap,   label: "Learning Hub",  href: "/dashboard/learning",     color: "#0891B2", bg: "#ECFEFF" },
+  { icon: Brain,           label: "Psikotes & IQ", href: "/dashboard/psychology",   color: "#DB2777", bg: "#FDF2F8" },
+  { icon: BarChart3,       label: "Performa",      href: "/dashboard/performance",  color: "#059669", bg: "#ECFDF5" },
+  { icon: Lightbulb,       label: "Rekomendasi",   href: "/dashboard/diagnostik",   color: "#7C3AED", bg: "#F5F3FF" },
+  { icon: PieChart,        label: "Statistik",     href: "/dashboard/statistik",    color: "#D97706", bg: "#FFFBEB" },
+  { icon: Trophy,          label: "Leaderboard",   href: "/dashboard/leaderboard",  color: "#EA580C", bg: "#FFF7ED" },
+  { icon: ShoppingCart,    label: "Pembelian",     href: "/dashboard/pembelian",    color: "#1E73BE", bg: "#EFF6FF" },
 ]
 
 /* ── 4 items shown in mobile bottom bar (2 left + 2 right of FAB) ── */
@@ -48,16 +50,17 @@ const BOTTOM_NAV = [
 /* ── App Drawer menu groups ──────────────────────────────────────── */
 const DRAWER_MODULES = [
   { icon: LayoutDashboard, label: "Dashboard",     href: "/dashboard",             color: "#1E73BE", bg: "#EFF6FF" },
-  { icon: ClipboardList,   label: "Try Out",       href: "/dashboard/exams",       color: "#7C3AED", bg: "#F5F3FF" },
-  { icon: GraduationCap,   label: "Belajar",       href: "/dashboard/learning",    color: "#0891B2", bg: "#ECFEFF" },
-  { icon: Brain,           label: "Psikotes & IQ", href: "/dashboard/psychology",  color: "#DB2777", bg: "#FDF2F8" },
-  { icon: BarChart3,       label: "Performa",      href: "/dashboard/performance", color: "#059669", bg: "#ECFDF5" },
-  { icon: Lightbulb,       label: "Rekomendasi",   href: "/dashboard/diagnostik",  color: "#7C3AED", bg: "#F5F3FF" },
-  { icon: PieChart,        label: "Statistik",     href: "/dashboard/statistik",   color: "#D97706", bg: "#FFFBEB" },
-  { icon: Trophy,          label: "Leaderboard",   href: "/dashboard/leaderboard", color: "#EA580C", bg: "#FFF7ED" },
-  { icon: ShoppingCart,    label: "Pembelian",     href: "/dashboard/pembelian",   color: "#1E73BE", bg: "#EFF6FF" },
-  { icon: Settings,        label: "Pengaturan",    href: "/dashboard/settings",    color: "#475569", bg: "#F8FAFC" },
-  { icon: HelpCircle,      label: "Bantuan",       href: "/dashboard/help",        color: "#475569", bg: "#F8FAFC" },
+  { icon: ClipboardList,   label: "Try Out SKD",  href: "/dashboard/exams",       color: "#7C3AED", bg: "#F5F3FF" },
+  { icon: BookMarked,      label: "Try Out SKB",  href: "/dashboard/skb",         color: "#EA580C", bg: "#FFF7ED" },
+  { icon: GraduationCap,   label: "Belajar",      href: "/dashboard/learning",    color: "#0891B2", bg: "#ECFEFF" },
+  { icon: Brain,           label: "Psikotes",     href: "/dashboard/psychology",  color: "#DB2777", bg: "#FDF2F8" },
+  { icon: BarChart3,       label: "Performa",     href: "/dashboard/performance", color: "#059669", bg: "#ECFDF5" },
+  { icon: Lightbulb,       label: "Rekomendasi",  href: "/dashboard/diagnostik",  color: "#7C3AED", bg: "#F5F3FF" },
+  { icon: PieChart,        label: "Statistik",    href: "/dashboard/statistik",   color: "#D97706", bg: "#FFFBEB" },
+  { icon: Trophy,          label: "Leaderboard",  href: "/dashboard/leaderboard", color: "#EA580C", bg: "#FFF7ED" },
+  { icon: ShoppingCart,    label: "Pembelian",    href: "/dashboard/pembelian",   color: "#1E73BE", bg: "#EFF6FF" },
+  { icon: Settings,        label: "Pengaturan",   href: "/dashboard/settings",    color: "#475569", bg: "#F8FAFC" },
+  { icon: HelpCircle,      label: "Bantuan",      href: "/dashboard/help",        color: "#475569", bg: "#F8FAFC" },
 ]
 
 interface DashboardShellProps {

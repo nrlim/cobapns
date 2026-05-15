@@ -54,6 +54,8 @@ model User {
   sessions           Session[]
   examResults        ExamResult[]
   userAnswers        UserAnswer[]
+  skbExamResults     SKBExamResult[]
+  skbUserAnswers     SKBUserAnswer[]
   materialProgress   UserMaterialProgress[]
   subscriptions      Subscription[]
   transactions       Transaction[]
@@ -116,6 +118,111 @@ model Option {
   question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@map("options")
+}
+
+// ─── SKB (Seleksi Kompetensi Bidang) Question Bank ────────────────────────────
+
+enum SKBCategory {
+  TEKNIS           // Kompetensi Teknis (bidang formasi)
+  MANAJERIAL       // Kompetensi Manajerial
+  SOSIAL_KULTURAL  // Kompetensi Sosial Kultural
+}
+
+model SKBQuestion {
+  id          String             @id @default(cuid())
+  category    SKBCategory
+  subCategory String             // e.g. "Manajemen ASN", "Pelayanan Publik", etc.
+  bidang      String             // Bidang jabatan: "Umum", "Kesehatan", "Hukum", etc.
+  content     String             // Rich text / soal
+  explanation String             // Pembahasan
+  difficulty  QuestionDifficulty @default(SEDANG)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  options     SKBOption[]
+  exams       SKBExamQuestion[]
+  userAnswers SKBUserAnswer[]
+
+  @@map("skb_questions")
+}
+
+model SKBOption {
+  id         String      @id @default(cuid())
+  questionId String
+  text       String
+  score      Int         @default(0)
+  createdAt  DateTime    @default(now())
+
+  question   SKBQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("skb_options")
+}
+
+// ─── SKB Exam (Try Out Seleksi Kompetensi Bidang) ─────────────────────────────
+
+model SKBExam {
+  id              String         @id @default(cuid())
+  title           String
+  bidang          String         // Target bidang jabatan: "Umum", "Kesehatan", etc.
+  durationMinutes Int            @default(90)
+  status          ExamStatus     @default(DRAFT)
+  accessTier      ExamAccessTier @default(FREE)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  questions       SKBExamQuestion[]
+  results         SKBExamResult[]
+  userAnswers     SKBUserAnswer[]
+
+  @@map("skb_exams")
+}
+
+model SKBExamQuestion {
+  examId      String
+  questionId  String
+  order       Int
+
+  exam        SKBExam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question    SKBQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([examId, questionId])
+  @@map("skb_exam_questions")
+}
+
+// Jawaban user per soal selama sesi SKB (resumable)
+model SKBUserAnswer {
+  id          String   @id @default(cuid())
+  userId      String
+  examId      String
+  questionId  String
+  optionId    String?  // null = belum dijawab
+  isRagu      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exam        SKBExam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question    SKBQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, examId, questionId])
+  @@map("skb_user_answers")
+}
+
+// Hasil akhir ujian SKB per user
+model SKBExamResult {
+  id                  String   @id @default(cuid())
+  userId              String
+  examId              String
+  scoreTeknis         Int      @default(0)
+  scoreManajerial     Int      @default(0)
+  scoreSosialKultural Int      @default(0)
+  totalScore          Int      @default(0)
+  submittedAt         DateTime @default(now())
+
+  user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exam                SKBExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@map("skb_exam_results")
 }
 
 enum ExamStatus {

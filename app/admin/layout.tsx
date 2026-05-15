@@ -16,6 +16,7 @@ import {
   MessageSquare,
   Newspaper,
   ClipboardList,
+  BookMarked,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -23,6 +24,8 @@ import { ProfileDropdown } from "@/components/profile-dropdown";
 import { BulkImportModal } from "@/components/admin/bulk-import-modal";
 import { SidebarSettingsTree } from "@/components/admin/sidebar-settings-tree";
 import { SidebarPsychIqTree } from "@/components/admin/sidebar-psych-iq-tree";
+import { SidebarQuestionBankTree } from "@/components/admin/sidebar-question-bank-tree";
+import { SidebarExamBuilderTree } from "@/components/admin/sidebar-exam-builder-tree";
 import { AdminMobileNav } from "@/components/admin/admin-mobile-nav";
 
 export const metadata: Metadata = {
@@ -64,16 +67,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Users className="w-5 h-5" />
             <span>User Management</span>
           </Link>
-          <Link href="/admin/content/questions" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
-            <FileText className="w-5 h-5" />
-            <span>Question Bank</span>
-          </Link>
+          <SidebarQuestionBankTree />
           <SidebarPsychIqTree />
-
-          <Link href="/admin/content/exams" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
-            <ClipboardList className="w-5 h-5" />
-            <span>Exam Builder</span>
-          </Link>
+          <SidebarExamBuilderTree />
           <Link href="/admin/materials" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <BookOpen className="w-5 h-5" />
             <span>Material CMS</span>
