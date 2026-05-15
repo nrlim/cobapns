@@ -75,7 +75,7 @@ export default async function SKBExamsPage() {
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-1">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-deep mb-1">
               Simulasi CAT · Seleksi Kompetensi Bidang
             </p>
             <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -89,7 +89,7 @@ export default async function SKBExamsPage() {
           {/* Summary pills */}
           <div className="flex items-center gap-4 flex-shrink-0 bg-white border border-slate-100 rounded-2xl px-5 py-3 shadow-sm">
             <div className="text-center">
-              <div className="text-xl font-black text-orange-600">{done}</div>
+              <div className="text-xl font-black text-brand-blue-deep">{done}</div>
               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selesai</div>
             </div>
             <div className="h-8 w-px bg-slate-200" />
@@ -101,11 +101,11 @@ export default async function SKBExamsPage() {
         </div>
 
         {/* Rules Banner */}
-        <div className="bg-orange-50 border border-orange-200 rounded-2xl p-5 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <div>
-            <h3 className="font-black text-orange-900 text-sm mb-1.5">Tentang Ujian SKB</h3>
-            <ul className="text-xs text-orange-800 grid sm:grid-cols-2 gap-1 font-medium">
+            <h3 className="font-black text-amber-900 text-sm mb-1.5">Tentang Ujian SKB</h3>
+            <ul className="text-xs text-amber-800 grid sm:grid-cols-2 gap-1 font-medium">
               <li>• <strong>Teknis:</strong> +5 benar, 0 salah (pengetahuan bidang jabatan).</li>
               <li>• <strong>Manajerial &amp; Sosial:</strong> Skor 1–5 per jawaban (Likert).</li>
               <li>• Jawabanmu tersimpan otomatis saat mengerjakan.</li>

@@ -6,7 +6,7 @@ import Link from "next/link"
 import {
   Trophy,
   TrendingUp,
-  BookMarked,
+  BookOpen,
   ArrowRight,
   BarChart2,
   RotateCcw,
@@ -87,7 +87,7 @@ export default async function SKBResultPage({
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-2">
           <div>
-            <p className="text-xs font-black uppercase tracking-widest text-orange-500 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-brand-blue-deep mb-1">
               Hasil Ujian · SKB
             </p>
             <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
@@ -112,7 +112,7 @@ export default async function SKBResultPage({
 
               <div className="relative z-10 flex flex-col sm:flex-row items-center gap-8 sm:gap-12">
                 <div className="flex-1 text-center sm:text-left">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5 bg-white/20 shadow-inner">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5 bg-orange-700/50 shadow-inner">
                     <Trophy className="w-8 h-8 text-amber-200" />
                   </div>
                   <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2">
@@ -199,10 +199,10 @@ export default async function SKBResultPage({
               <div className="space-y-3">
                 <Link
                   href="/dashboard/skb"
-                  className="w-full flex items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-700 text-slate-600 font-bold text-sm transition-all group"
+                  className="w-full flex items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 hover:border-brand-blue hover:bg-blue-50 hover:text-brand-blue-deep text-slate-600 font-bold text-sm transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-orange-100 flex items-center justify-center transition-colors">
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
                       <RotateCcw className="w-4 h-4" />
                     </div>
                     Coba Ujian SKB Lain
@@ -228,7 +228,7 @@ export default async function SKBResultPage({
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-                      <BookMarked className="w-4 h-4" />
+                      <BookOpen className="w-4 h-4" />
                     </div>
                     Belajar Materi
                   </div>

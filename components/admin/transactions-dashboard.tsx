@@ -49,14 +49,15 @@ interface ChartDay {
 
 // ─── Formatters ───────────────────────────────────────────────────────────────
 
-function fmtIDR(n: number) {
+function fmtIDR(cents: number) {
+  const n = cents / 100
   if (n >= 1_000_000) return `Rp ${(n / 1_000_000).toFixed(1)}jt`
   if (n >= 1_000) return `Rp ${(n / 1_000).toFixed(0)}rb`
   return `Rp ${n}`
 }
 
-function fmtIDRFull(n: number) {
-  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n)
+function fmtIDRFull(cents: number) {
+  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(cents / 100)
 }
 
 function fmtDate(iso: string) {
@@ -235,7 +236,7 @@ function exportCSV(transactions: Transaction[]) {
     tx.userName,
     tx.userEmail,
     tx.planType,
-    tx.amount,
+    tx.amount / 100,
     tx.status,
     tx.paidAt ?? "",
     tx.createdAt,

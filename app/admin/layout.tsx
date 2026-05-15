@@ -86,6 +86,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <CreditCard className="w-5 h-5" />
             <span>Transaksi</span>
           </Link>
+          <Link href="/admin/promos" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
+            <Settings className="w-5 h-5" />
+            <span>Promo Codes</span>
+          </Link>
           <Link href="/admin/payment-logs" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <ClipboardList className="w-5 h-5" />
             <span>Payment Logs</span>

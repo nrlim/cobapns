@@ -28,13 +28,9 @@ const PLAN_TIER_MAP: Record<PaidPlan, "ELITE" | "MASTER"> = {
   MASTER: "MASTER",
 }
 
-// ─── Promo Codes (server-side only — never exposed to client) ─────────────────
+// ─── Promo Codes ──────────────────────────────────────────────────────────────
+// Promo codes are now fetched from the database
 
-const PROMO_CODES: Record<string, number> = {
-  COBAPNS10: 10,
-  CPNS2025:  20,
-  WELCOME50: 50,
-}
 
 // ─── Input schema for createTransaction ───────────────────────────────────────
 
@@ -107,9 +103,21 @@ export async function applyPromoCode(
   await requireAuth()
 
   const upper = code.trim().toUpperCase().slice(0, 32) // cap length
-  const pct = PROMO_CODES[upper]
 
-  if (!pct) return { valid: false, discountPct: 0, message: "Kode promo tidak valid atau sudah kedaluwarsa." }
+  const promo = await prisma.promoCode.findUnique({ where: { code: upper } })
+  if (!promo || !promo.isActive) {
+    return { valid: false, discountPct: 0, message: "Kode promo tidak valid atau sudah tidak aktif." }
+  }
+
+  if (promo.validUntil && promo.validUntil < new Date()) {
+    return { valid: false, discountPct: 0, message: "Kode promo sudah kedaluwarsa." }
+  }
+
+  if (promo.maxUses !== null && promo.currentUses >= promo.maxUses) {
+    return { valid: false, discountPct: 0, message: "Kuota kode promo sudah habis." }
+  }
+
+  const pct = promo.discountPct
 
   const prices = PLAN_PRICES[planType]
   if (!prices) return { valid: false, discountPct: 0, message: "Kode promo tidak berlaku untuk paket ini." }
@@ -167,9 +175,12 @@ export async function createTransaction(input: {
     let appliedPromo: string | null = null
     if (promoCode) {
       const upper = promoCode.trim().toUpperCase().slice(0, 32)
-      const pct = PROMO_CODES[upper]
-      if (pct) {
-        discountAmount = Math.round(baseAmount * (pct / 100))
+      const promo = await prisma.promoCode.findUnique({ where: { code: upper } })
+      
+      if (promo && promo.isActive && 
+         (!promo.validUntil || promo.validUntil >= new Date()) && 
+         (promo.maxUses === null || promo.currentUses < promo.maxUses)) {
+        discountAmount = Math.round(baseAmount * (promo.discountPct / 100))
         appliedPromo = upper
       }
     }
@@ -398,6 +409,16 @@ export async function processWebhookPayload(payload: {
           subscriptionEnds: endDate,
         },
       });
+    }
+
+    // Increment promo code uses if applicable
+    if (tx.promoCode) {
+      await trx.promoCode.update({
+        where: { code: tx.promoCode },
+        data: { currentUses: { increment: 1 } },
+      }).catch(() => {
+        // Silently ignore if promo code doesn't exist anymore
+      })
     }
   });
 

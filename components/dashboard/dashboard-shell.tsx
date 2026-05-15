@@ -19,16 +19,34 @@ import {
   Sparkles,
   Lightbulb,
   BookMarked,
+  ChevronDown,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ProfileDropdown } from "@/components/profile-dropdown"
 
+type NavItem = {
+  icon: any
+  label: string
+  href?: string
+  color: string
+  bg: string
+  subItems?: { label: string; href: string }[]
+}
+
 /* ── All navigation items ──────────────────────────────────────────── */
-const NAV_ITEMS = [
+const NAV_ITEMS: NavItem[] = [
   { icon: LayoutDashboard, label: "Home",          href: "/dashboard",              color: "#1E73BE", bg: "#EFF6FF" },
-  { icon: ClipboardList,   label: "Try Out SKD",   href: "/dashboard/exams",        color: "#7C3AED", bg: "#F5F3FF" },
-  { icon: BookMarked,      label: "Try Out SKB",   href: "/dashboard/skb",          color: "#EA580C", bg: "#FFF7ED" },
+  { 
+    icon: ClipboardList,   
+    label: "Try Out",      
+    color: "#7C3AED", 
+    bg: "#F5F3FF",
+    subItems: [
+      { label: "SKD", href: "/dashboard/exams" },
+      { label: "SKB", href: "/dashboard/skb" }
+    ]
+  },
   { icon: GraduationCap,   label: "Learning Hub",  href: "/dashboard/learning",     color: "#0891B2", bg: "#ECFEFF" },
   { icon: Brain,           label: "Psikotes & IQ", href: "/dashboard/psychology",   color: "#DB2777", bg: "#FDF2F8" },
   { icon: BarChart3,       label: "Performa",      href: "/dashboard/performance",  color: "#059669", bg: "#ECFDF5" },
@@ -72,6 +90,21 @@ interface DashboardShellProps {
 export function DashboardShell({ children, activeHref, user }: DashboardShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const pathname = usePathname()
+  
+  // Initialize open state for sub-menus based on current active route
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>(() => {
+    const initialState: Record<string, boolean> = {}
+    NAV_ITEMS.forEach(item => {
+      if (item.subItems) {
+        initialState[item.label] = item.subItems.some(sub => activeHref.startsWith(sub.href)) || item.label === "Try Out"
+      }
+    })
+    return initialState
+  })
+
+  const toggleMenu = (label: string) => {
+    setOpenMenus(prev => ({ ...prev, [label]: !prev[label] }))
+  }
 
   /* Close drawer on route change */
   useEffect(() => {
@@ -107,12 +140,58 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
 
         {/* Nav */}
         <nav className="flex-1 space-y-1">
-          {NAV_ITEMS.map(({ icon: Icon, label, href }) => {
+          {NAV_ITEMS.map((item) => {
+            const { icon: Icon, label, href, subItems } = item
+            
+            if (subItems) {
+              const isActiveGroup = subItems.some(sub => activeHref.startsWith(sub.href))
+              const isOpen = openMenus[label]
+              return (
+                <div key={label} className="space-y-1">
+                  <button
+                    onClick={() => toggleMenu(label)}
+                    className={`w-full flex items-center justify-between px-4 py-3 rounded-lg font-medium transition-all text-sm ${
+                      isActiveGroup
+                        ? "text-brand-blue bg-blue-50/50"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className={`w-5 h-5 ${isActiveGroup ? "text-brand-blue" : ""}`} />
+                      <span>{label}</span>
+                    </div>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="ml-9 space-y-1 pb-1">
+                      {subItems.map(sub => {
+                        const active = activeHref === sub.href || activeHref.startsWith(`${sub.href}/`)
+                        return (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            className={`block px-4 py-2 rounded-lg font-medium transition-all text-sm ${
+                              active
+                                ? "text-white font-semibold shadow-sm"
+                                : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                            }`}
+                            style={active ? { background: "linear-gradient(135deg, #1E73BE, #2DBE60)" } : {}}
+                          >
+                            {sub.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )
+            }
+
             const active = href === activeHref
             return (
               <Link
                 key={href}
-                href={href}
+                href={href!}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all text-sm ${
                   active
                     ? "text-white font-semibold shadow-sm"
