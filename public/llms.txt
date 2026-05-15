@@ -1,0 +1,23 @@
+# COBA PNS - Platform Tryout CPNS & PPPK
+
+COBA PNS adalah platform Computer Assisted Test (CAT) premium untuk persiapan seleksi Calon Pegawai Negeri Sipil (CPNS) dan Pegawai Pemerintah dengan Perjanjian Kerja (PPPK) di Indonesia.
+
+## Tentang Platform
+Platform ini menyediakan simulasi ujian dengan sistem yang mirip dengan aslinya (standar BKN). Sistem kami dirancang untuk membantu peserta mengevaluasi kesiapan mereka secara akurat melalui berbagai macam tryout seperti Seleksi Kompetensi Dasar (SKD) yang mencakup materi TWK, TIU, dan TKP, hingga Seleksi Kompetensi Bidang (SKB).
+
+## Link Utama
+- Website Utama: https://cobapns.com
+- Artikel & Info CPNS: https://cobapns.com/artikel
+- Pendaftaran: https://cobapns.com/register
+- Login Platform: https://cobapns.com/login
+
+## Fitur Unggulan
+1. **Tryout CAT Mirip BKN**: Antarmuka ujian yang didesain semirip mungkin dengan ujian resmi dari BKN.
+2. **Evaluasi AI & Pembahasan Cerdas**: Analisis detail untuk kelemahan dan rekomendasi belajar.
+3. **Smart Randomizer**: Algoritma pengacakan bank soal untuk Tryout SKB.
+4. **Leaderboard Nasional**: Peringkat real-time seluruh Indonesia.
+5. **Grafik Progres Belajar**: Melacak perkembangan nilai dari waktu ke waktu.
+6. **Tes Psikometri & IQ**: Evaluasi kesiapan psikologis calon pelamar.
+
+## Kontak
+Untuk pertanyaan lebih lanjut, pendaftaran, atau kerjasama, pengguna dapat menghubungi kami melalui website utama kami.
