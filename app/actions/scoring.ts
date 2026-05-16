@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma"
 import { cookies } from "next/headers"
 import { verifySession } from "@/lib/session"
-import { requireTier, handleAuthError } from "@/lib/auth-guard"
+import { handleAuthError } from "@/lib/auth-guard"
 import { revalidatePath } from "next/cache"
 import { markAIFeedbackStale } from "@/app/actions/ai-feedback"
 
@@ -11,6 +11,19 @@ import { markAIFeedbackStale } from "@/app/actions/ai-feedback"
 const TWK_CORRECT_SCORE = 5
 const TIU_CORRECT_SCORE = 5
 // TKP: score is stored per-option (1-5). No fixed point per question.
+
+function isPrismaErrorCode(err: unknown, code: string) {
+  return typeof err === "object" && err !== null && "code" in err && err.code === code
+}
+
+async function isValidActiveUser(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, isActive: true },
+  })
+
+  return Boolean(user?.isActive)
+}
 
 // ── Save Answer (auto-persisted during exam) ───────────────────────────────
 export async function saveUserAnswer(
@@ -24,6 +37,9 @@ export async function saveUserAnswer(
     const token = cookieStore.get("sipns-session")?.value
     const session = token ? await verifySession(token) : null
     if (!session) return { success: false, error: "Unauthenticated" }
+
+    const hasValidUser = await isValidActiveUser(session.userId)
+    if (!hasValidUser) return { success: false, error: "Sesi tidak valid. Silakan login kembali." }
 
     await prisma.userAnswer.upsert({
       where: {
@@ -44,7 +60,8 @@ export async function saveUserAnswer(
     })
 
     return { success: true }
-  } catch {
+  } catch (err) {
+    if (isPrismaErrorCode(err, "P2003")) return { success: false, error: "Sesi tidak valid. Silakan login kembali." }
     return { success: false, error: "Gagal menyimpan jawaban." }
   }
 }
@@ -63,6 +80,9 @@ export async function submitExam(examId: string) {
     if (!session) return { success: false, error: "Unauthenticated" }
 
     const userId = session.userId
+
+    const hasValidUser = await isValidActiveUser(userId)
+    if (!hasValidUser) return { success: false, error: "Sesi tidak valid. Silakan login kembali." }
 
     // Check if already submitted to prevent duplicates
     const existing = await prisma.examResult.findFirst({
@@ -161,6 +181,10 @@ export async function submitExam(examId: string) {
         return handleAuthError(err)
       }
     }
+    if (isPrismaErrorCode(err, "P2003")) {
+      return { success: false, error: "Sesi tidak valid. Silakan login kembali." }
+    }
+
     console.error("[submitExam] unexpected error:", err)
     return { success: false, error: "Gagal submit ujian. Silakan coba lagi." }
   }
@@ -194,6 +218,9 @@ export async function retakeExam(examId: string) {
     if (!session) return { success: false, error: "Unauthenticated" }
 
     const userId = session.userId
+
+    const hasValidUser = await isValidActiveUser(userId)
+    if (!hasValidUser) return { success: false, error: "Sesi tidak valid. Silakan login kembali." }
 
     // Delete existing results and user answers for this exam
     await prisma.$transaction([
