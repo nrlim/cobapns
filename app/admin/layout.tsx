@@ -21,6 +21,7 @@ import {
 
 import Link from "next/link";
 import { ProfileDropdown } from "@/components/profile-dropdown";
+import { NotificationMenu } from "@/components/dashboard/notification-menu";
 import { BulkImportModal } from "@/components/admin/bulk-import-modal";
 import { SidebarSettingsTree } from "@/components/admin/sidebar-settings-tree";
 import { SidebarPsychIqTree } from "@/components/admin/sidebar-psych-iq-tree";
@@ -78,6 +79,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Newspaper className="w-5 h-5" />
             <span>Artikel / Blog</span>
           </Link>
+          <Link href="/admin/notifications" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
+            <Bell className="w-5 h-5" />
+            <span>Notifications</span>
+          </Link>
           <Link href="/admin/testimonials/manage" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 hover:text-brand-blue rounded-lg font-medium transition-all">
             <MessageSquare className="w-5 h-5" />
             <span>Testimonials</span>
@@ -114,10 +119,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors relative hidden sm:block">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+            <NotificationMenu />
             <button className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors hidden sm:block">
               <HelpCircle className="w-5 h-5" />
             </button>

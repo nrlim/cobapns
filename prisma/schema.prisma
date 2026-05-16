@@ -63,6 +63,7 @@ model User {
   iqResult           IQResult?
   testimonials       Testimonial[]
   aiFeedback         AIFeedback?
+  notificationReads UserNotificationRead[]
 
   @@map("users")
 }
@@ -361,6 +362,38 @@ model SystemSetting {
   value String
 
   @@map("system_settings")
+}
+
+// ─── Admin Broadcast Notifications ───────────────────────────────────────────
+
+model Notification {
+  id          String   @id @default(cuid())
+  title       String
+  message     String   @db.Text
+  ctaLabel    String?
+  ctaUrl      String?
+  isPublished Boolean  @default(true)
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reads       UserNotificationRead[]
+
+  @@index([isPublished, createdAt])
+  @@map("notifications")
+}
+
+model UserNotificationRead {
+  id             String       @id @default(cuid())
+  userId         String
+  notificationId String
+  readAt         DateTime     @default(now())
+
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, notificationId])
+  @@map("user_notification_reads")
 }
 
 // ─── Learning Hub ─────────────────────────────────────────────────────────────

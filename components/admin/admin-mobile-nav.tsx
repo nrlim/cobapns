@@ -19,6 +19,7 @@ import {
   ChevronRight,
   Sparkles,
   BarChart3,
+  Bell,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -40,6 +41,7 @@ const DRAWER_MODULES = [
   { icon: ClipboardList,   label: "Exam Builder",  href: "/admin/content/exams",        color: "#DB2777", bg: "#FDF2F8" },
   { icon: BookOpen,        label: "Material CMS",  href: "/admin/materials",            color: "#059669", bg: "#ECFDF5" },
   { icon: Newspaper,       label: "Artikel/Blog",  href: "/admin/articles",             color: "#D97706", bg: "#FFFBEB" },
+  { icon: Bell,            label: "Notifications", href: "/admin/notifications",        color: "#1E73BE", bg: "#EFF6FF" },
   { icon: MessageSquare,   label: "Testimonials",  href: "/admin/testimonials/manage",  color: "#EA580C", bg: "#FFF7ED" },
   { icon: CreditCard,      label: "Transaksi",     href: "/admin/transactions",         color: "#1E73BE", bg: "#EFF6FF" },
   { icon: BarChart3,       label: "Payment Logs",  href: "/admin/payment-logs",         color: "#475569", bg: "#F8FAFC" },

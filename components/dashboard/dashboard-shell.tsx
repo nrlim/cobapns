@@ -6,7 +6,6 @@ import {
   ClipboardList,
   PieChart,
   ShoppingCart,
-  Bell,
   BarChart3,
   GraduationCap,
   Trophy,
@@ -24,6 +23,7 @@ import {
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ProfileDropdown } from "@/components/profile-dropdown"
+import { NotificationMenu } from "@/components/dashboard/notification-menu"
 import { getLiveProfileDataAction } from "@/app/actions/profile"
 
 type NavItem = {
@@ -240,10 +240,7 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
           <div className="hidden md:flex items-center gap-6" />
 
           <div className="flex items-center gap-4">
-            <button className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors relative hidden sm:block">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
-            </button>
+            <NotificationMenu />
             <div className="h-8 w-px bg-slate-200 mx-1 hidden sm:block" />
             <ProfileDropdown
               name={user.name}
