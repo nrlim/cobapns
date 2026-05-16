@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useRef, useEffect } from "react"
 import { Share2, Download, X, Loader2, Layout, LayoutGrid, LayoutTemplate, CheckCircle2, XCircle, Trophy } from "lucide-react"
@@ -278,7 +278,7 @@ function ScoreTemplate({ data, format }: { data: ScoreShareModalProps["data"], f
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-dashboard.png" alt="COBA PNS"
             style={{ height:38, width:"auto", objectFit:"contain", filter:"brightness(0) invert(1)" }} />
-          <span style={{ background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:20, padding:"5px 14px", color:"#fff", fontSize:10, fontWeight:800, letterSpacing:"0.14em" }}>
+          <span style={{ background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:20, padding:"5px 14px", color:"#fff", fontSize:10, fontWeight:800, letterSpacing:"0.14em", whiteSpace:"nowrap", flexShrink:0 }}>
             SKD CPNS
           </span>
         </div>
@@ -315,7 +315,7 @@ function ScoreTemplate({ data, format }: { data: ScoreShareModalProps["data"], f
             borderRadius:30, padding:"8px 20px", marginBottom:40,
           }}>
             <div style={{ width:7, height:7, borderRadius:"50%", background: overallPass ? GREEN : "#ef4444" }} />
-            <span style={{ fontSize:11, fontWeight:900, letterSpacing:"0.1em", color: overallPass ? "#4ade80" : "#fca5a5" }}>
+            <span style={{ fontSize:11, fontWeight:900, letterSpacing:"0.1em", color: overallPass ? "#4ade80" : "#fca5a5", whiteSpace:"nowrap", flexShrink:0 }}>
               {overallPass ? "LULUS PASSING GRADE 🎉" : "TETAP SEMANGAT 💪"}
             </span>
           </div>
@@ -373,7 +373,7 @@ function ScoreTemplate({ data, format }: { data: ScoreShareModalProps["data"], f
             border: `1px solid ${overallPass ? "rgba(45,190,96,0.4)" : "rgba(239,68,68,0.4)"}`,
             borderRadius:20, padding:"5px 14px",
           }}>
-            <span style={{ fontSize:10, fontWeight:900, letterSpacing:"0.1em", color: overallPass ? "#4ade80" : "#fca5a5" }}>
+            <span style={{ fontSize:10, fontWeight:900, letterSpacing:"0.1em", color: overallPass ? "#4ade80" : "#fca5a5", whiteSpace:"nowrap", flexShrink:0 }}>
               {overallPass ? "✓ LULUS" : "✕ BELUM LULUS"}
             </span>
           </div>
@@ -468,7 +468,7 @@ function ScoreTemplate({ data, format }: { data: ScoreShareModalProps["data"], f
             borderRadius:30, padding:"6px 18px",
           }}>
             <div style={{ width:6, height:6, borderRadius:"50%", background: overallPass ? GREEN : "#ef4444" }} />
-            <span style={{ fontSize:10, fontWeight:900, letterSpacing:"0.1em", color: overallPass ? "#4ade80" : "#fca5a5" }}>
+            <span style={{ fontSize:10, fontWeight:900, letterSpacing:"0.1em", color: overallPass ? "#4ade80" : "#fca5a5", whiteSpace:"nowrap", flexShrink:0 }}>
               {overallPass ? "LULUS PASSING GRADE" : "BELUM LULUS"}
             </span>
           </div>

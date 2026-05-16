@@ -13,7 +13,7 @@ import { sendVerificationEmail } from "@/lib/email";
 // ─────────────────────────────────────────────────────────────
 const RegisterSchema = z.object({
   name: z.string().min(2, "Nama minimal 2 karakter"),
-  email: z.string().email("Format email tidak valid"),
+  email: z.string().email("Format email tidak valid").toLowerCase(),
   phoneNumber: z.string().min(9, "Nomor telepon tidak valid").optional().or(z.literal("")),
   password: z.string().min(8, "Password minimal 8 karakter"),
   confirmPassword: z.string(),
@@ -23,7 +23,7 @@ const RegisterSchema = z.object({
 });
 
 const LoginSchema = z.object({
-  email: z.string().email("Format email tidak valid"),
+  email: z.string().email("Format email tidak valid").toLowerCase(),
   password: z.string().min(1, "Password wajib diisi"),
 });
 

@@ -7,7 +7,7 @@ import { randomBytes } from "crypto";
 import bcrypt from "bcryptjs";
 
 const ForgotSchema = z.object({
-  email: z.string().email("Format email tidak valid"),
+  email: z.string().email("Format email tidak valid").toLowerCase(),
 });
 
 const ResetSchema = z.object({
@@ -124,11 +124,19 @@ export async function resetPasswordAction(
       return { success: false, message: "Link reset tidak valid atau sudah kedaluwarsa." };
     }
 
+    const user = await prisma.user.findUnique({ where: { email: record.email } });
+    if (!user) {
+      return { success: false, message: "Pengguna tidak ditemukan." };
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
 
     await prisma.user.update({
       where: { email: record.email },
-      data: { password: hashedPassword },
+      data: { 
+        password: hashedPassword,
+        emailVerified: user.emailVerified ? user.emailVerified : new Date(),
+      },
     });
 
     await prisma.passwordResetToken.delete({ where: { token } });
