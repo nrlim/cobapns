@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { SKBCategory, QuestionDifficulty } from "@prisma/client"
+import { SKBCategory, QuestionDifficulty, Prisma } from "@prisma/client"
 import { requireAdmin, handleAuthError } from "@/lib/auth-guard"
 
 const SKBOptionSchema = z.object({
@@ -88,6 +88,46 @@ export async function deleteSKBQuestion(id: string) {
       return handleAuthError(err)
     }
     return { success: false, error: "Gagal menghapus soal SKB" }
+  }
+}
+
+const DeleteAllSKBQuestionsSchema = z.object({
+  confirmText: z.literal("HAPUS"),
+  category: z.nativeEnum(SKBCategory).optional(),
+  bidang: z.string().min(1).max(200).optional(),
+  difficulty: z.nativeEnum(QuestionDifficulty).optional(),
+  search: z.string().max(200).optional(),
+})
+
+export async function deleteAllSKBQuestions(payload: z.infer<typeof DeleteAllSKBQuestionsSchema>) {
+  try {
+    await requireAdmin()
+    const data = DeleteAllSKBQuestionsSchema.parse(payload)
+
+    const where: Prisma.SKBQuestionWhereInput = {}
+    if (data.category) where.category = data.category
+    if (data.bidang) where.bidang = data.bidang
+    if (data.difficulty) where.difficulty = data.difficulty
+    if (data.search?.trim()) {
+      const query = data.search.trim()
+      where.OR = [
+        { content: { contains: query, mode: "insensitive" } },
+        { explanation: { contains: query, mode: "insensitive" } },
+        { subCategory: { contains: query, mode: "insensitive" } },
+        { bidang: { contains: query, mode: "insensitive" } },
+      ]
+    }
+
+    const deleted = await prisma.sKBQuestion.deleteMany({ where })
+    revalidatePath("/admin/content/skb-questions")
+    revalidatePath("/admin/content/skb-exams")
+    return { success: true, count: deleted.count }
+  } catch (err) {
+    if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
+      return handleAuthError(err)
+    }
+    console.error("[deleteAllSKBQuestions]", err)
+    return { success: false, error: "Gagal menghapus daftar soal SKB" }
   }
 }
 

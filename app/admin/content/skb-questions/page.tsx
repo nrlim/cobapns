@@ -1,4 +1,5 @@
 import React from "react"
+import { Prisma, QuestionDifficulty, SKBCategory } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
 import {
   Table,
@@ -25,80 +26,116 @@ export default async function SKBQuestionsCMSPage(props: {
 
   const page = Number(searchParams?.page) || 1
   const limit = 20
-  const search = typeof searchParams?.search === "string" ? searchParams.search : undefined
+  const search = typeof searchParams?.search === "string" ? searchParams.search.trim() : undefined
   const category = typeof searchParams?.category === "string" ? searchParams.category : undefined
   const bidang = typeof searchParams?.bidang === "string" ? searchParams.bidang : undefined
+  const difficulty = typeof searchParams?.difficulty === "string" ? searchParams.difficulty : undefined
+  const sort = typeof searchParams?.sort === "string" ? searchParams.sort : "newest"
 
-  const where: any = {}
+  const where: Prisma.SKBQuestionWhereInput = {}
   if (search) {
-    where.content = { contains: search, mode: "insensitive" }
+    where.OR = [
+      { content: { contains: search, mode: "insensitive" } },
+      { explanation: { contains: search, mode: "insensitive" } },
+      { subCategory: { contains: search, mode: "insensitive" } },
+      { bidang: { contains: search, mode: "insensitive" } },
+    ]
   }
-  if (category && category !== "All") {
-    where.category = category
+  if (category && category !== "All" && Object.values(SKBCategory).includes(category as SKBCategory)) {
+    where.category = category as SKBCategory
   }
   if (bidang && bidang !== "All") {
     where.bidang = bidang
   }
+  if (difficulty && difficulty !== "All" && Object.values(QuestionDifficulty).includes(difficulty as QuestionDifficulty)) {
+    where.difficulty = difficulty as QuestionDifficulty
+  }
 
-  const [questions, total, allBidang] = await Promise.all([
+  const orderBy: Prisma.SKBQuestionOrderByWithRelationInput[] =
+    sort === "oldest"
+      ? [{ createdAt: "asc" }]
+      : sort === "bidang"
+        ? [{ bidang: "asc" }, { createdAt: "desc" }]
+        : sort === "category"
+          ? [{ category: "asc" }, { createdAt: "desc" }]
+          : sort === "difficulty"
+            ? [{ difficulty: "asc" }, { createdAt: "desc" }]
+            : [{ createdAt: "desc" }]
+
+  const [questions, total, totalAll, allBidang, categoryStats] = await Promise.all([
     prisma.sKBQuestion.findMany({
       where,
-      orderBy: { createdAt: "desc" },
-      include: { options: true },
+      orderBy,
+      include: { options: { orderBy: { createdAt: "asc" } } },
       skip: (page - 1) * limit,
       take: limit,
     }),
     prisma.sKBQuestion.count({ where }),
+    prisma.sKBQuestion.count(),
     prisma.sKBQuestion.findMany({
       select: { bidang: true },
       distinct: ["bidang"],
       orderBy: { bidang: "asc" },
     }),
+    prisma.sKBQuestion.groupBy({
+      by: ["category"],
+      _count: { id: true },
+    }),
   ])
 
   const totalPages = Math.ceil(total / limit)
   const bidangList = allBidang.map((b) => b.bidang)
+  const categoryCount = (cat: SKBCategory) => categoryStats.find((s) => s.category === cat)?._count.id ?? 0
 
   return (
-    <div className="space-y-8 p-4 md:p-8 lg:p-10 w-full flex-1">
-
-      {/* Page Hero */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+    <div className="p-4 md:p-8 space-y-8 w-full flex-1">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-1 lg:mb-2">
+          <p className="text-xs font-black uppercase tracking-widest text-orange-500 mb-1">
             Content Engine · SKB
           </p>
-          <h2 className="text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
-            SKB Question Bank
-          </h2>
-          <p className="text-slate-500 font-medium mt-1 text-sm">
-            Kelola bank soal Seleksi Kompetensi Bidang — Teknis, Manajerial, dan Sosial Kultural.
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">SKB Question Bank</h1>
+          <p className="text-sm font-medium text-slate-500 mt-1">
+            Kelola soal Teknis, Manajerial, dan Sosial Kultural dengan filter, sorting, dan bulk tools.
           </p>
         </div>
+        <SKBQuestionCMSClient
+          initialData={questions}
+          totalAll={totalAll}
+          filteredTotal={total}
+        />
+      </div>
 
-        {/* Stats Summary */}
-        <div className="flex gap-3">
-          <div className="bg-orange-50 border border-orange-100 rounded-2xl px-5 py-3 text-center">
-            <p className="text-2xl font-black text-orange-600">{total}</p>
-            <p className="text-[10px] font-bold text-orange-400 uppercase tracking-widest mt-0.5">Total Soal</p>
-          </div>
-          <div className="bg-slate-50 border border-slate-100 rounded-2xl px-5 py-3 text-center">
-            <p className="text-2xl font-black text-slate-700">{bidangList.length}</p>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Bidang</p>
-          </div>
+      {/* Stats Summary */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-sm">
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Bank</p>
+          <p className="text-2xl font-black text-slate-900 mt-1">{totalAll}</p>
+        </div>
+        <div className="bg-orange-50 border border-orange-100 rounded-2xl px-5 py-4 shadow-sm">
+          <p className="text-[10px] font-black uppercase tracking-widest text-orange-500">Hasil Filter</p>
+          <p className="text-2xl font-black text-orange-700 mt-1">{total}</p>
+        </div>
+        <div className="bg-blue-50 border border-blue-100 rounded-2xl px-5 py-4 shadow-sm">
+          <p className="text-[10px] font-black uppercase tracking-widest text-blue-500">Teknis</p>
+          <p className="text-2xl font-black text-blue-700 mt-1">{categoryCount("TEKNIS")}</p>
+        </div>
+        <div className="bg-purple-50 border border-purple-100 rounded-2xl px-5 py-4 shadow-sm">
+          <p className="text-[10px] font-black uppercase tracking-widest text-purple-500">Manajerial</p>
+          <p className="text-2xl font-black text-purple-700 mt-1">{categoryCount("MANAJERIAL")}</p>
+        </div>
+        <div className="bg-teal-50 border border-teal-100 rounded-2xl px-5 py-4 shadow-sm">
+          <p className="text-[10px] font-black uppercase tracking-widest text-teal-500">Bidang</p>
+          <p className="text-2xl font-black text-teal-700 mt-1">{bidangList.length}</p>
         </div>
       </div>
 
-      {/* Filters & Action Toolbar */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white p-2 pr-4 pl-2 rounded-2xl shadow-sm border border-slate-100/60">
-        <SKBQuestionFilters bidangList={bidangList} />
-        <div className="flex items-center gap-3 w-full lg:w-auto mt-2 lg:mt-0 px-2 lg:px-0 pb-2 lg:pb-0">
-          <SKBQuestionCMSClient initialData={questions} />
+      {/* Question Table Card */}
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+        <div className="p-5 border-b border-slate-100 bg-white">
+          <SKBQuestionFilters bidangList={bidangList} total={total} />
         </div>
-      </div>
-
-      {/* Question Table */}
-      <div className="bg-white rounded-[1.5rem] shadow-sm border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-slate-50/80 border-b border-slate-100">

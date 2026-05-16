@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { QuestionCategory, QuestionDifficulty } from "@prisma/client"
+import { Prisma, QuestionCategory, QuestionDifficulty } from "@prisma/client"
 import { requireAdmin, handleAuthError } from "@/lib/auth-guard"
 
 const QuestionSchema = z.object({
@@ -77,6 +77,43 @@ export async function deleteQuestion(id: string) {
       return handleAuthError(err)
     }
     return { success: false, error: "Gagal menghapus soal" }
+  }
+}
+
+const DeleteAllQuestionsSchema = z.object({
+  confirmText: z.literal("HAPUS"),
+  category: z.nativeEnum(QuestionCategory).optional(),
+  difficulty: z.nativeEnum(QuestionDifficulty).optional(),
+  search: z.string().max(200).optional(),
+})
+
+export async function deleteAllQuestions(payload: z.infer<typeof DeleteAllQuestionsSchema>) {
+  try {
+    await requireAdmin()
+    const data = DeleteAllQuestionsSchema.parse(payload)
+
+    const where: Prisma.QuestionWhereInput = {}
+    if (data.category) where.category = data.category
+    if (data.difficulty) where.difficulty = data.difficulty
+    if (data.search?.trim()) {
+      const query = data.search.trim()
+      where.OR = [
+        { content: { contains: query, mode: "insensitive" } },
+        { explanation: { contains: query, mode: "insensitive" } },
+        { subCategory: { contains: query, mode: "insensitive" } },
+      ]
+    }
+
+    const deleted = await prisma.question.deleteMany({ where })
+    revalidatePath("/admin/content/questions")
+    revalidatePath("/admin/content/exams")
+    return { success: true, count: deleted.count }
+  } catch (err) {
+    if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
+      return handleAuthError(err)
+    }
+    console.error("[deleteAllQuestions]", err)
+    return { success: false, error: "Gagal menghapus daftar soal" }
   }
 }
 
