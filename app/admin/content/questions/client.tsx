@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Plus, Trash2, Upload } from "lucide-react"
 import { QuestionCategory, QuestionDifficulty } from "@prisma/client"
 import { QuestionEditor } from "@/components/admin/question-editor"
+import { DeleteListConfirmModal } from "@/components/admin/delete-list-confirm-modal"
 import { deleteAllQuestions } from "@/app/admin/content/actions"
 
 export function QuestionCMSClient({
@@ -22,6 +23,9 @@ export function QuestionCMSClient({
   const [isPending, startTransition] = useTransition()
   const [isEditorOpen, setIsEditorOpen] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState<any>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleteSuccessCount, setDeleteSuccessCount] = useState<number | null>(null)
 
   useEffect(() => {
     ;(window as any).triggerReopenBulkModal = () => {
@@ -38,7 +42,7 @@ export function QuestionCMSClient({
     setIsEditorOpen(true)
   }
 
-  const handleDeleteAll = () => {
+  const getDeleteContext = () => {
     const rawCategory = searchParams.get("category")
     const rawDifficulty = searchParams.get("difficulty")
     const category = rawCategory && Object.values(QuestionCategory).includes(rawCategory as QuestionCategory)
@@ -53,36 +57,48 @@ export function QuestionCMSClient({
       search: searchParams.get("search") || undefined,
     }
     const isFiltered = Boolean(activeFilters.category || activeFilters.difficulty || activeFilters.search)
-    const targetCount = isFiltered ? filteredTotal : totalAll
-    const scopeLabel = isFiltered ? "hasil filter saat ini" : "SEMUA soal SKD"
-
-    if (targetCount <= 0) {
-      alert("Tidak ada soal SKD untuk dihapus.")
-      return
+    return {
+      activeFilters,
+      targetCount: isFiltered ? filteredTotal : totalAll,
+      scopeLabel: isFiltered ? "hasil filter saat ini" : "SEMUA soal SKD",
     }
+  }
 
-    const confirmText = window.prompt(
-      `Anda akan menghapus ${targetCount} ${scopeLabel}. Tindakan ini permanen. Ketik HAPUS untuk melanjutkan.`
-    )
-    if (confirmText !== "HAPUS") return
+  const openDeleteModal = () => {
+    setDeleteError(null)
+    setDeleteSuccessCount(null)
+    setIsDeleteModalOpen(true)
+  }
 
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false)
+    setDeleteError(null)
+    setDeleteSuccessCount(null)
+    router.refresh()
+  }
+
+  const handleDeleteAll = () => {
+    const { activeFilters } = getDeleteContext()
+    setDeleteError(null)
     startTransition(async () => {
-      const res = await deleteAllQuestions({ confirmText, ...activeFilters })
+      const res = await deleteAllQuestions({ confirmText: "HAPUS", ...activeFilters })
       if (!res.success) {
-        alert(res.error)
+        setDeleteError(res.error ?? "Gagal menghapus daftar soal SKD")
         return
       }
-      alert(`Berhasil menghapus ${res.count} soal SKD.`)
+      setDeleteSuccessCount(res.count ?? 0)
       router.refresh()
     })
   }
+
+  const deleteContext = getDeleteContext()
   
   return (
     <>
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
         <Button
           variant="outline"
-          onClick={handleDeleteAll}
+          onClick={openDeleteModal}
           disabled={isPending || totalAll <= 0}
           className="border-red-200 bg-white font-black rounded-xl text-red-600 hover:text-red-700 hover:bg-red-50 hover:border-red-300 transition-all"
         >
@@ -106,10 +122,23 @@ export function QuestionCMSClient({
         </Button>
       </div>
 
-      <QuestionEditor 
-        isOpen={isEditorOpen} 
-        onClose={() => setIsEditorOpen(false)} 
+      <QuestionEditor
+        isOpen={isEditorOpen}
+        onClose={() => setIsEditorOpen(false)}
         initialData={editingQuestion}
+      />
+
+      <DeleteListConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Hapus daftar soal SKD?"
+        entityLabel="soal SKD"
+        scopeLabel={deleteContext.scopeLabel}
+        targetCount={deleteContext.targetCount}
+        isPending={isPending}
+        error={deleteError}
+        successCount={deleteSuccessCount}
+        onClose={closeDeleteModal}
+        onConfirm={handleDeleteAll}
       />
     </>
   )

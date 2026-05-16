@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Plus, Trash2, Upload } from "lucide-react"
 import { SKBQuestionEditor } from "@/components/admin/skb-question-editor"
+import { DeleteListConfirmModal } from "@/components/admin/delete-list-confirm-modal"
 import { deleteAllSKBQuestions } from "@/app/admin/content/skb-questions/actions"
 import { QuestionDifficulty, SKBCategory } from "@prisma/client"
 
@@ -22,6 +23,9 @@ export function SKBQuestionCMSClient({
   const [isPending, startTransition] = useTransition()
   const [isEditorOpen, setIsEditorOpen] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState<any>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [deleteSuccessCount, setDeleteSuccessCount] = useState<number | null>(null)
 
   useEffect(() => {
     ;(window as any).triggerReopenSKBBulkModal = () => {
@@ -38,7 +42,7 @@ export function SKBQuestionCMSClient({
     setIsEditorOpen(true)
   }
 
-  const handleDeleteAll = () => {
+  const getDeleteContext = () => {
     const rawCategory = searchParams.get("category")
     const rawBidang = searchParams.get("bidang")
     const rawDifficulty = searchParams.get("difficulty")
@@ -55,36 +59,48 @@ export function SKBQuestionCMSClient({
       search: searchParams.get("search") || undefined,
     }
     const isFiltered = Boolean(activeFilters.category || activeFilters.bidang || activeFilters.difficulty || activeFilters.search)
-    const targetCount = isFiltered ? filteredTotal : totalAll
-    const scopeLabel = isFiltered ? "hasil filter saat ini" : "SEMUA soal SKB"
-
-    if (targetCount <= 0) {
-      alert("Tidak ada soal SKB untuk dihapus.")
-      return
+    return {
+      activeFilters,
+      targetCount: isFiltered ? filteredTotal : totalAll,
+      scopeLabel: isFiltered ? "hasil filter saat ini" : "SEMUA soal SKB",
     }
+  }
 
-    const confirmText = window.prompt(
-      `Anda akan menghapus ${targetCount} ${scopeLabel}. Tindakan ini permanen. Ketik HAPUS untuk melanjutkan.`
-    )
-    if (confirmText !== "HAPUS") return
+  const openDeleteModal = () => {
+    setDeleteError(null)
+    setDeleteSuccessCount(null)
+    setIsDeleteModalOpen(true)
+  }
 
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false)
+    setDeleteError(null)
+    setDeleteSuccessCount(null)
+    router.refresh()
+  }
+
+  const handleDeleteAll = () => {
+    const { activeFilters } = getDeleteContext()
+    setDeleteError(null)
     startTransition(async () => {
-      const res = await deleteAllSKBQuestions({ confirmText, ...activeFilters })
+      const res = await deleteAllSKBQuestions({ confirmText: "HAPUS", ...activeFilters })
       if (!res.success) {
-        alert(res.error)
+        setDeleteError(res.error ?? "Gagal menghapus daftar soal SKB")
         return
       }
-      alert(`Berhasil menghapus ${res.count} soal SKB.`)
+      setDeleteSuccessCount(res.count ?? 0)
       router.refresh()
     })
   }
+
+  const deleteContext = getDeleteContext()
 
   return (
     <>
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
         <Button
           variant="outline"
-          onClick={handleDeleteAll}
+          onClick={openDeleteModal}
           disabled={isPending || totalAll <= 0}
           className="border-red-200 bg-white font-black rounded-xl text-red-600 hover:text-red-700 hover:bg-red-50 hover:border-red-300 transition-all"
         >
@@ -112,6 +128,19 @@ export function SKBQuestionCMSClient({
         isOpen={isEditorOpen}
         onClose={() => setIsEditorOpen(false)}
         initialData={editingQuestion}
+      />
+
+      <DeleteListConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Hapus daftar soal SKB?"
+        entityLabel="soal SKB"
+        scopeLabel={deleteContext.scopeLabel}
+        targetCount={deleteContext.targetCount}
+        isPending={isPending}
+        error={deleteError}
+        successCount={deleteSuccessCount}
+        onClose={closeDeleteModal}
+        onConfirm={handleDeleteAll}
       />
     </>
   )

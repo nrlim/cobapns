@@ -11,25 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { upsertSKBQuestion } from "@/app/admin/content/skb-questions/actions"
 import { SKBCategory, QuestionDifficulty } from "@prisma/client"
-
-// ─── SKB Bidang presets ────────────────────────────────────────────────────────
-export const SKB_BIDANG_PRESETS = [
-  "Umum",
-  "Kesehatan",
-  "Hukum",
-  "Keuangan",
-  "Pendidikan",
-  "Teknik Sipil",
-  "Teknik Informatika",
-  "Administrasi",
-  "Pertanian",
-  "Sosial",
-  "Komunikasi",
-  "Pariwisata",
-  "Lingkungan Hidup",
-  "Pertahanan",
-  "Kepolisian",
-] as const
+import { SKB_BIDANG_PRESETS } from "@/lib/skb-bidang"
 
 const optionSchema = z.object({
   id: z.string().optional(),
@@ -41,7 +23,7 @@ const schema = z.object({
   id: z.string().optional(),
   category: z.nativeEnum(SKBCategory),
   subCategory: z.string().min(1, "Sub Materi wajib diisi"),
-  bidang: z.string().min(1, "Bidang jabatan wajib dipilih"),
+  bidang: z.string().min(1, "Bidang wajib dipilih"),
   difficulty: z.nativeEnum(QuestionDifficulty),
   content: z.string().min(5, "Soal harus diisi"),
   explanation: z.string().min(5, "Pembahasan harus diisi"),
@@ -244,7 +226,7 @@ export function SKBQuestionEditor({
             {/* Bidang Jabatan */}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-                Bidang Jabatan
+                Bidang / Rumpun Jabatan
               </label>
               {!useCustomBidang ? (
                 <div className="flex gap-2">
@@ -273,7 +255,7 @@ export function SKBQuestionEditor({
                   <Input
                     value={customBidang}
                     onChange={(e) => setCustomBidang(e.target.value)}
-                    placeholder="Masukkan bidang custom..."
+                    placeholder="Masukkan bidang/rumpun, bukan nama jabatan..."
                     className="bg-white border-orange-200 focus:border-orange-400"
                   />
                   <Button

@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { upsertSKBExam } from "@/app/actions/skb-exams"
 import { ExamStatus, ExamAccessTier } from "@prisma/client"
-import { SKB_BIDANG_PRESETS } from "@/components/admin/skb-question-editor"
+import { SKB_BIDANG_PRESETS } from "@/lib/skb-bidang"
 
 const schema = z.object({
   id: z.string().optional(),
   title: z.string().min(3, "Judul minimal 3 karakter"),
-  bidang: z.string().min(1, "Bidang jabatan wajib dipilih"),
+  bidang: z.string().min(1, "Bidang wajib dipilih"),
   durationMinutes: z.number().min(10, "Min 10 menit").max(300, "Max 300 menit"),
   status: z.nativeEnum(ExamStatus),
   accessTier: z.nativeEnum(ExamAccessTier),
@@ -30,7 +30,7 @@ interface SKBExamEditorProps {
   bidangList: string[]
 }
 
-export function SKBExamEditor({ isOpen, onClose, initialData, bidangList }: SKBExamEditorProps) {
+export function SKBExamEditor({ isOpen, onClose, initialData }: SKBExamEditorProps) {
   const isEditing = !!initialData?.id
   const router = useRouter()
   const [useCustomBidang, setUseCustomBidang] = React.useState(false)
@@ -78,8 +78,8 @@ export function SKBExamEditor({ isOpen, onClose, initialData, bidangList }: SKBE
     }
   }
 
-  // All available bidang options (preset + existing from DB)
-  const allBidang = Array.from(new Set([...SKB_BIDANG_PRESETS, ...bidangList]))
+  // Bidang is a rumpun/domain, not jabatan. Keep this dropdown canonical to avoid mixing it with lookup POSITION.
+  const allBidang = Array.from(new Set([...SKB_BIDANG_PRESETS, ...(initialData?.bidang ? [initialData.bidang] : [])]))
 
   return (
     <>
@@ -132,7 +132,7 @@ export function SKBExamEditor({ isOpen, onClose, initialData, bidangList }: SKBE
           {/* Bidang */}
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-              Bidang Jabatan Target
+              Bidang / Rumpun Jabatan Target
             </label>
             {!useCustomBidang ? (
               <div className="flex gap-2">
@@ -159,7 +159,7 @@ export function SKBExamEditor({ isOpen, onClose, initialData, bidangList }: SKBE
                 <Input
                   value={customBidang}
                   onChange={(e) => setCustomBidang(e.target.value)}
-                  placeholder="Masukkan bidang..."
+                  placeholder="Masukkan bidang/rumpun, bukan nama jabatan..."
                   className="bg-orange-50 border-orange-200"
                 />
                 <Button

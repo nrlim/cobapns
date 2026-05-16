@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { SKBExamListClient } from "@/components/dashboard/skb-exam-list-client"
 import { AlertCircle } from "lucide-react"
+import { mapJabatanToBidang } from "@/lib/skb-bidang"
 
 export const metadata = {
   title: "Try Out SKB – COBA PNS",
@@ -67,6 +68,7 @@ export default async function SKBExamsPage() {
 
   const total = examCards.length
   const done = examCards.filter((e) => e.myResult).length
+  const userBidang = mapJabatanToBidang(user?.jabatan)
 
   return (
     <DashboardShell activeHref="/dashboard/skb" user={{ name: session.name, role: session.role }}>
@@ -119,7 +121,7 @@ export default async function SKBExamsPage() {
           <div className="mb-4">
             <h2 className="font-black text-slate-900 text-sm">Ada {total} Latihan SKB Untukmu</h2>
           </div>
-          <SKBExamListClient exams={examCards} userBidang={user?.jabatan ?? undefined} />
+          <SKBExamListClient exams={examCards} userBidang={userBidang} />
         </div>
 
       </div>

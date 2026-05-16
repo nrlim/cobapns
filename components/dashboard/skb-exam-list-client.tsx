@@ -120,7 +120,7 @@ export function SKBExamListClient({ exams, userBidang }: SKBExamListClientProps)
                   </span>
                   {isRecommended && (
                     <span className="text-[10px] font-black text-green-700 bg-green-50 border border-green-200 px-2.5 py-0.5 rounded-full">
-                      ✓ Sesuai Formasimu
+                      ✓ Sesuai Bidang Jabatanmu
                     </span>
                   )}
                   {attempted && (
