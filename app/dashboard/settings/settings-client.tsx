@@ -225,7 +225,7 @@ function SearchableSelectField({
         </button>
         
         {isOpen && listOptions && (
-          <div className="absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 flex flex-col animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute z-[200] w-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 flex flex-col animate-in fade-in zoom-in-95 duration-200" style={{ maxHeight: '60dvh', overflow: 'hidden' }}>
             {/* Search Input Filter */}
             <div className="px-3 pb-2 border-b border-slate-100">
               <div className="relative">
@@ -287,6 +287,7 @@ export function SettingsClient({ user, lookups }: {
   const [activeTab, setActiveTab] = useState<"profile" | "formation" | "security">("profile")
   const [isUploading, setIsUploading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl)
+  const avatarInputRef = useRef<HTMLInputElement>(null)
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -326,24 +327,39 @@ export function SettingsClient({ user, lookups }: {
           </div>
 
           <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 sm:p-8">
-            {/* Avatar */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-brand-blue-light to-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-blue-900/30 flex-shrink-0 select-none border-4 border-white/10 relative group overflow-hidden">
-              {avatarUrl ? (
-                <img src={avatarUrl} alt={user.name} className="w-full h-full object-cover" />
-              ) : (
-                user.name.charAt(0).toUpperCase()
+            {/* Avatar — always-visible tap target on mobile */}
+            <div className="relative flex-shrink-0">
+              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-brand-blue-light to-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-blue-900/30 select-none border-4 border-white/10 overflow-hidden">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  user.name.charAt(0).toUpperCase()
+                )}
+                {isUploading && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                    <Loader2 className="w-7 h-7 text-white animate-spin" />
+                  </div>
+                )}
+              </div>
+              {/* Camera button — always visible, positioned bottom-right of avatar */}
+              {!isUploading && (
+                <button
+                  type="button"
+                  onClick={() => avatarInputRef.current?.click()}
+                  className="absolute -bottom-2 -right-2 w-9 h-9 rounded-full bg-white shadow-lg border-2 border-slate-100 flex items-center justify-center hover:bg-blue-50 active:scale-95 transition-all"
+                  aria-label="Ubah foto profil"
+                >
+                  <Camera className="w-4 h-4 text-brand-blue" />
+                </button>
               )}
-              {isUploading ? (
-                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
-                  <Loader2 className="w-6 h-6 animate-spin mb-1" />
-                </div>
-              ) : (
-                <label className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white">
-                  <Camera className="w-6 h-6 mb-1" />
-                  <span className="text-[9px] font-bold">Ubah Foto</span>
-                  <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} disabled={isUploading} />
-                </label>
-              )}
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+                disabled={isUploading}
+              />
             </div>
 
             {/* Info */}
@@ -358,6 +374,10 @@ export function SettingsClient({ user, lookups }: {
                   Pejuang sejak {new Date(user.createdAt).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                 </span>
               </div>
+              {/* Mobile-only: tap to change photo hint */}
+              <p className="text-[11px] text-slate-500 sm:hidden font-medium">
+                Tap ikon kamera untuk ganti foto
+              </p>
             </div>
           </div>
         </div>
@@ -365,14 +385,32 @@ export function SettingsClient({ user, lookups }: {
         {/* ── Tab Layout ──────────────────────────────────────────── */}
         <div className="flex flex-col md:flex-row gap-6">
 
-          {/* Sidebar tabs */}
+          {/* Tabs — pill selector on mobile, sidebar on desktop */}
           <div className="md:w-56 flex-shrink-0">
-            <nav className="flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-visible">
+            {/* Mobile: segmented pill control */}
+            <div className="flex md:hidden bg-slate-100 rounded-2xl p-1.5 gap-1">
               {TABS.map(({ key, icon: Icon, label }) => (
                 <button
                   key={key}
                   onClick={() => setActiveTab(key)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-left whitespace-nowrap w-full
+                  className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 px-1 rounded-xl text-xs font-black transition-all
+                    ${activeTab === key
+                      ? "bg-white text-brand-blue-deep shadow-sm"
+                      : "text-slate-500 hover:text-slate-700"
+                    }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="leading-tight text-center">{label}</span>
+                </button>
+              ))}
+            </div>
+            {/* Desktop: vertical sidebar */}
+            <nav className="hidden md:flex flex-col gap-1">
+              {TABS.map(({ key, icon: Icon, label }) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveTab(key)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-left w-full
                     ${activeTab === key
                       ? "bg-brand-blue text-white shadow-md shadow-brand-blue/20"
                       : "bg-white border border-slate-200 text-slate-600 hover:border-blue-200 hover:text-brand-blue-deep hover:bg-blue-50/50"

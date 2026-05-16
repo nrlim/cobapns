@@ -17,6 +17,7 @@ import {
 } from "lucide-react"
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { ReviewExamModal } from "@/components/dashboard/review-modal"
+import { ScoreShareModal } from "@/components/dashboard/score-share-modal"
 import { ReportButton } from "@/components/shared/report-modal"
 import { FeedbackModal } from "@/components/shared/FeedbackModal"
 import { hasAccess, type UserTier } from "@/constants/permissions"
@@ -245,6 +246,19 @@ export default async function ExamResultPage({
               <h3 className="font-black text-slate-900 text-sm mb-4">Apa yang harus dilakukan?</h3>
               <div className="space-y-3">
                 <ReviewExamModal examId={result.examId} title={exam.title} />
+
+                {/* Social Share */}
+                <ScoreShareModal 
+                  data={{
+                    userName: session.name,
+                    examTitle: exam.title,
+                    totalScore: result.totalScore,
+                    scoreTWK: result.scoreTWK,
+                    scoreTIU: result.scoreTIU,
+                    scoreTKP: result.scoreTKP,
+                    overallPass: result.overallPass,
+                  }} 
+                />
 
                 {/* Report Preview */}
                 <div className="pt-1 pb-1">
