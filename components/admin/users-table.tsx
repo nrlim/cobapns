@@ -52,6 +52,7 @@ import {
   updateUserTier,
   toggleUserStatus,
   updateUserRole,
+  resendVerificationEmail,
 } from "@/app/admin/users/actions";
 import { SubscriptionTier, Role } from "@prisma/client";
 
@@ -63,6 +64,7 @@ type UserData = {
   role: Role;
   subscriptionTier: SubscriptionTier;
   isActive: boolean;
+  emailVerified: Date | null;
   updatedAt: Date;
   createdAt: Date;
 };
@@ -101,7 +103,18 @@ export function UsersTable({ data }: UsersTableProps) {
             </Avatar>
             <div className="flex flex-col">
               <span className="font-medium text-slate-900 ">{user.name}</span>
-              <span className="text-xs text-slate-500 ">{user.email}</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-slate-500 ">{user.email}</span>
+                {user.emailVerified ? (
+                  <span title="Email Terverifikasi">
+                    <Shield className="w-3 h-3 text-emerald-500" />
+                  </span>
+                ) : (
+                  <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[9px] font-bold tracking-wider uppercase" title="Belum Verifikasi">
+                    Unverified
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -276,6 +289,23 @@ export function UsersTable({ data }: UsersTableProps) {
                 onClick={() => toggleUserStatus(user.id, user.isActive)}
               >
                 {user.isActive ? "Banned Pengguna" : "Aktifkan Pengguna"}
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className={user.emailVerified ? "text-slate-400" : "text-brand-blue focus:bg-blue-50 focus:text-brand-blue"}
+                disabled={!!user.emailVerified}
+                onClick={async () => {
+                  if (user.emailVerified) return;
+                  const res = await resendVerificationEmail(user.id);
+                  if (res.success) {
+                    alert(res.message);
+                  } else {
+                    alert(res.error);
+                  }
+                }}
+              >
+                Kirim Ulang Verifikasi Email
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
