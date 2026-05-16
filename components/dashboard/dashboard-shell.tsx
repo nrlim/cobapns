@@ -24,6 +24,7 @@ import {
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ProfileDropdown } from "@/components/profile-dropdown"
+import { getLiveProfileDataAction } from "@/app/actions/profile"
 
 type NavItem = {
   icon: any
@@ -89,6 +90,8 @@ interface DashboardShellProps {
 
 export function DashboardShell({ children, activeHref, user }: DashboardShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [liveTier, setLiveTier] = useState(user.tier)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const pathname = usePathname()
   
   // Initialize open state for sub-menus based on current active route
@@ -105,6 +108,20 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
   const toggleMenu = (label: string) => {
     setOpenMenus(prev => ({ ...prev, [label]: !prev[label] }))
   }
+
+  /* Fetch live profile data for mobile drawer */
+  useEffect(() => {
+    if (user.role !== "ADMIN") {
+      getLiveProfileDataAction()
+        .then((res) => {
+          if (res) {
+            if (res.tier) setLiveTier(res.tier)
+            if (res.avatarUrl) setAvatarUrl(res.avatarUrl)
+          }
+        })
+        .catch(() => {})
+    }
+  }, [user.role])
 
   /* Close drawer on route change */
   useEffect(() => {
@@ -404,15 +421,19 @@ export function DashboardShell({ children, activeHref, user }: DashboardShellPro
               style={{ background: "linear-gradient(135deg, rgba(30,115,190,0.08), rgba(45,190,96,0.08))", border: "1px solid rgba(30,115,190,0.12)" }}
             >
               <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-black flex-shrink-0"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-black flex-shrink-0 overflow-hidden"
                 style={{ background: "linear-gradient(135deg, #1E73BE, #2DBE60)" }}
               >
-                {user.name.charAt(0).toUpperCase()}
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  user.name.charAt(0).toUpperCase()
+                )}
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-black text-slate-900 truncate">{user.name}</p>
                 <p className="text-[11px] text-slate-500 font-semibold">
-                  {user.tier === "MASTER" ? "🏆 Master Scholar" : user.tier === "ELITE" ? "⚡ Elite Scholar" : "🎓 Free Scholar"}
+                  {liveTier === "MASTER" ? "🏆 Master Scholar" : liveTier === "ELITE" ? "⚡ Elite Scholar" : "🎓 Free Scholar"}
                 </p>
               </div>
               <Link

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { LogOut } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
-import { getLiveUserTierAction } from "@/app/actions/profile";
+import { getLiveProfileDataAction } from "@/app/actions/profile";
 
 interface ProfileDropdownProps {
   name: string;
@@ -15,13 +15,17 @@ interface ProfileDropdownProps {
 export function ProfileDropdown({ name, initial, role, tier: initialTier }: ProfileDropdownProps) {
   const [open, setOpen] = useState(false);
   const [liveTier, setLiveTier] = useState(initialTier);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (role !== "ADMIN") {
-      getLiveUserTierAction()
+      getLiveProfileDataAction()
         .then((res) => {
-          if (res && res.tier) setLiveTier(res.tier);
+          if (res) {
+            if (res.tier) setLiveTier(res.tier);
+            if (res.avatarUrl) setAvatarUrl(res.avatarUrl);
+          }
         })
         .catch(() => {});
     }
@@ -50,8 +54,12 @@ export function ProfileDropdown({ name, initial, role, tier: initialTier }: Prof
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-3 focus:outline-none hover:bg-slate-50 p-1 md:pr-3 rounded-full transition-colors cursor-pointer"
       >
-        <div className="w-9 h-9 rounded-full bg-brand-blue-deep text-white font-black flex items-center justify-center text-xs shadow-inner">
-           {initial}
+        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-blue-light to-emerald-500 text-white font-black flex items-center justify-center text-xs shadow-inner overflow-hidden border border-slate-200/50">
+           {avatarUrl ? (
+             <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
+           ) : (
+             initial
+           )}
         </div>
         <div className="hidden sm:block text-left">
           <p className="text-xs font-bold text-slate-900">{name}</p>

@@ -193,23 +193,24 @@ export async function updateFormation(
   }
 }
 
-// ── Get Live User Tier ────────────────────────────────────────────────────────
+// ── Get Live User Profile Data ────────────────────────────────────────────────────────
 
-export async function getLiveUserTierAction(): Promise<{ tier: string } | null> {
+export async function getLiveProfileDataAction(): Promise<{ tier: string; avatarUrl: string | null } | null> {
   try {
     const session = await requireAuth()
     const dbUser = await prisma.user.findUnique({
       where: { id: session.userId },
-      select: { subscriptionTier: true, subscriptionEnds: true }
+      select: { subscriptionTier: true, subscriptionEnds: true, avatarUrl: true }
     })
     
     if (!dbUser) return null
     
+    let tier = dbUser.subscriptionTier || "FREE"
     if (dbUser.subscriptionTier !== "FREE" && dbUser.subscriptionEnds && new Date(dbUser.subscriptionEnds) < new Date()) {
-      return { tier: "FREE" }
+      tier = "FREE"
     }
     
-    return { tier: dbUser.subscriptionTier || "FREE" }
+    return { tier, avatarUrl: dbUser.avatarUrl }
   } catch {
     return null // Return null silently for client components
   }
