@@ -4,8 +4,10 @@ import { verifySession } from "@/lib/session"
 import { redirect } from "next/navigation"
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { SKBExamListClient } from "@/components/dashboard/skb-exam-list-client"
+import { ExamFilterToolbar } from "@/components/dashboard/exam-filter-toolbar"
 import { AlertCircle } from "lucide-react"
 import { mapJabatanToBidang } from "@/lib/skb-bidang"
+import { ExamAccessTier, Prisma } from "@prisma/client"
 
 export const metadata = {
   title: "Try Out SKB – COBA PNS",
@@ -14,8 +16,25 @@ export const metadata = {
 
 const SUBSCRIPTION_RANK: Record<string, number> = { FREE: 0, ELITE: 1, MASTER: 2 }
 const TIER_RANK: Record<string, number> = { FREE: 0, ELITE: 1, MASTER: 2 }
+const PAGE_SIZE = 8
 
-export default async function SKBExamsPage() {
+function normalizeParam(value: string | string[] | undefined, fallback = "") {
+  return typeof value === "string" ? value : fallback
+}
+
+function getSKBExamOrderBy(sort: string): Prisma.SKBExamOrderByWithRelationInput[] {
+  if (sort === "popular") return [{ results: { _count: "desc" } }, { createdAt: "desc" }]
+  if (sort === "questions") return [{ questions: { _count: "desc" } }, { createdAt: "desc" }]
+  if (sort === "duration") return [{ durationMinutes: "desc" }, { createdAt: "desc" }]
+  if (sort === "title") return [{ title: "asc" }]
+  return [{ createdAt: "desc" }]
+}
+
+export default async function SKBExamsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
   const cookieStore = await cookies()
   const token = cookieStore.get("sipns-session")?.value
   const session = token ? await verifySession(token) : null
@@ -27,18 +46,59 @@ export default async function SKBExamsPage() {
   })
 
   const userRank = SUBSCRIPTION_RANK[user?.subscriptionTier ?? "FREE"]
+  const params = await searchParams
+  const q = normalizeParam(params?.q).trim()
+  const tier = normalizeParam(params?.tier, "ALL")
+  const state = normalizeParam(params?.state, "ALL")
+  const sort = normalizeParam(params?.sort, "newest")
+  const bidang = normalizeParam(params?.bidang, "ALL")
+  const requestedPage = Number(normalizeParam(params?.page, "1"))
+  const page = Number.isFinite(requestedPage) && requestedPage > 0 ? Math.floor(requestedPage) : 1
 
-  const exams = await prisma.sKBExam.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: { select: { questions: true, results: true } },
-      results: {
-        where: { userId: session.userId },
-        select: { id: true, totalScore: true, scoreTeknis: true, scoreManajerial: true, scoreSosialKultural: true },
+  const tierValues = ["FREE", "ELITE", "MASTER"] as const
+  const accessibleTiers = tierValues.filter((value) => TIER_RANK[value] <= userRank)
+  const lockedTiers = tierValues.filter((value) => TIER_RANK[value] > userRank)
+
+  const where: Prisma.SKBExamWhereInput = {
+    status: "PUBLISHED",
+    ...(q ? { OR: [
+      { title: { contains: q, mode: "insensitive" } },
+      { bidang: { contains: q, mode: "insensitive" } },
+    ] } : {}),
+    ...(tier !== "ALL" ? { accessTier: tier as ExamAccessTier } : {}),
+    ...(bidang !== "ALL" ? { bidang } : {}),
+    ...(state === "DONE" ? { results: { some: { userId: session.userId } } } : {}),
+    ...(state === "NOT_DONE" ? { results: { none: { userId: session.userId } } } : {}),
+    ...(state === "AVAILABLE" ? { accessTier: { in: accessibleTiers } } : {}),
+    ...(state === "LOCKED" ? { accessTier: { in: lockedTiers } } : {}),
+  }
+
+  const [exams, totalMatching, totalPublished, doneAll, allBidang] = await Promise.all([
+    prisma.sKBExam.findMany({
+      where,
+      orderBy: getSKBExamOrderBy(sort),
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+      include: {
+        _count: { select: { questions: true, results: true } },
+        results: {
+          where: { userId: session.userId },
+          select: { id: true, totalScore: true, scoreTeknis: true, scoreManajerial: true, scoreSosialKultural: true },
+        },
       },
-    },
-  })
+    }),
+    prisma.sKBExam.count({ where }),
+    prisma.sKBExam.count({ where: { status: "PUBLISHED" } }),
+    prisma.sKBExamResult.count({ where: { userId: session.userId } }),
+    prisma.sKBExam.findMany({
+      where: { status: "PUBLISHED" },
+      select: { bidang: true },
+      distinct: ["bidang"],
+      orderBy: { bidang: "asc" },
+    }),
+  ])
+
+  const totalPages = Math.max(1, Math.ceil(totalMatching / PAGE_SIZE))
 
   const examCards = exams.map((e) => ({
     id: e.id,
@@ -60,15 +120,10 @@ export default async function SKBExamsPage() {
     isLocked: TIER_RANK[e.accessTier] > userRank,
   }))
 
-  // Sort: unlocked first
-  examCards.sort((a, b) => {
-    if (a.isLocked === b.isLocked) return 0
-    return a.isLocked ? 1 : -1
-  })
-
-  const total = examCards.length
-  const done = examCards.filter((e) => e.myResult).length
+  const total = totalPublished
+  const done = doneAll
   const userBidang = mapJabatanToBidang(user?.jabatan)
+  const bidangOptions = allBidang.map((item) => item.bidang)
 
   return (
     <DashboardShell activeHref="/dashboard/skb" user={{ name: session.name, role: session.role }}>
@@ -119,9 +174,25 @@ export default async function SKBExamsPage() {
         {/* Exam List */}
         <div>
           <div className="mb-4">
-            <h2 className="font-black text-slate-900 text-sm">Ada {total} Latihan SKB Untukmu</h2>
+            <h2 className="font-black text-slate-900 text-sm">Ada {totalMatching} Latihan SKB Sesuai Filter</h2>
           </div>
-          <SKBExamListClient exams={examCards} userBidang={userBidang} />
+          <ExamFilterToolbar
+            basePath="/dashboard/skb"
+            q={q}
+            tier={tier}
+            state={state}
+            sort={sort}
+            bidang={bidang}
+            bidangOptions={bidangOptions}
+            page={Math.min(page, totalPages)}
+            totalPages={totalPages}
+            totalItems={totalMatching}
+            pageSize={PAGE_SIZE}
+            accent="orange"
+          />
+          <div className="mt-4">
+            <SKBExamListClient exams={examCards} userBidang={userBidang} />
+          </div>
         </div>
 
       </div>

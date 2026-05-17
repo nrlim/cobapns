@@ -1,17 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   MoreHorizontal,
   Pencil,
+  Copy,
   Wand2,
   Trash2,
   Plus,
   BookMarked,
   Search,
+  Filter,
+  ArrowUpDown,
+  CheckSquare2,
+  Square,
 } from "lucide-react"
-import { deleteSKBExam } from "@/app/actions/skb-exams"
+import { deleteSKBExam, deleteSKBExams, duplicateSKBExam } from "@/app/actions/skb-exams"
 import { SKBExamEditor } from "@/components/admin/skb-exam-editor"
 import { ExamStatus, ExamAccessTier } from "@prisma/client"
 import { Badge } from "@/components/ui/badge"
@@ -78,6 +83,8 @@ const TIER_BADGE: Record<string, string> = {
   MASTER: "border-violet-200 bg-violet-50 text-violet-700",
 }
 
+type SortKey = "created-desc" | "created-asc" | "title-asc" | "title-desc" | "questions-desc" | "results-desc"
+
 export function SKBExamBuilderClient({
   exams: initialExams,
   bankStats,
@@ -85,9 +92,16 @@ export function SKBExamBuilderClient({
 }: SKBExamBuilderClientProps) {
   const router = useRouter()
   const [search, setSearch] = useState("")
+  const [statusFilter, setStatusFilter] = useState<ExamStatus | "ALL">("ALL")
+  const [tierFilter, setTierFilter] = useState<ExamAccessTier | "ALL">("ALL")
+  const [bidangFilter, setBidangFilter] = useState<string>("ALL")
+  const [sortKey, setSortKey] = useState<SortKey>("created-desc")
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<SKBExamRow | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
+  const [bulkDeleting, setBulkDeleting] = useState(false)
 
   const openCreate = () => {
     setEditTarget(null)
@@ -109,13 +123,74 @@ export function SKBExamBuilderClient({
     setDeletingId(id)
     await deleteSKBExam(id)
     setDeletingId(null)
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      next.delete(id)
+      return next
+    })
     router.refresh()
   }
 
-  const filtered = initialExams.filter((e) =>
-    e.title.toLowerCase().includes(search.toLowerCase()) ||
-    e.bidang.toLowerCase().includes(search.toLowerCase())
-  )
+  const handleBulkDelete = async () => {
+    const ids = [...selectedIds]
+    if (ids.length === 0) return
+    if (!confirm(`Hapus ${ids.length} ujian SKB terpilih beserta semua data peserta?`)) return
+    setBulkDeleting(true)
+    await deleteSKBExams(ids)
+    setBulkDeleting(false)
+    setSelectedIds(new Set())
+    router.refresh()
+  }
+
+  const handleDuplicate = async (id: string) => {
+    setDuplicatingId(id)
+    const res = await duplicateSKBExam(id)
+    setDuplicatingId(null)
+    if (!res.success) alert(res.error ?? "Gagal menduplikasi ujian SKB.")
+    router.refresh()
+  }
+
+  const filtered = useMemo(() => {
+    const keyword = search.toLowerCase()
+    return initialExams
+      .filter((e) => {
+        const matchesKeyword = e.title.toLowerCase().includes(keyword) || e.bidang.toLowerCase().includes(keyword)
+        if (keyword && !matchesKeyword) return false
+        if (statusFilter !== "ALL" && e.status !== statusFilter) return false
+        if (tierFilter !== "ALL" && e.accessTier !== tierFilter) return false
+        if (bidangFilter !== "ALL" && e.bidang !== bidangFilter) return false
+        return true
+      })
+      .sort((a, b) => {
+        if (sortKey === "created-asc") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        if (sortKey === "title-asc") return a.title.localeCompare(b.title)
+        if (sortKey === "title-desc") return b.title.localeCompare(a.title)
+        if (sortKey === "questions-desc") return b.questionCount - a.questionCount
+        if (sortKey === "results-desc") return b.resultCount - a.resultCount
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      })
+  }, [initialExams, search, statusFilter, tierFilter, bidangFilter, sortKey])
+
+  const visibleIds = filtered.map((exam) => exam.id)
+  const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.has(id))
+  const selectedCount = selectedIds.size
+
+  const toggleOne = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }
+
+  const toggleVisible = () => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (allVisibleSelected) visibleIds.forEach((id) => next.delete(id))
+      else visibleIds.forEach((id) => next.add(id))
+      return next
+    })
+  }
 
   return (
     <>
@@ -172,23 +247,75 @@ export function SKBExamBuilderClient({
       {/* Table */}
       <div className="space-y-4">
         {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <Input
-              placeholder="Cari nama ujian atau bidang..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 bg-white"
-            />
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 space-y-3">
+          <div className="flex flex-col lg:flex-row gap-3 lg:items-center justify-between">
+            <div className="relative w-full lg:max-w-xs">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Input
+                placeholder="Cari nama ujian atau bidang..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-9 bg-slate-50 border-slate-200"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <Filter className="w-4 h-4 text-slate-400" />
+              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as ExamStatus | "ALL")} className="h-10 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-bold text-slate-600 outline-none focus:border-orange-500">
+                <option value="ALL">Semua Status</option>
+                <option value="DRAFT">Draft</option>
+                <option value="SCHEDULED">Scheduled</option>
+                <option value="PUBLISHED">Published</option>
+              </select>
+              <select value={tierFilter} onChange={(e) => setTierFilter(e.target.value as ExamAccessTier | "ALL")} className="h-10 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-bold text-slate-600 outline-none focus:border-orange-500">
+                <option value="ALL">Semua Tier</option>
+                <option value="FREE">Free</option>
+                <option value="ELITE">Elite</option>
+                <option value="MASTER">Master</option>
+              </select>
+              <select value={bidangFilter} onChange={(e) => setBidangFilter(e.target.value)} className="h-10 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-bold text-slate-600 outline-none focus:border-orange-500">
+                <option value="ALL">Semua Bidang</option>
+                {bidangList.map((bidang) => <option key={bidang} value={bidang}>{bidang}</option>)}
+              </select>
+              <div className="flex items-center gap-1.5">
+                <ArrowUpDown className="w-4 h-4 text-slate-400" />
+                <select value={sortKey} onChange={(e) => setSortKey(e.target.value as SortKey)} className="h-10 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-bold text-slate-600 outline-none focus:border-orange-500">
+                  <option value="created-desc">Terbaru</option>
+                  <option value="created-asc">Terlama</option>
+                  <option value="title-asc">Judul A-Z</option>
+                  <option value="title-desc">Judul Z-A</option>
+                  <option value="questions-desc">Soal Terbanyak</option>
+                  <option value="results-desc">Peserta Terbanyak</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <p className="text-sm text-slate-500 flex-shrink-0">{filtered.length} ujian</p>
+
+          <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between border-t border-slate-100 pt-3">
+            <p className="text-sm text-slate-500 flex-shrink-0">
+              {filtered.length} ujian ditemukan · {selectedCount} dipilih
+            </p>
+            <Button
+              variant="outline"
+              onClick={handleBulkDelete}
+              disabled={selectedCount === 0 || bulkDeleting}
+              className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 font-bold gap-2 disabled:opacity-50"
+            >
+              <Trash2 className="w-4 h-4" />
+              {bulkDeleting ? "Menghapus..." : `Hapus Terpilih (${selectedCount})`}
+            </Button>
+          </div>
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
           <Table>
             <TableHeader className="bg-slate-50/80">
               <TableRow>
+                <TableHead className="w-10 py-4">
+                  <button onClick={toggleVisible} className="text-slate-400 hover:text-orange-600 transition-colors" title="Pilih semua hasil filter">
+                    {allVisibleSelected ? <CheckSquare2 className="w-5 h-5" /> : <Square className="w-5 h-5" />}
+                  </button>
+                </TableHead>
                 <TableHead className="font-black text-slate-500 uppercase tracking-wider text-[11px] py-4">
                   Ujian SKB
                 </TableHead>
@@ -216,7 +343,7 @@ export function SKBExamBuilderClient({
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-32 text-center">
+                  <TableCell colSpan={8} className="h-32 text-center">
                     <div className="flex flex-col items-center gap-2 text-slate-400">
                       <BookMarked className="w-8 h-8 opacity-30" />
                       <p className="text-sm font-medium">
@@ -230,6 +357,12 @@ export function SKBExamBuilderClient({
               ) : (
                 filtered.map((exam) => (
                   <TableRow key={exam.id} className="hover:bg-slate-50/80 group transition-colors">
+                    <TableCell>
+                      <button onClick={() => toggleOne(exam.id)} className="text-slate-300 hover:text-orange-600 transition-colors" title="Pilih ujian SKB">
+                        {selectedIds.has(exam.id) ? <CheckSquare2 className="w-5 h-5 text-orange-600" /> : <Square className="w-5 h-5" />}
+                      </button>
+                    </TableCell>
+
                     {/* Ujian */}
                     <TableCell className="py-4">
                       <div className="flex flex-col gap-0.5">
@@ -312,6 +445,14 @@ export function SKBExamBuilderClient({
                             >
                               <Pencil className="w-3.5 h-3.5" />
                               Edit Konfigurasi
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => handleDuplicate(exam.id)}
+                              disabled={duplicatingId === exam.id}
+                              className="gap-2 cursor-pointer"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                              {duplicatingId === exam.id ? "Menduplikasi..." : "Duplikasi Ujian"}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem

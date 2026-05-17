@@ -5,6 +5,8 @@ import { redirect } from "next/navigation"
 import { AlertCircle } from "lucide-react"
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { ExamListClient, type ExamCardData } from "@/components/dashboard/exam-list-client"
+import { ExamFilterToolbar } from "@/components/dashboard/exam-filter-toolbar"
+import { ExamAccessTier, Prisma } from "@prisma/client"
 
 export const metadata = {
   title: "Try Out CAT – COBA PNS",
@@ -13,8 +15,25 @@ export const metadata = {
 
 const SUBSCRIPTION_RANK: Record<string, number> = { FREE: 0, ELITE: 1, MASTER: 2 }
 const TIER_RANK: Record<string, number>          = { FREE: 0, ELITE: 1, MASTER: 2 }
+const PAGE_SIZE = 8
 
-export default async function StudentExamsPage() {
+function normalizeParam(value: string | string[] | undefined, fallback = "") {
+  return typeof value === "string" ? value : fallback
+}
+
+function getExamOrderBy(sort: string): Prisma.ExamOrderByWithRelationInput[] {
+  if (sort === "popular") return [{ results: { _count: "desc" } }, { createdAt: "desc" }]
+  if (sort === "questions") return [{ questions: { _count: "desc" } }, { createdAt: "desc" }]
+  if (sort === "duration") return [{ durationMinutes: "desc" }, { createdAt: "desc" }]
+  if (sort === "title") return [{ title: "asc" }]
+  return [{ createdAt: "desc" }]
+}
+
+export default async function StudentExamsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
   const cookieStore = await cookies()
   const token = cookieStore.get("sipns-session")?.value
   const session = token ? await verifySession(token) : null
@@ -26,18 +45,49 @@ export default async function StudentExamsPage() {
   })
 
   const userRank = SUBSCRIPTION_RANK[user?.subscriptionTier ?? "FREE"]
+  const params = await searchParams
+  const q = normalizeParam(params?.q).trim()
+  const tier = normalizeParam(params?.tier, "ALL")
+  const state = normalizeParam(params?.state, "ALL")
+  const sort = normalizeParam(params?.sort, "newest")
+  const requestedPage = Number(normalizeParam(params?.page, "1"))
+  const page = Number.isFinite(requestedPage) && requestedPage > 0 ? Math.floor(requestedPage) : 1
 
-  const exams = await prisma.exam.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: { select: { questions: true, results: true } },
-      results: {
-        where: { userId: session.userId },
-        select: { id: true, overallPass: true, totalScore: true },
+  const tierValues = ["FREE", "ELITE", "MASTER"] as const
+  const accessibleTiers = tierValues.filter((value) => TIER_RANK[value] <= userRank)
+  const lockedTiers = tierValues.filter((value) => TIER_RANK[value] > userRank)
+
+  const where: Prisma.ExamWhereInput = {
+    status: "PUBLISHED",
+    ...(q ? { title: { contains: q, mode: "insensitive" } } : {}),
+    ...(tier !== "ALL" ? { accessTier: tier as ExamAccessTier } : {}),
+    ...(state === "DONE" ? { results: { some: { userId: session.userId } } } : {}),
+    ...(state === "NOT_DONE" ? { results: { none: { userId: session.userId } } } : {}),
+    ...(state === "AVAILABLE" ? { accessTier: { in: accessibleTiers } } : {}),
+    ...(state === "LOCKED" ? { accessTier: { in: lockedTiers } } : {}),
+  }
+
+  const [exams, totalMatching, totalPublished, doneAll, passedAll] = await Promise.all([
+    prisma.exam.findMany({
+      where,
+      orderBy: getExamOrderBy(sort),
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+      include: {
+        _count: { select: { questions: true, results: true } },
+        results: {
+          where: { userId: session.userId },
+          select: { id: true, overallPass: true, totalScore: true },
+        },
       },
-    },
-  })
+    }),
+    prisma.exam.count({ where }),
+    prisma.exam.count({ where: { status: "PUBLISHED" } }),
+    prisma.examResult.count({ where: { userId: session.userId } }),
+    prisma.examResult.count({ where: { userId: session.userId, overallPass: true } }),
+  ])
+
+  const totalPages = Math.max(1, Math.ceil(totalMatching / PAGE_SIZE))
 
   // Serialize to plain objects for the client component
   const examCards: ExamCardData[] = exams.map((e) => ({
@@ -56,16 +106,9 @@ export default async function StudentExamsPage() {
     isLocked: TIER_RANK[e.accessTier] > userRank,
   }))
 
-  // Sort by eligibility (unlocked first). The original array is already sorted by createdAt desc, 
-  // and Array.prototype.sort is stable in modern environments, but to be safe we can just rely on the stable sort.
-  examCards.sort((a, b) => {
-    if (a.isLocked === b.isLocked) return 0
-    return a.isLocked ? 1 : -1
-  })
-
-  const total    = examCards.length
-  const done     = examCards.filter((e) => e.myResult).length
-  const passed   = examCards.filter((e) => e.myResult?.overallPass).length
+  const total = totalPublished
+  const done = doneAll
+  const passed = passedAll
 
   return (
     <DashboardShell activeHref="/dashboard/exams" user={{ name: session.name, role: session.role }}>
@@ -117,9 +160,22 @@ export default async function StudentExamsPage() {
         {/* ── Exam List (client — owns the modal) ────────── */}
         <div>
           <div className="mb-4">
-            <h2 className="font-black text-slate-900 text-sm">Ada {total} Latihan Untukmu</h2>
+            <h2 className="font-black text-slate-900 text-sm">Ada {totalMatching} Latihan Sesuai Filter</h2>
           </div>
-          <ExamListClient exams={examCards} />
+          <ExamFilterToolbar
+            basePath="/dashboard/exams"
+            q={q}
+            tier={tier}
+            state={state}
+            sort={sort}
+            page={Math.min(page, totalPages)}
+            totalPages={totalPages}
+            totalItems={totalMatching}
+            pageSize={PAGE_SIZE}
+          />
+          <div className="mt-4">
+            <ExamListClient exams={examCards} />
+          </div>
         </div>
 
       </div>

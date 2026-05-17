@@ -191,6 +191,78 @@ export async function deleteExam(id: string) {
   }
 }
 
+export async function deleteExams(ids: string[]) {
+  try {
+    await requireAdmin()
+    const parsed = z.array(z.string().min(1)).min(1).max(100).safeParse(ids)
+    if (!parsed.success) return { success: false, error: "Pilih minimal 1 ujian untuk dihapus." }
+
+    const result = await prisma.exam.deleteMany({
+      where: { id: { in: parsed.data } },
+    })
+
+    revalidatePath("/admin/content/exams")
+    return { success: true, count: result.count }
+  } catch (err) {
+    if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
+      return handleAuthError(err)
+    }
+    return { success: false, error: "Gagal menghapus ujian terpilih." }
+  }
+}
+
+export async function duplicateExam(id: string) {
+  try {
+    await requireAdmin()
+    const parsed = z.string().min(1).safeParse(id)
+    if (!parsed.success) return { success: false, error: "ID ujian tidak valid." }
+
+    const source = await prisma.exam.findUnique({
+      where: { id: parsed.data },
+      include: {
+        questions: {
+          orderBy: { order: "asc" },
+          select: { questionId: true, order: true },
+        },
+      },
+    })
+    if (!source) return { success: false, error: "Ujian tidak ditemukan." }
+
+    const baseTitle = `${source.title} (Copy)`
+    const existingCopies = await prisma.exam.count({
+      where: { title: { startsWith: baseTitle } },
+    })
+    const title = existingCopies === 0 ? baseTitle : `${baseTitle} ${existingCopies + 1}`
+
+    const duplicated = await prisma.exam.create({
+      data: {
+        title,
+        durationMinutes: source.durationMinutes,
+        passingGradeTWK: source.passingGradeTWK,
+        passingGradeTIU: source.passingGradeTIU,
+        passingGradeTKP: source.passingGradeTKP,
+        status: "DRAFT",
+        accessTier: source.accessTier,
+        questions: {
+          create: source.questions.map((question) => ({
+            questionId: question.questionId,
+            order: question.order,
+          })),
+        },
+      },
+      select: { id: true, title: true },
+    })
+
+    revalidatePath("/admin/content/exams")
+    return { success: true, examId: duplicated.id, title: duplicated.title }
+  } catch (err) {
+    if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
+      return handleAuthError(err)
+    }
+    return { success: false, error: "Gagal menduplikasi ujian." }
+  }
+}
+
 // ── Question Selection ─────────────────────────────────────────────────────
 
 /**

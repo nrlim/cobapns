@@ -187,6 +187,76 @@ export async function deleteSKBExam(id: string) {
   }
 }
 
+export async function deleteSKBExams(ids: string[]) {
+  try {
+    await requireAdmin()
+    const parsed = z.array(z.string().min(1)).min(1).max(100).safeParse(ids)
+    if (!parsed.success) return { success: false, error: "Pilih minimal 1 ujian SKB untuk dihapus." }
+
+    const result = await prisma.sKBExam.deleteMany({
+      where: { id: { in: parsed.data } },
+    })
+
+    revalidatePath("/admin/content/skb-exams")
+    return { success: true, count: result.count }
+  } catch (err) {
+    if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
+      return handleAuthError(err)
+    }
+    return { success: false, error: "Gagal menghapus ujian SKB terpilih." }
+  }
+}
+
+export async function duplicateSKBExam(id: string) {
+  try {
+    await requireAdmin()
+    const parsed = z.string().min(1).safeParse(id)
+    if (!parsed.success) return { success: false, error: "ID ujian SKB tidak valid." }
+
+    const source = await prisma.sKBExam.findUnique({
+      where: { id: parsed.data },
+      include: {
+        questions: {
+          orderBy: { order: "asc" },
+          select: { questionId: true, order: true },
+        },
+      },
+    })
+    if (!source) return { success: false, error: "Ujian SKB tidak ditemukan." }
+
+    const baseTitle = `${source.title} (Copy)`
+    const existingCopies = await prisma.sKBExam.count({
+      where: { title: { startsWith: baseTitle } },
+    })
+    const title = existingCopies === 0 ? baseTitle : `${baseTitle} ${existingCopies + 1}`
+
+    const duplicated = await prisma.sKBExam.create({
+      data: {
+        title,
+        bidang: source.bidang,
+        durationMinutes: source.durationMinutes,
+        status: "DRAFT",
+        accessTier: source.accessTier,
+        questions: {
+          create: source.questions.map((question) => ({
+            questionId: question.questionId,
+            order: question.order,
+          })),
+        },
+      },
+      select: { id: true, title: true },
+    })
+
+    revalidatePath("/admin/content/skb-exams")
+    return { success: true, examId: duplicated.id, title: duplicated.title }
+  } catch (err) {
+    if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
+      return handleAuthError(err)
+    }
+    return { success: false, error: "Gagal menduplikasi ujian SKB." }
+  }
+}
+
 // ── Admin: Question Assignment ─────────────────────────────────────────────────
 
 export async function setSKBExamQuestions(examId: string, questionIds: string[]) {
