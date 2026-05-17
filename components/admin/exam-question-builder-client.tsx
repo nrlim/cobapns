@@ -144,8 +144,8 @@ export function ExamQuestionBuilderClient({
         difficultyTKP: randomDiff as Difficulty || undefined,
       })
       if (res.success) {
-        showToast("ok", `Auto-generate ${res.count} soal berhasil!`)
-        window.location.reload()
+        showToast("ok", `Auto-generate ${res.count} soal berhasil! Mengarahkan ke daftar exam...`)
+        window.location.href = "/admin/content/exams"
       } else {
         showToast("err", res.error ?? "Gagal auto-generate.")
       }

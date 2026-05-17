@@ -29,45 +29,52 @@ type SmartShuffleTierConfig = {
   freshRatio: number
   freshWindowMultiplier: number
   recencyPower: number
+  reusePenalty: number
 }
 
 type RankedQuestion = {
   id: string
   rank: number
+  usageCount: number
 }
 
 const SMART_SHUFFLE_TIER_CONFIG = {
   FREE: {
-    // Free tetap mendapat soal baru, tetapi porsi soal ter-update tidak sebesar tier berbayar.
-    freshRatio: 0.55,
-    freshWindowMultiplier: 2.5,
-    recencyPower: 1.6,
+    // Free tetap fresh-first, tetapi variasi dari pool lama lebih besar.
+    freshRatio: 0.45,
+    freshWindowMultiplier: 3,
+    recencyPower: 1.25,
+    reusePenalty: 1.2,
   },
   ELITE: {
-    freshRatio: 0.75,
-    freshWindowMultiplier: 1.75,
-    recencyPower: 2.4,
+    freshRatio: 0.6,
+    freshWindowMultiplier: 2.4,
+    recencyPower: 1.65,
+    reusePenalty: 1.6,
   },
   MASTER: {
-    freshRatio: 0.9,
-    freshWindowMultiplier: 1.35,
-    recencyPower: 3.2,
+    freshRatio: 0.7,
+    freshWindowMultiplier: 2,
+    recencyPower: 2,
+    reusePenalty: 2,
   },
 } satisfies Record<ExamAccessTier, SmartShuffleTierConfig>
 
-function pickWeightedByRecency(
+function pickWeightedSmart(
   pool: RankedQuestion[],
   count: number,
   totalPoolSize: number,
-  recencyPower: number
+  config: SmartShuffleTierConfig
 ) {
   const available = [...pool]
   const picked: RankedQuestion[] = []
 
   while (picked.length < count && available.length > 0) {
-    const weights = available.map((question) =>
-      Math.pow((totalPoolSize - question.rank) / totalPoolSize, recencyPower)
-    )
+    const weights = available.map((question) => {
+      const recencyWeight = Math.pow((totalPoolSize - question.rank) / totalPoolSize, config.recencyPower)
+      const noveltyWeight = 1 / Math.pow(1 + question.usageCount, config.reusePenalty)
+      return recencyWeight * noveltyWeight
+    })
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
 
     let random = Math.random() * totalWeight
@@ -89,7 +96,7 @@ function pickWeightedByRecency(
 }
 
 function smartPickQuestionsForTier(
-  orderedQuestions: { id: string }[],
+  orderedQuestions: { id: string; usageCount: number }[],
   count: number,
   accessTier: ExamAccessTier
 ) {
@@ -97,6 +104,7 @@ function smartPickQuestionsForTier(
   const rankedQuestions = orderedQuestions.map((question, rank) => ({
     id: question.id,
     rank,
+    usageCount: question.usageCount,
   }))
 
   const freshTarget = Math.min(count, Math.floor(count * config.freshRatio))
@@ -106,20 +114,20 @@ function smartPickQuestionsForTier(
   )
 
   const freshPool = rankedQuestions.slice(0, freshWindowSize)
-  const freshPicked = pickWeightedByRecency(
+  const freshPicked = pickWeightedSmart(
     freshPool,
     freshTarget,
     rankedQuestions.length,
-    config.recencyPower
+    config
   )
 
   const pickedIds = new Set(freshPicked.map((question) => question.id))
   const remainingPool = rankedQuestions.filter((question) => !pickedIds.has(question.id))
-  const remainingPicked = pickWeightedByRecency(
+  const remainingPicked = pickWeightedSmart(
     remainingPool,
     count - freshPicked.length,
     rankedQuestions.length,
-    config.recencyPower
+    config
   )
 
   return [...freshPicked, ...remainingPicked].map((question) => question.id)
@@ -249,7 +257,13 @@ export async function smartRandomizeQuestions(
       const pool = await prisma.question.findMany({
         where,
         orderBy: { createdAt: "desc" },
-        select: { id: true },
+        select: {
+          id: true,
+          exams: {
+            where: { examId: { not: data.examId } },
+            select: { examId: true },
+          },
+        },
       })
 
       if (pool.length < count) {
@@ -260,7 +274,11 @@ export async function smartRandomizeQuestions(
         }
       }
 
-      const picked = smartPickQuestionsForTier(pool, count, exam.accessTier)
+      const rankedPool = pool.map((question) => ({
+        id: question.id,
+        usageCount: question.exams.length,
+      }))
+      const picked = smartPickQuestionsForTier(rankedPool, count, exam.accessTier)
       selectedIds.push(...picked)
     }
 

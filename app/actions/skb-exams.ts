@@ -30,6 +30,108 @@ const SKBSmartRandomizerSchema = z.object({
   bidangFilter: z.string().optional(), // filter by bidang for TEKNIS questions
 })
 
+type SmartShuffleTierConfig = {
+  freshRatio: number
+  freshWindowMultiplier: number
+  recencyPower: number
+  reusePenalty: number
+}
+
+type RankedQuestion = {
+  id: string
+  rank: number
+  usageCount: number
+}
+
+const SMART_SHUFFLE_TIER_CONFIG = {
+  FREE: {
+    freshRatio: 0.45,
+    freshWindowMultiplier: 3,
+    recencyPower: 1.25,
+    reusePenalty: 1.2,
+  },
+  ELITE: {
+    freshRatio: 0.6,
+    freshWindowMultiplier: 2.4,
+    recencyPower: 1.65,
+    reusePenalty: 1.6,
+  },
+  MASTER: {
+    freshRatio: 0.7,
+    freshWindowMultiplier: 2,
+    recencyPower: 2,
+    reusePenalty: 2,
+  },
+} satisfies Record<ExamAccessTier, SmartShuffleTierConfig>
+
+function pickWeightedSmart(
+  pool: RankedQuestion[],
+  count: number,
+  totalPoolSize: number,
+  config: SmartShuffleTierConfig
+) {
+  const available = [...pool]
+  const picked: RankedQuestion[] = []
+
+  while (picked.length < count && available.length > 0) {
+    const weights = available.map((question) => {
+      const recencyWeight = Math.pow((totalPoolSize - question.rank) / totalPoolSize, config.recencyPower)
+      const noveltyWeight = 1 / Math.pow(1 + question.usageCount, config.reusePenalty)
+      return recencyWeight * noveltyWeight
+    })
+    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
+
+    let random = Math.random() * totalWeight
+    let pickedIndex = 0
+
+    for (let i = 0; i < available.length; i++) {
+      random -= weights[i]
+      if (random <= 0) {
+        pickedIndex = i
+        break
+      }
+    }
+
+    const [selected] = available.splice(pickedIndex, 1)
+    picked.push(selected)
+  }
+
+  return picked
+}
+
+function smartPickQuestionsForTier(
+  orderedQuestions: { id: string; usageCount: number }[],
+  count: number,
+  accessTier: ExamAccessTier
+) {
+  const config = SMART_SHUFFLE_TIER_CONFIG[accessTier]
+  const rankedQuestions = orderedQuestions.map((question, rank) => ({
+    id: question.id,
+    rank,
+    usageCount: question.usageCount,
+  }))
+
+  const freshTarget = Math.min(count, Math.floor(count * config.freshRatio))
+  const freshWindowSize = Math.min(
+    rankedQuestions.length,
+    Math.max(freshTarget, Math.ceil(count * config.freshWindowMultiplier))
+  )
+
+  const freshPool = rankedQuestions.slice(0, freshWindowSize)
+  const freshPicked = pickWeightedSmart(freshPool, freshTarget, rankedQuestions.length, config)
+
+  const pickedIds = new Set(freshPicked.map((question) => question.id))
+  const remainingPool = rankedQuestions.filter((question) => !pickedIds.has(question.id))
+  const remainingPicked = pickWeightedSmart(
+    remainingPool,
+    count - freshPicked.length,
+    rankedQuestions.length,
+    config
+  )
+
+  return [...freshPicked, ...remainingPicked].map((question) => question.id)
+}
+
 // ── Admin: Exam CRUD ───────────────────────────────────────────────────────────
 
 export async function upsertSKBExam(payload: z.infer<typeof SKBExamConfigSchema>) {
@@ -126,9 +228,6 @@ export async function smartRandomizeSKBQuestions(
     })
     if (!exam) return { success: false, error: "Ujian tidak ditemukan." }
 
-    const isPremium = exam.accessTier === "ELITE" || exam.accessTier === "MASTER"
-    const takeMultiplier = isPremium ? 1.5 : 3
-
     const TARGETS = [
       {
         category: SKBCategory.TEKNIS,
@@ -162,27 +261,40 @@ export async function smartRandomizeSKBQuestions(
       const pool = await prisma.sKBQuestion.findMany({
         where,
         orderBy: { createdAt: "desc" },
-        take: Math.max(count, Math.floor(count * takeMultiplier)),
-        select: { id: true },
+        select: {
+          id: true,
+          exams: {
+            where: { examId: { not: data.examId } },
+            select: { examId: true },
+          },
+        },
       })
 
-      // Fisher-Yates shuffle
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[pool[i], pool[j]] = [pool[j], pool[i]]
+      if (pool.length < count) {
+        const filterLabel = difficulty ? ` tingkat ${difficulty}` : ""
+        return {
+          success: false,
+          error: `Bank soal SKB ${category}${filterLabel} hanya tersedia ${pool.length}/${count}. Auto-generate dibatalkan agar komposisi tetap balance.`,
+        }
       }
 
-      selectedIds.push(...pool.slice(0, count).map((q) => q.id))
+      const rankedPool = pool.map((question) => ({
+        id: question.id,
+        usageCount: question.exams.length,
+      }))
+      selectedIds.push(...smartPickQuestionsForTier(rankedPool, count, exam.accessTier))
     }
 
-    await prisma.sKBExamQuestion.deleteMany({ where: { examId: data.examId } })
-    await prisma.sKBExamQuestion.createMany({
-      data: selectedIds.map((questionId, index) => ({
-        examId: data.examId,
-        questionId,
-        order: index + 1,
-      })),
-    })
+    await prisma.$transaction([
+      prisma.sKBExamQuestion.deleteMany({ where: { examId: data.examId } }),
+      prisma.sKBExamQuestion.createMany({
+        data: selectedIds.map((questionId, index) => ({
+          examId: data.examId,
+          questionId,
+          order: index + 1,
+        })),
+      }),
+    ])
 
     revalidatePath(`/admin/content/skb-exams/${data.examId}`)
     revalidatePath("/admin/content/skb-exams")
