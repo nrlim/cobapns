@@ -20,7 +20,11 @@ import {
   Milestone,
   Target,
   ArrowDownCircle,
-  MapPin
+  MapPin,
+  CalendarDays,
+  ShieldCheck,
+  Layers3,
+  Route,
 } from "lucide-react"
 import Link from "next/link"
 import { generateAIFeedback } from "@/app/actions/ai-feedback"
@@ -100,30 +104,76 @@ const PRIORITY_CONFIG = {
   medium:   { label: "Dianjurkan",      ring: "ring-blue-200",   text: "text-brand-blue-deep", nodeBg: "bg-brand-blue-deep"  },
 } as const
 
+const URGENCY_CONFIG = {
+  low:    { label: "Stabil",       caption: "Pertahankan ritme",      width: "45%", tone: "from-emerald-400 to-teal-500", bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-100" },
+  medium: { label: "Perlu Fokus",  caption: "Rapikan prioritas",     width: "68%", tone: "from-blue-500 to-indigo-500",   bg: "bg-blue-50",    text: "text-brand-blue-deep", border: "border-blue-100" },
+  high:   { label: "Fokus Tinggi", caption: "Mulai dari area utama", width: "86%", tone: "from-amber-400 to-orange-500", bg: "bg-amber-50",   text: "text-amber-700", border: "border-amber-100" },
+} as const
+
+function VisualMetricCard({ icon: Icon, label, value, helper }: { icon: typeof Sparkles; label: string; value: string | number; helper: string }) {
+  return (
+    <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-4 text-white shadow-sm">
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <span className="text-[10px] font-black uppercase tracking-widest text-blue-100/80">{label}</span>
+        <Icon className="w-4 h-4 text-blue-100" />
+      </div>
+      <p className="text-2xl font-black tracking-tight">{value}</p>
+      <p className="text-[11px] font-semibold text-blue-100/80 mt-1">{helper}</p>
+    </div>
+  )
+}
+
 function ModernFeedbackRenderer({ data }: { data: any }) {
   if (!data) return null
 
   const urgency = data.urgencyLevel ?? "medium"
+  const urgencyCfg = URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG] ?? URGENCY_CONFIG.medium
+  const strengths = Array.isArray(data.strengths) ? data.strengths : []
+  const roadmap = Array.isArray(data.roadmap) ? data.roadmap : []
+  const weeklyPlan = Array.isArray(data.weeklyPlan) ? data.weeklyPlan : []
 
   return (
     <div className="space-y-5">
 
-      {/* ── Personal Message ────────────────────────────── */}
-      {(data.personalMessage || data.summary) && (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-blue-deep to-slate-800 p-6 text-white shadow-sm">
-          {/* decorative blob */}
-          <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/5" />
-          <div className="absolute bottom-0 left-12 w-16 h-16 rounded-full bg-white/5" />
-          <div className="relative z-10">
-            <span className="inline-block text-[10px] font-black uppercase tracking-widest text-blue-300 mb-3">
-              Pesan Personal dari Mentor Kamu
-            </span>
-            <p className="text-sm font-medium leading-relaxed text-blue-50">
-              {data.personalMessage ?? data.summary}
-            </p>
+      {/* ── Visual Summary / Learning Compass ───────────── */}
+      <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-brand-blue-deep via-slate-900 to-indigo-950 p-5 sm:p-6 text-white shadow-xl">
+        <div className="absolute -top-20 -right-16 w-56 h-56 rounded-full bg-brand-blue/30 blur-2xl" />
+        <div className="absolute -bottom-24 -left-20 w-64 h-64 rounded-full bg-violet-500/20 blur-3xl" />
+        <div className="relative z-10 space-y-5">
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
+            <div className="max-w-2xl">
+              <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-blue-200 bg-white/10 border border-white/10 rounded-full px-3 py-1 mb-3">
+                <Sparkles className="w-3 h-3" /> AI Learning Compass
+              </span>
+              <h4 className="text-xl sm:text-2xl font-black tracking-tight mb-2">Ringkasan rekomendasi kamu</h4>
+              {(data.personalMessage || data.summary) && (
+                <p className="text-sm font-medium leading-relaxed text-blue-50/90 max-w-2xl">
+                  {data.personalMessage ?? data.summary}
+                </p>
+              )}
+            </div>
+
+            <div className={`min-w-[190px] rounded-2xl ${urgencyCfg.bg} ${urgencyCfg.border} border p-4 text-slate-900 shadow-sm`}>
+              <div className="flex items-center justify-between mb-3">
+                <span className={`text-[10px] font-black uppercase tracking-widest ${urgencyCfg.text}`}>Level Fokus</span>
+                <Zap className={`w-4 h-4 ${urgencyCfg.text}`} />
+              </div>
+              <p className="text-lg font-black text-slate-900">{urgencyCfg.label}</p>
+              <p className="text-[11px] font-bold text-slate-500 mb-3">{urgencyCfg.caption}</p>
+              <div className="h-2 rounded-full bg-white overflow-hidden">
+                <div className={`h-full rounded-full bg-gradient-to-r ${urgencyCfg.tone}`} style={{ width: urgencyCfg.width }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <VisualMetricCard icon={ShieldCheck} label="Kekuatan" value={strengths.length || "—"} helper="pola positif" />
+            <VisualMetricCard icon={Route} label="Roadmap" value={roadmap.length || "—"} helper="langkah aksi" />
+            <VisualMetricCard icon={CalendarDays} label="Rencana" value={weeklyPlan.length || "—"} helper="blok belajar" />
+            <VisualMetricCard icon={Layers3} label="Sinyal" value={data.psychInsight ? "4/4" : "2+"} helper="data dianalisis" />
           </div>
         </div>
-      )}
+      </div>
 
       {/* ── Emotional Insight ───────────────────────────── */}
       {data.emotionalInsight && (

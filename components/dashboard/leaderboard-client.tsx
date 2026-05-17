@@ -17,10 +17,11 @@ import {
   Calendar,
   Building2,
   LayoutList,
-  Search,
   Loader2,
+  ClipboardList,
+  BookOpenCheck,
 } from "lucide-react"
-import type { LeaderboardResult, PeriodFilter, ExamFilter } from "@/app/actions/leaderboard"
+import type { LeaderboardResult, PeriodFilter, ExamFilter, LeaderboardType } from "@/app/actions/leaderboard"
 import { getLeaderboard } from "@/app/actions/leaderboard"
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -31,10 +32,15 @@ const RANK_COLORS = {
   3: { bg: "from-orange-500 to-amber-400",  ring: "ring-orange-400", text: "text-orange-700", icon: Medal,  badge: "bg-orange-500 text-white" },
 }
 
-const PERIOD_LABELS: { value: PeriodFilter; label: string; icon: string }[] = [
-  { value: "weekly",  label: "Mingguan",  icon: "📅" },
-  { value: "monthly", label: "Bulanan",   icon: "🗓️" },
-  { value: "alltime", label: "All-Time",  icon: "🏆" },
+const PERIOD_LABELS: { value: PeriodFilter; label: string }[] = [
+  { value: "weekly",  label: "Mingguan" },
+  { value: "monthly", label: "Bulanan" },
+  { value: "alltime", label: "All-Time" },
+]
+
+const TYPE_LABELS: { value: LeaderboardType; label: string; Icon: typeof ClipboardList }[] = [
+  { value: "skd", label: "SKD", Icon: ClipboardList },
+  { value: "skb", label: "SKB", Icon: BookOpenCheck },
 ]
 
 function RankBadge({ rank }: { rank: number }) {
@@ -140,7 +146,7 @@ function PodiumCard({
       {/* Accuracy */}
       <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500">
         <Star className="w-3 h-3 text-brand-blue-light" />
-        Akurasi {entry.accuracy}%
+        Konsistensi {entry.accuracy}%
       </div>
     </div>
   )
@@ -149,21 +155,39 @@ function PodiumCard({
 // ── Filter Bar ──────────────────────────────────────────────────────────────
 
 interface FilterBarProps {
+  leaderboardType: LeaderboardType
   period:        PeriodFilter
   examFilter:    ExamFilter
   instansiFilter: string | null
   exams:         { id: string; title: string }[]
   instansiList:  string[]
-  onChange:      (f: { period?: PeriodFilter; examFilter?: ExamFilter; instansiFilter?: string | null }) => void
+  onChange:      (f: { leaderboardType?: LeaderboardType; period?: PeriodFilter; examFilter?: ExamFilter; instansiFilter?: string | null }) => void
   loading:       boolean
 }
 
-function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, onChange, loading }: FilterBarProps) {
+function FilterBar({ leaderboardType, period, examFilter, instansiFilter, exams, instansiList, onChange, loading }: FilterBarProps) {
   return (
     <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex flex-wrap gap-3 items-center">
       <div className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest shrink-0">
         <Filter className="w-3.5 h-3.5" />
         Filter
+      </div>
+
+      {/* Type */}
+      <div className="flex rounded-xl overflow-hidden border border-slate-200 shrink-0">
+        {TYPE_LABELS.map(({ value, label, Icon }) => (
+          <button
+            key={value}
+            onClick={() => onChange({ leaderboardType: value, examFilter: "global" })}
+            className={`px-3 py-1.5 text-xs font-bold transition-all flex items-center gap-1 ${
+              leaderboardType === value
+                ? "bg-brand-blue text-white"
+                : "text-slate-500 hover:bg-slate-50"
+            }`}
+          >
+            <Icon className="w-3.5 h-3.5" /> {label}
+          </button>
+        ))}
       </div>
 
       {/* Period */}
@@ -178,7 +202,7 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
                 : "text-slate-500 hover:bg-slate-50"
             }`}
           >
-            {p.icon} {p.label}
+            {p.label}
           </button>
         ))}
       </div>
@@ -191,7 +215,7 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
           onChange={(e) => onChange({ examFilter: e.target.value as ExamFilter })}
           className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
         >
-          <option value="global">Semua Try Out (Global)</option>
+          <option value="global">Semua Try Out {leaderboardType.toUpperCase()}</option>
           {exams.map((e) => (
             <option key={e.id} value={e.id}>{e.title}</option>
           ))}
@@ -204,11 +228,12 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
         <select
           value={instansiFilter ?? ""}
           onChange={(e) => onChange({ instansiFilter: e.target.value || null })}
-          className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer max-w-[180px]"
+          className="text-xs font-bold text-slate-700 bg-slate-100 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer max-w-[220px]"
+          aria-label="Filter instansi target"
         >
           <option value="">Semua Instansi</option>
           {instansiList.map((inst) => (
-            <option key={inst} value={inst}>{inst}</option>
+            <option key={inst.toLocaleLowerCase("id-ID")} value={inst}>{inst}</option>
           ))}
         </select>
       </div>
@@ -223,9 +248,11 @@ function FilterBar({ period, examFilter, instansiFilter, exams, instansiList, on
 function RankingTable({
   entries,
   currentUserId,
+  leaderboardType,
 }: {
   entries: LeaderboardResult["entries"]
   currentUserId: string
+  leaderboardType: LeaderboardType
 }) {
   return (
     <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
@@ -235,7 +262,7 @@ function RankingTable({
         <span>Peserta</span>
         <span className="hidden md:block">Instansi</span>
         <span className="text-right">Skor</span>
-        <span className="hidden sm:block text-right">Akurasi</span>
+        <span className="hidden sm:block text-right">{leaderboardType === "skb" ? "Indeks" : "Lulus"}</span>
         <span className="hidden sm:block text-center">Aksi</span>
       </div>
 
@@ -274,6 +301,9 @@ function RankingTable({
                     {entry.maskedName}
                     {isSelf && <span className="ml-2 text-[10px] font-black text-blue-500 uppercase tracking-widest">Anda</span>}
                   </p>
+                  <p className="text-[10px] font-bold text-slate-400">
+                    {entry.attemptCount} percobaan {leaderboardType.toUpperCase()}
+                  </p>
                 </div>
               </div>
 
@@ -297,7 +327,7 @@ function RankingTable({
               {/* Accuracy */}
               <div className="hidden sm:block text-right">
                 <p className="text-sm font-black text-slate-700">{entry.accuracy}%</p>
-                <p className="text-[10px] text-slate-400 font-medium">lulus</p>
+                <p className="text-[10px] text-slate-400 font-medium">{leaderboardType === "skb" ? "performa" : "lulus"}</p>
               </div>
 
               {/* Action */}
@@ -376,27 +406,32 @@ export function LeaderboardClient({
   currentUserId,
   pageSize = 20,
 }: LeaderboardClientProps) {
-  const [data,           setData]          = useState<LeaderboardResult>(initial)
-  const [period,         setPeriod]        = useState<PeriodFilter>("alltime")
-  const [examFilter,     setExamFilter]    = useState<ExamFilter>("global")
+  const [data,           setData]           = useState<LeaderboardResult>(initial)
+  const [leaderboardType, setLeaderboardType] = useState<LeaderboardType>("skd")
+  const [period,         setPeriod]         = useState<PeriodFilter>("alltime")
+  const [examFilter,     setExamFilter]     = useState<ExamFilter>("global")
   const [instansiFilter, setInstansiFilter] = useState<string | null>(null)
-  const [page,           setPage]          = useState(0)
-  const [isPending,      startTransition]  = useTransition()
+  const [page,           setPage]           = useState(0)
+  const [isPending,      startTransition]   = useTransition()
 
   const totalPages = Math.ceil(data.totalCount / pageSize)
 
   const reload = useCallback(
     (opts: {
+      leaderboardType?: LeaderboardType
       period?: PeriodFilter
       examFilter?: ExamFilter
       instansiFilter?: string | null
       page?: number
     }) => {
+      const nextType           = opts.leaderboardType ?? leaderboardType
+      const isTypeSwitch       = opts.leaderboardType !== undefined && opts.leaderboardType !== leaderboardType
       const nextPeriod         = opts.period         ?? period
-      const nextExam           = opts.examFilter     ?? examFilter
+      const nextExam           = isTypeSwitch ? "global" : (opts.examFilter ?? examFilter)
       const nextInstansi       = opts.instansiFilter !== undefined ? opts.instansiFilter : instansiFilter
       const nextPage           = opts.page           ?? 0
 
+      setLeaderboardType(nextType)
       setPeriod(nextPeriod)
       setExamFilter(nextExam)
       setInstansiFilter(nextInstansi)
@@ -404,17 +439,18 @@ export function LeaderboardClient({
 
       startTransition(async () => {
         const result = await getLeaderboard({
-          userId:        currentUserId,
-          examFilter:    nextExam,
-          period:        nextPeriod,
-          instansiFilter: nextInstansi,
-          page:          nextPage,
+          userId:          currentUserId,
+          leaderboardType: nextType,
+          examFilter:      nextExam,
+          period:          nextPeriod,
+          instansiFilter:  nextInstansi,
+          page:            nextPage,
           pageSize,
         })
         setData(result)
       })
     },
-    [period, examFilter, instansiFilter, page, currentUserId, pageSize]
+    [leaderboardType, period, examFilter, instansiFilter, currentUserId, pageSize]
   )
 
   const podiumEntries = data.entries.filter((e) => e.rank <= 3)
@@ -429,6 +465,7 @@ export function LeaderboardClient({
     <div className="space-y-6 relative">
       {/* ── Filter Bar ── */}
       <FilterBar
+        leaderboardType={leaderboardType}
         period={period}
         examFilter={examFilter}
         instansiFilter={instansiFilter}
@@ -442,7 +479,7 @@ export function LeaderboardClient({
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {[
           { icon: Users,    label: "Total Peserta",   value: data.totalCount.toLocaleString("id-ID") },
-          { icon: Trophy,   label: "Skor Tertinggi",  value: data.entries[0]?.totalScore ?? "—" },
+          { icon: Trophy,   label: leaderboardType === "skb" ? "Skor SKB Tertinggi" : "Skor SKD Tertinggi",  value: data.entries[0]?.totalScore ?? "—" },
           { icon: Calendar, label: "Periode",          value: PERIOD_LABELS.find((p) => p.value === period)!.label },
         ].map(({ icon: Icon, label, value }) => (
           <div key={label} className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm flex items-center gap-3">
@@ -488,7 +525,7 @@ export function LeaderboardClient({
           )}
         </h3>
         <div className={`transition-opacity duration-200 ${isPending ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
-          <RankingTable entries={data.entries} currentUserId={currentUserId} />
+          <RankingTable entries={data.entries} currentUserId={currentUserId} leaderboardType={leaderboardType} />
         </div>
       </div>
 

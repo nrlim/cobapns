@@ -69,6 +69,7 @@ export default async function LeaderboardPage() {
   // ── Authorized: fetch leaderboard data ─────────────────────────────────
   const initial = await getLeaderboard({
     userId: session.userId,
+    leaderboardType: "skd",
     examFilter: "global",
     period: "alltime",
     instansiFilter: null,
