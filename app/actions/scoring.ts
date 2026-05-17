@@ -105,9 +105,10 @@ export async function submitExam(examId: string) {
     if (!exam) return { success: false, error: "Ujian tidak ditemukan." }
 
 
-    // Fetch all questions in this exam with category + their options
-    const examQuestions = await prisma.examQuestion.findMany({
-      where: { examId },
+    // Score against the user's frozen attempt snapshot, not the latest exam builder set.
+    // This protects completed/in-progress attempts when admin smart-shuffles the exam later.
+    const snapshotAnswers = await prisma.userAnswer.findMany({
+      where: { userId, examId },
       include: {
         question: {
           include: { options: true },
@@ -115,20 +116,13 @@ export async function submitExam(examId: string) {
       },
     })
 
-    // Fetch all student answers for this exam session
-    const answers = await prisma.userAnswer.findMany({
-      where: { userId, examId },
-    })
-    const answerMap = new Map(answers.map((a) => [a.questionId, a]))
-
     let scoreTWK = 0
     let scoreTIU = 0
     let scoreTKP = 0
 
-    for (const eq of examQuestions) {
-      const q = eq.question
-      const answer = answerMap.get(q.id)
-      const chosenOptionId = answer?.optionId ?? null
+    for (const answer of snapshotAnswers) {
+      const q = answer.question
+      const chosenOptionId = answer.optionId ?? null
 
       if (!chosenOptionId) continue // unanswered = 0 points
 
@@ -248,9 +242,9 @@ export async function getExamReviewData(examId: string) {
     const session = token ? await verifySession(token) : null
     if (!session) return { success: false, error: "Unauthenticated" }
 
-    const examQuestions = await prisma.examQuestion.findMany({
-      where: { examId },
-      orderBy: { order: "asc" },
+    const snapshotAnswers = await prisma.userAnswer.findMany({
+      where: { userId: session.userId, examId },
+      orderBy: [{ createdAt: "asc" }, { id: "asc" }],
       include: {
         question: {
           include: {
@@ -260,14 +254,8 @@ export async function getExamReviewData(examId: string) {
       },
     })
 
-    const answers = await prisma.userAnswer.findMany({
-      where: { userId: session.userId, examId },
-    })
-    const answerMap = new Map(answers.map((a) => [a.questionId, a.optionId]))
-
-    const reviewData = examQuestions.map((eq) => {
-      const q = eq.question
-      const selectedOptionId = answerMap.get(q.id) || null
+    const reviewData = snapshotAnswers.map((answer) => {
+      const q = answer.question
       return {
         id: q.id,
         category: q.category,
@@ -278,7 +266,7 @@ export async function getExamReviewData(examId: string) {
           text: o.text,
           score: o.score
         })),
-        selectedOptionId,
+        selectedOptionId: answer.optionId,
       }
     })
 

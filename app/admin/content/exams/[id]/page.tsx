@@ -29,8 +29,13 @@ export default async function ExamQuestionsPage({
     }),
     prisma.question.findMany({
       orderBy: [{ category: "asc" }, { createdAt: "desc" }],
-      include: { options: true },
-      take: 500,
+      select: {
+        id: true,
+        category: true,
+        subCategory: true,
+        content: true,
+        difficulty: true,
+      },
     }),
   ])
 

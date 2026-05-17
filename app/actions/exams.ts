@@ -25,6 +25,106 @@ const SmartRandomizerSchema = z.object({
   difficultyTKP: z.nativeEnum(QuestionDifficulty).optional(),
 })
 
+type SmartShuffleTierConfig = {
+  freshRatio: number
+  freshWindowMultiplier: number
+  recencyPower: number
+}
+
+type RankedQuestion = {
+  id: string
+  rank: number
+}
+
+const SMART_SHUFFLE_TIER_CONFIG = {
+  FREE: {
+    // Free tetap mendapat soal baru, tetapi porsi soal ter-update tidak sebesar tier berbayar.
+    freshRatio: 0.55,
+    freshWindowMultiplier: 2.5,
+    recencyPower: 1.6,
+  },
+  ELITE: {
+    freshRatio: 0.75,
+    freshWindowMultiplier: 1.75,
+    recencyPower: 2.4,
+  },
+  MASTER: {
+    freshRatio: 0.9,
+    freshWindowMultiplier: 1.35,
+    recencyPower: 3.2,
+  },
+} satisfies Record<ExamAccessTier, SmartShuffleTierConfig>
+
+function pickWeightedByRecency(
+  pool: RankedQuestion[],
+  count: number,
+  totalPoolSize: number,
+  recencyPower: number
+) {
+  const available = [...pool]
+  const picked: RankedQuestion[] = []
+
+  while (picked.length < count && available.length > 0) {
+    const weights = available.map((question) =>
+      Math.pow((totalPoolSize - question.rank) / totalPoolSize, recencyPower)
+    )
+    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
+
+    let random = Math.random() * totalWeight
+    let pickedIndex = 0
+
+    for (let i = 0; i < available.length; i++) {
+      random -= weights[i]
+      if (random <= 0) {
+        pickedIndex = i
+        break
+      }
+    }
+
+    const [selected] = available.splice(pickedIndex, 1)
+    picked.push(selected)
+  }
+
+  return picked
+}
+
+function smartPickQuestionsForTier(
+  orderedQuestions: { id: string }[],
+  count: number,
+  accessTier: ExamAccessTier
+) {
+  const config = SMART_SHUFFLE_TIER_CONFIG[accessTier]
+  const rankedQuestions = orderedQuestions.map((question, rank) => ({
+    id: question.id,
+    rank,
+  }))
+
+  const freshTarget = Math.min(count, Math.floor(count * config.freshRatio))
+  const freshWindowSize = Math.min(
+    rankedQuestions.length,
+    Math.max(freshTarget, Math.ceil(count * config.freshWindowMultiplier))
+  )
+
+  const freshPool = rankedQuestions.slice(0, freshWindowSize)
+  const freshPicked = pickWeightedByRecency(
+    freshPool,
+    freshTarget,
+    rankedQuestions.length,
+    config.recencyPower
+  )
+
+  const pickedIds = new Set(freshPicked.map((question) => question.id))
+  const remainingPool = rankedQuestions.filter((question) => !pickedIds.has(question.id))
+  const remainingPicked = pickWeightedByRecency(
+    remainingPool,
+    count - freshPicked.length,
+    rankedQuestions.length,
+    config.recencyPower
+  )
+
+  return [...freshPicked, ...remainingPicked].map((question) => question.id)
+}
+
 // ── Exam Config CRUD ───────────────────────────────────────────────────────
 
 export async function upsertExam(payload: z.infer<typeof ExamConfigSchema>) {
@@ -123,6 +223,7 @@ export async function smartRandomizeQuestions(
   payload: z.infer<typeof SmartRandomizerSchema>
 ) {
   try {
+    await requireAdmin()
     const data = SmartRandomizerSchema.parse(payload)
 
     const TARGETS = [
@@ -131,43 +232,49 @@ export async function smartRandomizeQuestions(
       { category: QuestionCategory.TKP, count: 45, difficulty: data.difficultyTKP },
     ]
 
-    const exam = await prisma.exam.findUnique({ where: { id: data.examId }, select: { accessTier: true } })
-    const isPremiumTier = exam?.accessTier === "ELITE" || exam?.accessTier === "MASTER"
-    const takeMultiplier = isPremiumTier ? 1.5 : 3
+    const exam = await prisma.exam.findUnique({
+      where: { id: data.examId },
+      select: { accessTier: true },
+    })
+
+    if (!exam) return { success: false, error: "Ujian tidak ditemukan." }
 
     const selectedIds: string[] = []
 
     for (const { category, count, difficulty } of TARGETS) {
-      const where: Record<string, unknown> = { category }
-      if (difficulty) where.difficulty = difficulty
+      const where = { category, ...(difficulty ? { difficulty } : {}) }
 
-      // Memprioritaskan soal terbaru: ambil pool dari terbaru berdasarkan tier
+      // Ambil seluruh pool sesuai filter, urut terbaru. Tier menentukan bobot/freshness,
+      // bukan membatasi pool total, agar soal lama tetap punya peluang terpilih.
       const pool = await prisma.question.findMany({
         where,
-        orderBy: { createdAt: 'desc' },
-        take: Math.floor(count * takeMultiplier),
+        orderBy: { createdAt: "desc" },
         select: { id: true },
       })
 
-      // Fisher-Yates shuffle
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[pool[i], pool[j]] = [pool[j], pool[i]]
+      if (pool.length < count) {
+        const filterLabel = difficulty ? ` tingkat ${difficulty}` : ""
+        return {
+          success: false,
+          error: `Bank soal ${category}${filterLabel} hanya tersedia ${pool.length}/${count}. Auto-generate dibatalkan agar komposisi tetap balance.`,
+        }
       }
 
-      const picked = pool.slice(0, count).map((q) => q.id)
+      const picked = smartPickQuestionsForTier(pool, count, exam.accessTier)
       selectedIds.push(...picked)
     }
 
-    // Replace existing questions
-    await prisma.examQuestion.deleteMany({ where: { examId: data.examId } })
-    await prisma.examQuestion.createMany({
-      data: selectedIds.map((questionId, index) => ({
-        examId: data.examId,
-        questionId,
-        order: index + 1,
-      })),
-    })
+    // Replace existing questions only after every category satisfies its target.
+    await prisma.$transaction([
+      prisma.examQuestion.deleteMany({ where: { examId: data.examId } }),
+      prisma.examQuestion.createMany({
+        data: selectedIds.map((questionId, index) => ({
+          examId: data.examId,
+          questionId,
+          order: index + 1,
+        })),
+      }),
+    ])
 
     revalidatePath(`/admin/content/exams/${data.examId}`)
     revalidatePath("/admin/content/exams")

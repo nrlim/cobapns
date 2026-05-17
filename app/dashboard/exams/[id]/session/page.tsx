@@ -83,23 +83,56 @@ export default async function ExamSessionPage({
   }
   // ──────────────────────────────────────────────────────────────────────
 
-  // Fetch existing saved answers for resume
-  const savedAnswers = await prisma.userAnswer.findMany({
+  // Freeze the user's attempt at first open. If admin later smart-shuffles this exam,
+  // this user keeps the original question set for session, scoring, and review.
+  const existingSnapshot = await prisma.userAnswer.findMany({
     where: { userId: session.userId, examId: id },
-    select: { questionId: true, optionId: true, isRagu: true },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+    include: {
+      question: {
+        include: { options: { orderBy: { id: "asc" } } },
+      },
+    },
   })
 
+  const snapshotAnswers = existingSnapshot.length > 0
+    ? existingSnapshot
+    : exam.questions.map((eq) => ({
+        id: `snapshot-${eq.questionId}`,
+        userId: session.userId,
+        examId: id,
+        questionId: eq.questionId,
+        optionId: null,
+        isRagu: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        question: eq.question,
+      }))
+
+  if (existingSnapshot.length === 0) {
+    await prisma.userAnswer.createMany({
+      data: exam.questions.map((eq) => ({
+        userId: session.userId,
+        examId: id,
+        questionId: eq.questionId,
+        optionId: null,
+        isRagu: false,
+      })),
+      skipDuplicates: true,
+    })
+  }
+
   const savedAnswerMap: Record<string, { optionId: string | null; isRagu: boolean }> = {}
-  for (const sa of savedAnswers) {
+  for (const sa of snapshotAnswers) {
     savedAnswerMap[sa.questionId] = { optionId: sa.optionId, isRagu: sa.isRagu }
   }
 
-  const questions = exam.questions.map((eq) => ({
-    id: eq.question.id,
-    category: eq.question.category as "TWK" | "TIU" | "TKP",
-    subCategory: eq.question.subCategory,
-    content: eq.question.content,
-    options: eq.question.options.map((o) => ({
+  const questions = snapshotAnswers.map((answer) => ({
+    id: answer.question.id,
+    category: answer.question.category as "TWK" | "TIU" | "TKP",
+    subCategory: answer.question.subCategory,
+    content: answer.question.content,
+    options: answer.question.options.map((o) => ({
       id: o.id,
       text: o.text,
       score: o.score,
