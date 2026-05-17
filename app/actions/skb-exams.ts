@@ -285,20 +285,7 @@ export async function smartRandomizeSKBQuestions(
       selectedIds.push(...smartPickQuestionsForTier(rankedPool, count, exam.accessTier))
     }
 
-    await prisma.$transaction([
-      prisma.sKBExamQuestion.deleteMany({ where: { examId: data.examId } }),
-      prisma.sKBExamQuestion.createMany({
-        data: selectedIds.map((questionId, index) => ({
-          examId: data.examId,
-          questionId,
-          order: index + 1,
-        })),
-      }),
-    ])
-
-    revalidatePath(`/admin/content/skb-exams/${data.examId}`)
-    revalidatePath("/admin/content/skb-exams")
-    return { success: true, count: selectedIds.length }
+    return { success: true, count: selectedIds.length, questionIds: selectedIds }
   } catch (err) {
     if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
       return handleAuthError(err)

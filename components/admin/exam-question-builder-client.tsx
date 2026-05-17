@@ -128,8 +128,12 @@ export function ExamQuestionBuilderClient({
   function handleSave() {
     startTransition(async () => {
       const res = await setExamQuestions(examId, [...selectedIds])
-      if (res.success) showToast("ok", `${res.count} soal berhasil disimpan!`)
-      else             showToast("err", res.error ?? "Gagal menyimpan.")
+      if (res.success) {
+        showToast("ok", `${res.count} soal berhasil disimpan! Mengarahkan ke daftar exam...`)
+        window.location.href = "/admin/content/exams"
+      } else {
+        showToast("err", res.error ?? "Gagal menyimpan.")
+      }
     })
   }
 
@@ -144,8 +148,8 @@ export function ExamQuestionBuilderClient({
         difficultyTKP: randomDiff as Difficulty || undefined,
       })
       if (res.success) {
-        showToast("ok", `Auto-generate ${res.count} soal berhasil! Mengarahkan ke daftar exam...`)
-        window.location.href = "/admin/content/exams"
+        setSelectedIds(new Set(res.questionIds))
+        showToast("ok", `Auto-generate ${res.count} soal berhasil dipilih. Klik Simpan untuk menerapkan.`)
       } else {
         showToast("err", res.error ?? "Gagal auto-generate.")
       }

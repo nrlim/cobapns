@@ -164,8 +164,12 @@ export function SKBQuestionBuilderClient({
   function handleSave() {
     startTransition(async () => {
       const res = await setSKBExamQuestions(exam.id, [...selectedIds])
-      if (res.success) showToast("ok", `${res.count} soal SKB berhasil disimpan!`)
-      else showToast("err", res.error ?? "Gagal menyimpan.")
+      if (res.success) {
+        showToast("ok", `${res.count} soal SKB berhasil disimpan! Mengarahkan ke daftar exam...`)
+        window.location.href = "/admin/content/skb-exams"
+      } else {
+        showToast("err", res.error ?? "Gagal menyimpan.")
+      }
     })
   }
 
@@ -182,8 +186,8 @@ export function SKBQuestionBuilderClient({
         bidangFilter: exam.bidang !== "Umum" ? exam.bidang : undefined,
       })
       if (res.success) {
-        showToast("ok", `Auto-generate ${res.count} soal SKB berhasil! Mengarahkan ke daftar exam...`)
-        window.location.href = "/admin/content/skb-exams"
+        setSelectedIds(new Set(res.questionIds))
+        showToast("ok", `Auto-generate ${res.count} soal SKB berhasil dipilih. Klik Simpan untuk menerapkan.`)
       } else {
         showToast("err", res.error ?? "Gagal auto-generate.")
       }

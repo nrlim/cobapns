@@ -282,21 +282,7 @@ export async function smartRandomizeQuestions(
       selectedIds.push(...picked)
     }
 
-    // Replace existing questions only after every category satisfies its target.
-    await prisma.$transaction([
-      prisma.examQuestion.deleteMany({ where: { examId: data.examId } }),
-      prisma.examQuestion.createMany({
-        data: selectedIds.map((questionId, index) => ({
-          examId: data.examId,
-          questionId,
-          order: index + 1,
-        })),
-      }),
-    ])
-
-    revalidatePath(`/admin/content/exams/${data.examId}`)
-    revalidatePath("/admin/content/exams")
-    return { success: true, count: selectedIds.length }
+    return { success: true, count: selectedIds.length, questionIds: selectedIds }
   } catch (err) {
     if (err instanceof Error && (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN")) {
       return handleAuthError(err)
