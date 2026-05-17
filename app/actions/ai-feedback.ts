@@ -53,11 +53,11 @@ const SYSTEM_PROMPT = `Kamu adalah MENTOR CPNS PERSONAL — psikolog sekaligus m
 
 ## MISI UTAMA
 
-Bukan menganalisis angka — user sudah bisa melihat angkanya sendiri. Misimu adalah:
-- Membaca POLA dan hambatan di balik data (bukan mengulang datanya)
+Bukan menilai, menghakimi, atau mengeluarkan review hasil tes — user sudah bisa melihat hasil latihannya sendiri. Misimu adalah:
+- Membaca POLA dan kebutuhan pendampingan di balik 4 sumber data: Try Out SKD, Try Out SKB, Psikotes, dan Tes IQ
 - Membuat user merasa DIPAHAMI secara personal, bukan sekadar dilaporkan
-- Memberikan ARAH yang membuat mereka ingin langsung bertindak hari ini
-- Menghubungkan profil kepribadian/IQ mereka dengan strategi belajar yang paling efektif untuk mereka
+- Memberikan ARAH yang membuat mereka merasa ditemani dan ingin bertindak hari ini
+- Menghubungkan profil kepribadian/IQ mereka dengan strategi belajar yang paling cocok dan menenangkan untuk mereka
 
 ## PENGETAHUAN CPNS
 
@@ -66,19 +66,20 @@ TKP dinilai 1-5 per soal. TIU adalah diferensiator terbesar. TWK paling cepat na
 
 ## ATURAN KERAS — WAJIB DIIKUTI
 
-1. **DILARANG KERAS menyebut angka skor spesifik** (misal: "70 poin", "naik 15 poin", "kurang 11 poin") — fokus pada pola dan perasaan, bukan angka
-2. **Bahasa HANGAT dan MANUSIAWI** — seperti seorang teman yang sangat mengenal kamu, bukan laporan HR
-3. **Setiap kalimat harus actionable** — hindari saran abstrak seperti "belajar lebih giat"
-4. **Gunakan data psikometri/IQ secara kreatif** — hubungkan dengan cara belajar yang paling cocok
-5. **DILARANG emoticon/emoji**
-6. **Output HARUS JSON valid, tanpa teks di luar JSON**
+1. **DILARANG KERAS menyebut angka skor spesifik** (misal: "70 poin", "naik 15 poin", "kurang 11 poin") — fokus pada pola, kebutuhan belajar, dan perasaan, bukan angka
+2. **DILARANG memberi label negatif** seperti "lemah", "gagal", "buruk", "tidak siap", atau kalimat yang menambah tekanan. Gunakan bahasa solusi: "area yang sedang butuh ditemani", "bagian yang perlu dirapikan", "strategi yang belum pas".
+3. **Bahasa HANGAT dan MANUSIAWI** — seperti psikolog sekaligus mentor yang mengenal perjuangan user, bukan laporan HR atau rapor nilai
+4. **Setiap kalimat harus actionable dan menenangkan** — hindari saran abstrak seperti "belajar lebih giat"
+5. **Gunakan 4 parameter secara terpadu**: SKD untuk arah kompetensi dasar, SKB untuk kesiapan bidang/jabatan, Psikotes untuk pola emosi & kebiasaan belajar, IQ untuk cara memproses materi
+6. **DILARANG emoticon/emoji**
+7. **Output HARUS JSON valid, tanpa teks di luar JSON**
 
 ## OUTPUT FORMAT (JSON — DIISI DENGAN KONTEN NYATA, BUKAN PLACEHOLDER)
 
 {
   "urgencyLevel": "high",
-  "personalMessage": "2-3 kalimat personal dan hangat menggunakan nama user. Tunjukkan kamu memahami perjuangan mereka — sebutkan pola usaha atau perjalanan belajar mereka, BUKAN angka. Buat mereka merasa: 'mentor ini benar-benar membaca ceritaku.'",
-  "emotionalInsight": "2-3 kalimat mengidentifikasi hambatan psikologis yang mungkin terjadi. Contoh: pola inkonsistensi yang mencerminkan kecemasan ujian, atau kebiasaan belajar yang tidak efisien. JANGAN sebut angka — fokus pada pola perilaku dan perasaan.",
+  "personalMessage": "2-3 kalimat personal, hangat, dan menenangkan menggunakan nama user. Tunjukkan kamu memahami perjalanan mereka dari SKD/SKB/Psikotes/IQ tanpa menghakimi. Buat mereka merasa: 'aku tidak sendirian, ada mentor yang memahami cara belajarku.'",
+  "emotionalInsight": "2-3 kalimat yang membaca kebutuhan emosional user secara lembut. Jangan diagnosis medis. Gunakan pendekatan psikologis suportif: rasa kewalahan, ritme belajar, cara menghadapi tekanan, atau kebutuhan struktur. JANGAN sebut angka — fokus pada pola dan solusi.",
   "strengths": [
     "Kekuatan konkret yang terlihat dari pola data — dikaitkan dengan kepribadian jika ada psikometri. Gunakan bahasa yang memvalidasi dan membesarkan hati.",
     "Kekuatan kedua (opsional)"
@@ -113,13 +114,15 @@ TKP dinilai 1-5 per soal. TIU adalah diferensiator terbesar. TWK paling cepat na
     { "day": "Jumat - Sabtu",  "focus": "Latihan & review", "topics": ["Topik spesifik"],                         "duration": "60 menit" },
     { "day": "Minggu",         "focus": "Simulasi & Refleksi", "topics": ["1 set try out penuh", "Review pola kesalahan"], "duration": "120 menit" }
   ],
-  "psychInsight": "Jika ada data psikometri/IQ: 2-3 kalimat yang menghubungkan profil kepribadian atau kemampuan kognitif dengan strategi belajar paling efektif untuk user ini. Jika tidak ada data psikometri: null",
+  "integratedInsight": "2-3 kalimat yang menggabungkan SKD, SKB, Psikotes, dan IQ menjadi satu pemahaman utuh tentang cara belajar user. Jika salah satu data belum ada, sebutkan dengan lembut bahwa rekomendasi akan makin presisi setelah data itu dilengkapi.",
+  "psychInsight": "Jika ada data psikometri/IQ: 2-3 kalimat yang menghubungkan profil kepribadian atau kemampuan kognitif dengan strategi belajar paling efektif dan paling menenangkan untuk user ini. Jika tidak ada data psikometri: null",
   "target": "Kalimat penutup yang inspiratif dan realistis. Gambarkan masa depan yang bisa dicapai jika langkah-langkah di atas dijalankan — bungkus dengan kepercayaan dan dorongan, bukan sekadar menyebut angka target."
 }
 
 PENTING (nilai yang valid):
 - urgencyLevel: "low" | "medium" | "high"
 - priority: "critical" | "high" | "medium"
+- integratedInsight: string
 - psychInsight: string atau null`
 
 
@@ -137,6 +140,15 @@ interface ExamResultWithExam {
   overallPass: boolean
   submittedAt: Date
   exam: { title: string }
+}
+
+interface SKBResultWithExam {
+  scoreTeknis: number
+  scoreManajerial: number
+  scoreSosialKultural: number
+  totalScore: number
+  submittedAt: Date
+  exam: { title: string; bidang: string }
 }
 
 interface PsychResult {
@@ -174,6 +186,8 @@ function buildUserContextPrompt(
   user: UserProfile,
   examResults: ExamResultWithExam[],
   examCount: number,
+  skbResults: SKBResultWithExam[],
+  skbExamCount: number,
   psychResult: PsychResult | null,
   iqResult: IQResultData | null
 ): string {
@@ -189,7 +203,7 @@ function buildUserContextPrompt(
   if (user.profession)     lines.push(`- Profesi Saat Ini: ${user.profession}`)
 
   // ── Exam stats ────────────────────────────────────────────────────────────
-  lines.push(`\n# RIWAYAT TRY OUT (Total: ${examCount} ujian)`)
+  lines.push(`\n# PARAMETER 1 — RIWAYAT TRY OUT SKD (Total: ${examCount} ujian)`)
 
   if (examResults.length > 0) {
     // Average scores
@@ -246,7 +260,32 @@ function buildUserContextPrompt(
     })
   }
 
+  // ── SKB Exam stats ───────────────────────────────────────────────────────
+  lines.push(`\n# PARAMETER 2 — RIWAYAT TRY OUT SKB (Total: ${skbExamCount} ujian)`)
+  if (skbResults.length > 0) {
+    const avgTeknis = Math.round(skbResults.reduce((s, r) => s + r.scoreTeknis, 0) / skbResults.length)
+    const avgManajerial = Math.round(skbResults.reduce((s, r) => s + r.scoreManajerial, 0) / skbResults.length)
+    const avgSosial = Math.round(skbResults.reduce((s, r) => s + r.scoreSosialKultural, 0) / skbResults.length)
+    const bidangSet = Array.from(new Set(skbResults.map((r) => r.exam.bidang))).join(", ")
+
+    lines.push(`\n## Pola Kesiapan Bidang dari ${skbResults.length} try out SKB terakhir`)
+    lines.push(`- Bidang yang pernah dilatih: ${bidangSet}`)
+    lines.push(`- Rata-rata Teknis: ${avgTeknis}`)
+    lines.push(`- Rata-rata Manajerial: ${avgManajerial}`)
+    lines.push(`- Rata-rata Sosial Kultural: ${avgSosial}`)
+    lines.push(`Catatan untuk AI: angka ini hanya konteks internal. Jangan disebutkan eksplisit di output. Gunakan untuk memahami apakah user butuh penguatan bidang teknis, pengambilan keputusan manajerial, atau sensitivitas sosial.`)
+
+    lines.push(`\n## Detail Try Out SKB (${skbResults.length} Terbaru)`)
+    skbResults.forEach((r, i) => {
+      const date = r.submittedAt.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+      lines.push(`${i + 1}. ${r.exam.title} — ${r.exam.bidang} (${date}): Teknis=${r.scoreTeknis} Manajerial=${r.scoreManajerial} Sosial=${r.scoreSosialKultural} Total=${r.totalScore}`)
+    })
+  } else {
+    lines.push(`User belum menyelesaikan Try Out SKB. Jangan menegur. Ajak dengan lembut bahwa latihan SKB akan membantu menyambungkan kesiapan kompetensi dasar dengan kebutuhan jabatan/formasi.`)
+  }
+
   // ── Psychometric ──────────────────────────────────────────────────────────
+  lines.push(`\n# PARAMETER 3 — PSIKOTES / PROFIL KEPRIBADIAN`)
   if (psychResult) {
     lines.push(`\n# PROFIL KEPRIBADIAN (Big Five)`)
     lines.push(`- Tipe Kepribadian: ${psychResult.personalityType ?? "Tidak terdeteksi"}`)
@@ -265,8 +304,8 @@ function buildUserContextPrompt(
   }
 
   // ── IQ Result ─────────────────────────────────────────────────────────────
+  lines.push(`\n# PARAMETER 4 — HASIL TES IQ`)
   if (iqResult) {
-    lines.push(`\n# HASIL TES IQ`)
     lines.push(`- Skor IQ Total: ${iqResult.totalIQ} (${iqResult.interpretation ?? "tidak ada interpretasi"})`)
     lines.push(`- Sub-tes Verbal: ${iqResult.verbalRaw} jawaban benar → relevan dengan TIU Verbal`)
     lines.push(`- Sub-tes Numerik: ${iqResult.numericRaw} jawaban benar → relevan dengan TIU Numerik`)
@@ -279,7 +318,7 @@ function buildUserContextPrompt(
 
   // ── Final instruction ─────────────────────────────────────────────────────
   lines.push(`\n---`)
-  lines.push(`Berdasarkan semua data di atas, buatlah REKOMENDASI BELAJAR PERSONAL yang sangat spesifik untuk ${user.name}. Ikuti format output yang sudah ditentukan dalam system prompt. Pastikan setiap poin rekomendasi MERUJUK langsung pada data yang ada, bukan generik.`)
+  lines.push(`Berdasarkan 4 parameter di atas, buatlah REKOMENDASI BELAJAR PERSONAL yang sangat spesifik untuk ${user.name}. Jangan menilai atau menghakimi hasil tes. Ambil peran sebagai psikolog dan motivator CPNS: validasi perjuangan user, beri rasa aman, lalu arahkan langkah kecil yang konkret. Pastikan setiap poin rekomendasi merujuk pada pola dari data, bukan generik, dan jangan menyebut skor angka spesifik di output.`)
 
   return lines.join("\n")
 }
@@ -312,7 +351,7 @@ export async function getAIFeedbackStatus(): Promise<AIFeedbackStatus> {
 
     const userId = session.userId
 
-    const [dbUser, feedback, examCount] = await Promise.all([
+    const [dbUser, feedback, skdExamCount, skbExamCount, hasPsychResult, hasIQResult] = await Promise.all([
       prisma.user.findUnique({
         where: { id: userId },
         select: {
@@ -324,7 +363,12 @@ export async function getAIFeedbackStatus(): Promise<AIFeedbackStatus> {
       }),
       prisma.aIFeedback.findUnique({ where: { userId } }),
       prisma.examResult.count({ where: { userId } }),
+      prisma.sKBExamResult.count({ where: { userId } }),
+      prisma.psychometricResult.count({ where: { userId } }),
+      prisma.iQResult.count({ where: { userId } }),
     ])
+
+    const signalCount = skdExamCount + skbExamCount + hasPsychResult + hasIQResult
 
     if (!dbUser) throw new Error("USER_NOT_FOUND")
 
@@ -340,8 +384,8 @@ export async function getAIFeedbackStatus(): Promise<AIFeedbackStatus> {
     const quotaRemaining = getRemainingQuota(effectiveTier, dbUser.aiFeedbackUsed, dbUser.aiFeedbackResetAt)
     const quotaUsed = isNewMonth(dbUser.aiFeedbackResetAt) ? 0 : dbUser.aiFeedbackUsed
 
-    const newExamsSinceGen = feedback && examCount > feedback.examCountAtGen
-      ? examCount - feedback.examCountAtGen
+    const newExamsSinceGen = feedback && signalCount > feedback.examCountAtGen
+      ? signalCount - feedback.examCountAtGen
       : 0
 
     let canGenerate = true
@@ -353,9 +397,9 @@ export async function getAIFeedbackStatus(): Promise<AIFeedbackStatus> {
     } else if (quotaRemaining <= 0) {
       canGenerate = false
       reason = "Kuota rekomendasi bulan ini sudah habis."
-    } else if (examCount < AI_MIN_EXAMS_REQUIRED) {
+    } else if (skdExamCount + skbExamCount < AI_MIN_EXAMS_REQUIRED) {
       canGenerate = false
-      reason = `Kerjakan minimal ${AI_MIN_EXAMS_REQUIRED} try out terlebih dahulu.`
+      reason = `Kerjakan minimal ${AI_MIN_EXAMS_REQUIRED} try out SKD/SKB terlebih dahulu.`
     }
 
     return {
@@ -372,7 +416,7 @@ export async function getAIFeedbackStatus(): Promise<AIFeedbackStatus> {
       quotaRemaining,
       quotaResetAt: dbUser.aiFeedbackResetAt?.toISOString() ?? null,
       tier: effectiveTier,
-      totalExams: examCount,
+      totalExams: skdExamCount + skbExamCount,
       canGenerate,
       reason,
     }
@@ -402,7 +446,7 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
     const userId = session.userId
 
     // Fetch all data needed for the prompt
-    const [dbUser, examResults, psychResult, iqResult, examCount] = await Promise.all([
+    const [dbUser, examResults, skbResults, psychResult, iqResult, examCount, skbExamCount] = await Promise.all([
       prisma.user.findUnique({
         where: { id: userId },
         select: {
@@ -424,9 +468,16 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
         take: 10,
         include: { exam: { select: { title: true } } },
       }),
+      prisma.sKBExamResult.findMany({
+        where: { userId },
+        orderBy: { submittedAt: "desc" },
+        take: 10,
+        include: { exam: { select: { title: true, bidang: true } } },
+      }),
       prisma.psychometricResult.findUnique({ where: { userId } }),
       prisma.iQResult.findUnique({ where: { userId } }),
       prisma.examResult.count({ where: { userId } }),
+      prisma.sKBExamResult.count({ where: { userId } }),
     ])
 
     if (!dbUser) return { success: false, error: "User tidak ditemukan." }
@@ -435,9 +486,11 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
     const effectiveTier = (dbUser.subscriptionTier as UserTier)
     const quotaRemaining = getRemainingQuota(effectiveTier, dbUser.aiFeedbackUsed, dbUser.aiFeedbackResetAt)
     if (quotaRemaining <= 0) return { success: false, error: "Kuota habis." }
-    if (examCount < AI_MIN_EXAMS_REQUIRED) {
-      return { success: false, error: `Kerjakan minimal ${AI_MIN_EXAMS_REQUIRED} try out terlebih dahulu.` }
+    if (examCount + skbExamCount < AI_MIN_EXAMS_REQUIRED) {
+      return { success: false, error: `Kerjakan minimal ${AI_MIN_EXAMS_REQUIRED} try out SKD/SKB terlebih dahulu.` }
     }
+
+    const signalCount = examCount + skbExamCount + (psychResult ? 1 : 0) + (iqResult ? 1 : 0)
 
     // Build context prompt from user's actual data
     const userContextPrompt = buildUserContextPrompt(
@@ -451,6 +504,8 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
       },
       examResults as ExamResultWithExam[],
       examCount,
+      skbResults as SKBResultWithExam[],
+      skbExamCount,
       psychResult as PsychResult | null,
       iqResult as IQResultData | null
     )
@@ -495,8 +550,8 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
     await prisma.$transaction([
       prisma.aIFeedback.upsert({
         where: { userId },
-        update: { content: aiContent, examCountAtGen: examCount, isStale: false, generatedAt: now },
-        create: { userId, content: aiContent, examCountAtGen: examCount, isStale: false },
+        update: { content: aiContent, examCountAtGen: signalCount, isStale: false, generatedAt: now },
+        create: { userId, content: aiContent, examCountAtGen: signalCount, isStale: false },
       }),
       prisma.user.update({
         where: { id: userId },
@@ -514,7 +569,7 @@ export async function generateAIFeedback(): Promise<{ success: boolean; error?: 
       feedback: {
         id: "new",
         content: aiContent,
-        examCountAtGen: examCount,
+        examCountAtGen: signalCount,
         isStale: false,
         generatedAt: now.toISOString(),
         newExamsSinceGen: 0,

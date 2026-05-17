@@ -242,6 +242,19 @@ function ModernFeedbackRenderer({ data }: { data: any }) {
         </div>
       )}
 
+      {/* ── Integrated 4-Parameter Insight ───────────── */}
+      {data.integratedInsight && (
+        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4">
+          <div className="flex items-start gap-3">
+            <Sparkles className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-black text-indigo-900 text-sm mb-1">Benang Merah Perjalanan Kamu</h4>
+              <p className="text-xs text-indigo-800 font-medium leading-relaxed">{data.integratedInsight}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Psychometric Insight ─────────────────────── */}
       {data.psychInsight && (
         <div className="bg-purple-50 border border-purple-100 rounded-2xl p-4">
